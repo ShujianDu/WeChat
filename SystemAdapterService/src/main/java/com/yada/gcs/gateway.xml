@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="GcsGatewayService" targetNamespace="www.boc.com.cn/gcs"
+                  xmlns:ns1="http://schemas.xmlsoap.org/soap/http"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:tns="www.boc.com.cn/gcs"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <wsdl:types>
+        <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified"
+                   targetNamespace="www.boc.com.cn/gcs" xmlns:tns="www.boc.com.cn/gcs"
+                   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+            <xs:element name="service" type="tns:service"/>
+            <xs:element name="serviceResponse" type="tns:serviceResponse"/>
+            <xs:complexType name="service">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="request" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:complexType name="serviceResponse">
+                <xs:sequence>
+                    <xs:element minOccurs="0" name="response" type="xs:string"/>
+                </xs:sequence>
+            </xs:complexType>
+            <xs:element name="GatewayException" type="tns:GatewayException"/>
+            <xs:complexType name="GatewayException">
+                <xs:sequence/>
+            </xs:complexType>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="GatewayException">
+        <wsdl:part element="tns:GatewayException" name="GatewayException"/>
+    </wsdl:message>
+    <wsdl:message name="serviceResponse">
+        <wsdl:part element="tns:serviceResponse" name="parameters"/>
+    </wsdl:message>
+    <wsdl:message name="service">
+        <wsdl:part element="tns:service" name="parameters"/>
+    </wsdl:message>
+    <wsdl:portType name="Gateway">
+        <wsdl:operation name="service">
+            <wsdl:input message="tns:service" name="service"/>
+            <wsdl:output message="tns:serviceResponse" name="serviceResponse"/>
+            <wsdl:fault message="tns:GatewayException" name="GatewayException"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="GcsGatewayServiceSoapBinding" type="tns:Gateway">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="service">
+            <soap:operation soapAction="" style="document"/>
+            <wsdl:input name="service">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="serviceResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="GatewayException">
+                <soap:fault name="GatewayException" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="GcsGatewayService">
+        <wsdl:port binding="tns:GcsGatewayServiceSoapBinding" name="GatewayPort">
+            <soap:address location="http://22.7.14.91/tps1/ws/gateway"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
