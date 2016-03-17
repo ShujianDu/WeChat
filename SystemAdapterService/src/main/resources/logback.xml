@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration >
+<configuration>
+	<!-- 控制台输出 -->
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>[%-18(%d{HH:mm:ss.SSS}]%thread)[%-5level %logger{60}]->
+				%msg%n</pattern>
+		</layout>
+	</appender>
+	<root level="info">
+		<appender-ref ref="stdout" />
+	</root>
+</configuration>
