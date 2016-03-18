@@ -1,16 +1,22 @@
 package com.yada.sdk.gcs.xml
 
-import scala.collection.mutable
+import com.thoughtworks.xstream.converters.{Converter, MarshallingContext, UnmarshallingContext}
+import com.thoughtworks.xstream.io.{HierarchicalStreamReader, HierarchicalStreamWriter}
 
-class SystemConverter extends PropsConverter {
+class SystemConverter extends Converter with PropsConverter {
 
 
   override def canConvert(`type`: Class[_]): Boolean = `type`.isAssignableFrom(classOf[System])
 
-  override def generate(props: mutable.ListMap[String, String]): AnyRef = System(props)
+  override def marshal(source: scala.Any, writer: HierarchicalStreamWriter, context: MarshallingContext): Unit = {
+    source match {
+      case system: System ⇒ marshalProps(system.props, writer)
+    }
+  }
 
-  override def getProps(source: Any): mutable.ListMap[String, String] = source match {
-    case s: System ⇒ s.props
+  override def unmarshal(reader: HierarchicalStreamReader, context: UnmarshallingContext): AnyRef = {
+    val props = unmarshalProps(reader, context)
+    System(props)
   }
 }
 

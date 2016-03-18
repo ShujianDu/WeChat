@@ -10,7 +10,7 @@ import javax.xml.namespace.QName
   * @param serviceQName         服务名称
   * @param portQName            端口名称
   */
-class GcsClient(wsdlDocumentLocation: URL, serviceQName: QName, portQName: QName) {
+class Gcs_Client(wsdlDocumentLocation: URL, serviceQName: QName, portQName: QName) {
   /**
     * GCS客户端
     *

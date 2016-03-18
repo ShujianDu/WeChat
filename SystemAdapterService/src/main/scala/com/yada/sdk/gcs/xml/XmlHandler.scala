@@ -24,3 +24,5 @@ class XmlHandler {
     }
   }
 }
+
+object XmlHandler extends XmlHandler

@@ -356,7 +356,7 @@ trait GCSService {
 }
 
 /**
-  * 额度
+  * 卡余额
   *
   * @param cardNo                    卡号
   * @param currencyCode              币种
