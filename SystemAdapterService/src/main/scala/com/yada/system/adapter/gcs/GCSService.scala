@@ -353,6 +353,17 @@ trait GCSService {
     * @return GCS返回码
     */
   def billInstallment(sessionId: String, channelId: String, gcsBillInstallmentParams: GCSBillInstallmentParams): String
+
+  /**
+    * 根据证件类型和证件号查询所有卡信息
+    *
+    * @param sessionId gcsSessionId
+    * @param channelId 渠道编号
+    * @param idType    证件类型
+    * @param idNum     证件号码
+    * @return (cardNo,主付卡标识)的集合
+    */
+  def geCardInfos(sessionId: String, channelId: String, idType: String, idNum: String):List[(String,String)]
 }
 
 /**
