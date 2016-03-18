@@ -5,7 +5,7 @@ import com.yada.sdk.gcs.xml.{XmlHandler, GCS, Page, System}
 /**
   * GCS请求报文
   */
-trait GCSReq {
+abstract class GCSReq {
 
   def xmlHandler = XmlHandler
 
@@ -24,7 +24,7 @@ trait GCSReq {
   def setPageProps(key: String, value: String): Unit = pageProps += key → value
 
   def toXml: String = {
-    val gcs = GCS(transactionID, isRequest, isResponse, System(systemProps), Some(Page(pageKey, pageProps)))
+    val gcs = GCS(transactionID, isRequest, isResponse, System(systemProps), Some(Page(pageKey, pageProps, None)))
     xmlHandler.toXml(gcs)
   }
 

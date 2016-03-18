@@ -5,5 +5,5 @@ import com.yada.sdk.gcs.protocol.GCSResp
 /**
   * Created by locky on 2016/3/17.
   */
-class TS010102Resp extends GCSResp{
+class TS010102Resp(responseXML: String) extends GCSResp(responseXML) {
 }
