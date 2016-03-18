@@ -1,11 +1,27 @@
 package com.yada.sdk.gcs.protocol
 
+import java.util.Calendar
+
 import com.yada.sdk.gcs.xml.{XmlHandler, GCS, Page, System}
+
+import scala.collection.mutable
 
 /**
   * GCS请求报文
   */
-abstract class GCSReq {
+abstract class GCSReq(transactionSessionId: String, requestChannelId: String) {
+  private val systemProps = mutable.Map.empty[String, String]
+  private val pageProps = mutable.Map.empty[String, String]
+  // 00 + yyyyMMddHHmmss
+  setSystemProp("transactionNumber", String.format("00%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", Calendar.getInstance.getTime))
+  setSystemProp("transactionSessionId", transactionSessionId)
+  setSystemProp("requestChannelId", requestChannelId)
+  setSystemProp("txnBranchCode", "00003")
+  setSystemProp("txnBankCode", "003")
+  setSystemProp("txnProvinceCode", "")
+  setSystemProp("txnTerminalCode", "")
+  setSystemProp("txnCounterCode", "")
+  setSystemProp("txnUserCode", TxnUserCodeGenerate.get)
 
   def xmlHandler = XmlHandler
 
@@ -15,11 +31,7 @@ abstract class GCSReq {
 
   def transactionID: String
 
-  private val systemProps = scala.collection.mutable.ListMap.empty[String, String]
-
   def setSystemProp(key: String, value: String): Unit = systemProps += key → value
-
-  private val pageProps = scala.collection.mutable.ListMap.empty[String, String]
 
   def setPageProps(key: String, value: String): Unit = pageProps += key → value
 

@@ -3,7 +3,8 @@ package com.yada.sdk.gcs.protocol.resp
 import com.yada.sdk.gcs.protocol.GCSResp
 
 /**
-  * Created by locky on 2016/3/17.
+  * 根据卡号查询所有账户概要信息的响应
   */
 class TS010102Resp(responseXML: String) extends GCSResp(responseXML) {
+
 }
