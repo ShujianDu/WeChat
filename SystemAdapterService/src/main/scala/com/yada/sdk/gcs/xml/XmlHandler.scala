@@ -13,6 +13,7 @@ class XmlHandler {
   xstream.registerConverter(new GCSConverter)
   xstream.registerConverter(new SystemConverter)
   xstream.registerConverter(new PageConverter)
+  xstream.registerConverter(new ListConverter)
   // 声明短名称
   xstream.alias("GCS", classOf[GCS])
 

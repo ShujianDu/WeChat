@@ -19,8 +19,21 @@ class PageConverter extends Converter with PropsConverter {
 
   override def unmarshal(reader: HierarchicalStreamReader, context: UnmarshallingContext): AnyRef = {
     val key = reader.getAttribute("key")
-    val props = unmarshalProps(reader, context)
-    Page(key, props)
+    val props = mutable.Map.empty[String, String]
+    var list: List = null
+    while (reader.hasMoreChildren) {
+      reader.moveDown()
+      reader.getNodeName match {
+        case "list" ⇒
+          list = context.convertAnother(reader.getValue, classOf[List]) match {
+            case l: List ⇒ l
+          }
+        case "props" ⇒
+          props += reader.getAttribute("key") → reader.getAttribute("value")
+      }
+      reader.moveUp()
+    }
+    Page(key, props, list)
   }
 
 
@@ -31,4 +44,4 @@ class PageConverter extends Converter with PropsConverter {
   * 交易正文
   * 用于传输实际的交易请求/响应信息，即实际的交易信息。
   */
-case class Page(key: String, props: mutable.ListMap[String, String])
+case class Page(key: String, props: mutable.Map[String, String], list: List)

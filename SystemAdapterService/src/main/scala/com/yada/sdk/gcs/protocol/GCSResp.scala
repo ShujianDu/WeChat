@@ -6,7 +6,7 @@ import com.yada.sdk.gcs.xml.{GCS, XmlHandler}
   * Created by locky on 2016/3/17.
   */
 trait GCSResp {
-  def xmlHandler = new XmlHandler
+  def xmlHandler = XmlHandler
 
   private var gcs: Option[GCS] = None
 

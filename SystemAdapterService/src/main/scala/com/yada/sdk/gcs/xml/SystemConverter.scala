@@ -24,4 +24,4 @@ class SystemConverter extends Converter with PropsConverter {
   * GCS报文头
   * 用于传输系统信息，如终端号、渠道号、交易发生日期、流水号等系统信息，即报文头信息
   */
-case class System(props: scala.collection.mutable.ListMap[String, String])
+case class System(props: scala.collection.mutable.Map[String, String])

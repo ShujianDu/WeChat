@@ -8,7 +8,7 @@ import com.thoughtworks.xstream.io.{HierarchicalStreamReader, HierarchicalStream
   */
 trait PropsConverter {
 
-  protected def marshalProps(props: scala.collection.mutable.ListMap[String, String], writer: HierarchicalStreamWriter): Unit = {
+  protected def marshalProps(props: scala.collection.mutable.Map[String, String], writer: HierarchicalStreamWriter): Unit = {
     if (props.nonEmpty) {
       val (key, value) = props.head
       writer.startNode("prop")
@@ -19,8 +19,8 @@ trait PropsConverter {
     }
   }
 
-  protected def unmarshalProps(reader: HierarchicalStreamReader, context: UnmarshallingContext): scala.collection.mutable.ListMap[String, String] = {
-    val props = scala.collection.mutable.ListMap.empty[String, String]
+  protected def unmarshalProps(reader: HierarchicalStreamReader, context: UnmarshallingContext): scala.collection.mutable.Map[String, String] = {
+    val props = scala.collection.mutable.Map.empty[String, String]
     while (reader.hasMoreChildren) {
       reader.moveDown()
       props += reader.getAttribute("key") → reader.getAttribute("value")
