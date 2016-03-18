@@ -19,6 +19,9 @@
         <cxf.version>3.1.5</cxf.version>
         <httpasyncclient.version>4.1.1</httpasyncclient.version>
         <logback.version>1.1.6</logback.version>
+        <slf4j.version>1.7.19</slf4j.version>
+        <scalaLogging.version>2.1.2</scalaLogging.version>
+        <scalaTest.version>2.2.6</scalaTest.version>
     </properties>
 
     <dependencyManagement>
@@ -73,6 +76,21 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>3.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.typesafe.scala-logging</groupId>
+                <artifactId>scala-logging-slf4j_2.11</artifactId>
+                <version>${scalaLogging.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.scalatest</groupId>
+                <artifactId>scalatest_2.11</artifactId>
+                <version>${scalaTest.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

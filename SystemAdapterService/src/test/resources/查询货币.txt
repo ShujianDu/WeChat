@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GCS transactionID="TS010102" isRequest="ture" isResponse="false">
+    <system>
+        <prop key="transactionCode" value="010102" />
+        <prop key="transactionNumber" value="0020160318175400" />
+        <prop key="transactionSessionId" value="93c4399ad67d925fa40d0693adb0a222" />
+        <prop key="requestChannelId" value="WX01" />
+        <prop key="txnBankCode" value="003" />
+        <prop key="txnBranchCode" value="00003" />
+        <prop key="txnProvinceCode" value="" />
+        <prop key="txnTerminalCode" value="" />
+        <prop key="txnCounterCode" value="" />
+        <prop key="txnUserCode" value="wx010102" />
+    </system>
+    <page key="RQ010101">
+        <prop key="cardNo" value="5149580068840943" />
+        <prop key="currencyCode" value="" />
+    </page>
+</GCS>
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<GCS transactionID="010102" isRequest="false" isResponse="true">
+    <system>
+        <prop key="transactionCode" value="010102"/>
+        <prop key="transactionNumber" value="0020160318175400"/>
+        <prop key="txnTraceNumber" value="0011503704"/>
+        <prop key="transactionSessionId" value="93c4399ad67d925fa40d0693adb0a222"/>
+        <prop key="requestChannelId" value="WX01"/>
+        <prop key="txnBankCode" value="003"/>
+        <prop key="txnProvinceCode" value=""/>
+        <prop key="txnBranchCode" value="00003"/>
+        <prop key="txnCounterCode" value=""/>
+        <prop key="txnTerminalCode" value=""/>
+        <prop key="txnUserCode" value="wx010102"/>
+        <prop key="localBankTxnRequestTime" value="17:55:23"/>
+        <prop key="localBankTxnRequestDate" value="2016-03-18"/>
+        <prop key="localBankTxnResponseTime" value="17:55:24"/>
+        <prop key="localBankTxnResponseDate" value="2016-03-18"/>
+        <prop key="bocBankTxnRequestTime" value="17:55:23"/>
+        <prop key="bocBankTxnRequestDate" value="2016-03-18"/>
+        <prop key="bocBankTxnResponseTime" value="17:55:24"/>
+        <prop key="bocBankTxnResponseDate" value="2016-03-18"/>
+        <prop key="returnCode" value="+GC00000"/>
+        <prop key="returnMessage" value="Success"/>
+    </system>
+    <page key="RP010102">
+        <list key="RP010101" entityKey="accountList" size="2">
+            <entity>
+                <prop key="accountId" value="001A0213064FF77E"/>
+                <prop key="accountRefNo" value="2861695039487302"/>
+                <prop key="automaticStatusCode" value=""/>
+                <prop key="automaticStatusSetDate" value=""/>
+                <prop key="currencyCode" value="CNY"/>
+                <prop key="institutionId" value="BOCK"/>
+                <prop key="issuingBranchId" value=""/>
+                <prop key="manualStatusCode" value="NORM"/>
+                <prop key="manualStatusSetDate" value=""/>
+                <prop key="productType" value="PRMC"/>
+            </entity>
+            <entity>
+                <prop key="accountId" value="001A0213064FF780"/>
+                <prop key="accountRefNo" value="7821440695701839"/>
+                <prop key="automaticStatusCode" value=""/>
+                <prop key="automaticStatusSetDate" value=""/>
+                <prop key="currencyCode" value="USD"/>
+                <prop key="institutionId" value="BOCK"/>
+                <prop key="issuingBranchId" value=""/>
+                <prop key="manualStatusCode" value="NORM"/>
+                <prop key="manualStatusSetDate" value=""/>
+                <prop key="productType" value="PRMC"/>
+            </entity>
+        </list>
+    </page>
+</GCS>

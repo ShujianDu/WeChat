@@ -1,10 +1,5 @@
 package com.yada.system.adapter.gcs
 
-import java.text.SimpleDateFormat
-import java.util.Calendar
-
-import com.yada.sdk.gcs.protocol.req.TS410103Req
-
 /**
   * Created by locky on 2016/3/17.
   */

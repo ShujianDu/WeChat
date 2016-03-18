@@ -3,6 +3,9 @@ package com.yada.sdk.gcs
 import java.net.URL
 import javax.xml.namespace.QName
 
+import com.typesafe.scalalogging.slf4j.Logger
+import org.slf4j.LoggerFactory
+
 /**
   * GCS客户端
   *
@@ -10,7 +13,9 @@ import javax.xml.namespace.QName
   * @param serviceQName         服务名称
   * @param portQName            端口名称
   */
-class Gcs_Client(wsdlDocumentLocation: URL, serviceQName: QName, portQName: QName) {
+class GCSClient(wsdlDocumentLocation: URL, serviceQName: QName, portQName: QName) {
+  private val log = Logger(LoggerFactory.getLogger(classOf[GCSClient]))
+
   /**
     * GCS客户端
     *
@@ -24,6 +29,9 @@ class Gcs_Client(wsdlDocumentLocation: URL, serviceQName: QName, portQName: QNam
   private val port = service.getPort(portQName, classOf[Gateway])
 
   def send(request: String): String = {
-    port.service(request)
+    log.info(s"send to GCS...\r\n$request")
+    val resp = port.service(request)
+    log.info(s"rece from GCS...\r\n$resp")
+    resp
   }
 }

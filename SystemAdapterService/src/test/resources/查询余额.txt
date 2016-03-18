@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GCS transactionID="TS410103" isRequest="ture" isResponse="false">
+    <system>
+        <prop key="transactionCode" value="410103" />
+        <prop key="transactionNumber" value="0020160318180600" />
+        <prop key="transactionSessionId" value="93c4399ad67d925fa40d0693adb0a222" />
+        <prop key="requestChannelId" value="WX01" />
+        <prop key="txnBranchCode" value="00003" />
+        <prop key="txnBankCode" value="003" />
+        <prop key="txnProvinceCode" value="" />
+        <prop key="txnTerminalCode" value="" />
+        <prop key="txnCounterCode" value="" />
+        <prop key="txnUserCode" value="wx4101031" />
+    </system>
+    <page key="RQ010101">
+        <prop key="cardNo" value="5149580068840943" />
+        <prop key="currencyCode" value="CNY" />
+    </page>
+</GCS>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<GCS transactionID="410103" isRequest="false" isResponse="true">
+    <system>
+        <prop key="transactionCode" value="410103"/>
+        <prop key="transactionNumber" value="0020160318180600"/>
+        <prop key="txnTraceNumber" value="0011503706"/>
+        <prop key="transactionSessionId" value="93c4399ad67d925fa40d0693adb0a222"/>
+        <prop key="requestChannelId" value="WX01"/>
+        <prop key="txnBankCode" value="003"/>
+        <prop key="txnProvinceCode" value=""/>
+        <prop key="txnBranchCode" value="00003"/>
+        <prop key="txnCounterCode" value=""/>
+        <prop key="txnTerminalCode" value=""/>
+        <prop key="txnUserCode" value="wx4101031"/>
+        <prop key="localBankTxnRequestTime" value="18:06:13"/>
+        <prop key="localBankTxnRequestDate" value="2016-03-18"/>
+        <prop key="localBankTxnResponseTime" value="18:06:14"/>
+        <prop key="localBankTxnResponseDate" value="2016-03-18"/>
+        <prop key="bocBankTxnRequestTime" value="18:06:13"/>
+        <prop key="bocBankTxnRequestDate" value="2016-03-18"/>
+        <prop key="bocBankTxnResponseTime" value="18:06:14"/>
+        <prop key="bocBankTxnResponseDate" value="2016-03-18"/>
+        <prop key="returnCode" value="+GC00000"/>
+        <prop key="returnMessage" value="Success"/>
+    </system>
+    <page key="RP010054">
+        <prop key="cardNo" value="5149580068840943"/>
+        <prop key="currencyCode" value="CNY"/>
+        <prop key="currAccountAmount" value="-00000000006818600"/>
+        <prop key="loanBalanceLimit" value="-00000000008054600"/>
+        <prop key="periodAvailbleCreditLimit" value="+00000000011945400"/>
+        <prop key="wholeCreditLimit" value="+00000000020000000"/>
+        <prop key="preCashAdvanceCreditLimit" value="+00000000006000000"/>
+        <prop key="instalmentPlanAvailableLimit" value="+00000000011945400"/>
+    </page>
+</GCS>
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+<?xml version="1.0" encoding="UTF-8"?>
+<GCS transactionID="TS410103" isRequest="ture" isResponse="false">
+    <system>
+        <prop key="transactionCode" value="410103" />
+        <prop key="transactionNumber" value="0020160318181000" />
+        <prop key="transactionSessionId" value="93c4399ad67d925fa40d0693adb0a222" />
+        <prop key="requestChannelId" value="WX01" />
+        <prop key="txnBranchCode" value="00003" />
+        <prop key="txnBankCode" value="003" />
+        <prop key="txnProvinceCode" value="" />
+        <prop key="txnTerminalCode" value="" />
+        <prop key="txnCounterCode" value="" />
+        <prop key="txnUserCode" value="wx4101032" />
+    </system>
+    <page key="RQ010101">
+        <prop key="cardNo" value="5149580068840943" />
+        <prop key="currencyCode" value="USD" />
+    </page>
+</GCS>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<GCS transactionID="410103" isRequest="false" isResponse="true">
+    <system>
+        <prop key="transactionCode" value="410103"/>
+        <prop key="transactionNumber" value="0020160318181000"/>
+        <prop key="txnTraceNumber" value="0011503707"/>
+        <prop key="transactionSessionId" value="93c4399ad67d925fa40d0693adb0a222"/>
+        <prop key="requestChannelId" value="WX01"/>
+        <prop key="txnBankCode" value="003"/>
+        <prop key="txnProvinceCode" value=""/>
+        <prop key="txnBranchCode" value="00003"/>
+        <prop key="txnCounterCode" value=""/>
+        <prop key="txnTerminalCode" value=""/>
+        <prop key="txnUserCode" value="wx4101032"/>
+        <prop key="localBankTxnRequestTime" value="18:08:51"/>
+        <prop key="localBankTxnRequestDate" value="2016-03-18"/>
+        <prop key="localBankTxnResponseTime" value="18:08:51"/>
+        <prop key="localBankTxnResponseDate" value="2016-03-18"/>
+        <prop key="bocBankTxnRequestTime" value="18:08:51"/>
+        <prop key="bocBankTxnRequestDate" value="2016-03-18"/>
+        <prop key="bocBankTxnResponseTime" value="18:08:51"/>
+        <prop key="bocBankTxnResponseDate" value="2016-03-18"/>
+        <prop key="returnCode" value="+GC00000"/>
+        <prop key="returnMessage" value="Success"/>
+    </system>
+    <page key="RP010054">
+        <prop key="cardNo" value="5149580068840943"/>
+        <prop key="currencyCode" value="USD"/>
+        <prop key="currAccountAmount" value="+00000000000000000"/>
+        <prop key="loanBalanceLimit" value="+00000000000000000"/>
+        <prop key="periodAvailbleCreditLimit" value="+00000000001994880"/>
+        <prop key="wholeCreditLimit" value="+00000000002000000"/>
+        <prop key="preCashAdvanceCreditLimit" value="+00000000000600000"/>
+        <prop key="instalmentPlanAvailableLimit" value="+00000000001994880"/>
+    </page>
+</GCS>
+

@@ -9,9 +9,10 @@ import scala.collection.mutable
 /**
   * GCS请求报文
   */
-abstract class GCSReq(transactionSessionId: String, requestChannelId: String) {
+abstract class GCSReq(val transactionID: String, val pageKey: String, transactionSessionId: String, requestChannelId: String, transactionCode: String) {
   private val systemProps = mutable.Map.empty[String, String]
   private val pageProps = mutable.Map.empty[String, String]
+  setSystemProp("transactionCode", transactionCode)
   // 00 + yyyyMMddHHmmss
   setSystemProp("transactionNumber", String.format("00%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", Calendar.getInstance.getTime))
   setSystemProp("transactionSessionId", transactionSessionId)
@@ -29,8 +30,6 @@ abstract class GCSReq(transactionSessionId: String, requestChannelId: String) {
 
   def isResponse = false
 
-  def transactionID: String
-
   def setSystemProp(key: String, value: String): Unit = systemProps += key → value
 
   def setPageProps(key: String, value: String): Unit = pageProps += key → value
@@ -39,6 +38,4 @@ abstract class GCSReq(transactionSessionId: String, requestChannelId: String) {
     val gcs = GCS(transactionID, isRequest, isResponse, System(systemProps), Some(Page(pageKey, pageProps, None)))
     xmlHandler.toXml(gcs)
   }
-
-  def pageKey: String
 }
