@@ -24,7 +24,7 @@ trait GCSReq {
   def setPageProps(key: String, value: String): Unit = pageProps += key → value
 
   def toXml: String = {
-    val gcs = GCS(transactionID, isRequest, isResponse, System(systemProps), Page(pageKey, pageProps))
+    val gcs = GCS(transactionID, isRequest, isResponse, System(systemProps), Some(Page(pageKey, pageProps)))
     xmlHandler.toXml(gcs)
   }
 

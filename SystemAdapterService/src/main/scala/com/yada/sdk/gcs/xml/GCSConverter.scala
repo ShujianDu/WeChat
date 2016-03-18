@@ -16,9 +16,13 @@ class GCSConverter extends Converter {
         writer.startNode("system")
         context.convertAnother(gcs.system)
         writer.endNode()
-        writer.startNode("page")
-        context.convertAnother(gcs.page)
-        writer.endNode()
+        gcs.page match {
+          case Some(page) ⇒
+            writer.startNode("page")
+            context.convertAnother(page)
+            writer.endNode()
+          case None ⇒ // 什么都不做
+        }
     }
   }
 
@@ -26,16 +30,24 @@ class GCSConverter extends Converter {
     val transactionID = reader.getAttribute("transactionID")
     val isRequest = reader.getAttribute("isRequest").toBoolean
     val isResponse = reader.getAttribute("isResponse").toBoolean
-    reader.moveDown()
-    val system = context.convertAnother(reader, classOf[System]) match {
-      case s: System ⇒ s
+    var system: System = null
+    var page: Option[Page] = None
+    while (reader.hasMoreChildren) {
+      // 进入节点
+      reader.moveDown()
+      reader.getNodeName match {
+        case "system" ⇒
+          system = context.convertAnother(reader, classOf[System]) match {
+            case s: System ⇒ s
+          }
+        case "page" ⇒
+          page = context.convertAnother(reader, classOf[Page]) match {
+            case p: Page ⇒ Some(p)
+          }
+      }
+      // 离开节点
+      reader.moveUp()
     }
-    reader.moveUp()
-    reader.moveDown()
-    val page = context.convertAnother(reader, classOf[Page]) match {
-      case p: Page ⇒ p
-    }
-    reader.moveUp()
     GCS(transactionID, isRequest, isResponse, system, page)
   }
 
@@ -52,4 +64,4 @@ class GCSConverter extends Converter {
   * @param system        消息头
   * @param page          消息正文
   */
-case class GCS(transactionID: String, isRequest: Boolean, isResponse: Boolean, system: System, page: Page)
+case class GCS(transactionID: String, isRequest: Boolean, isResponse: Boolean, system: System, page: Option[Page])

@@ -20,8 +20,9 @@ trait GCSResp {
   }
 
   def pageValue(key: String): String = {
-    if (gcs.isEmpty) throw new RuntimeException("not initialization...")
-    gcs.get.page.props.getOrElse(key, "")
+    if (gcs.isEmpty) throw new RuntimeException("GCS resp obj has not initialization...")
+    if (gcs.get.page.isEmpty) throw new RuntimeException("GCS resp page is not exist...")
+    gcs.get.page.get.props.getOrElse(key, "")
   }
 
   /**
