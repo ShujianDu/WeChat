@@ -34,7 +34,6 @@ trait GCSService {
     * @param cardNo    卡号
     * @return
     */
-  //TODO JFM
   def getBillingPeriods(sessionId: String, channelId: String, cardNo: String): List[GCSBillingPeriods]
 
   /**
@@ -46,7 +45,6 @@ trait GCSService {
     * @param accountId   账户ID
     * @return
     */
-  //TODO JFM
   def getBillingSummary(sessionId: String, channelId: String, statementNo: String, accountId: String): GCSBillingSummary
 
   /**

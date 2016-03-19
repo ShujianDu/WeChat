@@ -4,7 +4,8 @@ import com.thoughtworks.xstream.converters.{MarshallingContext, UnmarshallingCon
 import com.thoughtworks.xstream.io.{HierarchicalStreamWriter, HierarchicalStreamReader}
 
 import scala.collection.mutable
-import scala.collection.mutable.ArrayBuffer
+import scala.collection.immutable
+import scala.collection.mutable.{ListBuffer, ArrayBuffer}
 
 /**
   * Created by locky on 2016/3/18.
@@ -18,13 +19,13 @@ class ListConverter extends Converter {
     val key = reader.getAttribute("key")
     val entityKey = reader.getAttribute("entityKey")
     val size = reader.getAttribute("size").toInt
-    val buf = ArrayBuffer.empty[mutable.Map[String, String]]
+    val buf = ListBuffer.empty[mutable.Map[String, String]]
     while (reader.hasMoreChildren) {
       reader.moveDown()
       buf += unmarshalEntity(reader)
       reader.moveUp()
     }
-    List(key, entityKey, size, buf.toArray)
+    List(key, entityKey, size, buf.toList)
   }
 
   def unmarshalEntity(reader: HierarchicalStreamReader): mutable.Map[String, String] = {
@@ -40,4 +41,4 @@ class ListConverter extends Converter {
   override def canConvert(`type`: Class[_]): Boolean = `type`.isAssignableFrom(classOf[List])
 }
 
-case class List(key: String, entityKey: String, size: Int, entities: Array[mutable.Map[String, String]])
+case class List(key: String, entityKey: String, size: Int, entities: immutable.List[mutable.Map[String, String]])

@@ -1,15 +1,11 @@
 package com.yada.system.adapter.gcs
 
-import com.yada.sdk.gcs.GCSClient
-import com.yada.sdk.gcs.protocol.req.{TS010301Req, TS410103Req, TS010102Req}
-import com.yada.sdk.gcs.protocol.resp.{TS010301Resp, TS010102Resp}
+import com.yada.sdk.gcs.protocol.impl.{TS010102, TS010301, TS010302, TS410103}
 
 /**
   * Created by locky on 2016/3/17.
   */
 class GCSServiceImpl extends GCSService {
-
-  var gcsClient = GCSClient()
 
   /**
     * 根据一组卡号查询额度
@@ -24,22 +20,19 @@ class GCSServiceImpl extends GCSService {
   override def getBalance(sessionID: String, channelID: String, cardNos: List[String]): List[GCSBalance] = {
     cardNos.flatMap(cardNo => {
       //根据卡号查询币种
-      val ts010102req = new TS010102Req(transactionSessionId = sessionID, requestChannelId = channelID, cardNo = cardNo)
-      val ts010102respXML = gcsClient.send(ts010102req.toXml)
-      val ts010102resp = new TS010102Resp(ts010102respXML)
-      if (!ts010102resp.isSuccess) throw new RuntimeException(s"error response XML...$ts010102respXML")
+      val ts010102 = new TS010102(sessionID, channelID, cardNo)
+      val ts010102resp = ts010102.send
       ts010102resp.pageListValues(props => {
         // 根据卡号和币种查询额度
         val currencyCode = props("currencyCode")
-        val ts410103req = new TS410103Req(sessionID, channelID, cardNo, currencyCode)
-        val ts410103respXML = gcsClient.send(ts410103req.toXml)
-        val ts410103resp = new TS010102Resp(ts410103respXML)
+        val ts410103 = new TS410103(sessionID, channelID, cardNo, currencyCode)
+        val ts410103resp = ts410103.send
         // TODO 3值的对应
         val limitCount = ts410103resp.pageValue("")
         val availableCount = ts410103resp.pageValue("")
         val preCashAdvanceCreditLimit = ts410103resp.pageValue("")
         GCSBalance(cardNo, currencyCode, limitCount, availableCount, preCashAdvanceCreditLimit)
-      }).toList
+      })
     })
   }
 
@@ -134,7 +127,17 @@ class GCSServiceImpl extends GCSService {
     * @param accountId   账户ID
     * @return
     */
-  override def getBillingSummary(sessionId: String, channelId: String, statementNo: String, accountId: String): GCSBillingSummary = ???
+  override def getBillingSummary(sessionId: String, channelId: String, statementNo: String, accountId: String): GCSBillingSummary = {
+    val ts010302 = new TS010302(sessionId, channelId, statementNo, accountId)
+    val ts010302Resp = ts010302.send
+    val periodStartDate = ts010302Resp.pageValue("periodStartDate")
+    val periodEndDate = ts010302Resp.pageValue("periodEndDate")
+    val paymentDueDate = ts010302Resp.pageValue("paymentDueDate")
+    val closingBalance = ts010302Resp.pageValue("closingBalance")
+    val currencyCode = ts010302Resp.pageValue("currencyCode")
+    val minPaymentAmount = ts010302Resp.pageValue("minPaymentAmount")
+    GCSBillingSummary(periodStartDate, periodEndDate, paymentDueDate, closingBalance, currencyCode, minPaymentAmount)
+  }
 
   /**
     * 查询卡的币种和产品类型
@@ -328,17 +331,16 @@ class GCSServiceImpl extends GCSService {
     * @return
     */
   override def getBillingPeriods(sessionId: String, channelId: String, cardNo: String): List[GCSBillingPeriods] = {
-    val req = new TS010301Req(sessionId, channelId, cardNo)
-    val respXML = gcsClient.send(req.toXml)
-    val resp = new TS010301Resp(respXML)
-    resp.pageListValues(props => {
+    val ts010301 = new TS010301(sessionId, channelId, cardNo)
+    val ts010301Resp = ts010301.send
+    ts010301Resp.pageListValues(props => {
       val accountId = props("accountId")
       val currencyCode = props("currencyCode")
       val periodStartDate = props("periodStartDate")
       val periodEndDate = props("periodEndDate")
       val statementNo = props("statementNo")
       GCSBillingPeriods(accountId, currencyCode, periodStartDate, periodEndDate, statementNo)
-    }).toList
+    })
   }
 
   /**
