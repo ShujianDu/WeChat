@@ -24,7 +24,6 @@ trait GCSService {
     * @param cardNo    卡号
     * @return GCSBalance
     */
-  //TODO JFM
   def getBalance(sessionID: String, channelID: String, cardNo: String): GCSBalance
 
   /**

@@ -1,8 +1,8 @@
 package com.yada.system.adapter.gcs
 
 import com.yada.sdk.gcs.GCSClient
-import com.yada.sdk.gcs.protocol.req.{TS410103Req, TS010102Req}
-import com.yada.sdk.gcs.protocol.resp.TS010102Resp
+import com.yada.sdk.gcs.protocol.req.{TS010301Req, TS410103Req, TS010102Req}
+import com.yada.sdk.gcs.protocol.resp.{TS010301Resp, TS010102Resp}
 
 /**
   * Created by locky on 2016/3/17.
@@ -327,7 +327,19 @@ class GCSServiceImpl extends GCSService {
     * @param cardNo    卡号
     * @return
     */
-  override def getBillingPeriods(sessionId: String, channelId: String, cardNo: String): List[GCSBillingPeriods] = ???
+  override def getBillingPeriods(sessionId: String, channelId: String, cardNo: String): List[GCSBillingPeriods] = {
+    val req = new TS010301Req(sessionId, channelId, cardNo)
+    val respXML = gcsClient.send(req.toXml)
+    val resp = new TS010301Resp(respXML)
+    resp.pageListValues(props => {
+      val accountId = props("accountId")
+      val currencyCode = props("currencyCode")
+      val periodStartDate = props("periodStartDate")
+      val periodEndDate = props("periodEndDate")
+      val statementNo = props("statementNo")
+      GCSBillingPeriods(accountId, currencyCode, periodStartDate, periodEndDate, statementNo)
+    }).toList
+  }
 
   /**
     * 消费分期授权
