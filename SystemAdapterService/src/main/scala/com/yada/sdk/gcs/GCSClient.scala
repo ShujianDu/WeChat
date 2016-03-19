@@ -1,6 +1,7 @@
 package com.yada.sdk.gcs
 
 import java.net.URL
+import java.util.Properties
 import javax.xml.namespace.QName
 
 import com.typesafe.scalalogging.slf4j.Logger
@@ -33,5 +34,15 @@ class GCSClient(wsdlDocumentLocation: URL, serviceQName: QName, portQName: QName
     val resp = port.service(request)
     log.info(s"rece from GCS...\r\n$resp")
     resp
+  }
+}
+
+object GCSClient {
+  private val prop = new Properties()
+  prop.load(this.getClass.getClassLoader.getResourceAsStream("GCS.properties"))
+  private val wsdlDocumentLocation = new URL(prop.getProperty("wsdlDocumentLocation"))
+
+  def apply(): GCSClient = {
+    new GCSClient(wsdlDocumentLocation)
   }
 }

@@ -9,7 +9,11 @@ import scala.collection.mutable
 /**
   * GCS请求报文
   */
-abstract class GCSReq(val transactionID: String, val pageKey: String, transactionSessionId: String, requestChannelId: String, transactionCode: String) {
+abstract class GCSReq(val transactionID: String,
+                      val pageKey: String,
+                      transactionSessionId: String,
+                      requestChannelId: String,
+                      transactionCode: String) {
   private val systemProps = mutable.Map.empty[String, String]
   private val pageProps = mutable.Map.empty[String, String]
   setSystemProp("transactionCode", transactionCode)
@@ -38,4 +42,6 @@ abstract class GCSReq(val transactionID: String, val pageKey: String, transactio
     val gcs = GCS(transactionID, isRequest, isResponse, System(systemProps), Some(Page(pageKey, pageProps, None)))
     xmlHandler.toXml(gcs)
   }
+
+  override def toString = toXml
 }

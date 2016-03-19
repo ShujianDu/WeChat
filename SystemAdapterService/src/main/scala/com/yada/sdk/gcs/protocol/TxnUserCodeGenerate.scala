@@ -3,7 +3,7 @@ package com.yada.sdk.gcs.protocol
 import java.util.concurrent.atomic.AtomicInteger
 
 /**
-  * Created by locky on 2016/3/18.
+  * TxnUserCode生成器
   */
 object TxnUserCodeGenerate {
   private val i = new AtomicInteger(0)
@@ -13,6 +13,6 @@ object TxnUserCodeGenerate {
     if (num > 999999999) {
       i.set(0)
     }
-    "wx" + num
+    f"wx$num%010d"
   }
 }

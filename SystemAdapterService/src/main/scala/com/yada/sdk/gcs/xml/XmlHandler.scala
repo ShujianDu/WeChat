@@ -1,5 +1,7 @@
 package com.yada.sdk.gcs.xml
 
+import java.io.File
+
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.{XmlFriendlyNameCoder, XppDriver}
 
@@ -17,7 +19,7 @@ class XmlHandler {
   // 声明短名称
   xstream.alias("GCS", classOf[GCS])
 
-  def toXml(gcs: GCS): String = xstream.toXML(gcs)
+  def toXml(gcs: GCS): String = XmlHandler.XML_HEADER + xstream.toXML(gcs)
 
   def fromXml(xml: String): GCS = {
     xstream.fromXML(xml) match {
@@ -26,4 +28,6 @@ class XmlHandler {
   }
 }
 
-object XmlHandler extends XmlHandler
+object XmlHandler extends XmlHandler {
+  val XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + java.lang.System.getProperty("line.separator")
+}

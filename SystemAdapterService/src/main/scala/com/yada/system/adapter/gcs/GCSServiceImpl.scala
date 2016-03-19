@@ -1,9 +1,16 @@
 package com.yada.system.adapter.gcs
 
+import com.yada.sdk.gcs.GCSClient
+import com.yada.sdk.gcs.protocol.req.{TS410103Req, TS010102Req}
+import com.yada.sdk.gcs.protocol.resp.TS010102Resp
+
 /**
   * Created by locky on 2016/3/17.
   */
 class GCSServiceImpl extends GCSService {
+
+  var gcsClient = GCSClient()
+
   /**
     * 根据一组卡号查询额度
     * 1、根据卡号查询币种
@@ -15,19 +22,25 @@ class GCSServiceImpl extends GCSService {
     * @return GCSBalance
     */
   override def getBalance(sessionID: String, channelID: String, cardNos: List[String]): List[GCSBalance] = {
-//    val ts410103Req = new TS410103Req
-//    ts410103Req.setSystemProp("transactionCode", "410103")
-//    ts410103Req.setSystemProp("transactionNumber", "00" + new SimpleDateFormat("yyyyMMddHHmmss").format(Calendar.getInstance().getTime))
-//    ts410103Req.setSystemProp("transactionSessionId", sessionID)
-//    ts410103Req.setSystemProp("requestChannelId", channelID)
-//    ts410103Req.setSystemProp("txnBranchCode", "00003")
-//    ts410103Req.setSystemProp("txnBankCode", "003")
-//    ts410103Req.setSystemProp("txnProvinceCode", "")
-//    ts410103Req.setSystemProp("txnTerminalCode", "")
-//    ts410103Req.setSystemProp("txnCounterCode", "")
-//    ts410103Req.setSystemProp("txnUserCode", "wx00000")
-
-null
+    cardNos.flatMap(cardNo => {
+      //根据卡号查询币种
+      val ts010102req = new TS010102Req(transactionSessionId = sessionID, requestChannelId = channelID, cardNo = cardNo)
+      val ts010102respXML = gcsClient.send(ts010102req.toXml)
+      val ts010102resp = new TS010102Resp(ts010102respXML)
+      if (!ts010102resp.isSuccess) throw new RuntimeException(s"error response XML...$ts010102respXML")
+      ts010102resp.pageListValues(props => {
+        // 根据卡号和币种查询额度
+        val currencyCode = props("currencyCode")
+        val ts410103req = new TS410103Req(sessionID, channelID, cardNo, currencyCode)
+        val ts410103respXML = gcsClient.send(ts410103req.toXml)
+        val ts410103resp = new TS010102Resp(ts410103respXML)
+        // TODO 3值的对应
+        val limitCount = ts410103resp.pageValue("")
+        val availableCount = ts410103resp.pageValue("")
+        val preCashAdvanceCreditLimit = ts410103resp.pageValue("")
+        GCSBalance(cardNo, currencyCode, limitCount, availableCount, preCashAdvanceCreditLimit)
+      }).toList
+    })
   }
 
   /**
@@ -97,7 +110,10 @@ null
     * @param cardNo    卡号
     * @return GCSBalance
     */
-  override def getBalance(sessionID: String, channelID: String, cardNo: String): GCSBalance = ???
+  override def getBalance(sessionID: String, channelID: String, cardNo: String): GCSBalance = {
+    // TODO 币种可能有多个...TO ZQD
+    ???
+  }
 
   /**
     * 币种查询
@@ -361,4 +377,15 @@ null
     * @return GCS返回码
     */
   override def billInstallment(sessionId: String, channelId: String, gcsBillInstallmentParams: GCSBillInstallmentParams): String = ???
+
+  /**
+    * 根据证件类型和证件号查询所有卡信息
+    *
+    * @param sessionId gcsSessionId
+    * @param channelId 渠道编号
+    * @param idType    证件类型
+    * @param idNum     证件号码
+    * @return (cardNo,主付卡标识)的集合
+    */
+  override def geCardInfos(sessionId: String, channelId: String, idType: String, idNum: String): List[(String, String)] = ???
 }
