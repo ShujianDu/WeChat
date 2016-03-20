@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GCS transactionID="TS010102" isRequest="ture" isResponse="false">
+<GCS transactionID="010102" isRequest="ture" isResponse="false">
     <system>
         <prop key="transactionCode" value="010102" />
         <prop key="transactionNumber" value="0020160318175400" />

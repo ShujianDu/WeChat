@@ -7,7 +7,7 @@ trait GCSService {
     *
     * @param sessionID gcsSessionId
     * @param channelID 渠道编号
-    * @param cardInfos 一组卡号信息
+    * @param cardInfos 一组卡号信息- Map[卡号、对应币种集合]
     * @return GCSBalance
     */
   def getBalance(sessionID: String, channelID: String, cardInfos: Map[String, List[String]]): List[GCSBalance]
