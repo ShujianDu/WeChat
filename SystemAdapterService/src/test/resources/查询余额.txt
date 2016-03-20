@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<GCS transactionID="TS410103" isRequest="ture" isResponse="false">
+<GCS transactionID="410103" isRequest="ture" isResponse="false">
     <system>
         <prop key="transactionCode" value="410103" />
         <prop key="transactionNumber" value="0020160318180600" />
@@ -57,7 +57,7 @@
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 <?xml version="1.0" encoding="UTF-8"?>
-<GCS transactionID="TS410103" isRequest="ture" isResponse="false">
+<GCS transactionID="410103" isRequest="ture" isResponse="false">
     <system>
         <prop key="transactionCode" value="410103" />
         <prop key="transactionNumber" value="0020160318181000" />

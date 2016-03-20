@@ -7,7 +7,7 @@ trait GCSService {
     *
     * @param sessionID gcsSessionId
     * @param channelID 渠道编号
-    * @param cardInfos 一组卡号信息
+    * @param cardInfos 一组卡号信息- Map[卡号、对应币种集合]
     * @return GCSBalance
     */
   def getBalance(sessionID: String, channelID: String, cardInfos: Map[String, List[String]]): List[GCSBalance]
@@ -429,14 +429,14 @@ case class GCSCardHolderInfo(familyName: String, firstName: String, gender: Stri
 /**
   * 临时提额评测结果
   *
-  * @param approve         授权是否批准
+  * @param principalResultID         授权是否批准 （A-批准 B-拒绝）
   * @param amount          建议额度
   * @param cardStyle       产品类型（1，个人；2，白金；3，公务卡）
   * @param issuingBranchId 发卡行号
   * @param creditLimit     当前卡整体信用额度
   * @param pmtCreditLimit  当前卡的永久额度
   */
-case class GCSCreditLimitTemporaryUpReviewResult(approve: String, amount: String, cardStyle: String, issuingBranchId: String, creditLimit: String, pmtCreditLimit: String)
+case class GCSCreditLimitTemporaryUpReviewResult(principalResultID: String, amount: String, cardStyle: String, issuingBranchId: String, creditLimit: String, pmtCreditLimit: String)
 
 /**
   * 信用卡额度临时提额调整状态实体

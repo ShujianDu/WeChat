@@ -2,7 +2,7 @@ package com.yada.wx.db.service.mock
 
 import com.yada.wx.db.service.{CardInfo, CardInfoService}
 
-class MockCardInfoService extends CardInfoService{
+class CardInfoServiceMocker extends CardInfoService{
 
   override def getDefaultCard(openId: String): Option[CardInfo] = {
     openId match {

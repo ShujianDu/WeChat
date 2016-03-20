@@ -14,6 +14,7 @@ trait PointsService {
     * 查询积分有校期
     *
     * @param cardNo 卡号
+    * @return 积分校期集合
     */
   def getPointsValidates(cardNo: String):List[PointsValidates]
 
@@ -21,8 +22,9 @@ trait PointsService {
     * 查询积分明细
     *
     * @param cardNo 卡号
+    * @return  积分明细集合
     */
-  def getJifenDetails(cardNo: String):List[PointsDetail]
+  def getPointsDetails(cardNo: String):List[PointsDetail]
 
 
   //TODO 积分兑换和聪明购接口
