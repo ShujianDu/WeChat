@@ -24,7 +24,7 @@ trait GCSService {
     * @param cardNo    卡号
     * @return GCSBalance
     */
-  def getBalance(sessionID: String, channelID: String, cardNo: String): GCSBalance
+  def getBalance(sessionID: String, channelID: String, cardNo: String): List[GCSBalance]
 
   /**
     * 查账单周期
