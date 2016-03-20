@@ -1,4 +1,4 @@
-package com.yada.sdk.gcs.mock
+package com.yada.mock
 
 object GCSMockConfig {
 

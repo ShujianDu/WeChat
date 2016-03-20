@@ -2,7 +2,7 @@ package com.yada.wx.db.service.mock
 
 import com.yada.wx.db.service.CustomerService
 
-class MockCustomerService extends CustomerService{
+class CustomerServiceMocker extends CustomerService{
 
   override def isBinded(openId: String): Boolean = {
     openId match {
