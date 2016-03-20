@@ -1,6 +1,6 @@
 package com.yada.system.adapter.gcs
 
-import com.yada.sdk.gcs.protocol.impl.{TS010102, TS010301, TS010302, TS410103}
+import com.yada.sdk.gcs.protocol.impl.{TS010301, TS010302, TS410103}
 
 /**
   * Created by locky on 2016/3/17.
@@ -14,13 +14,14 @@ class GCSServiceImpl extends GCSService {
     *
     * @param sessionID gcsSessionId
     * @param channelID 渠道编号
-    * @param cardNos   一组卡号
+    * @param cardInfos 一组卡号
     * @return GCSBalance
     */
-  override def getBalance(sessionID: String, channelID: String, cardNos: List[String]): List[GCSBalance] = {
-    cardNos.flatMap(cardNo => {
-      getBalance(sessionID, channelID, cardNos)
-    })
+  override def getBalance(sessionID: String, channelID: String, cardInfos: Map[String, List[String]]): List[GCSBalance] = {
+    cardInfos.flatMap(info => {
+      val (cardNo, currencyCodes) = info
+      getBalance(sessionID, channelID, cardNo, currencyCodes)
+    }).toList
   }
 
   /**
@@ -385,19 +386,18 @@ class GCSServiceImpl extends GCSService {
     * @param cardNo    卡号
     * @return GCSBalance
     */
-  override def getBalance(sessionID: String, channelID: String, cardNo: String): List[GCSBalance] = {
-    //根据卡号查询币种
-    val ts010102 = new TS010102(sessionID, channelID, cardNo)
-    val ts010102resp = ts010102.send
-    ts010102resp.pageListValues(props => {
-      // 根据卡号和币种查询额度
-      val currencyCode = props("currencyCode")
-      val ts410103 = new TS410103(sessionID, channelID, cardNo, currencyCode)
-      val ts410103resp = ts410103.send
-      val wholeCreditLimit = ts410103resp.pageValue("wholeCreditLimit")
-      val periodAvailableCreditLimit = ts410103resp.pageValue("periodAvailbleCreditLimit") // GCS报文拼装的单词错误
-      val preCashAdvanceCreditLimit = ts410103resp.pageValue("preCashAdvanceCreditLimit")
-      GCSBalance(cardNo, currencyCode, wholeCreditLimit, periodAvailableCreditLimit, preCashAdvanceCreditLimit)
-    })
+  override def getBalance(sessionID: String, channelID: String, cardNo: String, currencyCodes: List[String]): List[GCSBalance] = {
+    if (currencyCodes.isEmpty) throw new IllegalArgumentException("currencyCodes can`t be empty...")
+
+    currencyCodes.map(
+      currencyCode => {
+        val ts410103 = new TS410103(sessionID, channelID, cardNo, currencyCode)
+        val ts410103resp = ts410103.send
+        val wholeCreditLimit = ts410103resp.pageValue("wholeCreditLimit")
+        val periodAvailableCreditLimit = ts410103resp.pageValue("periodAvailbleCreditLimit") // GCS报文拼装的单词错误
+        val preCashAdvanceCreditLimit = ts410103resp.pageValue("preCashAdvanceCreditLimit")
+        GCSBalance(cardNo, currencyCode, wholeCreditLimit, periodAvailableCreditLimit, preCashAdvanceCreditLimit)
+      }
+    )
   }
 }

@@ -18,10 +18,10 @@ trait GCSService {
     * @param sessionID gcsSessionId
     * @param channelID 渠道编号
     * @param cardNo    卡号
-    * @param currency  币种列表
+    * @param currencyCodes  币种列表
     * @return GCSBalance
     */
-  def getBalance(sessionID: String, channelID: String, cardNo: String, currency: List[String]): List[GCSBalance]
+  def getBalance(sessionID: String, channelID: String, cardNo: String, currencyCodes: List[String]): List[GCSBalance]
 
   /**
     * 查账单周期
