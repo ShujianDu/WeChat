@@ -1,6 +1,6 @@
 package com.yada.system.adapter.gcs
 
-import com.yada.sdk.gcs.protocol.impl.{TS010301, TS010302, TS410103}
+import com.yada.sdk.gcs.protocol.impl.{TS190024, TS010301, TS010302, TS410103}
 
 /**
   * Created by locky on 2016/3/17.
@@ -8,13 +8,11 @@ import com.yada.sdk.gcs.protocol.impl.{TS010301, TS010302, TS410103}
 class GCSServiceImpl extends GCSService {
 
   /**
-    * 根据一组卡号查询额度
-    * 1、根据卡号查询币种
-    * 2、根据卡号和币种查询额度
+    * 根据一组卡信息查询额度
     *
     * @param sessionID gcsSessionId
     * @param channelID 渠道编号
-    * @param cardInfos 一组卡号
+    * @param cardInfos 一组卡信息
     * @return GCSBalance
     */
   override def getBalance(sessionID: String, channelID: String, cardInfos: Map[String, List[String]]): List[GCSBalance] = {
@@ -40,7 +38,18 @@ class GCSServiceImpl extends GCSService {
     * @param currencyNo  币种
     * @return 临时提额评测结果
     */
-  override def creditLimitTemporaryUpReview(sessionId: String, channelId: String, certType: String, certNum: String, phoneNumber: String, cardNo: String, currencyNo: String): GCSCreditLimitTemporaryUpReviewResult = ???
+  override def creditLimitTemporaryUpReview(sessionId: String, channelId: String, certType: String, certNum: String, phoneNumber: String, cardNo: String, currencyNo: String): GCSCreditLimitTemporaryUpReviewResult = {
+    val tS190024 = new TS190024(sessionId, channelId, certType, certNum, phoneNumber, cardNo, currencyNo, "2", "06")
+    val result = tS190024.send
+
+    GCSCreditLimitTemporaryUpReviewResult(result.pageValue("principalResultID"),
+      result.pageValue("amount"),
+      result.pageValue("cardStyle"),
+      result.pageValue("issuingBranchId"),
+      result.pageValue("creditLimit"),
+      result.pageValue("pmtCreditLimit")
+    )
+  }
 
   /**
     * 获取账单金额上下限
