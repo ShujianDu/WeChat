@@ -133,7 +133,7 @@ trait GCSService {
   def tempCreditCardReportLost(sessionId: String, channelId: String, cardNo: String, entyMethod: String, idNum: String, idType: String, familyName: String, lostReason: String): Boolean
 
   /**
-    * 解除临时挂失(2013-09-23新增)
+    * 解除临时挂失
     *
     * @param sessionId  gcsSessionId
     * @param channelId  渠道编号

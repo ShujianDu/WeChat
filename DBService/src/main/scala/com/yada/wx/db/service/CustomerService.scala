@@ -5,29 +5,32 @@ package com.yada.wx.db.service
   */
 trait CustomerService {
 
-  def isBinded(openId:String):Boolean
+  /**
+    * 用户是否绑定
+    * @param openId openID
+    * @return false-未绑定，true-绑定
+    */
+  def isBinded(openId: String): Boolean
 
+  /**
+    *
+    * @param openId openID
+    * @param identityNo  证件号
+    * @param identityType 证件类型
+    * @param pwd 电话银行密码
+    * @return (成功失败，返回信息)
+    */
+  def bind(openId:String,identityNo: String,identityType:String,pwd:String):(Boolean,String)
 }
 
 /**
   *
-  * @param id 主键
-  * @param openid openId
-  * @param identityNo 身份证号
+  * @param id          主键
+  * @param openid      openId
+  * @param identityNo  证件号
+  * @param identityType 证件类型
   * @param bindingDate 绑定日期
-  * @param customerId 客户ID
+  * @param customerId  客户ID
   */
-case class CustomerInfo(id:String,openid:String,identityNo:String,bindingDate:String,customerId:String)
+case class CustomerInfo(id: String, openid: String, identityNo: String,identityType:String, bindingDate: String, customerId: String)
 
-class MockCustomerService extends CustomerService{
-
-  val bingOpenId = "1111111111111111"
-  val unBingOpenId ="2222222222222222"
-
-  override def isBinded(openId: String): Boolean = {
-    openId match {
-      case bingOpenId => true
-      case unBingOpenId => false
-    }
-  }
-}

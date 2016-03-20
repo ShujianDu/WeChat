@@ -2,9 +2,13 @@ package com.yada.wx.db.service
 
 trait CardInfoService {
 
-  def getDefaultCard(openId:String):String
+  /**
+    * 获取绑定的默认卡
+    * @param openId openID
+    * @return 如果绑定默认卡则返回卡信息否则返回None
+    */
+  def getDefaultCard(openId: String): Option[CardInfo]
 
-  def isBindedCard(openID:String):Boolean
 }
 
 /**
@@ -19,12 +23,7 @@ trait CardInfoService {
   * @param mainFlag   主副卡标识
   * @param updateDate 更新时间
   */
-case class CardInfo(cardNo: String, cardType: String, custId: String, openID: String, isDefault: String,
+case class CardInfo(cardNo: String, cardType: String, custId: String, openID: String, isDefault: Boolean,
                     currency: String, style: String, mainFlag: String, updateDate: String)
 
-class MockCardInfo extends CardInfoService{
 
-  override def getDefaultCard(openId: String): String = ???
-
-  override def isBindedCard(openID: String): Boolean = ???
-}
