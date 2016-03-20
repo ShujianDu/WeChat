@@ -360,7 +360,7 @@ trait GCSService {
     * @param idNum     证件号码
     * @return (cardNo,主付卡标识)的集合
     */
-  def geCardInfos(sessionId: String, channelId: String, idType: String, idNum: String):List[(String,String)]
+  def geCardInfos(sessionId: String, channelId: String, idType: String, idNum: String): List[(String, String)]
 }
 
 /**
@@ -368,11 +368,11 @@ trait GCSService {
   *
   * @param cardNo                    卡号
   * @param currencyCode              币种
-  * @param limitCount                总授信额度
-  * @param availableCount            总可用额
+  * @param wholeCreditLimit          总授信额度
+  * @param periodAvailableCreditLimit 总可用额
   * @param preCashAdvanceCreditLimit 取现可用额度
   */
-case class GCSBalance(cardNo: String, currencyCode: String, limitCount: String, availableCount: String, preCashAdvanceCreditLimit: String)
+case class GCSBalance(cardNo: String, currencyCode: String, wholeCreditLimit: String, periodAvailableCreditLimit: String, preCashAdvanceCreditLimit: String)
 
 /**
   * 账单周期

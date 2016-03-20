@@ -19,20 +19,7 @@ class GCSServiceImpl extends GCSService {
     */
   override def getBalance(sessionID: String, channelID: String, cardNos: List[String]): List[GCSBalance] = {
     cardNos.flatMap(cardNo => {
-      //根据卡号查询币种
-      val ts010102 = new TS010102(sessionID, channelID, cardNo)
-      val ts010102resp = ts010102.send
-      ts010102resp.pageListValues(props => {
-        // 根据卡号和币种查询额度
-        val currencyCode = props("currencyCode")
-        val ts410103 = new TS410103(sessionID, channelID, cardNo, currencyCode)
-        val ts410103resp = ts410103.send
-        // TODO 3值的对应
-        val limitCount = ts410103resp.pageValue("")
-        val availableCount = ts410103resp.pageValue("")
-        val preCashAdvanceCreditLimit = ts410103resp.pageValue("")
-        GCSBalance(cardNo, currencyCode, limitCount, availableCount, preCashAdvanceCreditLimit)
-      })
+      getBalance(sessionID, channelID, cardNos)
     })
   }
 
@@ -92,21 +79,6 @@ class GCSServiceImpl extends GCSService {
     * @return
     */
   override def getBillingDetails(sessionId: String, channelId: String, cardNo: String, currencyCode: String, queryType: String, startNum: String, totalNum: String, startDate: String, endDate: String): List[GCSBillingDetail] = ???
-
-  /**
-    * 根据卡号查询额度
-    * 1、根据卡号查询币种
-    * 2、根据卡号和币种查询额度
-    *
-    * @param sessionID gcsSessionId
-    * @param channelID 渠道编号
-    * @param cardNo    卡号
-    * @return GCSBalance
-    */
-  override def getBalance(sessionID: String, channelID: String, cardNo: String): GCSBalance = {
-    // TODO 币种可能有多个...TO ZQD
-    ???
-  }
 
   /**
     * 币种查询
@@ -402,4 +374,30 @@ class GCSServiceImpl extends GCSService {
     * @return (cardNo,主付卡标识)的集合
     */
   override def geCardInfos(sessionId: String, channelId: String, idType: String, idNum: String): List[(String, String)] = ???
+
+  /**
+    * 根据卡号查询额度
+    * 1、根据卡号查询币种
+    * 2、根据卡号和币种查询额度
+    *
+    * @param sessionID gcsSessionId
+    * @param channelID 渠道编号
+    * @param cardNo    卡号
+    * @return GCSBalance
+    */
+  override def getBalance(sessionID: String, channelID: String, cardNo: String): List[GCSBalance] = {
+    //根据卡号查询币种
+    val ts010102 = new TS010102(sessionID, channelID, cardNo)
+    val ts010102resp = ts010102.send
+    ts010102resp.pageListValues(props => {
+      // 根据卡号和币种查询额度
+      val currencyCode = props("currencyCode")
+      val ts410103 = new TS410103(sessionID, channelID, cardNo, currencyCode)
+      val ts410103resp = ts410103.send
+      val wholeCreditLimit = ts410103resp.pageValue("wholeCreditLimit")
+      val periodAvailableCreditLimit = ts410103resp.pageValue("periodAvailbleCreditLimit") // GCS报文拼装的单词错误
+      val preCashAdvanceCreditLimit = ts410103resp.pageValue("preCashAdvanceCreditLimit")
+      GCSBalance(cardNo, currencyCode, wholeCreditLimit, periodAvailableCreditLimit, preCashAdvanceCreditLimit)
+    })
+  }
 }
