@@ -506,7 +506,7 @@ case class GCSConsumptionInstallmentParams(accountKeyOne: String, accountKeyTwo:
   * @param maxAmount    账单分期金额上限
   * @param respCode     返回码
   */
-case class GCSAmountLimit(currencyCode: String, minAmount: String, showMinAmount: String, maxAmount: String, respCode: String)
+case class GCSAmountLimit(currencyCode: String, minAmount: String,maxAmount: String, respCode: String)
 
 /**
   * 账单分期参数
