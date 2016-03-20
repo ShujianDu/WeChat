@@ -28,7 +28,7 @@ class PageConverter extends Converter with PropsConverter {
           list = context.convertAnother(reader, classOf[List]) match {
             case l: List ⇒ Some(l)
           }
-        case "props" ⇒
+        case "prop" ⇒
           props += reader.getAttribute("key") → reader.getAttribute("value")
       }
       reader.moveUp()

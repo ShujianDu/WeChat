@@ -3,7 +3,7 @@ package com.yada.sdk.gcs.protocol.impl
 import com.yada.sdk.gcs.protocol.{GCSCommonResp, GCSProtocol}
 
 /**
-  * Created by fengm on 2016/3/20.
+  * 查询余额
   */
 class TS410103(tranSessionId: String, reqChannelId: String, cardNo: String, currencyCode: String) extends GCSProtocol[GCSCommonResp] {
   setPageProps("cardNo", cardNo)

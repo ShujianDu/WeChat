@@ -41,8 +41,9 @@ object GCSClient {
   private val prop = new Properties()
   prop.load(this.getClass.getClassLoader.getResourceAsStream("GCS.properties"))
   private val wsdlDocumentLocation = new URL(prop.getProperty("wsdlDocumentLocation"))
+  var GLOBAL_GCS_CLIENT = new GCSClient(wsdlDocumentLocation)
 
   def apply(): GCSClient = {
-    new GCSClient(wsdlDocumentLocation)
+    GLOBAL_GCS_CLIENT
   }
 }
