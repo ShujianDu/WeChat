@@ -4,27 +4,24 @@ trait GCSService {
 
   /**
     * 根据一组卡号查询额度
-    * 1、根据卡号查询币种
-    * 2、根据卡号和币种查询额度
     *
     * @param sessionID gcsSessionId
     * @param channelID 渠道编号
-    * @param cardNos   一组卡号
+    * @param cardInfos 一组卡号信息
     * @return GCSBalance
     */
-  def getBalance(sessionID: String, channelID: String, cardNos: List[String]): List[GCSBalance]
+  def getBalance(sessionID: String, channelID: String, cardInfos: Map[String, List[String]]): List[GCSBalance]
 
   /**
     * 根据卡号查询额度
-    * 1、根据卡号查询币种
-    * 2、根据卡号和币种查询额度
     *
     * @param sessionID gcsSessionId
     * @param channelID 渠道编号
     * @param cardNo    卡号
+    * @param currency  币种列表
     * @return GCSBalance
     */
-  def getBalance(sessionID: String, channelID: String, cardNo: String): List[GCSBalance]
+  def getBalance(sessionID: String, channelID: String, cardNo: String, currency: List[String]): List[GCSBalance]
 
   /**
     * 查账单周期
