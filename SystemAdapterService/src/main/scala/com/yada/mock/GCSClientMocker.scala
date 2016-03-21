@@ -39,11 +39,3 @@ class GCSClientMocker extends GCSClient(new URL("")) {
     resp
   }
 }
-
-object GCSClientMocker {
-
-  def apply(): GCSClient = {
-    GCSClient.GLOBAL_GCS_CLIENT = new GCSClientMocker
-    GCSClient.apply()
-  }
-}
