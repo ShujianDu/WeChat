@@ -10,7 +10,7 @@ class GCSResp(xml: String) {
   val gcs = xmlHandler.fromXml(xml)
   if (failedThrowException) {
     // 如果不是成功的响应，直接抛出异常
-    if (systemValue("returnCode") != "+GC00000") throw new ErrorGCSReturnCode(systemValue("returnCode"), systemValue("returnMessage"))
+    if (systemValue("returnCode") != "+GC00000") throw new ErrorGCSReturnCodeException(systemValue("returnCode"), systemValue("returnMessage"))
   }
 
   protected def xmlHandler = XmlHandler.GLOBAL
@@ -82,4 +82,4 @@ class GCSResp(xml: String) {
   protected def failedThrowException: Boolean = true
 }
 
-case class ErrorGCSReturnCode(returnCode: String, returnMessage: String) extends RuntimeException(s"returnCode[$returnCode]returnMessage[$returnMessage]")
+case class ErrorGCSReturnCodeException(returnCode: String, returnMessage: String) extends RuntimeException(s"returnCode[$returnCode]returnMessage[$returnMessage]")
