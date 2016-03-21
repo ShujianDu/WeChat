@@ -90,7 +90,7 @@ trait GCSService {
     * @param cardNo    卡号
     * @return
     */
-  def getBillSendType(sessionId: String, channelId: String, cardNo: String): GCSBillSendType
+  def getBillSendType(sessionId: String, channelId: String, cardNo: String): String
 
   /**
     * 账单寄送方式修改
@@ -407,14 +407,6 @@ case class GCSBillingSummary(periodStartDate: String, periodEndDate: String, pay
   */
 //TODO debitCreditCode 改成枚举
 case class GCSBillingDetail(cardNo: String, currencyCode: String, transactionDate: String, transactionAmount: String, transactionDescription: String, debitCreditCode: String)
-
-/**
-  * 账单寄送方式
-  *
-  * @param cardNo       卡号
-  * @param billSendType 账单寄送方式
-  */
-case class GCSBillSendType(cardNo: String, billSendType: String)
 
 /**
   * 持卡人信息

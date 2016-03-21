@@ -1,6 +1,9 @@
 package com.yada.system.adapter.gcs
 
+import com.yada.sdk.gcs.protocol.{ErrorGCSReturnCodeException, GCSResp}
 import com.yada.sdk.gcs.protocol.impl._
+
+import scala.util.Try
 
 /**
   * Created by locky on 2016/3/17.
@@ -63,13 +66,13 @@ class GCSServiceImpl extends GCSService {
     * @return 账单金额上下限结果
     */
   override def getAmountLimit(sessionId: String, channelId: String, cardNo: String, currencyCode: String): GCSAmountLimit = {
-    val ts010102 = new TS010102(sessionId,channelId,cardNo,currencyCode)
+    val ts010102 = new TS010102(sessionId, channelId, cardNo, currencyCode)
     val tempResult = ts010102.send
     val accountId = tempResult.pageListValues(Array("accountId")).map(props => props("accountId")).head
-    val ts011062 = new TS011062(sessionId,channelId,accountId,currencyCode)
+    val ts011062 = new TS011062(sessionId, channelId, accountId, currencyCode)
     val result = ts011062.send
 
-    GCSAmountLimit(currencyCode,result.pageValue("minAmount"),result.pageValue("maxAmount"),result.systemValue("returnCode"))
+    GCSAmountLimit(currencyCode, result.pageValue("minAmount"), result.pageValue("maxAmount"), result.systemValue("returnCode"))
   }
 
   /** *
@@ -137,7 +140,12 @@ class GCSServiceImpl extends GCSService {
     * @param cardNo    卡号
     * @return (币种列表,卡片产品类型)
     */
-  override def getCardCurrencyCodeAndStyle(sessionId: String, channelId: String, cardNo: String): (List[String], String) = ???
+  override def getCardCurrencyCodeAndStyle(sessionId: String, channelId: String, cardNo: String): (List[String], String) = {
+    val ts010102 = new TS010102(sessionId, channelId, cardNo)
+    val result = ts010102.send
+    val pageList = result.pageListValues(Array("currencyCode", "productType"))
+    (pageList.map(f => f("currencyCode")), pageList.map(f => f("productType")).head)
+  }
 
   /**
     * 账单寄送方式查询
@@ -147,7 +155,10 @@ class GCSServiceImpl extends GCSService {
     * @param cardNo    卡号
     * @return
     */
-  override def getBillSendType(sessionId: String, channelId: String, cardNo: String): GCSBillSendType = ???
+  override def getBillSendType(sessionId: String, channelId: String, cardNo: String): String = {
+    val ts010002 = new TS010002(sessionId, channelId, cardNo)
+    ts010002.send.pageValue("billSendType")
+  }
 
   /**
     * 获取预约办卡用户手机号
@@ -158,7 +169,10 @@ class GCSServiceImpl extends GCSService {
     * @param idNo      证件号
     * @return 返回手机号
     */
-  override def getMobilePhone(sessionId: String, channelId: String, idType: String, idNo: String): String = ???
+  override def getMobilePhone(sessionId: String, channelId: String, idType: String, idNo: String): String = {
+    val ts140028 = new TS140028(sessionId, channelId, idType, idNo)
+    ts140028.send.pageValue("appiMcMPhone")
+  }
 
   /**
     * 账单寄送方式修改
@@ -169,7 +183,15 @@ class GCSServiceImpl extends GCSService {
     * @param billSendType 账单寄送方式
     * @return
     */
-  override def updateBillSendType(sessionId: String, channelId: String, cardNo: String, billSendType: String): Boolean = ???
+  override def updateBillSendType(sessionId: String, channelId: String, cardNo: String, billSendType: String): Boolean = {
+    val ts010056 = new TS010056(sessionId, channelId, cardNo, billSendType)
+    try {
+      ts010056.send
+      true
+    } catch {
+      case e: ErrorGCSReturnCodeException => false
+    }
+  }
 
   /**
     * 查询所有可分期的消费交易
