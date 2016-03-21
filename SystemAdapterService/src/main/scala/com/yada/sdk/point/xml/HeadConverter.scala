@@ -28,7 +28,7 @@ class HeadConverter extends Converter {
       props += reader.getNodeName -> reader.getValue
       reader.moveUp()
     }
-    Head(props)
+    Head(props.toMap)
   }
 
   override def canConvert(`type`: Class[_]): Boolean = `type`.isAssignableFrom(classOf[Head])
@@ -37,4 +37,4 @@ class HeadConverter extends Converter {
 /**
   * 积分消息头
   */
-case class Head(props: scala.collection.mutable.Map[String, String])
+case class Head(props: Map[String, String])

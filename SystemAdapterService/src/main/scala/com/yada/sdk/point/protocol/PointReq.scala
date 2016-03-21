@@ -7,16 +7,22 @@ import scala.collection.mutable
 /**
   * 积分请求
   */
-trait PointReq[PointResp] {
+trait PointReq[respType <: PointResp] {
   private val tranDateTime = Calendar.getInstance.getTime
   private val reqHeadProps = mutable.Map.empty[String, String]
   private val reqBodyProps = mutable.Map.empty[String, String]
 
+  //设置版本号
   setReqHeadProps("Version", version)
+  // 交易码
   setReqHeadProps("TranCode", tranCode)
+  // 请求流水号
   setReqHeadProps("SerialNo", serialNo)
+  // 渠道代码
   setReqHeadProps("ChannelCode", channelCode)
+  // 交易日期
   setReqHeadProps("TranDate", tranDate)
+  // 交易时间
   setReqHeadProps("TranTime", tranTime)
 
   /**
@@ -81,9 +87,16 @@ trait PointReq[PointResp] {
     reqBodyProps += key -> value
   }
 
-  def send: PointResp = {
+  def send: respType = {
+    // TODO 补充发送部分
     generateResp("")
   }
 
-  def generateResp(xml: String): PointResp
+  /**
+    * 根据响应的XML初始化对象
+    *
+    * @param xml 响应报文的XML
+    * @return
+    */
+  def generateResp(xml: String): respType
 }
