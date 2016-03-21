@@ -2,7 +2,6 @@ package com.yada.sdk.gcs.protocol.impl
 
 import com.yada.sdk.gcs.protocol.{GCSResp, GCSReq}
 
-//TODO 需要返回码-JFM
 class TS011062(tranSessionId: String, reqChannelId: String, accountId: String, currencyCode: String) extends GCSReq {
 
   setPageProps("accountId", accountId)
