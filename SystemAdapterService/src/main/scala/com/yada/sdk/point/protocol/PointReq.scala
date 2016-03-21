@@ -7,7 +7,7 @@ import scala.collection.mutable
 /**
   * 积分请求
   */
-trait PointReq[respType <: PointResp] {
+trait PointReq {
   private val tranDateTime = Calendar.getInstance.getTime
   private val reqHeadProps = mutable.Map.empty[String, String]
   private val reqBodyProps = mutable.Map.empty[String, String]
@@ -87,9 +87,9 @@ trait PointReq[respType <: PointResp] {
     reqBodyProps += key -> value
   }
 
-  def send: respType = {
+  def send: PointResp = {
     // TODO 补充发送部分
-    generateResp("")
+    respXMLToObj("")
   }
 
   /**
@@ -98,5 +98,5 @@ trait PointReq[respType <: PointResp] {
     * @param xml 响应报文的XML
     * @return
     */
-  def generateResp(xml: String): respType
+  protected def respXMLToObj(xml: String): PointResp
 }
