@@ -4,11 +4,13 @@ import java.io.File
 
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.{XmlFriendlyNameCoder, XppDriver}
+import com.typesafe.config.ConfigFactory
 
 /**
   * XML处理者
   */
 class XmlHandler {
+  val XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + java.lang.System.getProperty("line.separator")
   // 初始化stream
   private val xstream = new XStream(new XppDriver(new XmlFriendlyNameCoder("_-", "_")))
   // 注册定制的xml转换器
@@ -29,5 +31,5 @@ class XmlHandler {
 }
 
 object XmlHandler extends XmlHandler {
-  val XML_HEADER = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + java.lang.System.getProperty("line.separator")
+  val GLOBAL = Class.forName(ConfigFactory.load.getString("GCS.xmlHandler")).newInstance().asInstanceOf[XmlHandler]
 }

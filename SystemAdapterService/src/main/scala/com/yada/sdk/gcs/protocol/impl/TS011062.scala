@@ -1,14 +1,12 @@
 package com.yada.sdk.gcs.protocol.impl
 
-import com.yada.sdk.gcs.protocol.{GCSCommonResp, GCSReq}
+import com.yada.sdk.gcs.protocol.{GCSResp, GCSReq}
 
 //TODO 需要返回码-JFM
-class TS011062(tranSessionId: String, reqChannelId: String,accountId:String,currencyCode:String) extends GCSReq[GCSCommonResp]{
+class TS011062(tranSessionId: String, reqChannelId: String, accountId: String, currencyCode: String) extends GCSReq {
 
-  setPageProps("accountId",accountId)
-  setPageProps("currencyCode",currencyCode)
-
-  override protected def generate(xml: String): GCSCommonResp = new GCSCommonResp(xml)
+  setPageProps("accountId", accountId)
+  setPageProps("currencyCode", currencyCode)
 
   override def transactionID: String = "011062"
 
@@ -19,4 +17,9 @@ class TS011062(tranSessionId: String, reqChannelId: String,accountId:String,curr
   override def pageKey: String = "RQ011062"
 
   override def transactionCode: String = "011062"
+
+  override protected def respXMLToObject(xml: String): GCSResp = new GCSResp(xml) {
+    // 不需要验证
+    override protected def failedThrowException: Boolean = false
+  }
 }

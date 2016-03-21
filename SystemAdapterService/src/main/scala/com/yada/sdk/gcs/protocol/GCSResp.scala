@@ -13,7 +13,7 @@ class GCSResp(xml: String) {
     if (systemValue("returnCode") != "+GC00000") throw new RuntimeException(s"error response XML...$xml")
   }
 
-  def xmlHandler = XmlHandler
+  protected def xmlHandler = XmlHandler.GLOBAL
 
   /**
     * 获取响应头的内容
@@ -74,5 +74,10 @@ class GCSResp(xml: String) {
     })
   }
 
+  /**
+    * 当报文验证非成功，抛出异常
+    *
+    * @return
+    */
   protected def failedThrowException: Boolean = true
 }

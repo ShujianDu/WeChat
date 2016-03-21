@@ -1,11 +1,11 @@
 package com.yada.sdk.gcs.protocol.impl
 
-import com.yada.sdk.gcs.protocol.{GCSCommonResp, GCSReq}
+import com.yada.sdk.gcs.protocol.GCSReq
 
 /**
   * 某一期账单信息汇总查询
   */
-class TS010302(tranSessionId: String, reqChannelId: String, statementNo: String, accountId: String) extends GCSReq[GCSCommonResp] {
+class TS010302(tranSessionId: String, reqChannelId: String, statementNo: String, accountId: String) extends GCSReq {
   setPageProps("statementNo", statementNo)
   setPageProps("accountId", accountId)
 
@@ -19,5 +19,4 @@ class TS010302(tranSessionId: String, reqChannelId: String, statementNo: String,
 
   override def transactionCode: String = "010302"
 
-  override protected def generate(xml: String): GCSCommonResp = new GCSCommonResp(xml)
 }

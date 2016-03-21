@@ -10,7 +10,7 @@ import scala.collection.mutable
 /**
   * GCS协议
   */
-trait GCSReq[RespType <: GCSResp] {
+trait GCSReq {
   private val systemProps = mutable.Map.empty[String, String]
   private val pageProps = mutable.Map.empty[String, String]
   setSystemProp("transactionCode", transactionCode)
@@ -25,7 +25,7 @@ trait GCSReq[RespType <: GCSResp] {
   setSystemProp("txnCounterCode", "")
   setSystemProp("txnUserCode", TxnUserCodeGenerate.get)
 
-  def xmlHandler = XmlHandler
+  protected def xmlHandler = XmlHandler.GLOBAL
 
   def transactionID: String
 
@@ -57,10 +57,10 @@ trait GCSReq[RespType <: GCSResp] {
     */
   protected def gcsClient = GCSClient.GLOBAL
 
-  def send: RespType = {
+  def send: GCSResp = {
     val resp = gcsClient.send(reqXML)
-    generate(resp)
+    respXMLToObject(resp)
   }
 
-  protected def generate(xml: String): RespType
+  protected def respXMLToObject(xml: String): GCSResp = new GCSResp(xml)
 }
