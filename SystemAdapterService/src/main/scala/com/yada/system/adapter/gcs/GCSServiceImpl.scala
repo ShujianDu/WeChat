@@ -1,13 +1,8 @@
 package com.yada.system.adapter.gcs
 
-import com.yada.sdk.gcs.protocol.{ErrorGCSReturnCodeException, GCSResp}
+import com.yada.sdk.gcs.protocol.ErrorGCSReturnCodeException
 import com.yada.sdk.gcs.protocol.impl._
 
-import scala.util.Try
-
-/**
-  * Created by locky on 2016/3/17.
-  */
 class GCSServiceImpl extends GCSService {
 
   /**
@@ -109,7 +104,10 @@ class GCSServiceImpl extends GCSService {
     * @param cardNo    卡号
     * @return 该卡的币种
     */
-  override def getCurrencyCodes(sessionId: String, channelId: String, cardNo: String): List[String] = ???
+  override def getCurrencyCodes(sessionId: String, channelId: String, cardNo: String): List[String] = {
+    val ts010102 = new TS010102(sessionId, channelId, cardNo)
+    ts010102.send.pageListValues(Array("currencyCode")).map(m => m("currencyCode"))
+  }
 
   /**
     * 账单摘要查询
@@ -204,7 +202,20 @@ class GCSServiceImpl extends GCSService {
     * @param selectNumber 显示条数
     * @return (交易数量,是否有下一页,交易集合)
     */
-  override def getConsumptionInstallments(sessionId: String, channelId: String, cardNo: String, currencyCode: String, startNumber: String, selectNumber: String): (String, Boolean, List[GCSConsumptionInstallmentsEntity]) = ???
+  override def getConsumptionInstallments(sessionId: String, channelId: String, cardNo: String, currencyCode: String,
+                                          startNumber: String, selectNumber: String): (String, Boolean, List[GCSConsumptionInstallmentsEntity]) = {
+    val ts011007 = new TS011007(sessionId, channelId, cardNo, currencyCode, startNumber, selectNumber)
+    val result = ts011007.send
+    val transactionNumber = result.pageValue("transactionNumber")
+    val isFollowUp = result.pageValue("isFollowUp")
+    val list = result.pageListValues(f => {
+      GCSConsumptionInstallmentsEntity(f.getOrElse("cardNo", ""), f.getOrElse("transactionDate", ""), f.getOrElse("transactionAmount", ""),
+        f.getOrElse("debitCreditCode", ""), f.getOrElse("transactionDescription", ""), f.getOrElse("accountID", ""), f.getOrElse("accountedID", ""),
+        f.getOrElse("accountNoID", ""))
+    })
+    //TODO isFollowUp 翻译成boolean
+    (transactionNumber, true, list)
+  }
 
   /**
     * 信用卡挂失-永久挂失
