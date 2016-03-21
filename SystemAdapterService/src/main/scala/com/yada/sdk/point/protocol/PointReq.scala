@@ -98,5 +98,5 @@ trait PointReq {
     * @param xml 响应报文的XML
     * @return
     */
-  protected def respXMLToObj(xml: String): PointResp
+  protected def respXMLToObj(xml: String): PointResp = new PointResp(xml)
 }
