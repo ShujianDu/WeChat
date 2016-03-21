@@ -1,6 +1,6 @@
 package com.yada.system.adapter.gcs
 
-import com.yada.sdk.gcs.protocol.impl.{TS190024, TS010301, TS010302, TS410103}
+import com.yada.sdk.gcs.protocol.impl._
 
 /**
   * Created by locky on 2016/3/17.
@@ -62,7 +62,15 @@ class GCSServiceImpl extends GCSService {
     * @param currencyCode 币种
     * @return 账单金额上下限结果
     */
-  override def getAmountLimit(sessionId: String, channelId: String, cardNo: String, currencyCode: String): GCSAmountLimit = ???
+  override def getAmountLimit(sessionId: String, channelId: String, cardNo: String, currencyCode: String): GCSAmountLimit = {
+    val ts010102 = new TS010102(sessionId,channelId,cardNo,currencyCode)
+    val tempResult = ts010102.send
+    val accountId = tempResult.pageListValues(Array("accountId")).map(props => props("accountId")).head
+    val ts011062 = new TS011062(sessionId,channelId,accountId,currencyCode)
+    val result = ts011062.send
+
+    GCSAmountLimit(currencyCode,result.pageValue("minAmount"),result.pageValue("maxAmount"),result.systemValue("returnCode"))
+  }
 
   /** *
     * 根据实体卡取得虚拟卡
