@@ -1,8 +1,8 @@
 package com.yada.sdk.gcs.protocol.impl
 
-import com.yada.sdk.gcs.protocol.{GCSCommonResp, GCSProtocol}
+import com.yada.sdk.gcs.protocol.{GCSCommonResp, GCSReq}
 
-class TS190024(tranSessionId: String, reqChannelId: String,certType:String,certNum:String,phoneNumber :String,cardNo:String,currencyNo:String,AT5605:String,AT5602:String) extends GCSProtocol[GCSCommonResp] {
+class TS190024(tranSessionId: String, reqChannelId: String,certType:String,certNum:String,phoneNumber :String,cardNo:String,currencyNo:String,AT5605:String,AT5602:String) extends GCSReq[GCSCommonResp] {
   setPageProps("certType",certType)
   setPageProps("certNum",certNum)
   setPageProps("phoneNumber",phoneNumber)

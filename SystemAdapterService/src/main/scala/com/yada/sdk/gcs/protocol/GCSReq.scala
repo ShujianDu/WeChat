@@ -10,7 +10,7 @@ import scala.collection.mutable
 /**
   * GCS协议
   */
-trait GCSProtocol[RespType <: GCSResp] {
+trait GCSReq[RespType <: GCSResp] {
   private val systemProps = mutable.Map.empty[String, String]
   private val pageProps = mutable.Map.empty[String, String]
   setSystemProp("transactionCode", transactionCode)

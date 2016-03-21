@@ -1,11 +1,11 @@
 package com.yada.sdk.gcs.protocol.impl
 
-import com.yada.sdk.gcs.protocol.{GCSCommonResp, GCSProtocol}
+import com.yada.sdk.gcs.protocol.{GCSCommonResp, GCSReq}
 
 /**
   * 查询余额
   */
-class TS410103(tranSessionId: String, reqChannelId: String, cardNo: String, currencyCode: String) extends GCSProtocol[GCSCommonResp] {
+class TS410103(tranSessionId: String, reqChannelId: String, cardNo: String, currencyCode: String) extends GCSReq[GCSCommonResp] {
   setPageProps("cardNo", cardNo)
   setPageProps("currencyCode", currencyCode)
 
