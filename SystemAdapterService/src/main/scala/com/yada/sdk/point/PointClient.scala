@@ -54,4 +54,10 @@ private[point] class PointClient {
   }
 }
 
+/**
+  * 积分socket异常
+  *
+  * @param ip   积分服务地址
+  * @param port 积分服务端口
+  */
 case class PointSocketException(ip: String, port: Int) extends RuntimeException(s"IP[$ip]PORT[$port]")
