@@ -2,6 +2,9 @@ package com.yada.sdk.gcs.protocol.impl
 
 import com.yada.sdk.gcs.protocol.{GCSResp, GCSReq}
 
+/**
+  * 账单分期金额上下限查询
+  */
 class TS011062(tranSessionId: String, reqChannelId: String, accountId: String, currencyCode: String) extends GCSReq {
 
   setPageProps("accountId", accountId)

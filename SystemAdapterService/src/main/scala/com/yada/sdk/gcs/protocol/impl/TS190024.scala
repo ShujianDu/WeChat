@@ -2,6 +2,9 @@ package com.yada.sdk.gcs.protocol.impl
 
 import com.yada.sdk.gcs.protocol.GCSReq
 
+/**
+  * 额度评测交易
+  */
 class TS190024(tranSessionId: String, reqChannelId: String, certType: String, certNum: String, phoneNumber: String, cardNo: String, currencyNo: String, AT5605: String, AT5602: String) extends GCSReq {
   setPageProps("certType", certType)
   setPageProps("certNum", certNum)
