@@ -2,6 +2,8 @@ package com.yada.sdk.point.protocol
 
 import java.util.Calendar
 
+import com.yada.sdk.point.xml.{Body, Head, IPointClient, Message}
+
 import scala.collection.mutable
 
 /**
@@ -88,15 +90,15 @@ trait PointReq {
   }
 
   def send: PointResp = {
-    // TODO 补充发送部分
-    respXMLToObj("")
+    val resp = IPointClient.GLOBAL.send(Message(Head(reqHeadProps.toMap), Some(Body(reqBodyProps.toMap, List.empty[Map[String, String]]))))
+    respMessageToObj(resp)
   }
 
   /**
     * 根据响应的XML初始化对象
     *
-    * @param xml 响应报文的XML
+    * @param msg 响应报文的XML
     * @return
     */
-  protected def respXMLToObj(xml: String): PointResp = new PointResp(xml)
+  protected def respMessageToObj(msg: Message): PointResp = new PointResp(msg)
 }

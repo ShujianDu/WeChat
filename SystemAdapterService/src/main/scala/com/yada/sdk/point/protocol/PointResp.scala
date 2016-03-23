@@ -1,13 +1,11 @@
 package com.yada.sdk.point.protocol
 
-import com.yada.sdk.point.xml.XmlHandler
+import com.yada.sdk.point.xml.Message
 
 /**
   * 积分消费响应
   */
-class PointResp(xml: String) {
-
-  private val msg = XmlHandler.GOLBAL.fromXML(xml)
+class PointResp(msg: Message) {
 
   /**
     * 响应码
@@ -41,7 +39,7 @@ class PointResp(xml: String) {
     */
   def respBodyValue(key: String): String = {
     msg.body match {
-      case None => throw new RuntimeException("Point Response Body is empty..." + xml)
+      case None => throw new RuntimeException("Point Response Body is empty..." + msg)
       case Some(body) =>
         body.props.getOrElse(key, "")
     }
@@ -56,7 +54,7 @@ class PointResp(xml: String) {
     */
   def respBodyListValues[T](propsToObj: Map[String, String] => T): List[T] = {
     msg.body match {
-      case None => throw new RuntimeException("Point Response Body is empty..." + xml)
+      case None => throw new RuntimeException("Point Response Body is empty..." + msg)
       case Some(body) =>
         body.listProps.map(props => {
           propsToObj(props)

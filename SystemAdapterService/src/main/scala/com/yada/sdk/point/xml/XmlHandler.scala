@@ -30,5 +30,5 @@ private[point] class XmlHandler {
 }
 
 private[point] object XmlHandler {
-  var GOLBAL = new XmlHandler
+  var GLOBAL = new XmlHandler
 }
