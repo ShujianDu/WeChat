@@ -2,7 +2,7 @@
 
 package com.yada.sdk.point
 
-import java.net.URLEncoder
+import java.net.{URLDecoder, URLEncoder}
 import java.security.MessageDigest
 import javax.crypto.spec.DESedeKeySpec
 import javax.crypto.{Cipher, SecretKey, SecretKeyFactory}
@@ -50,6 +50,23 @@ private[point] class PointSecurity {
     val encryptData = cipher.doFinal(tempContent)
     val tempBase64Content = Base64.encodeBase64String(encryptData)
     URLEncoder.encode(tempBase64Content, "ISO8859-1")
+  }
+
+  /**
+    * 解密
+    *
+    * @param content 要解密的内容
+    * @param key     解密所用的key
+    * @return
+    */
+  def decrypt(content: String, key: SecretKey): String = {
+    val decodeContent = URLDecoder.decode(content, "ISO8859-1")
+    val encryptData = Base64.decodeBase64(decodeContent)
+    val cipher = Cipher.getInstance("DESede")
+    cipher.init(Cipher.DECRYPT_MODE, key)
+    val data = cipher.doFinal(encryptData)
+    val dataStr = new String(data, "UTF-16LE")
+    dataStr.substring(4, dataStr.length - 4)
   }
 
   private def get3DESKey(key: String): SecretKey = {
