@@ -327,7 +327,16 @@ class GCSServiceImpl extends GCSService {
     * @param gcsTemporaryUpCommitParams 临时提额授权参数
     * @return 临时提额授权结果
     */
-  override def temporaryUpCommit(sessionId: String, channelId: String, gcsTemporaryUpCommitParams: GCSTemporaryUpCommitParams): Boolean = ???
+  override def temporaryUpCommit(sessionId: String, channelId: String, gcsTemporaryUpCommitParams: GCSTemporaryUpCommitParams): Boolean = {
+    val ts220001 = new TS220001(sessionId, channelId, gcsTemporaryUpCommitParams)
+    try {
+      ts220001.send
+      true
+    } catch {
+      case e: ErrorGCSReturnCodeException => false
+    }
+
+  }
 
   /**
     * 海淘卡挂失
@@ -337,7 +346,15 @@ class GCSServiceImpl extends GCSService {
     * @param cardNo    卡号
     * @return 返回是否挂失成功true/false
     */
-  override def wbicCardLost(sessionId: String, channelId: String, cardNo: String): Boolean = ???
+  override def wbicCardLost(sessionId: String, channelId: String, cardNo: String): Boolean = {
+    val ts010063 = new TS010063(sessionId, channelId, cardNo)
+    try {
+      ts010063.send
+      true
+    } catch {
+      case e: ErrorGCSReturnCodeException => false
+    }
+  }
 
   /**
     * 为海淘卡用户发送短信
@@ -348,7 +365,15 @@ class GCSServiceImpl extends GCSService {
     * @param cardNo    卡号
     * @return 返回是否发送成功 true/false
     */
-  override def wbicCardSendSMS(sessionId: String, channelId: String, cardNo: String): Boolean = ???
+  override def wbicCardSendSMS(sessionId: String, channelId: String, cardNo: String): Boolean = {
+    val ts011113 = new TS011113(sessionId, channelId, cardNo)
+    try {
+      ts011113.send
+      true
+    } catch {
+      case e: ErrorGCSReturnCodeException => false
+    }
+  }
 
   /**
     * 信用卡额度临时提额调整状态查询
@@ -361,7 +386,15 @@ class GCSServiceImpl extends GCSService {
     * @param eosId     工作单ID
     * @return 信用卡额度临时提额调整状态列表
     */
-  override def getTemporaryUpCommitStatus(sessionId: String, channelId: String, eosIDType: String, idNumber: String, cardNo: String, eosId: String): List[GCSCreditLimitTemporaryUpStatus] = ???
+  override def getTemporaryUpCommitStatus(sessionId: String, channelId: String, eosIDType: String, idNumber: String,
+                                          cardNo: String, eosId: String): List[GCSCreditLimitTemporaryUpStatus] = {
+    val ts140031 = new TS140031(sessionId, channelId, eosIDType, idNumber, cardNo, eosId)
+    ts140031.send.pageListValues(m =>
+      GCSCreditLimitTemporaryUpStatus(m.getOrElse("eosId", ""), m.getOrElse("eosState", ""),
+        m.getOrElse("eosImpTime", ""), m.getOrElse("eosLimit", ""), m.getOrElse("eosStarLimitDate", ""),
+        m.getOrElse("eosEndlimitdate", ""))
+    )
+  }
 
   /**
     * 查询消费分期试算结果
@@ -375,7 +408,12 @@ class GCSServiceImpl extends GCSService {
     * @param params    参数实体
     * @return 消费分期试算结果
     */
-  override def costConsumptionInstallment(sessionId: String, channelId: String, params: GCSConsumptionInstallmentParams): GCSConsumptionInstallmentResult = ???
+  override def costConsumptionInstallment(sessionId: String, channelId: String, params: GCSConsumptionInstallmentParams): GCSConsumptionInstallmentResult = {
+    val ts011172 = new TS011172(sessionId, channelId, params)
+    val result = ts011172.send
+    GCSConsumptionInstallmentResult(result.pageValue("instalAmount"), result.pageValue("instalmentFee"), result.pageValue("installmentsAlsoAmountFirst"),
+      result.pageValue("installmentsAlsoAmountEach"), result.pageValue("billFeeMeans"), result.pageValue("installmentsNumber"))
+  }
 
   /**
     * 账单分期费用试算
@@ -385,7 +423,13 @@ class GCSServiceImpl extends GCSService {
     * @param gcsBillInstallmentParams 账单分期费用试算参数
     * @return 账单分期费用试算结果
     */
-  override def queryBillCost(sessionId: String, channelId: String, gcsBillInstallmentParams: GCSBillInstallmentParams): GCSBillInstallmentResult = ???
+  override def queryBillCost(sessionId: String, channelId: String, gcsBillInstallmentParams: GCSBillInstallmentParams): GCSBillInstallmentResult = {
+    val ts011170 = new TS011170(sessionId, channelId, gcsBillInstallmentParams)
+    val result = ts011170.send
+
+    GCSBillInstallmentResult(result.pageValue("currentBillMinimum"), result.pageValue("installmentsfee"), result.pageValue("installmentsAlsoAmountFirst"),
+      result.pageValue("installmentsAlsoAmountEach"), result.pageValue("currentBillSurplusAmount"), result.pageValue("billFeeMeans"), result.pageValue("installmentsNumber"))
+  }
 
   /**
     * 根据卡号查询客户信息 - TS010201
@@ -393,9 +437,14 @@ class GCSServiceImpl extends GCSService {
     * @param sessionId gcsSessionId
     * @param channelId 渠道编号
     * @param cardNo    卡号
-    * @return
+    * @return GCSCardHolderInfo
     */
-  override def getCardHolderInfo(sessionId: String, channelId: String, cardNo: String): GCSCardHolderInfo = ???
+  override def getCardHolderInfo(sessionId: String, channelId: String, cardNo: String): GCSCardHolderInfo = {
+    val ts010201 = new TS010201(sessionId, channelId, cardNo)
+    val result = ts010201.send
+
+    GCSCardHolderInfo(result.pageValue("familyName"), result.pageValue("firstName"), result.pageValue("gender"), result.pageValue("mobileNo"))
+  }
 
   /**
     * 查账单周期
@@ -432,7 +481,10 @@ class GCSServiceImpl extends GCSService {
     * @param params    参数实体
     * @return GCS返回码
     */
-  override def authorizationConsumptionInstallment(sessionId: String, channelId: String, params: GCSConsumptionInstallmentParams): String = ???
+  override def authorizationConsumptionInstallment(sessionId: String, channelId: String, params: GCSConsumptionInstallmentParams): String = {
+    val ts011173 = new TS011173(sessionId, channelId, params)
+    ts011173.send.pageValue("authReturnCode")
+  }
 
   /** *
     * 根据证件号和类型查询客户手机号
@@ -443,7 +495,10 @@ class GCSServiceImpl extends GCSService {
     * @param idNum     证件号
     * @return 手机号
     */
-  override def getCustMobile(sessionId: String, channelId: String, idType: String, idNum: String): String = ???
+  override def getCustMobile(sessionId: String, channelId: String, idType: String, idNum: String): String = {
+    val ts011101 = new TS011101(sessionId, channelId, idType, idNum)
+    ts011101.send.pageValue("mobilePhone")
+  }
 
   /**
     * 查询海淘卡
@@ -455,7 +510,12 @@ class GCSServiceImpl extends GCSService {
     * @param productCode 产品代码
     * @return 返回海淘卡
     */
-  override def getWbicCardInfo(sessionId: String, channelId: String, idNum: String, idType: String, productCode: String): String = ???
+  override def getWbicCardInfo(sessionId: String, channelId: String, idNum: String, idType: String, productCode: String): String = {
+    val ts011111 = new TS011111(sessionId, channelId, idNum, idType, productCode)
+    //    ts011111.send.pageValue()
+    //TODO 接口上返回的是集合
+    ""
+  }
 
   /**
     * 账单分期授权
@@ -465,7 +525,10 @@ class GCSServiceImpl extends GCSService {
     * @param gcsBillInstallmentParams 账单分期授权参数
     * @return GCS返回码
     */
-  override def billInstallment(sessionId: String, channelId: String, gcsBillInstallmentParams: GCSBillInstallmentParams): String = ???
+  override def billInstallment(sessionId: String, channelId: String, gcsBillInstallmentParams: GCSBillInstallmentParams): String = {
+    val ts011171 = new TS011171(sessionId, channelId, gcsBillInstallmentParams)
+    ts011171.send.pageValue("authReturnCode")
+  }
 
   /**
     * 根据证件类型和证件号查询所有卡信息

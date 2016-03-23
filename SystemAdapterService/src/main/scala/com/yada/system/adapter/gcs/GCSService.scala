@@ -461,17 +461,15 @@ case class GCSConsumptionInstallmentsEntity(cardNo: String, transactionDate: Str
 /**
   * 消费分期结果
   *
-  * @param cardNo                      卡号
   * @param installmentAmount           分期金额
   * @param installmentFee              分期手续费
   * @param installmentsAlsoAmountFirst 分期后每期应还金额-首期
   * @param installmentsAlsoAmountEach  分期后每期应还金额-后每期
   * @param billFeeMeans                分期手续费收取方式
   * @param installmentsNumber          分期期数
-  * @param currencyCode                币种
   */
-case class GCSConsumptionInstallmentResult(cardNo: String, installmentAmount: String, installmentFee: String, installmentsAlsoAmountFirst: String, installmentsAlsoAmountEach: String,
-                                           billFeeMeans: String, installmentsNumber: String, currencyCode: String)
+case class GCSConsumptionInstallmentResult( installmentAmount: String, installmentFee: String, installmentsAlsoAmountFirst: String, installmentsAlsoAmountEach: String,
+                                           billFeeMeans: String, installmentsNumber: String)
 
 /**
   * 消费分期参数

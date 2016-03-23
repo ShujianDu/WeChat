@@ -11,8 +11,8 @@ import com.yada.system.adapter.gcs.GCSTemporaryUpCommitParams
   */
 class TS220001(sessionId: String, channelId: String, gcsTemporaryUpCommitParams: GCSTemporaryUpCommitParams) extends GCSReq {
 
-  //TODO 8位随机数
-  setPageProps("eosId", "0602"+new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance.getTime))
+  //TODO 8位随机数 -目前随机是使用HHmmssSS
+  setPageProps("eosId", "0602"+new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance.getTime)+new SimpleDateFormat("HHmmssSS").format(Calendar.getInstance.getTime))
   setPageProps("eosType", "02")
   setPageProps("eosReason", "01")
   setPageProps("eosEmergencyDegree", "2")
