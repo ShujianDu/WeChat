@@ -1,7 +1,5 @@
 package com.yada.sdk.gcs.xml
 
-import java.io.File
-
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.{XmlFriendlyNameCoder, XppDriver}
 import com.typesafe.config.ConfigFactory
