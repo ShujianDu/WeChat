@@ -49,7 +49,7 @@ private[point] class PointClient extends IPointClient {
       if (resp.isEmpty) throw new RuntimeException("receive from POINT msg can`t be empty...")
       XmlHandler.GLOBAL.fromXML(resp)
     } catch {
-      case e: Exception => throw PointSocketException(ip, port)
+      case e: Exception => throw PointSocketException(ip, port, e)
     } finally {
       socket.close()
     }
@@ -62,4 +62,4 @@ private[point] class PointClient extends IPointClient {
   * @param ip   积分服务地址
   * @param port 积分服务端口
   */
-case class PointSocketException(ip: String, port: Int) extends RuntimeException(s"IP[$ip]PORT[$port]")
+case class PointSocketException(ip: String, port: Int, t: Throwable) extends RuntimeException(s"IP[$ip]PORT[$port]", t)

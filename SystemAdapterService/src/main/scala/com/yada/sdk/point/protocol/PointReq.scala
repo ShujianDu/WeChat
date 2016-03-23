@@ -60,7 +60,7 @@ trait PointReq {
     *
     * @return
     */
-  def tranDate: String = String.format("%1/$tY/%1$tm/%1$td", tranDateTime)
+  def tranDate: String = String.format("%1$tY/%1$tm/%1$td", tranDateTime)
 
   /**
     * 交易时间。格式HH:mm:ss
