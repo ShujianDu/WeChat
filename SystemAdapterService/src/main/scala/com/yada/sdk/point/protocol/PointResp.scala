@@ -6,6 +6,7 @@ import com.yada.sdk.point.xml.Message
   * 积分消费响应
   */
 class PointResp(msg: Message) {
+  if (failedThrowException && rtnCode != "0000") throw new PointErrorRespCodeException(rtnCode, rtnMsg)
 
   /**
     * 响应码
@@ -73,4 +74,19 @@ class PointResp(msg: Message) {
       keys.map(key => key -> props.getOrElse(key, "")).toMap
     })
   }
+
+  /**
+    * 响应码不是0000（成功）时抛出异常
+    *
+    * @return
+    */
+  protected def failedThrowException: Boolean = true
 }
+
+/**
+  * 积分错误的响应码异常
+  *
+  * @param rtnCode 响应码
+  * @param rtnMsg  响应信息
+  */
+case class PointErrorRespCodeException(rtnCode: String, rtnMsg: String) extends Exception(s"rtnCode[$rtnCode]rtnMsg[$rtnMsg]")
