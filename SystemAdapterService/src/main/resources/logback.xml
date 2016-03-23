@@ -8,6 +8,7 @@
 				%msg%n</pattern>
 		</layout>
 	</appender>
+	<logger name="com.yada.sdk.point.PointClient" level="DEBUG"/>
 	<root level="WARN">
 		<appender-ref ref="stdout" />
 	</root>

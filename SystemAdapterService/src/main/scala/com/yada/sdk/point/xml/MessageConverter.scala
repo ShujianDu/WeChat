@@ -10,9 +10,14 @@ class MessageConverter extends Converter {
         writer.startNode("head")
         context.convertAnother(message.head)
         writer.endNode()
-        writer.startNode("body")
-        context.convertAnother(message.body)
-        writer.endNode()
+        message.body match {
+          case None =>
+          case Some(body) =>
+            writer.startNode("body")
+            context.convertAnother(body)
+            writer.endNode()
+        }
+
     }
   }
 

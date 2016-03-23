@@ -46,7 +46,7 @@ trait PointReq {
     *
     * @return
     */
-  def serialNo: String = (tranDate + tranTime).substring(4)
+  def serialNo: String = String.format("%1$tm%1$td%1$tH%1$tM%1$tS", tranDateTime)
 
   /**
     * 渠道代码
@@ -90,8 +90,12 @@ trait PointReq {
   }
 
   def send: PointResp = {
-    val resp = IPointClient.GLOBAL.send(Message(Head(reqHeadProps.toMap), Some(Body(reqBodyProps.toMap, List.empty[Map[String, String]]))))
+    val resp = IPointClient.GLOBAL.send(mkReqMessage)
     respMessageToObj(resp)
+  }
+
+  def mkReqMessage: Message = {
+    Message(Head(reqHeadProps.toMap), Some(Body(reqBodyProps.toMap, List.empty[Map[String, String]])))
   }
 
   /**

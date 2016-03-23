@@ -33,21 +33,25 @@ private[point] class PointClient extends IPointClient {
     */
   def send(req: Message): Message = {
     val reqXML = XmlHandler.GLOBAL.toXML(req)
+    // 计算头长度
+    val reqXMLLen = reqXML.length
+    // 组装完整报文
+    val reqMsg = f"$reqXMLLen%06d$reqXML"
     val socket = new Socket()
     val uuid = UUID.randomUUID().toString
     try {
       socket.connect(new InetSocketAddress(ip, port), connectTimeOut)
       socket.setSoTimeout(readTimeOut)
       log.info(s"[$uuid] send to POINT...")
-      log.debug(s"[$uuid] send to POINT msg :\r\n$req")
-      socket.getOutputStream.write(reqXML.getBytes("GBK"))
+      log.debug(s"[$uuid] send to POINT msg :\r\n$reqMsg")
+      socket.getOutputStream.write(reqMsg.getBytes("GBK"))
       socket.getOutputStream.flush()
       val source = Source.fromInputStream(socket.getInputStream, "GBK")
       val resp = source.mkString
       log.debug(s"[$uuid] receive from POINT msg :\r\n$resp")
       log.info(s"[$uuid] receive from POINT...")
       if (resp.isEmpty) throw new RuntimeException("receive from POINT msg can`t be empty...")
-      XmlHandler.GLOBAL.fromXML(resp)
+      XmlHandler.GLOBAL.fromXML(resp.substring(6))
     } catch {
       case e: Exception => throw PointSocketException(ip, port, e)
     } finally {
