@@ -3,6 +3,8 @@ package com.yada.system.adapter.gcs
 import com.yada.sdk.gcs.protocol.ErrorGCSReturnCodeException
 import com.yada.sdk.gcs.protocol.impl._
 
+import scala.collection.mutable.ListBuffer
+
 class GCSServiceImpl extends GCSService {
 
   /**
@@ -78,7 +80,23 @@ class GCSServiceImpl extends GCSService {
     * @param cardNo    卡号
     * @return 虚拟卡卡号列表
     */
-  override def getVirtualCards(sessionId: String, channelId: String, cardNo: String): List[String] = ???
+  override def getVirtualCards(sessionId: String, channelId: String, cardNo: String): List[String] = {
+    //一次最大查询99条
+    val totalNum = "99"
+    val rs = ListBuffer.empty[String]
+    def query(startNo: String): List[String] = {
+      val ts011031 = new TS011031(sessionId, channelId, cardNo, startNo, totalNum)
+      val temp = ts011031.send
+      rs ++ temp.pageListValues(Array("p0110311List"))
+      temp.pageValue("flag") match {
+        case "1" =>
+          query((startNo.toInt + 1).toString)
+        case "0" =>
+          rs.toList
+      }
+    }
+    query("1")
+  }
 
   /**
     * 查询账单明细
@@ -94,7 +112,13 @@ class GCSServiceImpl extends GCSService {
     * @param endDate      交易结束日期
     * @return
     */
-  override def getBillingDetails(sessionId: String, channelId: String, cardNo: String, currencyCode: String, queryType: String, startNum: String, totalNum: String, startDate: String, endDate: String): List[GCSBillingDetail] = ???
+  override def getBillingDetails(sessionId: String, channelId: String, cardNo: String, currencyCode: String, queryType: String,
+                                 startNum: String, totalNum: String, startDate: String, endDate: String): List[GCSBillingDetail] = {
+    val ts010310 = new TS010310(sessionId, channelId, cardNo, currencyCode, queryType, startNum, totalNum, startDate, endDate)
+    ts010310.send.pageListValues(v =>
+      GCSBillingDetail(cardNo, currencyCode, v("transactionDate"), v("transactionAmount"), v("transactionDescription"), v("debitCreditCode"))
+    )
+  }
 
   /**
     * 币种查询
@@ -213,8 +237,8 @@ class GCSServiceImpl extends GCSService {
         f.getOrElse("debitCreditCode", ""), f.getOrElse("transactionDescription", ""), f.getOrElse("accountID", ""), f.getOrElse("accountedID", ""),
         f.getOrElse("accountNoID", ""))
     })
-    //TODO isFollowUp 翻译成boolean
-    (transactionNumber, true, list)
+    //isFollowUp ：1-有下一页，0-没有下一页
+    (transactionNumber, isFollowUp == "1", list)
   }
 
   /**
@@ -229,7 +253,17 @@ class GCSServiceImpl extends GCSService {
     * @param lossReason 挂失原因
     * @return 返回是否挂失成功 true/false
     */
-  override def creditCardReportLost(sessionId: String, channelId: String, cardNo: String, idType: String, idNum: String, familyName: String, lossReason: String): Boolean = ???
+  override def creditCardReportLost(sessionId: String, channelId: String, cardNo: String, idType: String, idNum: String,
+                                    familyName: String, lossReason: String): Boolean = {
+    val ts010052 = new TS010052(sessionId, channelId, cardNo, idType, idNum, familyName, lossReason)
+    try {
+      ts010052.send
+      true
+    } catch {
+      case e: ErrorGCSReturnCodeException => false
+    }
+
+  }
 
   /**
     * 信用卡临时挂失
@@ -241,10 +275,19 @@ class GCSServiceImpl extends GCSService {
     * @param idNum      证件号
     * @param idType     证件类型
     * @param familyName 姓-海外的只有性，国内是姓名
-    * @param lostReason 挂失原因
+    * @param lossReason 挂失原因
     * @return 返回是否临时挂失成功 true/false
     */
-  override def tempCreditCardReportLost(sessionId: String, channelId: String, cardNo: String, entyMethod: String, idNum: String, idType: String, familyName: String, lostReason: String): Boolean = ???
+  override def tempCreditCardReportLost(sessionId: String, channelId: String, cardNo: String, entyMethod: String,
+                                        idNum: String, idType: String, familyName: String, lossReason: String): Boolean = {
+    val ts010059 = new TS010059(sessionId, channelId, cardNo, entyMethod, idNum, idType, familyName, lossReason)
+    try {
+      ts010059.send
+      true
+    } catch {
+      case e: ErrorGCSReturnCodeException => false
+    }
+  }
 
   /**
     * 解除临时挂失(2013-09-23新增)
@@ -257,7 +300,16 @@ class GCSServiceImpl extends GCSService {
     * @param idType     证件类型
     * @return 返回是否解除临时挂失成功
     */
-  override def relieveCreditCardTempReportLost(sessionId: String, channelId: String, cardNo: String, idNum: String, familyName: String, idType: String): Boolean = ???
+  override def relieveCreditCardTempReportLost(sessionId: String, channelId: String, cardNo: String, idNum: String,
+                                               familyName: String, idType: String): Boolean = {
+    val ts010060 = new TS010060(sessionId, channelId, cardNo, idNum, familyName, idType)
+    try {
+      ts010060.send
+      true
+    } catch {
+      case e: ErrorGCSReturnCodeException => false
+    }
+  }
 
   /**
     * 临时提额提交
