@@ -262,7 +262,6 @@ class GCSServiceImpl extends GCSService {
     } catch {
       case e: ErrorGCSReturnCodeException => false
     }
-
   }
 
   /**
@@ -335,7 +334,6 @@ class GCSServiceImpl extends GCSService {
     } catch {
       case e: ErrorGCSReturnCodeException => false
     }
-
   }
 
   /**
@@ -502,6 +500,7 @@ class GCSServiceImpl extends GCSService {
 
   /**
     * 查询海淘卡
+    *   -海淘卡只会有一张正常状态的卡片
     *
     * @param sessionId   gcsSessionId
     * @param channelId   渠道编号
@@ -510,11 +509,12 @@ class GCSServiceImpl extends GCSService {
     * @param productCode 产品代码
     * @return 返回海淘卡
     */
-  override def getWbicCardInfo(sessionId: String, channelId: String, idNum: String, idType: String, productCode: String): String = {
+  override def getWbicCardInfo(sessionId: String, channelId: String, idNum: String, idType: String, productCode: String ="WBIC"): Option[String] = {
     val ts011111 = new TS011111(sessionId, channelId, idNum, idType, productCode)
-    //    ts011111.send.pageValue()
-    //TODO 接口上返回的是集合
-    ""
+    //查找卡状态为“ ”空格的卡集合，然后返回第一个元素
+    ts011111.send.pageListValues[(String,String)](m=>
+          (m("cardNo"),m("cardStatus"))
+        ).filter(v => v._2.trim.length==0).map(m=>m._1).headOption
   }
 
   /**
@@ -539,7 +539,30 @@ class GCSServiceImpl extends GCSService {
     * @param idNum     证件号码
     * @return (cardNo,主付卡标识)的集合
     */
-  override def geCardInfos(sessionId: String, channelId: String, idType: String, idNum: String): List[(String, String)] = ???
+  override def getCardInfos(sessionId: String, channelId: String, idType: String, idNum: String): List[(String, String)] = {
+    val giveUpCardStatus = List("AC","ACCC","CANC")
+    val giveUpCardPre = List("3","4","5","6")
+
+    val listBuffer = ListBuffer.empty[(String,String)]
+
+    //循环查询所有的数据
+    def query(startNum:String): List[(String, String)] ={
+      val ts011005 = new TS011005(sessionId,channelId,None,Some(idType),Some(idNum),startNum,"10")
+      val result = ts011005.send
+      listBuffer ++ result.pageListValues(m=>{
+        (m("cardNo"),m("cardStatus"),m("mainFlag"))
+      }).filter(v=> !giveUpCardStatus.contains(v._2) && !giveUpCardPre.contains(v._1.head.toString)).map(m=>(m._1,m._3))
+
+      result.pageValue("isHaveNext") match {
+        case "1" =>
+          query(startNum +1)
+        case "0" =>
+          listBuffer.toList
+      }
+    }
+    //查询第一页
+    query("1")
+  }
 
   /**
     * 根据卡号查询额度

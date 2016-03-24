@@ -7,7 +7,7 @@ import com.yada.sdk.gcs.protocol.GCSReq
   */
 class TS011101(sessionId: String, channelId: String, idType: String, idNum: String) extends GCSReq {
 
-  //TODO 接口中需要增加类型
+  //TODO 代码与接口不符，需要确认
 
   override def transactionID: String = "011101"
 

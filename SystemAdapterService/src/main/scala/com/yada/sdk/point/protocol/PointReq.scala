@@ -89,6 +89,16 @@ trait PointReq {
     reqBodyProps += key -> value
   }
 
+  /**
+    * 获取请求正文属性
+    *
+    * @param key 属性名称
+    * @return 属性值，如果没有属性抛出异常
+    */
+  def getReqBodyProps(key: String): String = {
+    reqBodyProps(key)
+  }
+
   def send: PointResp = {
     val resp = IPointClient.GLOBAL.send(mkReqMessage)
     respMessageToObj(resp)

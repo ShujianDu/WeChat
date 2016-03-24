@@ -176,7 +176,6 @@ trait GCSService {
     * @param productCode 产品代码
     * @return 返回海淘卡
     */
-  //TODO 产品代码不是固定的？
   def getWbicCardInfo(sessionId: String, channelId: String, idNum: String, idType: String, productCode: String): String
 
   /**
@@ -357,7 +356,7 @@ trait GCSService {
     * @param idNum     证件号码
     * @return (cardNo,主付卡标识)的集合
     */
-  def geCardInfos(sessionId: String, channelId: String, idType: String, idNum: String): List[(String, String)]
+  def getCardInfos(sessionId: String, channelId: String, idType: String, idNum: String): List[(String, String)]
 }
 
 /**

@@ -27,7 +27,22 @@ trait PointsService {
   def getPointsDetails(cardNo: String):List[PointsDetail]
 
 
-  //TODO 积分兑换和聪明购接口
+  /**
+    * 微信授权接口
+    *
+    * @param cardNo 明文卡号
+    * @return (密文卡号，加密验证消息)
+    */
+  def verificationCardNo(cardNo:String):(String,String)
+
+  /**
+    * 聪明购授权
+    *
+    * @param cardNo 明文卡号
+    * @param mobileNo 明文手机号
+    * @return (密文卡号，密文手机号，加密验证消息)
+    */
+  def verificationCardNoAndMobileNo(cardNo:String,mobileNo:String):(String,String,String)
 }
 
 /**
