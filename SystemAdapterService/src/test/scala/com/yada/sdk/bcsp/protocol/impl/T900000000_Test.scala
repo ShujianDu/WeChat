@@ -16,6 +16,7 @@ class T900000000_Test extends FlatSpec with Matchers {
     val sms = t9.toSMS
     val req = XmlHandler.GLOBAL.toXml(sms)
     println(req)
+    req.startsWith("<?xml version=\"1.0\" encoding=\"UTF-8\"?>") shouldBe true
 
   }
 }

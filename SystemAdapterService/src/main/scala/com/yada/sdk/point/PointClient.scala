@@ -5,7 +5,7 @@ import java.util.UUID
 
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.slf4j.Logger
-import com.yada.sdk.point.xml.{XmlHandler, Message, IPointClient}
+import com.yada.sdk.point.xml.{IPointClient, Message, XmlHandler}
 import org.slf4j.LoggerFactory
 
 import scala.io.Source
@@ -16,14 +16,12 @@ import scala.io.Source
 private[point] class PointClient extends IPointClient {
   // 日志
   private val log = Logger(LoggerFactory.getLogger(classOf[PointClient]))
-  // 积分服务的IP
-  protected val ip = ConfigFactory.load().getString("Point.ip")
-  // 积分服务的端口
-  protected val port = ConfigFactory.load().getInt("Point.port")
   // 积分服务连接超时（单位：毫秒）
-  protected val connectTimeOut = ConfigFactory.load().getInt("Point.connectTimeOut")
+  protected val connectTimeout = ConfigFactory.load().getInt("Point.connectTimeout")
   // 积分服务的读取超时（单位：毫秒）
-  protected val readTimeOut = ConfigFactory.load().getInt("Point.readTimeOut")
+  protected val readTimeout = ConfigFactory.load().getInt("Point.readTimeout")
+  // 积分服务的地址
+  protected val address = new InetSocketAddress(ConfigFactory.load().getString("Point.ip"), ConfigFactory.load().getInt("Point.port"))
 
   /**
     * 发送给积分服务
@@ -40,8 +38,8 @@ private[point] class PointClient extends IPointClient {
     val socket = new Socket()
     val uuid = UUID.randomUUID().toString
     try {
-      socket.connect(new InetSocketAddress(ip, port), connectTimeOut)
-      socket.setSoTimeout(readTimeOut)
+      socket.connect(address, connectTimeout)
+      socket.setSoTimeout(readTimeout)
       log.info(s"[$uuid] send to POINT...")
       log.debug(s"[$uuid] send to POINT msg :\r\n$reqMsg")
       socket.getOutputStream.write(reqMsg.getBytes("GBK"))
@@ -53,17 +51,9 @@ private[point] class PointClient extends IPointClient {
       if (resp.isEmpty) throw new RuntimeException("receive from POINT msg can`t be empty...")
       XmlHandler.GLOBAL.fromXML(resp.substring(6))
     } catch {
-      case e: Exception => throw PointSocketException(ip, port, e)
+      case e: Exception => throw new RuntimeException(s"Point [$address] has a error...", e)
     } finally {
       socket.close()
     }
   }
 }
-
-/**
-  * 积分socket异常
-  *
-  * @param ip   积分服务地址
-  * @param port 积分服务端口
-  */
-case class PointSocketException(ip: String, port: Int, t: Throwable) extends RuntimeException(s"IP[$ip]PORT[$port]", t)
