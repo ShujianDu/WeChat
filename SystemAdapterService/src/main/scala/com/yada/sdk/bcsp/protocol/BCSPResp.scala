@@ -31,6 +31,8 @@ class BCSPResp(sms: Sms) {
   def retMsg: String = propsValue("retMsg")
 
   protected def failedThrowException: Boolean = true
+
+  override def toString = s"BCSPResp($retCode, $retMsg)"
 }
 
 /**

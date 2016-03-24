@@ -1,5 +1,6 @@
 package com.yada.sdk.bcsp.protocol
 
+import com.yada.sdk.bcsp.IBCSPClient
 import com.yada.sdk.bcsp.xml.{Entity, Sms}
 
 import scala.collection.mutable
@@ -37,4 +38,16 @@ trait BCSPReq {
     * @return
     */
   def toSMS = Sms(props.toMap, if (items.isEmpty) None else Some(Entity(items.toList)))
+
+  /**
+    * 发送并响应
+    *
+    * @return
+    */
+  def send: BCSPResp = {
+    val resp = client.send(toSMS)
+    new BCSPResp(resp)
+  }
+
+  protected def client: IBCSPClient = IBCSPClient.GLOBAL
 }
