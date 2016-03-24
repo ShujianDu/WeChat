@@ -21,6 +21,7 @@ class BCSPServiceImpl extends BCSPService {
     */
   override def sendSMS(bsnType: String, content: String, handsetNo: String, sysId: String): Boolean = {
     try {
+      log.info(s"sendSMS props:bsnType[$bsnType]content[$content]handsetNo[$handsetNo]sysId[$sysId]")
       val t9req = new T900000000(handsetNo, sysId, bsnType, content)
       t9req.send
       true
