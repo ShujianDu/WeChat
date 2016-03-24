@@ -38,3 +38,7 @@ private[bcsp] class XmlHandler {
     }
   }
 }
+
+object XmlHandler {
+  var GLOBAL = new XmlHandler
+}

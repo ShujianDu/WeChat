@@ -19,7 +19,11 @@ class SmsConverter extends Converter {
           writer.endNode()
         })
         sms.entity match {
-          case Some(entity) => context.convertAnother(entity)
+          case Some(entity) =>
+            writer.startNode("entity")
+            context.convertAnother(entity)
+            writer.endNode()
+          case None =>
         }
     }
   }
