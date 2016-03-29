@@ -15,7 +15,6 @@ private[point] class XmlHandler {
   xstream.registerConverter(new BodyConverter)
   // 声明短名称
   xstream.alias("message", classOf[Message])
-  xstream.alias("body", classOf[Body])
 
   val XML_HEADER = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" + java.lang.System.getProperty("line.separator")
 
