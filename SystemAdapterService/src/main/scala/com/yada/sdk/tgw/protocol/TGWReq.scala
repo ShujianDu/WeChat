@@ -2,6 +2,7 @@ package com.yada.sdk.tgw.protocol
 
 import java.util.Calendar
 
+import com.yada.sdk.tgw.ITGWClient
 import com.yada.sdk.tgw.xml.{Data, Head, TxnReq}
 
 import scala.collection.mutable
@@ -10,6 +11,7 @@ import scala.collection.mutable
   * TGW请求
   */
 trait TGWReq {
+  var tgwClient: ITGWClient = ITGWClient.GLOBAL
   /**
     * 产生一个yyyyMMddHHmmss的时间
     *
@@ -66,4 +68,14 @@ trait TGWReq {
     * @return
     */
   def toTxnReq: TxnReq = TxnReq(Head(headProps.toMap), Data(dataProps.toMap))
+
+  /**
+    * 发送并接受响应
+    *
+    * @return
+    */
+  def send: TGWResp = {
+    val txnResp = tgwClient.send(toTxnReq)
+    new TGWResp(txnResp)
+  }
 }

@@ -20,8 +20,13 @@ private[tgw] class XmlHandler {
 
   val XML_HEADER = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\r\n"
 
+  /**
+    * 转换对象到xml字符串
+    * @param txnReq 发送对象
+    * @return
+    */
   def toXml(txnReq: TxnReq): String = {
-    xstream.toXML(txnReq)
+    XML_HEADER + xstream.toXML(txnReq)
   }
 
   /**
@@ -37,4 +42,6 @@ private[tgw] class XmlHandler {
   }
 }
 
-private[tgw] object XmlHandler
+private[tgw] object XmlHandler {
+  val GLOBAL = new XmlHandler
+}
