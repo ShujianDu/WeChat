@@ -176,7 +176,7 @@ trait GCSService {
     * @param productCode 产品代码
     * @return 返回海淘卡
     */
-  def getWbicCardInfo(sessionId: String, channelId: String, idNum: String, idType: String, productCode: String): String
+  def getWbicCardInfo(sessionId: String, channelId: String, idNum: String, idType: String, productCode: String): Option[String]
 
   /**
     * 海淘卡挂失

@@ -30,4 +30,21 @@ class PointsServiceMocker extends PointsService{
   override def getPointsValidates(cardNo: String): List[PointsValidates] = {
     PointsMockConfig.pointsValidatesResult(cardNo)
   }
+
+  /**
+    * 微信授权接口
+    *
+    * @param cardNo 明文卡号
+    * @return (密文卡号，加密验证消息)
+    */
+  override def verificationCardNo(cardNo: String): (String, String) = ???
+
+  /**
+    * 聪明购授权
+    *
+    * @param cardNo   明文卡号
+    * @param mobileNo 明文手机号
+    * @return (密文卡号，密文手机号，加密验证消息)
+    */
+  override def verificationCardNoAndMobileNo(cardNo: String, mobileNo: String): (String, String, String) = ???
 }

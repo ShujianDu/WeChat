@@ -11,6 +11,8 @@
     <modules>
         <module>SystemAdapterService</module>
         <module>DBService</module>
+        <module>CallbackDataService</module>
+        <module>CallbackService</module>
     </modules>
 
     <properties>
