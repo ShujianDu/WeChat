@@ -2,6 +2,7 @@ package com.yada.sdk.tgw.protocol
 
 import java.util.Calendar
 
+import com.yada.sdk.tgw.ITGWClient
 import com.yada.sdk.tgw.xml.{Data, Head, TxnReq}
 
 import scala.collection.mutable
@@ -10,6 +11,7 @@ import scala.collection.mutable
   * TGW请求
   */
 trait TGWReq {
+  var tgwClient: ITGWClient = ITGWClient.GLOBAL
   /**
     * 产生一个yyyyMMddHHmmss的时间
     *
@@ -17,14 +19,16 @@ trait TGWReq {
     */
   protected val datetime = String.format("%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", Calendar.getInstance.getTime)
 
-  val headProps = mutable.Map.empty[String, String]
-  headProps += "PTXCOD" -> "109004"
+  private val headProps = mutable.Map.empty[String, String]
+  headProps += "PTXCOD" -> ptxcod
   headProps += "ACQUID" -> ""
   headProps += "TERMID" -> "0001"
   headProps += "TXNDAT" -> datetime.substring(0, 8)
   headProps += "TXNTIM" -> datetime.substring(8)
   headProps += "ACQSEQ" -> datetime.substring(6)
-  val dataProps = mutable.Map.empty[String, String]
+  private val dataProps = mutable.Map.empty[String, String]
+
+  protected def ptxcod: String
 
   /**
     * 设置请求头
@@ -58,5 +62,20 @@ trait TGWReq {
     */
   def getReqDataProps(key: String): String = dataProps.getOrElse(key, "")
 
-  def toTxnReq: TxnReq = TxnReq(Head(headProps.toMap),Data(dataProps.toMap))
+  /**
+    * 转换成xml对象
+    *
+    * @return
+    */
+  def toTxnReq: TxnReq = TxnReq(Head(headProps.toMap), Data(dataProps.toMap))
+
+  /**
+    * 发送并接受响应
+    *
+    * @return
+    */
+  def send: TGWResp = {
+    val txnResp = tgwClient.send(toTxnReq)
+    new TGWResp(txnResp)
+  }
 }
