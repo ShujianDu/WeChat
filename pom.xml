@@ -26,10 +26,16 @@
         <scalaTest.version>2.2.6</scalaTest.version>
         <scalaXml.version>1.0.5</scalaXml.version>
         <typesafeConfig.version>1.3.0</typesafeConfig.version>
+        <play-json.version>2.5.1</play-json.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.typesafe.play</groupId>
+                <artifactId>play-json_2.11</artifactId>
+                <version>${play-json.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.thoughtworks.xstream</groupId>
                 <artifactId>xstream</artifactId>

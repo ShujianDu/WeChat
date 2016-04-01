@@ -10,24 +10,24 @@ import javax.xml.ws.{RequestWrapper, ResponseWrapper}
 @WebService(targetNamespace = "http://webService.forms.com", name = "WechatAppPrj")
 trait WeChatAppPrj {
   @WebMethod
-  @RequestWrapper(localName = "getWechatAppPrj", targetNamespace = "http://webService.forms.com", className = "com.yada.sdk.ds.GetWeChatAppPrj")
-  @ResponseWrapper(localName = "getWechatAppPrjResponse", targetNamespace = "http://webService.forms.com", className = "com.yada.sdk.ds.GetWeChatAppPrjResponse")
+  @RequestWrapper(localName = "getWechatAppPrj", targetNamespace = "http://webService.forms.com", className = "com.yada.sdk.ds.GetWechatAppPrj")
+  @ResponseWrapper(localName = "getWechatAppPrjResponse", targetNamespace = "http://webService.forms.com", className = "com.yada.sdk.ds.GetWechatAppPrjResponse")
   @WebResult(name = "getWechatAppPrjReturn", targetNamespace = "http://webService.forms.com")
-  def getWeChatAppPrj(@WebParam(name = "data", targetNamespace = "http://webService.forms.com") data: String): String
+  def getWechatAppPrj(@WebParam(name = "data", targetNamespace = "http://webService.forms.com") data: String): String
 }
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = Array("data"))
+@XmlType(name = "data", propOrder = Array("data"))
 @XmlRootElement(name = "getWechatAppPrj")
-class GetWeChatAppPrj {
+class GetWechatAppPrj {
   @XmlElement(required = true)
-  var data: String = ""
+  var data: String = _
 }
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = Array("getWechatAppPrjReturn"))
+@XmlType(name = "getWechatAppPrjReturn", propOrder = Array("getWechatAppPrjReturn"))
 @XmlRootElement(name = "getWechatAppPrjResponse")
-class GetWeChatAppPrjResponse{
+class GetWechatAppPrjResponse{
   @XmlElement(required = true)
-  var getWechatAppPrjReturn: String = ""
+  var getWechatAppPrjReturn: String = _
 }

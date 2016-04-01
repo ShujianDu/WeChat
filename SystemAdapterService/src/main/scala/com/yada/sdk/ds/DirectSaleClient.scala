@@ -5,6 +5,7 @@ import javax.xml.namespace.QName
 
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.slf4j.Logger
+import com.yada.sdk.ds.json.{Data, JsonHandler}
 import org.slf4j.LoggerFactory
 
 /**
@@ -15,19 +16,22 @@ class DirectSaleClient(wsdlDocumentLocation: URL, serviceQName: QName, portQName
 
   protected val service = javax.xml.ws.Service.create(wsdlDocumentLocation, serviceQName)
   protected val port = service.getPort(portQName, classOf[WeChatAppPrj])
+  protected val jsonHandler:JsonHandler = JsonHandler.GLOBAL
 
   /**
     * 向直销系统发送信息并接受响应
-    * @param req 请求
+    *
+    * @param reqData 请求
     * @return
     */
-  def send(req: String): String = {
+  def send(reqData: Data): Data = {
+    val req = jsonHandler.toJSON(reqData)
     log.info(s"send to DirectSale...")
     log.debug(s"send to DirectSale...msg:\r\n$req")
-    val resp = port.getWeChatAppPrj(req)
+    val resp = port.getWechatAppPrj(req)
     log.info(s"receive from DirectSale...")
     log.debug(s"receive from DirectSale...msg:\r\n$resp")
-    resp
+    jsonHandler.fromJSON(resp)
   }
 }
 
@@ -38,9 +42,9 @@ object DirectSaleClient {
 
   def apply(): DirectSaleClient = {
     val factory = ConfigFactory.load()
-    val wsdlURL = new URL(factory.getString("ds.wsdlURL"))
+    val wsdlDocumentLocation = new URL(factory.getString("DS.wsdlDocumentLocation"))
     val serviceQName = new QName("http://webService.forms.com", "WechatAppPrjService")
     val portQName = new QName("http://webService.forms.com", "WechatAppPrj")
-    DirectSaleClient(wsdlURL, serviceQName, portQName)
+    DirectSaleClient(wsdlDocumentLocation, serviceQName, portQName)
   }
 }
