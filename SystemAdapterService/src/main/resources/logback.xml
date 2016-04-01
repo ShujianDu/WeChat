@@ -12,6 +12,7 @@
     <logger name="com.yada.sdk.point.PointClient" level="DEBUG"/>
     <logger name="com.yada.sdk.bcsp.BCSPClient" level="DEBUG"/>
     <logger name="com.yada.sdk.tgw.TGWClient" level="DEBUG"/>
+    <logger name="com.yada.sdk.ds.DirectSaleClient" level="DEBUG"/>
     <root level="WARN">
         <appender-ref ref="stdout"/>
     </root>

@@ -27,7 +27,6 @@ class JsonHandler {
 }
 
 object JsonHandler {
-  //  val jsonData = "{ \"head\": {\n\t\"txnId\": \"xxxx\", \n\t\"imei\":\"xxxx\", \n\t\"deviceType\": \"xxxx\",\n\t\"lon\": \"xxxx\",\n\t\"lat\": \"xxxx\",\n\t\"city\": \"xxxx\",\n\t\"deviceToken\": \"xxxx\",\n\t\"channelNo\": \"xxxx\"},\n\"body\": { \n\t\"id\" :\"123\",\n\t\"idType\":\"345\",\n\t\"name\":\"aaa\",\n\t\"currPage\":\"11\"}\n}"
   val GLOBAL = new JsonHandler
 }
 
