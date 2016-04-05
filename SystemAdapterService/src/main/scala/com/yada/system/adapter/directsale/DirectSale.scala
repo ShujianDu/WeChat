@@ -1,9 +1,9 @@
-package com.yada.system.adapter.directselling
+package com.yada.system.adapter.directsale
 
 /**
   * 直销系统service
   */
-trait DirectSellingService {
+trait DirectSaleService {
   /**
     * 预约办卡进度查询
     *

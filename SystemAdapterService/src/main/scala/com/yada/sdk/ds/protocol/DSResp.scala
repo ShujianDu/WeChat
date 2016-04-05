@@ -28,6 +28,24 @@ class DSResp(data: Data) {
   def bodyValue(key: String): String = (data.body \ key).getOrElse(JsString("")).as[String]
 
   /**
+    * 响应内容list的值
+    *
+    * @param keys        需要转换成对象的标签
+    * @param valuesToObj 标签的值转换成对象
+    * @tparam T 对象
+    * @return
+    */
+  def bodyListValues[T](keys: List[String], valuesToObj: List[String] => T): List[T] = {
+    val list = data.body \\ "applyList"
+    list.map(item => {
+      val values = keys.map(key => {
+        (item \ key).getOrElse(JsString("")).as[String]
+      })
+      valuesToObj(values)
+    }).toList
+  }
+
+  /**
     * 操作结果码
     *
     * @return 00(成功)/其他(失败)
