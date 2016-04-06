@@ -3,7 +3,7 @@ package com.yada.system.adapter.directsale
 /**
   * 直销系统service
   */
-trait DirectSaleService {
+trait DirectSale {
   /**
     * 预约办卡进度查询
     *

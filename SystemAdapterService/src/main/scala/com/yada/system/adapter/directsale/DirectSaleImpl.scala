@@ -5,7 +5,7 @@ import com.yada.sdk.ds.protocol.impl.P_8WEC060001
 /**
   * 直销系统交易实现
   */
-class DirectSaleImpl extends DirectSaleService {
+class DirectSaleImpl extends DirectSale {
   /**
     * 预约办卡进度查询
     *
