@@ -117,6 +117,16 @@
                 <artifactId>config</artifactId>
                 <version>${typesafeConfig.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.ibm.mq</groupId>
+                <artifactId>mq</artifactId>
+                <version>7.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ibm.mq</groupId>
+                <artifactId>jmqi</artifactId>
+                <version>7.0.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <repositories>

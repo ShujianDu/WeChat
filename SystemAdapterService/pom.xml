@@ -58,6 +58,14 @@
             <groupId>com.typesafe.play</groupId>
             <artifactId>play-json_2.11</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ibm.mq</groupId>
+            <artifactId>mq</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.mq</groupId>
+            <artifactId>jmqi</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
