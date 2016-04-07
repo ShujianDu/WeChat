@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+		    <list>
+		        <value>classpath:/user.properties</value>
+		    </list>
+		</property>
+    </bean>
+	<!-- shiro -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login/list.do" />
+		<!-- 配置过滤地址链 -->
+		<property name="filterChainDefinitions">
+			<value>
+				#anon是匿名过滤器，用户不必登录即可访问的地址，必须放在其他过滤器前面
+				#myAuthc是自定义认证过滤器，对用户的登陆信息进行认证
+				/*/*.do = anon
+			</value>
+		</property>
+	</bean>
+	
+	<!-- shiro安全核心 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<!-- 配置缓存管理 -->
+		<property name="cacheManager" ref="cacheManager" />
+		<property name="rememberMeManager" ref="cookieRememberMeManager" />
+		<!--
+		 <property name="sessionMode" value="native"/>
+		 <property name="sessionManager" ref="sessionManager"/>    
+		 -->
+	</bean>
+	
+	<bean id="cookieRememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager" >
+		<property name="cookie" ref="simpleCookie"></property>
+	</bean>
+	<bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<property name="name" value="ourRememberMe"></property>
+		<property name="httpOnly" value="true"></property>
+		<property name="maxAge" value="86400"></property>
+	</bean>
+	
+	<!-- EhCacheManager是shiro官方实现并推荐的缓存管理 -->
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager" >
+	
+	</bean>
+	
+	<bean id="validateTime" class="com.yada.wechatbank.shiro.ValidateTime" >
+		<property name="timeout" value="${link.timeout}"/>
+	</bean>
+</beans>
