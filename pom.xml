@@ -15,6 +15,7 @@
         <module>CallbackService</module>
         <module>SystemAdapterServer</module>
         <module>EBank</module>
+        <module>EBankService</module>
     </modules>
 
     <properties>
