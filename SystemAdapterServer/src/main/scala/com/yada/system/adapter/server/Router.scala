@@ -12,12 +12,18 @@ class Router(bCSPService: BCSPService ,directSale:DirectSale,gCSService: GCSServ
   def dispatch(httpRequest: FullHttpRequest): Unit ={
     //TODO 路由
     val path = httpRequest.getUri
-    path match {
-      case "/bcsp" =>
-      case "/gcs" =>
-      case "/points" =>
-      case "/tgw" =>
-      case "/directSale" =>
+    val pathPattern = path.substring(1,path.indexOf("/",1))
+    pathPattern match {
+      case "bcsp" =>
+      case "gcs" =>
+
+      case "points" =>
+      case "tgw" =>
+      case "directSale" =>
     }
   }
+}
+
+object Router{
+  def apply(bCSPService: BCSPService, directSale: DirectSale, gCSService: GCSService, pointsService: PointsService, tGWService: TGWService): Router = new Router(bCSPService, directSale, gCSService, pointsService, tGWService)
 }
