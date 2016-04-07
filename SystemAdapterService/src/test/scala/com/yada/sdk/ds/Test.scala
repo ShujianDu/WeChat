@@ -1,7 +1,6 @@
 package com.yada.sdk.ds
 
 import com.yada.sdk.ds.protocol.impl.P_8WEC060001
-import cxf.com.forms.webservice.WechatAppPrjService
 
 /**
   * 用于直销系统的连接执行测试
