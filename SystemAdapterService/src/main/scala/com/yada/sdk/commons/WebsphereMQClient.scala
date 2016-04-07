@@ -44,11 +44,11 @@ class WebSphereMQClient(systemName: String, mqManagerName: String, queueName: St
   }
 
   protected def initManager: MQQueueManager = {
-    val properties = new util.Hashtable[String, Object]()
+    val properties = new util.Hashtable[String, String]()
     properties.put("hostname", hostname)
-    properties.put("port", port)
+    properties.put("port", port.toString)
     properties.put("channel", channel)
-    properties.put("ccsid", ccsid)
+    properties.put("ccsid", ccsid.toString)
     new MQQueueManager(mqManagerName, properties)
   }
 

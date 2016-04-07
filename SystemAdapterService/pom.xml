@@ -66,6 +66,10 @@
             <groupId>com.ibm.mq</groupId>
             <artifactId>jmqi</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ibm.mq</groupId>
+            <artifactId>connector</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
