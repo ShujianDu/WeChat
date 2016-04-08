@@ -5,5 +5,6 @@ package com.yada.wechatbank.service;
  */
 public class Test {
 	public static void main(String[] args) {
+		String a = "";
 	}
 }
