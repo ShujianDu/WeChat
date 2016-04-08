@@ -1,8 +1,6 @@
 package com.yada.wx.db.service.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by QinQiang on 2016/4/6.
@@ -12,8 +10,10 @@ import javax.persistence.Id;
 public class CustomerInfo {
 
     @Id
+    @GeneratedValue(generator="CUSTOMER_INFO_SEQ")
+    @SequenceGenerator(name="CUSTOMER_INFO_SEQ", sequenceName="SEQ_T_B_CUSTOMER_INFO")
     @Column(name = "ID", columnDefinition = "VARCHAR2(32)", nullable = false)
-    private String id; // ID
+    private Long id; // ID
 
     @Column(name = "OPENID", columnDefinition = "VARCHAR2(32)")
     private String openId; // OPENID
@@ -33,11 +33,11 @@ public class CustomerInfo {
     @Column(name = "BINDING_DATE", columnDefinition = "VARCHAR2(8)")
     private String bindingDate; // 绑定日期
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

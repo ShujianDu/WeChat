@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by QinQiang on 2016/4/8.
  */
@@ -40,8 +42,8 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking selectByClientNameAndPhone(String clientName, String phone) {
-        Booking booking = bookingDao.findByClientNameAndPhone(clientName, phone);
-        return booking;
+    public List<Booking> selectByClientNameAndPhone(String clientName, String phone) {
+        List<Booking> list = bookingDao.findByClientNameAndPhone(clientName, phone);
+        return list;
     }
 }
