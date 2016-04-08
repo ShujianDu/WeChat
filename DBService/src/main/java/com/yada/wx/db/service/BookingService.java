@@ -3,6 +3,8 @@ package com.yada.wx.db.service;
 
 import com.yada.wx.db.service.model.Booking;
 
+import java.util.List;
+
 /**
  * Created by QinQiang on 2016/4/6.
  */
@@ -31,5 +33,5 @@ public interface BookingService {
      * @param phone      联系电话
      * @return Booking
      */
-    public Booking selectByClientNameAndPhone(String clientName, String phone);
+    public List<Booking> selectByClientNameAndPhone(String clientName, String phone);
 }

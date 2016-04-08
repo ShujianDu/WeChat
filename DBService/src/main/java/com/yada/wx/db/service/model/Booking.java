@@ -1,18 +1,19 @@
 package com.yada.wx.db.service.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by QinQiang on 2016/4/6.
+ * 预约办卡
  */
 @Entity(name = "T_B_BOOKING")
 public class Booking {
 
     @Id
+    @GeneratedValue(generator="BOOKING_SEQ")
+    @SequenceGenerator(name="BOOKING_SEQ", sequenceName="SEQ_T_B_BOOKING")
     @Column(name = "BOOKING_ID", columnDefinition = "CHAR(32)", nullable = false)
-    private String bookingId; //ID
+    private Long bookingId; //ID
 
     @Column(name = "CLIENT_ID", columnDefinition = "VARCHAR2(20)", nullable = false)
     private String clientId; //客户ID
@@ -44,11 +45,11 @@ public class Booking {
     @Column(name = "STATE", columnDefinition = "CHAR(1)")
     private String state; //状态（1 已经处理，0 未处理）
 
-    public String getBookingId() {
+    public Long getBookingId() {
         return bookingId;
     }
 
-    public void setBookingId(String bookingId) {
+    public void setBookingId(Long bookingId) {
         this.bookingId = bookingId;
     }
 

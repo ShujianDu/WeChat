@@ -1,18 +1,19 @@
 package com.yada.wx.db.service.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created by QinQiang on 2016/4/6.
+ * 分期流水表
  */
 @Entity(name = "T_B_INSTALLMENT_INFO")
 public class InstallmentInfo {
 
     @Id
+    @GeneratedValue(generator="INSTALLMENT_INFO_SEQ")
+    @SequenceGenerator(name="INSTALLMENT_INFO_SEQ", sequenceName="SEQ_T_B_INSTALLMENT_INFO")
     @Column(name = "ID", columnDefinition = "VARCHAR2(32)", nullable = false)
-    private String id; //ID
+    private Long id; //ID
 
     @Column(name = "CARDNO", columnDefinition = "VARCHAR2(19)")
     private String cardNo; //卡号
@@ -47,11 +48,11 @@ public class InstallmentInfo {
     @Column(name = "REMARK", columnDefinition = "NVARCHAR2(50)")
     private String remark; //备注
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

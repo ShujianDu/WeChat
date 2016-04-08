@@ -6,6 +6,7 @@ import javax.persistence.Id;
 
 /**
  * Created by QinQiang on 2016/4/6.
+ * 中行网点信息表
  */
 @Entity(name = "T_B_CHINABANK_INFO")
 public class ChinabankInfo {

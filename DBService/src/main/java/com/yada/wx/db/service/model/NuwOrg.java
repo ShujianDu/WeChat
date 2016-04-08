@@ -6,6 +6,7 @@ import javax.persistence.Id;
 
 /**
  * Created by QinQiang on 2016/4/6.
+ * NUW 机构表
  */
 @Entity(name = "T_B_NUW_ORG")
 public class NuwOrg {
