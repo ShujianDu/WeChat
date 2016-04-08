@@ -40,10 +40,7 @@ public class ValidateTime {
 		Date datetime = null;
 		datetime = dateTimeUtil.parseDateTime(ss[1]);
 		Date date = dateTimeUtil.getPreTime(Integer.parseInt(timeout), 1);
-		if(!date.before(datetime)){
-			return false;
-		}
-		return true;
+		return date.before(datetime);
 	}
 	
 }
