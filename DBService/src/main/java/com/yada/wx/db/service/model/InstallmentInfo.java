@@ -1,28 +1,58 @@
 package com.yada.wx.db.service.model;
 
+import javax.persistence.*;
+
 /**
  * Created by QinQiang on 2016/4/6.
+ * 分期流水表
  */
+@Entity(name = "T_B_INSTALLMENT_INFO")
 public class InstallmentInfo {
 
-    private String id;
-    private String cardNo;
-    private String tradingDec;
-    private String currencyCode;
-    private String instalCount;
-    private String instalAmount;
-    private String feeMethod;
-    private String tradingDate;
-    private String openId;
-    private String status;
-    private String gcsCode;
-    private String remark;
+    @Id
+    @GeneratedValue(generator="INSTALLMENT_INFO_SEQ")
+    @SequenceGenerator(name="INSTALLMENT_INFO_SEQ", sequenceName="SEQ_T_B_INSTALLMENT_INFO")
+    @Column(name = "ID", columnDefinition = "VARCHAR2(32)", nullable = false)
+    private Long id; //ID
 
-    public String getId() {
+    @Column(name = "CARDNO", columnDefinition = "VARCHAR2(19)")
+    private String cardNo; //卡号
+
+    @Column(name = "TRADINGDEC", columnDefinition = "VARCHAR2(32)")
+    private String tradingDec; //交易描述
+
+    @Column(name = "CURRENCYCODE", columnDefinition = "VARCHAR2(8)")
+    private String currencyCode; //币种
+
+    @Column(name = "INSTALCOUNT", columnDefinition = "CHAR(4)")
+    private String instalCount; //分期期数
+
+    @Column(name = "INSTALAMOUNT", columnDefinition = "VARCHAR2(128)")
+    private String instalAmount; //分期金额
+
+    @Column(name = "FEEMETHOD", columnDefinition = "CHAR(1)")
+    private String feeMethod; //分期手续费收取方式
+
+    @Column(name = "TRADINGDATE", columnDefinition = "VARCHAR2(14)")
+    private String tradingDate; //交易日期
+
+    @Column(name = "OPENID", columnDefinition = "VARCHAR2(32)")
+    private String openId; //openid
+
+    @Column(name = "STATUS", columnDefinition = "CHAR(1)")
+    private String status; //交易状态,0,失败,1,成功
+
+    @Column(name = "GCSCODE", columnDefinition = "VARCHAR2(10)")
+    private String gcsCode; //GCS报文头返回码（+GC00000=Success）
+
+    @Column(name = "REMARK", columnDefinition = "NVARCHAR2(50)")
+    private String remark; //备注
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

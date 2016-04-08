@@ -1,18 +1,42 @@
 package com.yada.wx.db.service.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
 /**
  * Created by QinQiang on 2016/4/6.
+ * 中行网点信息表
  */
+@Entity(name = "T_B_CHINABANK_INFO")
 public class ChinabankInfo {
 
+    @Id
+    @Column(name = "ID", columnDefinition = "NUMBER", nullable = false)
     private String id; //主键
+
+    @Column(name = "BRANCH_NO", columnDefinition = "NUMBER")
     private String branchNo; //分行号
+
+    @Column(name = "NAME", columnDefinition = "VARCHAR2(255)")
     private String name; //名称
+
+    @Column(name = "ADDR", columnDefinition = "VARCHAR2(255)")
     private String addr; //详细地址
+
+    @Column(name = "AREA1", columnDefinition = "VARCHAR2(100)")
     private String area1; //所在省
+
+    @Column(name = "AREA2", columnDefinition = "VARCHAR2(100)")
     private String area2; //所在市
+
+    @Column(name = "AREA3", columnDefinition = "VARCHAR2(100)")
     private String area3; //所在区
+
+    @Column(name = "LATITUDE", columnDefinition = "VARCHAR2(60)")
     private String latitude; //纬度
+
+    @Column(name = "LONGITUDE", columnDefinition = "VARCHAR2(60)")
     private String longitude; //经度
 
     public String getId() {

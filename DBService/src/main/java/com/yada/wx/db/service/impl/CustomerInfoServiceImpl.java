@@ -83,11 +83,11 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
 
     @Override
     public boolean updateIdentityTypeByIdentityNo(String identityNo, String identityType) {
-        List<CustomerInfo> list = customerInfoDao.findByIdentityNo(identityNo);
-        for (int i = 0; i < list.size(); i++) {
-            CustomerInfo customerInfo = list.get(i);
-            customerInfo.setIdentityType(identityType);
-            customerInfoDao.save(customerInfo);
+        try {
+            customerInfoDao.updateIdentityTypeByIdentityNo(identityNo, identityType);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
         return true;
     }
