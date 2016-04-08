@@ -13,5 +13,5 @@ public interface InstallmentInfoService {
      * @param info 账单分期/消费分期
      * @return
      */
-    public int insertInstallmentInfo(InstallmentInfo info);
+    public boolean insertInstallmentInfo(InstallmentInfo info);
 }

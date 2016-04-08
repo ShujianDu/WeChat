@@ -22,7 +22,7 @@ public interface BookingService {
      * @param phone      联系电话
      * @return Booking
      */
-    public Booking deleteByClientNameAndPhone(String clientName, String phone);
+    public boolean deleteByClientNameAndPhone(String clientName, String phone);
 
     /**
      * 获取预约办卡信息By客户姓名&联系电话
