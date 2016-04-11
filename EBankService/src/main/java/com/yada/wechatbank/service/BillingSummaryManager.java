@@ -73,13 +73,10 @@ public class BillingSummaryManager {
 	}
 
 	/**
-	 * 通过证件号证件类型查询用户卡列表
 	 * 
 	 * @param identityNo
 	 *            证件号
-	 * @param identityType
-	 *            证件类型
-	 * @return 用户卡列表
+	 * @return 卡列表集合
 	 */
 	@SuppressWarnings("unused")
 	public List<String> getCardNOs(String identityNo) {
