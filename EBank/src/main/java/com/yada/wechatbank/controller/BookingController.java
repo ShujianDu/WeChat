@@ -90,7 +90,7 @@ public class BookingController {
 		//此处后期放入service里
 		String numStr = String.format("%04d", Integer.parseInt(num));
 		Booking booking = new Booking();
-		booking.setBookingId("");
+		//booking.setBookingId("");
 		booking.setClientId("WC" + timeStr + numStr);
 		booking.setClientName(bookingQuery.getClientName());
 		booking.setProvId(bookingQuery.getProvId().substring(0,
