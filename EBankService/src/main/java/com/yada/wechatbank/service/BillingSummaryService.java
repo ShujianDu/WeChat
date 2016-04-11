@@ -33,7 +33,7 @@ public interface BillingSummaryService {
 	 *            卡列表
 	 * @return 需要查询账单摘要的卡集合
 	 * @throws Exception
-	 *             加密时肯能出错，抛异常
+	 *             加密时肯能出错，抛出异常
 	 * 
 	 */
 	public List<String> getQueryCardList(String cardNo, List<String> cardList) throws Exception;

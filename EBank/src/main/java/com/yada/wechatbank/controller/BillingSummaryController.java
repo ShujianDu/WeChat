@@ -28,7 +28,7 @@ public class BillingSummaryController {
 	 * 账单摘要业务层
 	 */
 	@Autowired
-	private BillingSummaryService billingSummaryService;
+	private BillingSummaryService billingSummaryServiceImpl;
 	/**
 	 * 账单摘要list页面
 	 */
@@ -57,7 +57,7 @@ public class BillingSummaryController {
 		List<String> cardList = null;
 		logger.info("@WDZD@卡列表cardList[" + cardList + "]");
 		// 获取加密后的卡列表，传至页面用
-		cardList = billingSummaryService.getEncryptCardNOs(cardList);
+		cardList = billingSummaryServiceImpl.getEncryptCardNOs(cardList);
 		// 返回值为空或没有数据
 		if (cardList == null) {
 			return ERROR;
@@ -65,7 +65,7 @@ public class BillingSummaryController {
 			return NOCARDURL;
 		} else {
 			// 查询账单可选日期
-			List<String> dateList = billingSummaryService.getDateList();
+			List<String> dateList = billingSummaryServiceImpl.getDateList();
 			model.addAttribute("cardList", cardList);
 			model.addAttribute("dateList", dateList);
 			model.addAttribute("model", billingSummaryQuery);
@@ -90,13 +90,13 @@ public class BillingSummaryController {
 		List<String> queryCardList;
 		try {
 			// TODO 获取卡列表的方式需要登录成功提供,替换null值
-			queryCardList = billingSummaryService.getQueryCardList(billingSummaryQuery.getCardNo(), null);
+			queryCardList = billingSummaryServiceImpl.getQueryCardList(billingSummaryQuery.getCardNo(), null);
 		} catch (Exception e) {
 			logger.error("@WDZD@cardList crypt error,billingSummaryQuery[" + billingSummaryQuery + "]:" + e);
 			return ERROR;
 		}
 		// 调用行内service 获取账单摘要
-		List<BillingSummary> billsList = billingSummaryService.getBillingSummaryList(queryCardList, date);
+		List<BillingSummary> billsList = billingSummaryServiceImpl.getBillingSummaryList(queryCardList, date);
 		logger.info("@WDZD@调用行内service根据queryCardList[" + queryCardList + "],date[" + date + "]获取账单摘要,获取到的账单摘要合集billsList[" + billsList + "]");
 		// 返回值为空或没有数据
 		if (billsList == null) {
@@ -104,7 +104,7 @@ public class BillingSummaryController {
 		}
 		// 查询账单可选日期
 		model.addAttribute("cardList", billingSummaryQuery.getCardNos());
-		model.addAttribute("dateList", billingSummaryService.getDateList());
+		model.addAttribute("dateList", billingSummaryServiceImpl.getDateList());
 		model.addAttribute("model", billingSummaryQuery);
 		model.addAttribute("billsList", billsList);
 		return LISTURL;

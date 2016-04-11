@@ -8,13 +8,11 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yada.wechatbank.model.BillingSummary;
 import com.yada.wechatbank.service.BillingSummaryService;
 import com.yada.wechatbank.util.Crypt;
-import com.yada.wx.db.service.impl.CustomerInfoServiceImpl;
 
 /**
  * 账单摘要业务层实现类
@@ -25,11 +23,6 @@ import com.yada.wx.db.service.impl.CustomerInfoServiceImpl;
 @Service
 public class BillingSummaryServiceImpl implements BillingSummaryService {
 	private final static Logger logger = LoggerFactory.getLogger(BillingSummaryServiceImpl.class);
-	/**
-	 * 查询客户信息业务层
-	 */
-	@Autowired
-	private CustomerInfoServiceImpl customerInfoServiceImpl;
 
 	@Override
 	public List<BillingSummary> getBillingSummaryList(List<String> queryCardList, String date) {
