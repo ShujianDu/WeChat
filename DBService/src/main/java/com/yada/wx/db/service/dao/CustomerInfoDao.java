@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by QinQiang on 2016/4/6.
  */
-public interface CustomerInfoDao extends JpaRepository<CustomerInfo, String>, JpaSpecificationExecutor<CustomerInfo> {
+public interface CustomerInfoDao extends JpaRepository<CustomerInfo, Long>, JpaSpecificationExecutor<CustomerInfo> {
 
     CustomerInfo findByOpenId(String openId);
 
