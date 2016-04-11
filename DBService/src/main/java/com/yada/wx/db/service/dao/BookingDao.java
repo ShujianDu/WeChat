@@ -14,9 +14,7 @@ import java.util.List;
  */
 public interface BookingDao extends JpaRepository<Booking, Long>, JpaSpecificationExecutor<Booking> {
 
-    @Modifying(clearAutomatically = true)
-    @Query(nativeQuery = true, value = "DELETE FROM T_B_BOOKING WHERE CLIENT_NAME = :clientName AND PHONE = :phone")
-    int deleteByClientNameAndPhone(@Param("clientName") String clientName, @Param("phone") String phone);
+    Long deleteByClientNameAndPhone(String clientName, String phone);
 
     List<Booking> findByClientNameAndPhone(String clientName, String phone);
 }
