@@ -39,10 +39,11 @@ public interface BillingSummaryService {
 	public List<String> getQueryCardList(String cardNo, List<String> cardList) throws Exception;
 
 	/**
+	 * 解密卡列表集合
 	 * 
-	 * @param identityNo
-	 *            证件号
-	 * @return 卡列表集合
+	 * @param cardList
+	 *            需要加密的卡列表
+	 * @return 加密好的卡列表
 	 */
 	public List<String> getEncryptCardNOs(List<String> cardList);
 

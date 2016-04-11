@@ -2,8 +2,6 @@ package com.yada.wechatbank.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +49,6 @@ public class BillingSummaryController {
 	 *            账单摘要Query
 	 * @param model
 	 *            model
-	 * @param request
-	 *            请求
 	 * @return 跳转路径
 	 */
 	@RequestMapping(value = "list")
@@ -84,12 +80,10 @@ public class BillingSummaryController {
 	 *            账单摘要Query
 	 * @param model
 	 *            model
-	 * @param request
-	 *            请求request
 	 * @return 跳转路径
 	 */
 	@RequestMapping(value = "listP")
-	public String listP(@ModelAttribute("formBean") BillingSummaryQuery billingSummaryQuery, Model model, HttpServletRequest request) {
+	public String listP(@ModelAttribute("formBean") BillingSummaryQuery billingSummaryQuery, Model model) {
 		// 查询的账单日期
 		String date = billingSummaryQuery.getDate();
 		// 得到需要查询账单摘要的卡列表
