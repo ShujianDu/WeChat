@@ -27,7 +27,7 @@ class GCSDispatch(gCSService: GCSService) {
 }
 
 object GCSDispatch{
-  val gCSService: GCSService = new GCSServiceImpl
+  private val gCSService: GCSService = new GCSServiceImpl
   def apply(): GCSDispatch = new GCSDispatch(gCSService)
 }
 

@@ -21,7 +21,7 @@ class Router(bCSPService: BCSPService ,directSale:DirectSale,gCSService: GCSServ
       case "bcsp" =>
         BCSPDispatch.dispatch(json)
       case "gcs" =>
-        GCSDispatch.dispatch(json,httpRequest)
+        GCSDispatch.apply().dispatch(json,httpRequest)
       case "points" =>
         PointsDispatch.dispatch(json,httpRequest)
       case "tgw" =>
