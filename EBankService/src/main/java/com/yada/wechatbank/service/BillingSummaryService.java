@@ -42,7 +42,7 @@ public interface BillingSummaryService {
 	 * 解密卡列表集合
 	 * 
 	 * @param cardList
-	 *            需要加密的卡列表
+	 *            需要加密的卡列表集合
 	 * @return 加密好的卡列表
 	 */
 	public List<String> getEncryptCardNOs(List<String> cardList);

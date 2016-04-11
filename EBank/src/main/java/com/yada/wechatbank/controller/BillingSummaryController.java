@@ -58,7 +58,7 @@ public class BillingSummaryController {
 		logger.info("@WDZD@卡列表cardList[" + cardList + "]");
 		// 获取加密后的卡列表，传至页面用
 		cardList = billingSummaryService.getEncryptCardNOs(cardList);
-		// RMI返回值为空或没有数据
+		// 返回值为空或没有数据
 		if (cardList == null) {
 			return ERROR;
 		} else if (cardList.size() == 0) {
@@ -97,7 +97,7 @@ public class BillingSummaryController {
 		}
 		// 调用行内service 获取账单摘要
 		List<BillingSummary> billsList = billingSummaryService.getBillingSummaryList(queryCardList, date);
-		logger.info("@WDZD@调用核心根据queryCardList[" + queryCardList + "],date[" + date + "]获取账单摘要,获取到的账单摘要合集billsList[" + billsList + "]");
+		logger.info("@WDZD@调用行内service根据queryCardList[" + queryCardList + "],date[" + date + "]获取账单摘要,获取到的账单摘要合集billsList[" + billsList + "]");
 		// 返回值为空或没有数据
 		if (billsList == null) {
 			return ERROR;
