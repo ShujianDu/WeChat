@@ -56,7 +56,9 @@
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc14</artifactId>
+            <version>10.2.0.4.0</version>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -64,6 +66,16 @@
             <plugin>
                 <groupId>org.scala-tools</groupId>
                 <artifactId>maven-scala-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+                <version>3.2</version>
             </plugin>
         </plugins>
     </build>
