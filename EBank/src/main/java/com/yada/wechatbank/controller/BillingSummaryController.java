@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.yada.wechatbank.base.BaseController;
 import com.yada.wechatbank.model.BillingSummary;
 import com.yada.wechatbank.query.BillingSummaryQuery;
 import com.yada.wechatbank.service.BillingSummaryService;
@@ -22,7 +23,7 @@ import com.yada.wechatbank.service.BillingSummaryService;
  */
 @Controller
 @RequestMapping(value = "billingsummary")
-public class BillingSummaryController {
+public class BillingSummaryController extends BaseController {
 	private final static Logger logger = LoggerFactory.getLogger(BillingSummaryController.class);
 	/**
 	 * 账单摘要业务层
@@ -33,14 +34,6 @@ public class BillingSummaryController {
 	 * 账单摘要list页面
 	 */
 	private static final String LISTURL = "wechatbank_pages/BillingSummary/list";
-	/**
-	 * 错误页面
-	 */
-	private static String ERROR = "wechatbank_pages/error";
-	/**
-	 * 无信用卡信息跳转URL
-	 */
-	public static final String NOCARDURL = "wechatbank_pages/nocard";
 
 	/**
 	 * 查询账单摘要选择页面
