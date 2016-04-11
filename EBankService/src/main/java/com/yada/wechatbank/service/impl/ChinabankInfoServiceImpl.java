@@ -1,6 +1,6 @@
-package com.yada.wx.db.service.impl;
+package com.yada.wechatbank.service.impl;
 
-import com.yada.wx.db.service.ChinabankInfoService;
+import com.yada.wechatbank.service.ChinabankInfoService;
 import com.yada.wx.db.service.dao.ChinabankInfoDao;
 import com.yada.wx.db.service.model.ChinabankInfo;
 import org.springframework.beans.factory.annotation.Autowired;

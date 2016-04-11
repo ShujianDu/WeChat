@@ -12,11 +12,9 @@ import java.util.List;
 /**
  * Created by QinQiang on 2016/4/8.
  */
-public interface BookingDao extends JpaRepository<Booking, String>, JpaSpecificationExecutor<Booking> {
+public interface BookingDao extends JpaRepository<Booking, Long>, JpaSpecificationExecutor<Booking> {
 
-    @Modifying(clearAutomatically = true)
-    @Query(nativeQuery = true, value = "DELETE FROM T_B_BOOKING WHERE CLIENT_NAME = :clientName AND PHONE = :phone")
-    int deleteByClientNameAndPhone(@Param("clientName") String clientName, @Param("phone") String phone);
+    Long deleteByClientNameAndPhone(String clientName, String phone);
 
     List<Booking> findByClientNameAndPhone(String clientName, String phone);
 }

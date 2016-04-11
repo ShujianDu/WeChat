@@ -1,4 +1,4 @@
-package com.yada.wx.db.service;
+package com.yada.wechatbank.service;
 
 
 import com.yada.wx.db.service.model.ChinabankInfo;
