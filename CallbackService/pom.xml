@@ -28,6 +28,14 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>
+        <dependency>
+            <groupId>WeChat</groupId>
+            <artifactId>CallbackDataService</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.typesafe.play</groupId>
+            <artifactId>play-json_2.11</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
