@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 /**
  * Created by QinQiang on 2016/4/8.
  */
-public interface InstallmentInfoDao extends JpaRepository<InstallmentInfo, String>, JpaSpecificationExecutor<InstallmentInfo> {
+public interface InstallmentInfoDao extends JpaRepository<InstallmentInfo, Long>, JpaSpecificationExecutor<InstallmentInfo> {
 
 }
