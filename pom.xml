@@ -34,6 +34,7 @@
         <spring.version>4.2.5.RELEASE</spring.version>
         <spring.data.jpa.version>1.10.1.RELEASE</spring.data.jpa.version>
         <hibernate.version>5.1.0.Final</hibernate.version>
+        <oracle.jdbc.version>10.2.0.4.0</oracle.jdbc.version>
     </properties>
 
     <dependencyManagement>
@@ -191,6 +192,11 @@
                 <artifactId>hibernate-entitymanager</artifactId>
                 <version>${hibernate.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc14</artifactId>
+                <version>${oracle.jdbc.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <repositories>
@@ -221,5 +227,17 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+                <version>3.2</version>
+            </plugin>
+        </plugins>
     </build>
 </project>
