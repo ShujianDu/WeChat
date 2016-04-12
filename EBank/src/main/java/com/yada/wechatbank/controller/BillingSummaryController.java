@@ -77,13 +77,15 @@ public class BillingSummaryController extends BaseController {
 	 */
 	@RequestMapping(value = "listP")
 	public String listP(@ModelAttribute("formBean") BillingSummaryQuery billingSummaryQuery, Model model) {
+		// TODO 获取卡列表，登录成功后有方法可以得到卡列表
+		List<String> cardList = null;
 		// 查询的账单日期
 		String date = billingSummaryQuery.getDate();
 		// 得到需要查询账单摘要的卡列表
 		List<String> queryCardList;
 		try {
 			// TODO 获取卡列表的方式需要登录成功提供,替换null值
-			queryCardList = billingSummaryServiceImpl.getQueryCardList(billingSummaryQuery.getCardNo(), null);
+			queryCardList = billingSummaryServiceImpl.getQueryCardList(billingSummaryQuery.getCardNo(), cardList);
 		} catch (Exception e) {
 			logger.error("@WDZD@cardList crypt error,billingSummaryQuery[" + billingSummaryQuery + "]:" + e);
 			return ERROR;
@@ -96,7 +98,7 @@ public class BillingSummaryController extends BaseController {
 			return ERROR;
 		}
 		// 查询账单可选日期
-		model.addAttribute("cardList", billingSummaryQuery.getCardNos());
+		model.addAttribute("cardList", cardList);
 		model.addAttribute("dateList", billingSummaryServiceImpl.getDateList());
 		model.addAttribute("model", billingSummaryQuery);
 		model.addAttribute("billsList", billsList);
