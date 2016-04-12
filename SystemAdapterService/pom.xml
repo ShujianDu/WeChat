@@ -66,6 +66,10 @@
             <groupId>com.ibm.mq</groupId>
             <artifactId>connector</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.typesafe.play</groupId>
+            <artifactId>play-json_2.11</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

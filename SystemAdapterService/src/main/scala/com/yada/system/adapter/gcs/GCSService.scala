@@ -1,5 +1,8 @@
 package com.yada.system.adapter.gcs
 
+import play.api.libs.functional.syntax._
+import play.api.libs.json.{Writes, _}
+
 trait GCSService {
 
   /**
@@ -370,6 +373,16 @@ trait GCSService {
   */
 case class GCSBalance(cardNo: String, currencyCode: String, wholeCreditLimit: String, periodAvailableCreditLimit: String, preCashAdvanceCreditLimit: String)
 
+object GCSBalance{
+  implicit val gcsBalanceReads: Reads[GCSBalance] = (
+    (__ \ "cardNo").read[String] ~ (__ \ "currencyCode").read[String] ~ (__ \ "wholeCreditLimit").read[String] ~ (__ \ "periodAvailableCreditLimit").read[String] ~ (__ \ "preCashAdvanceCreditLimit").read[String]
+    ) (GCSBalance.apply _)
+
+  implicit val gcsBalanceWrites: Writes[GCSBalance] = (
+    (__ \ "cardNo").write[String] ~ (__ \ "currencyCode").write[String] ~ (__ \ "wholeCreditLimit").write[String] ~ (__ \ "periodAvailableCreditLimit").write[String] ~ (__ \ "preCashAdvanceCreditLimit").write[String]
+    ) (unlift(GCSBalance.unapply))
+}
+
 /**
   * 账单周期
   *
@@ -380,6 +393,16 @@ case class GCSBalance(cardNo: String, currencyCode: String, wholeCreditLimit: St
   * @param statementNo     账期号
   */
 case class GCSBillingPeriods(accountId: String, currencyCode: String, periodStartDate: String, periodEndDate: String, statementNo: String)
+
+object GCSBillingPeriods{
+  implicit val gcsBalanceReads: Reads[GCSBillingPeriods] = (
+    (__ \ "accountId").read[String] ~ (__ \ "currencyCode").read[String] ~ (__ \ "periodStartDate").read[String] ~ (__ \ "periodEndDate").read[String] ~ (__ \ "statementNo").read[String]
+    ) (GCSBillingPeriods.apply _)
+
+  implicit val gcsBalanceWrites: Writes[GCSBillingPeriods] = (
+    (__ \ "accountId").write[String] ~ (__ \ "currencyCode").write[String] ~ (__ \ "periodStartDate").write[String] ~ (__ \ "periodEndDate").write[String] ~ (__ \ "statementNo").write[String]
+    ) (unlift(GCSBillingPeriods.unapply))
+}
 
 /**
   * 账单摘要
@@ -393,6 +416,16 @@ case class GCSBillingPeriods(accountId: String, currencyCode: String, periodStar
   */
 //TODO 最小还款额 是否没有用到！
 case class GCSBillingSummary(periodStartDate: String, periodEndDate: String, paymentDueDate: String, closingBalance: String, currencyCode: String, minPaymentAmount: String)
+
+object GCSBillingSummary{
+  implicit val gcsBalanceReads: Reads[GCSBillingSummary] = (
+    (__ \ "periodStartDate").read[String] ~ (__ \ "periodEndDate").read[String] ~ (__ \ "paymentDueDate").read[String] ~ (__ \ "closingBalance").read[String] ~ (__ \ "currencyCode").read[String]~ (__ \ "minPaymentAmount").read[String]
+    ) (GCSBillingSummary.apply _)
+
+  implicit val gcsBalanceWrites: Writes[GCSBillingSummary] = (
+    (__ \ "periodStartDate").write[String] ~ (__ \ "periodEndDate").write[String] ~ (__ \ "paymentDueDate").write[String] ~ (__ \ "closingBalance").write[String] ~ (__ \ "currencyCode").write[String]~ (__ \ "minPaymentAmount").write[String]
+    ) (unlift(GCSBillingSummary.unapply))
+}
 
 /**
   * 账单明细
