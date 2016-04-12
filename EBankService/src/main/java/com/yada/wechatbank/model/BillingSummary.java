@@ -4,9 +4,6 @@ import java.io.Serializable;
 
 public class BillingSummary implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -1661073990314861355L;
 	// 账期开始日期(账单日期)
 	private String periodStartDate;
@@ -21,9 +18,7 @@ public class BillingSummary implements Serializable {
 	// 最小还款额(微信显示：应还金额---20130827修改为closingBalance)
 	// 20131107与发卡GCS宋庆楠确认后，最小还款额修改回此字段
 	private String minPaymentAmount;
-	// 周期最小还款(微信显示：最低还款额)
-	// private String closingMinPayment;
-
+	// 卡号
 	private String cardNo;
 
 	@Override

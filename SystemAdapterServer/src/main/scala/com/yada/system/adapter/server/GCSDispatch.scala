@@ -14,16 +14,19 @@ class GCSDispatch(gCSService: GCSService) {
     val rs = path match {
       case "balance" =>
         val balance = Json.parse(json).as[Balance]
-        gCSService.getBalance(balance.sessionID,balance.channelID,balance.cardNo,balance.currencyCodes)
+        val balances = gCSService.getBalance(balance.sessionID,balance.channelID,balance.cardNo,balance.currencyCodes)
+        Json.toJson(balances).toString()
       case "billingPeriods" =>
         val billingPeriods = Json.parse(json).as[BillingPeriods]
-        gCSService.getBillingPeriods(billingPeriods.sessionId,billingPeriods.channelId,billingPeriods.cardNo)
+        val billingPeriodsList = gCSService.getBillingPeriods(billingPeriods.sessionId,billingPeriods.channelId,billingPeriods.cardNo)
+        Json.toJson(billingPeriodsList).toString()
       case "billingSummary" =>
         val billingSummary = Json.parse(json).as[BillingSummary]
-        gCSService.getBillingSummary(billingSummary.sessionId,billingSummary.channelId,billingSummary.statementNo,billingSummary.accountId)
+        val billingSummaryList = gCSService.getBillingSummary(billingSummary.sessionId,billingSummary.channelId,billingSummary.statementNo,billingSummary.accountId)
+        Json.toJson(billingSummaryList).toString()
     }
 
-    Json.toJson(rs).toString()
+    rs
   }
 }
 
