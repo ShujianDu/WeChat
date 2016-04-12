@@ -1,5 +1,6 @@
 package com.yada.wechatbank.controller;
 
+import com.yada.wechatbank.base.BaseController;
 import com.yada.wechatbank.model.Balance;
 import com.yada.wechatbank.query.BalanceQuery;
 import com.yada.wechatbank.service.BalanceService;
@@ -19,15 +20,13 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "balance")
-class BalanceController {
+class BalanceController extends BaseController{
 	private final Logger logger = LoggerFactory
 			.getLogger(this.getClass());
 
 	@Autowired
 	private BalanceService balanceService;
 	private static final String LISTURL = "wechatbank_pages/Balance/list";
-	// 数据查询异常跳转URL
-	public static final String BUSYURL = "wechatbank_pages/busy";
 
 	/**
 	 * 额度查询
