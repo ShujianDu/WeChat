@@ -10,5 +10,5 @@ import java.util.List;
  * Created by QinQiang on 2016/4/8.
  */
 public interface NuwOrgDao extends JpaRepository<NuwOrg, String>, JpaSpecificationExecutor<NuwOrg> {
-    List<NuwOrg> selectByPOrgId(String pOrgId);
+    List<NuwOrg> findByPOrgId(String pOrgId);
 }
