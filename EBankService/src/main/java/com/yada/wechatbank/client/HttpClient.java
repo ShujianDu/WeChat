@@ -4,9 +4,11 @@ import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 
@@ -20,10 +22,11 @@ public class HttpClient {
 
     private int conTimeout; // 连接超时时间
     private int readTimeout; // 读取超时时间
-    private URL url; // 请求URL
 
-    public HttpClient(String reqUrl, int conTimeout, int readTimeout) throws MalformedURLException {
-        this.url = new URL(reqUrl);
+    private String hostAddr;
+
+    public HttpClient(String hostAddr, int conTimeout, int readTimeout) {
+        this.hostAddr = hostAddr;
         this.conTimeout = conTimeout;
         this.readTimeout = readTimeout;
     }
@@ -35,9 +38,9 @@ public class HttpClient {
      * @param targetClass 返回对象类型
      * @return Object
      */
-    public <T> T send(Object object, Class<T> targetClass) {
+    public <T> T send(String method, Object object, Class<T> targetClass) {
         String data = JSON.toJSONString(object);
-        String respStr = postRequest(data);
+        String respStr = postRequest(method, data);
         return JSON.parseObject(respStr, targetClass);
     }
 
@@ -47,7 +50,7 @@ public class HttpClient {
      * @param data 请求数据
      * @return String
      */
-    private String postRequest(String data) {
+    private String postRequest(String method, String data) {
 
         StringBuffer sb = new StringBuffer();
         HttpURLConnection conn = null;
@@ -55,6 +58,7 @@ public class HttpClient {
         BufferedReader bufferedReader = null;
 
         try {
+            URL url = new URL(hostAddr + method);
             conn = (HttpURLConnection) url.openConnection();
             // 发送Post强求，开启其读写的功能
             conn.setDoOutput(true);
