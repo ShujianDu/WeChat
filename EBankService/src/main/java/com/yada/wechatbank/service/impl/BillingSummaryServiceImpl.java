@@ -79,7 +79,7 @@ public class BillingSummaryServiceImpl implements BillingSummaryService {
 				list.add(dateStrY);
 			}
 		} catch (ParseException e) {
-			throw new RuntimeException("@BillSummary@getDateList error,ParseException");
+			throw new RuntimeException("@WDZD@getDateList error,ParseException");
 		}
 		return list;
 	}

@@ -1,7 +1,5 @@
 package com.yada.wechatbank.query;
 
-import java.util.List;
-
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
@@ -14,16 +12,6 @@ import com.yada.wechatbank.base.WcbBaseQuery;
  *
  */
 public class BillingSummaryQuery extends WcbBaseQuery {
-	private List<String> test;
-
-	public List<String> getTest() {
-		return test;
-	}
-
-	public void setTest(List<String> test) {
-		this.test = test;
-	}
-
 	/** 账期开始日期(账单日期) */
 	private String periodStartDate;
 	/** 账期结束日期/账单日期(到期还款日) */
@@ -42,16 +30,6 @@ public class BillingSummaryQuery extends WcbBaseQuery {
 	private String date;
 	/** 账单类型 ALLT已出账单 UNSM未出账单 */
 	private String queryType;
-	/** 用户卡列表 */
-	private List<String> cardNos;
-
-	public List<String> getCardNos() {
-		return cardNos;
-	}
-
-	public void setCardNos(List<String> cardNos) {
-		this.cardNos = cardNos;
-	}
 
 	public String getDate() {
 		return date;

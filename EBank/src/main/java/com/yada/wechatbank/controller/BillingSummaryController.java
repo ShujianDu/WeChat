@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.yada.wechatbank.base.BaseController;
 import com.yada.wechatbank.model.BillingSummary;
 import com.yada.wechatbank.query.BillingSummaryQuery;
 import com.yada.wechatbank.service.BillingSummaryService;
@@ -22,7 +23,7 @@ import com.yada.wechatbank.service.BillingSummaryService;
  */
 @Controller
 @RequestMapping(value = "billingsummary")
-public class BillingSummaryController {
+public class BillingSummaryController extends BaseController {
 	private final static Logger logger = LoggerFactory.getLogger(BillingSummaryController.class);
 	/**
 	 * 账单摘要业务层
@@ -33,14 +34,6 @@ public class BillingSummaryController {
 	 * 账单摘要list页面
 	 */
 	private static final String LISTURL = "wechatbank_pages/BillingSummary/list";
-	/**
-	 * 错误页面
-	 */
-	private static String ERROR = "wechatbank_pages/error";
-	/**
-	 * 无信用卡信息跳转URL
-	 */
-	public static final String NOCARDURL = "wechatbank_pages/nocard";
 
 	/**
 	 * 查询账单摘要选择页面
@@ -84,13 +77,15 @@ public class BillingSummaryController {
 	 */
 	@RequestMapping(value = "listP")
 	public String listP(@ModelAttribute("formBean") BillingSummaryQuery billingSummaryQuery, Model model) {
+		// TODO 获取卡列表，登录成功后有方法可以得到卡列表
+		List<String> cardList = null;
 		// 查询的账单日期
 		String date = billingSummaryQuery.getDate();
 		// 得到需要查询账单摘要的卡列表
 		List<String> queryCardList;
 		try {
 			// TODO 获取卡列表的方式需要登录成功提供,替换null值
-			queryCardList = billingSummaryServiceImpl.getQueryCardList(billingSummaryQuery.getCardNo(), null);
+			queryCardList = billingSummaryServiceImpl.getQueryCardList(billingSummaryQuery.getCardNo(), cardList);
 		} catch (Exception e) {
 			logger.error("@WDZD@cardList crypt error,billingSummaryQuery[" + billingSummaryQuery + "]:" + e);
 			return ERROR;
@@ -103,7 +98,7 @@ public class BillingSummaryController {
 			return ERROR;
 		}
 		// 查询账单可选日期
-		model.addAttribute("cardList", billingSummaryQuery.getCardNos());
+		model.addAttribute("cardList", cardList);
 		model.addAttribute("dateList", billingSummaryServiceImpl.getDateList());
 		model.addAttribute("model", billingSummaryQuery);
 		model.addAttribute("billsList", billsList);
