@@ -1,9 +1,14 @@
 package com.yada.wechatbank.base;
 
+import com.yada.wechatbank.client.HttpClient;
+import com.yada.wechatbank.client.model.CardInfoResp;
+import com.yada.wechatbank.model.CardInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,6 +17,10 @@ import java.util.Map;
 @Service
 public class BaseService {
 
+    @Autowired
+    private HttpClient httpClient;
+    @Value("${url.getCardInfos}")
+    private String getCardInfos;
     // 直销系统参数
     @Value("${zx.txnId}")
     private String txnId;
@@ -23,6 +32,7 @@ public class BaseService {
     private String imei;
     @Value("${zx.channelNo}")
     private String channelNo;
+    //GCS参数
     @Value("${gcs.sessionId}")
     private String gcsSessionId;
     @Value("${gcs.channelId}")
@@ -53,4 +63,20 @@ public class BaseService {
         param.put("channelId",gcsChannelId);
         return param;
     }
+
+    /**
+     * 根据证件号和证件类型查询卡列表
+     * @param identityNo
+     * @param identityType
+     * @return
+     */
+    public List<CardInfo> selectCardNOs(String identityNo, String identityType){
+        Map<String, String> map = initGcsParam();
+        map.put("idType",identityType);
+        map.put("idNum",identityNo);
+        CardInfoResp cardInfoResp = httpClient.send(getCardInfos,map,CardInfoResp.class);
+        return  cardInfoResp.getCardInfoList();
+    }
+
+
 }
