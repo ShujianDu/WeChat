@@ -1,6 +1,11 @@
 package com.yada.wechatbank.base;
 
+import com.yada.wechatbank.model.CardInfo;
+import com.yada.wx.db.service.model.CustomerInfo;
 import org.springframework.stereotype.Controller;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * controller公共元素
@@ -18,4 +23,25 @@ public class BaseController {
 	public static final String NOCARDURL = "wechatbank_pages/nocard";
 	// 错误页面
 	public static final String ERROR = "wechatbank_pages/error";
+
+	/**
+	 * 从session中获取证件号
+	 * @param request HttpServletRequest
+	 * @return
+     */
+	public String getIdentityNo(HttpServletRequest request){
+		String identityNo = (String) request.getSession().getAttribute("identityNo");
+		return identityNo;
+	}
+
+	/**
+	 *从session中获取证件类型
+	 * @param request HttpServletRequest
+	 * @return String
+     */
+	public String getIdentityType(HttpServletRequest request){
+		String identityType = (String) request.getSession().getAttribute("identityType");
+		return identityType;
+	}
+
 }

@@ -4,11 +4,10 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
 import com.yada.wechatbank.base.WcbBaseQuery;
-import com.yada.wechatbank.util.Crypt;
 
 /**
  * 
- * @author hh
+ * @author zm
  * 
  */
 public class BindingQuery extends WcbBaseQuery {

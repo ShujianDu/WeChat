@@ -8,7 +8,7 @@ import com.yada.wechatbank.base.WcbBaseQuery;
 /**
  * 申请办卡信息
  * 
- * @author hh
+ * @author zm
  * 
  */
 public class BookingQuery extends WcbBaseQuery {
