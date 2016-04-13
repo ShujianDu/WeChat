@@ -6,7 +6,6 @@ import com.yada.wechatbank.model.CardInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,7 @@ import java.util.Map;
 public class BaseService {
 
     @Autowired
-    private HttpClient httpClient;
+    protected HttpClient httpClient;
     @Value("${url.getCardInfos}")
     private String getCardInfos;
     // 直销系统参数
@@ -70,7 +69,7 @@ public class BaseService {
      * @param identityType
      * @return
      */
-    public List<CardInfo> selectCardNOs(String identityNo, String identityType){
+    public List<CardInfo> selectCardNos(String identityNo, String identityType){
         Map<String, String> map = initGcsParam();
         map.put("idType",identityType);
         map.put("idNum",identityNo);
