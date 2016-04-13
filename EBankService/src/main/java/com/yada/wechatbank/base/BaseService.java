@@ -25,7 +25,7 @@ public class BaseService {
     private String channelNo;
 
     /**
-     * 构建征信平台参数
+     * 构建直销系统参数
      *
      * @return Map<String, String>
      */
