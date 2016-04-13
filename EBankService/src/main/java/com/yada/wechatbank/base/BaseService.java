@@ -23,6 +23,10 @@ public class BaseService {
     private String imei;
     @Value("${zx.channelNo}")
     private String channelNo;
+    @Value("${gcs.sessionId}")
+    private String gcsSessionId;
+    @Value("${gcs.channelId}")
+    private String gcsChannelId;
 
     /**
      * 构建征信平台参数
@@ -36,6 +40,17 @@ public class BaseService {
         param.put("deviceToken", deviceToken);
         param.put("imei", imei);
         param.put("channelNo", channelNo);
+        return param;
+    }
+
+    /**
+     * 初始化GCS参数
+     * @return
+     */
+    public Map<String, String> initGcsParam(){
+        Map<String, String> param = new HashMap<>();
+        param.put("sessionId",gcsSessionId);
+        param.put("channelId",gcsChannelId);
         return param;
     }
 }
