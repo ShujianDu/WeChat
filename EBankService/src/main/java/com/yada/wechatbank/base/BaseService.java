@@ -70,7 +70,7 @@ public class BaseService {
      * @param identityType
      * @return
      */
-    public List<CardInfo> selectCardNOs(String identityNo, String identityType){
+    public List<CardInfo> selectCardNos(String identityNo, String identityType){
         Map<String, String> map = initGcsParam();
         map.put("idType",identityType);
         map.put("idNum",identityNo);
