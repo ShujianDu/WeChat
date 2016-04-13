@@ -1,4 +1,4 @@
-package com.yada.wechatbank.service;
+package com.yada.wechatbank.base;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.Map;
 @Service
 public class BaseService {
 
-    //征信平台参数
+    // 直销系统参数
     @Value("${zx.txnId}")
     private String txnId;
     @Value("${zx.deviceType}")

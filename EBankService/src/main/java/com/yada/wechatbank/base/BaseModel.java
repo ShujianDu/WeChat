@@ -1,4 +1,4 @@
-package com.yada.wechatbank.model;
+package com.yada.wechatbank.base;
 
 /**
  * 与行内系统交互返回JSON转换实体Base
