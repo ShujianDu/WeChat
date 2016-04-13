@@ -6,7 +6,7 @@ import java.io.Serializable;
  * 账单寄送方式实体
  * @author tx
  */
-public class BillSendType{
+public class BillSendType extends BaseModel{
 	/**
 	 * 账单寄送方式
 	 * */

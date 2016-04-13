@@ -1,5 +1,6 @@
 package com.yada.wechatbank.service.impl;
 
+import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.model.Balance;
 import com.yada.wechatbank.model.CardInfo;
 import com.yada.wechatbank.service.BalanceService;
@@ -16,16 +17,14 @@ import java.util.List;
  * @author tx
  */
 @Service
-public class BalanceServiceImpl implements BalanceService {
+public class BalanceServiceImpl extends BaseService implements BalanceService {
 	private final Logger logger = LoggerFactory
 			.getLogger(this.getClass());
 
-	/**
-	 * 为前台处理需要展示的额度信息
-	 * @param cardInfos   卡列表
-	 * @return 展示的用户额度列表
-	 */
-	public List<List<Balance>> getList(List<CardInfo> cardInfos ) {
+	public List<List<Balance>> getList(String identityType,String identityNo ) {
+
+		//TODO 卡列表获取需改变逻辑
+		List<CardInfo> cardInfos=selectCardNos(identityType,identityNo);
 		//TODO 与后台接口调用获取额度列表
 		List<Balance> balanceList=null;
 

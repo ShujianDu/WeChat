@@ -13,8 +13,9 @@ import java.util.List;
 public interface BalanceService {
 	/**
 	 * 为前台处理需要展示的额度信息
-	 * @param cardInfos 卡列表
+	 * @param identityType  证件类型
+	 * @param identityNo    证件号
 	 * @return 展示的用户额度列表
 	 */
-	 List<List<Balance>> getList(List<CardInfo> cardInfos) ;
+	 List<List<Balance>> getList(String identityType,String identityNo) ;
 }
