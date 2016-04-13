@@ -1,4 +1,4 @@
-package com.yada.wechatbank.service;
+package com.yada.wechatbank.base;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
