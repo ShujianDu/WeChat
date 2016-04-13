@@ -7,20 +7,24 @@
 	http://www.springframework.org/schema/context/spring-context.xsd "
 	default-lazy-init="false">
 
+	<context:property-placeholder  file-encoding="UTF-8"
+			ignore-unresolvable="true" location="classpath:/application-common.properties" />
+
 	<beans profile="test">
 		<context:property-placeholder  file-encoding="UTF-8"
 			ignore-unresolvable="true" location="classpath:/application-test.properties" />
 	</beans>
+
 	<beans profile="sit">
 		<context:property-placeholder  file-encoding="UTF-8"
 			ignore-unresolvable="true" location="classpath:/application-sit.properties" />
 	</beans>
-	
+
 	<beans profile="uat">
 		<context:property-placeholder  file-encoding="UTF-8"
 			ignore-unresolvable="true" location="classpath:/application-uat.properties" />
 	</beans>
-	
+
 	<beans profile="production">
 		<context:property-placeholder  file-encoding="UTF-8"
 			ignore-unresolvable="true" location="classpath:/application-production.properties" />

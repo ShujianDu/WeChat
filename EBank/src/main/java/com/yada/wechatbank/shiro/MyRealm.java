@@ -1,8 +1,6 @@
 package com.yada.wechatbank.shiro;
 
-import java.util.Map;
-
-import com.yada.wechatbank.service.PermitHander;
+import com.yada.wechatbank.permit.PermitHander;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -17,10 +15,12 @@ import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.util.SavedRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 public class MyRealm extends AuthorizingRealm {
 	private final static Logger logger = LoggerFactory.getLogger(MyRealm.class);
+	@Autowired
 	private PermitHander permitHander;
 	private String timeout;
 
@@ -47,6 +47,7 @@ public class MyRealm extends AuthorizingRealm {
 		String verification = myToken.getVerification();
 		Subject subject = SecurityUtils.getSubject();
 		Session session = subject.getSession();
+		String identityType = myToken.getIdentityType();
 
 		String randomCode = (String) session.getAttribute("jcmsrandomchar");
 		String openId = myToken.getOpenId();
@@ -58,12 +59,9 @@ public class MyRealm extends AuthorizingRealm {
 		if (openId != null) {
 			if (randomCode.equals(verification)) {
 				boolean hasPermit = permitHander.hasPermits(username, password,openId);
-				logger.info("@QXYZ@调用核心根据idNumber["+username+"],openId["+openId+"]验证电话银行密码，验证结果hasPermit["+hasPermit+"]");
 				if (hasPermit) {
-					//调用查询客户信息方法
-					//调用接口查询客户卡列表
-					Map<String, String> custInfo = permitHander.getCustInfo(openId, username);
-					session.setAttribute("custInfo", custInfo);
+					session.setAttribute("identityNo",username);
+					session.setAttribute("identityType",identityType);
 					long time=Long.parseLong(timeout);
 					// 设置session超时时间10分钟
 					SecurityUtils.getSubject().getSession().setTimeout(time);

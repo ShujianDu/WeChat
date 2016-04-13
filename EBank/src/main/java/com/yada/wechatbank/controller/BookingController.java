@@ -2,13 +2,13 @@ package com.yada.wechatbank.controller;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import com.yada.wechatbank.service.BookingManager;
+
+import com.yada.wechatbank.base.BaseController;
+import com.yada.wechatbank.service.BookingService;
 import com.yada.wx.db.service.model.Booking;
 import com.yada.wx.db.service.model.NuwOrg;
 import net.sf.json.JSONArray;
@@ -20,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.yada.wechatbank.query.BookingQuery;
-import com.yada.wechatbank.util.JsMapUtil;
 
 /**
  * 信用卡预约申请Controller
@@ -30,23 +29,17 @@ import com.yada.wechatbank.util.JsMapUtil;
  */
 @Controller
 @RequestMapping(value = "booking")
-public class BookingController {
+public class BookingController extends BaseController {
 	private final static Logger logger = LoggerFactory.getLogger(BookingController.class);
 	private static final String LISTURL="wechatbank_pages/Booking/list";
 	private static final String ADDRESS="wechatbank_pages/Booking/address";
 	private static final String SUCCESSURL="wechatbank_pages/Booking/success";
 	private static final String ERRORURL="wechatbank_pages/Booking/error";
-	private static String ERROR = "wechatbank_pages/error";
 	public static final String ALLERRORURL = "wechatbank_pages/error";
 	@Autowired
-	private BookingManager bookingManager;
+	private BookingService bookingServiceImpl;
 	/**
 	 * 进入预约办卡信息填写界面
-	 * 
-	 * @param bookingQuery
-	 * @param request
-	 * @param model
-	 * @return
 	 */
 	@RequestMapping(value = "list")
 	public String list(
@@ -68,29 +61,20 @@ public class BookingController {
 
 	/**
 	 * 确认提交预约办卡信息
-	 * 
-	 * @param bookingQuery
-	 * @param request
-	 * @param model
-	 * @return
 	 */
 	@RequestMapping(value = "listP")
 	public String listP(
-			@ModelAttribute("formBean") BookingQuery bookingQuery,
-			HttpServletRequest request, Model model) {
+			@ModelAttribute("formBean") BookingQuery bookingQuery) {
 		Calendar cal = Calendar.getInstance();
 		String dateStr = new SimpleDateFormat("yyyyMMdd").format(cal.getTime());
 		String timeStr = new SimpleDateFormat("yyyyMMddHHmmss").format(cal
 				.getTime());
-		String num = bookingManager.getSequences();
-		logger.info("@WYBK@调用核心获取客户ID的Sequences，获取到的Sequences["+num+"]");
+		String num = bookingServiceImpl.getSequences();
 		if(num==null){
 			return ERRORURL;
 		}
-		//此处后期放入service里
 		String numStr = String.format("%04d", Integer.parseInt(num));
 		Booking booking = new Booking();
-		//booking.setBookingId("");
 		booking.setClientId("WC" + timeStr + numStr);
 		booking.setClientName(bookingQuery.getClientName());
 		booking.setProvId(bookingQuery.getProvId().substring(0,
@@ -104,7 +88,7 @@ public class BookingController {
 		booking.setMobilePhone(bookingQuery.getMobilePhone());
 		booking.setServiceAddr(bookingQuery.getServiceAddr());
 		booking.setApplyDt(dateStr);
-		boolean insertBookingRet =  bookingManager.insertBooking(booking);
+		boolean insertBookingRet =  bookingServiceImpl.insertBooking(booking);
 		if (!insertBookingRet) {
 			return ERRORURL;
 		}
@@ -113,11 +97,7 @@ public class BookingController {
 
 	/**
 	 * 进入省市区选择界面
-	 * 
-	 * @param bookingQuery
-	 * @param request
-	 * @param model
-	 * @return
+	 *
 	 */
 	@RequestMapping(value = "address")
 	public String address(
@@ -135,7 +115,7 @@ public class BookingController {
 //		}
 		model.addAttribute("openId",openId);
 		// 获取省份集合
-		List<NuwOrg> provinceList = bookingManager.selectNumOrgList("");
+		List<NuwOrg> provinceList = bookingServiceImpl.selectNumOrgList("");
 		if(provinceList==null){
 			return ALLERRORURL;
 		}
@@ -143,10 +123,10 @@ public class BookingController {
 				&& !"".equals(request.getParameter("provId"))) {
 			String provIdstr=bookingQuery.getProvId();
 			String provId = provIdstr.substring(0, provIdstr.indexOf("^"));
-			List<NuwOrg> cityList = bookingManager.selectNumOrgList(provId);
+			List<NuwOrg> cityList = bookingServiceImpl.selectNumOrgList(provId);
 			String cityIdstr=bookingQuery.getCityId();
 			String cityId = cityIdstr.substring(0, cityIdstr.indexOf("^"));
-			List<NuwOrg> areaList = bookingManager.selectNumOrgList(cityId);
+			List<NuwOrg> areaList = bookingServiceImpl.selectNumOrgList(cityId);
 			model.addAttribute("model", bookingQuery);
 			model.addAttribute("cityList", cityList);
 			model.addAttribute("areaList", areaList);
@@ -158,11 +138,6 @@ public class BookingController {
 
 	/**
 	 * 确认选择的省市区
-	 * 
-	 * @param bookingQuery
-	 * @param request
-	 * @param model
-	 * @return
 	 */
 	@RequestMapping(value = "addressP")
 	public String addressP(
@@ -197,10 +172,6 @@ public class BookingController {
 
 	/**
 	 * 获取城市列表AJAX
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws IOException
 	 */
 	@RequestMapping(value = "getOrg_ajax")
 	public void getOrg_ajax(HttpServletRequest request,
@@ -208,9 +179,7 @@ public class BookingController {
 		String result = "";
 		String pOrgIdstr = request.getParameter("pOrgId");
 		String pOrgId = pOrgIdstr.substring(0, pOrgIdstr.indexOf("^"));
-		List<NuwOrg> list = new ArrayList<NuwOrg>();
-		list = bookingManager.selectNumOrgList(pOrgId);
-		logger.debug("@WYBK@select num org list["+list+"]");
+		List<NuwOrg> list = bookingServiceImpl.selectNumOrgList(pOrgId);
 		if (list == null || list.size() == 0) {
 			result = "exception";
 		} else {
@@ -221,20 +190,14 @@ public class BookingController {
 	}
 
 	/**
-	 * 判断用户输入的信息是否已存在
-	 * 
-	 * @param request
-	 * @param response
-	 * @throws IOException
-	 */
+	 * 判断是否已经预约
+     */
 	@RequestMapping(value = "isBooking_ajax")
 	public void isBooking_ajax(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		String result = "";
-		String bookingResult=bookingManager.isHaveBooking(request.getParameter("clientName"),request.getParameter("mobilePhone"));
-		logger.info("@WYBK@调用核心根据clientName["+request.getParameter("clientName")+"],mobilePhone["+request.getParameter("mobilePhone")+"]");
+		String bookingResult=bookingServiceImpl.isHaveBooking(request.getParameter("clientName"),request.getParameter("mobilePhone"));
 		if(bookingResult==null){
-			logger.debug("@WYBK@预约办卡失败mobilePhone["+request.getParameter("mobilePhone")+"]");
 			result = "exception";
 		}else if ("true".equals(bookingResult)) {
 			result = "true";

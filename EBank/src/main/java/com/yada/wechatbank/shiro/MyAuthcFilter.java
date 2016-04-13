@@ -11,7 +11,15 @@ public class MyAuthcFilter extends FormAuthenticationFilter {
 
 	public static final String DEFAULT_VERIFICATION_PARAM = "verification";
 	private String verificationParam = DEFAULT_VERIFICATION_PARAM;     //验证码
+
+
+
 	private String openId = "openId";     //openId
+
+
+
+
+	private String identityType = "identityType";
 	
 	/**
 	 * 重写父类创建token方法
@@ -24,7 +32,8 @@ public class MyAuthcFilter extends FormAuthenticationFilter {
 		String openId = getOpenIdParam(request);
 		boolean rememberMe = isRememberMe(request);
 		String host = getHost(request);
-		return new MyToken(username, password, verification, rememberMe, host,openId);
+		String identityType = getIdentityType(request);
+		return new MyToken(username, password, verification, rememberMe, host,openId,identityType);
 	}
 
 	protected String getVerificationParam(ServletRequest request) {
@@ -33,7 +42,9 @@ public class MyAuthcFilter extends FormAuthenticationFilter {
 	protected String getOpenIdParam(ServletRequest request) {
 		return WebUtils.getCleanParam(request, getOpenId());
 	}
-	
+	protected String getIdentityType(ServletRequest request) {
+		return WebUtils.getCleanParam(request, getIdentityType());
+	}
 	public String getOpenId() {
 		return openId;
 	}
@@ -45,8 +56,13 @@ public class MyAuthcFilter extends FormAuthenticationFilter {
 	public String getVerificationParam() {
 		return verificationParam;
 	}
-
 	public void setVerificationParam(String verificationParam) {
 		this.verificationParam = verificationParam;
+	}
+	public void setIdentityType(String identityType) {
+		this.identityType = identityType;
+	}
+	public String getIdentityType() {
+		return identityType;
 	}
 }

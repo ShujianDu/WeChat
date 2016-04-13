@@ -14,21 +14,18 @@ public class HttpClientTest {
 
     @Test
     public static void main(String[] args) {
-        try {
-            String reqUrl = "http://localhost/EBank/cardapply/getJson.do";
-            int conTimeout = 10000;
-            int readTimeout = 10000;
+        String hostAddr = "http://localhost/EBank";
+        String reqUrl = "/cardapply/getJson.do";
+        int conTimeout = 10000;
+        int readTimeout = 10000;
 
-            HttpClient httpClient = new HttpClient(reqUrl, conTimeout, readTimeout);
-            Map<String, String> map = new HashMap<>();
-            map.put("key1", "value1");
-            map.put("key2", "value2");
-            map.put("key3", "value3");
+        HttpClient httpClient = new HttpClient(hostAddr, conTimeout, readTimeout);
+        Map<String, String> map = new HashMap<>();
+        map.put("key1", "value1");
+        map.put("key2", "value2");
+        map.put("key3", "value3");
 
-            Map<String, String> respMap = httpClient.send(map, map.getClass());
-            System.out.print(respMap.keySet());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        Map<String, String> respMap = httpClient.send(reqUrl, map, map.getClass());
+        System.out.print(respMap.keySet());
     }
 }

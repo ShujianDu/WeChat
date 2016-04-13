@@ -12,9 +12,11 @@ public class MyToken extends UsernamePasswordToken {
 	private String verification;
 	private boolean rememberMe = false;
 	private String host;
+	private String identityType;
+
 
 	public MyToken(final String username, final char[] password,
-			final String verification, final boolean rememberMe, final String host,String openId) {
+				   final String verification, final boolean rememberMe, final String host, String openId,String identityType) {
 
 		this.username = username;
 		this.password = password;
@@ -22,6 +24,7 @@ public class MyToken extends UsernamePasswordToken {
 		this.rememberMe = rememberMe;
 		this.host = host;
 		this.openId=openId;
+		this.identityType=identityType;
 	}
 
 	public String getOpenId() {
@@ -70,6 +73,14 @@ public class MyToken extends UsernamePasswordToken {
 
 	public void setHost(String host) {
 		this.host = host;
+	}
+
+	public void setIdentityType(String identityType) {
+		this.identityType = identityType;
+	}
+
+	public String getIdentityType() {
+		return identityType;
 	}
 
 }
