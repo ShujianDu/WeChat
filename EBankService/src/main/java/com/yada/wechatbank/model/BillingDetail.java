@@ -12,8 +12,6 @@ public class BillingDetail extends BaseModel implements Serializable {
 	private String currencyCode;
 	// 交易日期
 	private String transactionDate;
-	// 交易类型（支出，还款） XXX暂时不用
-	// private String transactionType;
 	// 交易金额
 	private String transactionAmount;
 	// 交易描述
