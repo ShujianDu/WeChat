@@ -9,7 +9,7 @@ import com.yada.system.adapter.points.PointsService
 import com.yada.system.adapter.tgw.TGWService
 import io.netty.handler.codec.http.FullHttpRequest
 
-class Router(bCSPService: BCSPService ,directSale:DirectSale,gCSService: GCSService,pointsService: PointsService,tGWService: TGWService) {
+class Router {
 
   def dispatch(httpRequest: FullHttpRequest): Unit ={
     //TODO 路由
@@ -31,6 +31,5 @@ class Router(bCSPService: BCSPService ,directSale:DirectSale,gCSService: GCSServ
   }
 }
 
-object Router{
-  def apply(bCSPService: BCSPService, directSale: DirectSale, gCSService: GCSService, pointsService: PointsService, tGWService: TGWService): Router = new Router(bCSPService, directSale, gCSService, pointsService, tGWService)
+object Router extends Router{
 }

@@ -1,7 +1,5 @@
 package com.yada.system.adapter.server
 
-import java.nio.charset.StandardCharsets
-
 import io.netty.channel.{ChannelHandlerContext, SimpleChannelInboundHandler}
 import io.netty.handler.codec.http.FullHttpRequest
 

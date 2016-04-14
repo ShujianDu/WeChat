@@ -6,222 +6,149 @@ import play.api.libs.json.{Writes, _}
 trait GCSService {
 
   /**
-    * 根据一组卡号查询额度
-    *
-    * @param sessionID gcsSessionId
-    * @param channelID 渠道编号
-    * @param cardInfos 一组卡号信息- Map[卡号、对应币种集合]
-    * @return GCSBalance
-    */
-  def getBalance(sessionID: String, channelID: String, cardInfos: Map[String, List[String]]): List[GCSBalance]
-
-  /**
     * 根据卡号查询额度
     *
-    * @param sessionID gcsSessionId
-    * @param channelID 渠道编号
-    * @param cardNo    卡号
-    * @param currencyCodes  币种列表
+    * @param cardNoParams 参数
     * @return GCSBalance
     */
-  def getBalance(sessionID: String, channelID: String, cardNo: String, currencyCodes: List[String]): List[GCSBalance]
+  def getBalance(cardNoParams: CardNoParams): List[BalanceResult]
 
   /**
     * 查账单周期
     *
-    * @param sessionId gcsSessionId
-    * @param channelId 渠道编号
-    * @param cardNo    卡号
+    * @param cardNoParams 参数
     * @return
     */
-  def getBillingPeriods(sessionId: String, channelId: String, cardNo: String): List[GCSBillingPeriods]
+  def getBillingPeriods(cardNoParams: CardNoParams): List[BillingPeriodsResult]
 
-  /**
+  /** a
     * 账单摘要查询
     *
-    * @param sessionId   gcsSessionId
-    * @param channelId   渠道编号
-    * @param statementNo 账期号
-    * @param accountId   账户ID
-    * @return
+    * @param billingSummaryParams BillingSummaryParams
+    * @return BillingSummaryResult
     */
-  def getBillingSummary(sessionId: String, channelId: String, statementNo: String, accountId: String): GCSBillingSummary
+  def getBillingSummary(billingSummaryParams: BillingSummaryParams): BillingSummaryResult
 
   /**
     * 查询账单明细
     *
-    * @param sessionId    gcsSessionId
-    * @param channelId    渠道编号
-    * @param cardNo       卡号
-    * @param currencyCode 交易币种
-    * @param queryType    查询类型
-    * @param startNum     起始条数
-    * @param totalNum     显示条数
-    * @param startDate    交易开始日期
-    * @param endDate      交易结束日期
+    * @param billingDetailsParams BillingDetailsParams
     * @return
     */
-  def getBillingDetails(sessionId: String, channelId: String, cardNo: String, currencyCode: String, queryType: String, startNum: String,
-                        totalNum: String, startDate: String, endDate: String): List[GCSBillingDetail]
+  def getBillingDetails(billingDetailsParams: BillingDetailsParams): List[BillingDetailResult]
 
   /**
     * 币种查询
     *
-    * @param sessionId gcsSessionId
-    * @param channelId 渠道编号
-    * @param cardNo    卡号
+    * @param cardNoParams 卡号参数
     * @return 该卡的币种
     */
-  def getCurrencyCodes(sessionId: String, channelId: String, cardNo: String): List[String]
-
+  def getCurrencyCodes(cardNoParams: CardNoParams): List[CurrencyCodeResult]
 
   /**
     * 查询卡的币种和产品类型
     *
-    * @param sessionId gcsSessionId
-    * @param channelId 渠道编号
-    * @param cardNo    卡号
-    * @return (币种列表,卡片产品类型)
+    * @param cardNoParams 卡号参数
+    * @return CardCurrencyCodeAndStyleResult
     */
-  def getCardCurrencyCodeAndStyle(sessionId: String, channelId: String, cardNo: String): (List[String], String)
+  def getCardCurrencyCodeAndStyle(cardNoParams: CardNoParams): CardCurrencyCodeAndStyleResult
 
   /**
     * 账单寄送方式查询
     *
-    * @param sessionId gcsSessionId
-    * @param channelId 渠道编号
-    * @param cardNo    卡号
-    * @return
+    * @param cardNoParams 卡号参数
+    * @return BillSendTypeResult
     */
-  def getBillSendType(sessionId: String, channelId: String, cardNo: String): String
+  def getBillSendType(cardNoParams: CardNoParams): BillSendTypeResult
 
   /**
     * 账单寄送方式修改
     *
-    * @param sessionId    gcsSessionId
-    * @param channelId    渠道编号
-    * @param cardNo       卡号
-    * @param billSendType 账单寄送方式
+    * @param updateBillSendTypeParams UpdateBillSendTypeParams
     * @return
     */
-  def updateBillSendType(sessionId: String, channelId: String, cardNo: String, billSendType: String): Boolean
+  def updateBillSendType(updateBillSendTypeParams: UpdateBillSendTypeParams): BooleanResult
 
   /**
     * 信用卡挂失-永久挂失
     *
-    * @param sessionId  gcsSessionId
-    * @param channelId  渠道编号
-    * @param cardNo     卡号
-    * @param idType     证件类型
-    * @param idNum      证件号
-    * @param familyName 姓-海外的只有性，国内是姓名
-    * @param lossReason 挂失原因
+    * @param creditCardReportLostParams CreditCardReportLostParams
     * @return 返回是否挂失成功 true/false
     */
-  def creditCardReportLost(sessionId: String, channelId: String, cardNo: String, idType: String, idNum: String, familyName: String, lossReason: String): Boolean
+  def creditCardReportLost(creditCardReportLostParams: CreditCardReportLostParams): BooleanResult
 
   /**
     * 信用卡临时挂失
     *
-    * @param sessionId  gcsSessionId
-    * @param channelId  渠道编号
-    * @param cardNo     卡号
-    * @param entyMethod 卡号录入方式 01-手工  07-接触 98-非接
-    * @param idNum      证件号
-    * @param idType     证件类型
-    * @param familyName 姓-海外的只有性，国内是姓名
-    * @param lostReason 挂失原因
+    * @param tempCreditCardReportLostParams TempCreditCardReportLostParams
     * @return 返回是否临时挂失成功 true/false
     */
-  def tempCreditCardReportLost(sessionId: String, channelId: String, cardNo: String, entyMethod: String, idNum: String, idType: String, familyName: String, lostReason: String): Boolean
+  def tempCreditCardReportLost(tempCreditCardReportLostParams: TempCreditCardReportLostParams): BooleanResult
 
   /**
     * 解除临时挂失
     *
-    * @param sessionId  gcsSessionId
-    * @param channelId  渠道编号
-    * @param cardNo     卡号
-    * @param idNum      证件号
-    * @param familyName 姓-海外的只有性，国内是姓名
-    * @param idType     证件类型
+    * @param relieveCreditCardTempReportLost RelieveCreditCardTempReportLost
     * @return 返回是否解除临时挂失成功
     */
-  def relieveCreditCardTempReportLost(sessionId: String, channelId: String, cardNo: String, idNum: String, familyName: String, idType: String): Boolean
+  def relieveCreditCardTempReportLost(relieveCreditCardTempReportLost: RelieveCreditCardTempReportLostParams): BooleanResult
 
   /**
     * 根据卡号查询客户信息 - TS010201
     *
-    * @param sessionId gcsSessionId
-    * @param channelId 渠道编号
-    * @param cardNo    卡号
+    * @param cardNoParams 卡号参数
     * @return
     */
-  def getCardHolderInfo(sessionId: String, channelId: String, cardNo: String): GCSCardHolderInfo
+  def getCardHolderInfo(cardNoParams: CardNoParams): CardHolderInfoResult
 
   /**
     * 获取预约办卡用户手机号
     *
-    * @param sessionId gcsSessionId
-    * @param channelId 渠道编号
-    * @param idType    证件类型
-    * @param idNo      证件号
+    * @param mobilePhoneParams MobilePhoneParams
     * @return 返回手机号
     */
-  def getMobilePhone(sessionId: String, channelId: String, idType: String, idNo: String): String
+  def getMobilePhone(mobilePhoneParams: MobilePhoneParams): MobilePhoneResult
 
   /**
     * 查询海淘卡
     *
-    * @param sessionId   gcsSessionId
-    * @param channelId   渠道编号
-    * @param idNum       证件号
-    * @param idType      证件类型
-    * @param productCode 产品代码
+    * @param wbicCardInfoParams WbicCardInfoParams
     * @return 返回海淘卡
     */
-  def getWbicCardInfo(sessionId: String, channelId: String, idNum: String, idType: String, productCode: String): Option[String]
+  def getWbicCardInfo(wbicCardInfoParams: WbicCardInfoParams): WbicCardInfoResult
 
   /**
     * 海淘卡挂失
     *
-    * @param sessionId gcsSessionId
-    * @param channelId 渠道编号
-    * @param cardNo    卡号
+    * @param cardNoParams 卡号参数
     * @return 返回是否挂失成功true/false
     */
-  def wbicCardLost(sessionId: String, channelId: String, cardNo: String): Boolean
+  def wbicCardLost(cardNoParams: CardNoParams): BooleanResult
 
   /**
     * 为海淘卡用户发送短信
     * GCS-TS011113
     *
-    * @param sessionId gcsSessionId
-    * @param channelId 渠道编号
-    * @param cardNo    卡号
+    * @param cardNoParams 卡号参数
     * @return 返回是否发送成功 true/false
     */
-  def wbicCardSendSMS(sessionId: String, channelId: String, cardNo: String): Boolean
+  def wbicCardSendSMS(cardNoParams: CardNoParams): BooleanResult
 
   /** *
     * 根据证件号和类型查询客户手机号
     *
-    * @param sessionId gcsSessionId
-    * @param channelId 渠道编号
-    * @param idType    证件类型
-    * @param idNum     证件号
+    * @param custMobileParams CustMobileParams
     * @return 手机号
     */
-  def getCustMobile(sessionId: String, channelId: String, idType: String, idNum: String): String
+  def getCustMobile(custMobileParams: CustMobileParams): MobilePhoneResult
 
   /** *
     * 根据实体卡取得虚拟卡
     *
-    * @param sessionId gcsSessionId
-    * @param channelId 渠道编号
-    * @param cardNo    卡号
+    * @param cardNoParams CardNoParams
     * @return 虚拟卡卡号列表
     */
-  def getVirtualCards(sessionId: String, channelId: String, cardNo: String): List[String]
+  def getVirtualCards(cardNoParams: CardNoParams): List[CardNoResult]
 
   /**
     * 临时提额评测
@@ -230,17 +157,10 @@ trait GCSService {
     * AT5605 - 任务类型标识 - "2临增"
     * AT5602 - 渠道系统标识 - "06微信"
     *
-    * @param sessionId   gcsSessionId
-    * @param channelId   渠道编号
-    * @param certType    客户证件类型
-    * @param certNum     客户证件号码
-    * @param phoneNumber 手机号
-    * @param cardNo      卡号
-    * @param currencyNo  币种
+    * @param creditLimitTemporaryUpReviewParams CreditLimitTemporaryUpReviewParams
     * @return 临时提额评测结果
     */
-  def creditLimitTemporaryUpReview(sessionId: String, channelId: String, certType: String, certNum: String,
-                                   phoneNumber: String, cardNo: String, currencyNo: String): GCSCreditLimitTemporaryUpReviewResult
+  def creditLimitTemporaryUpReview(creditLimitTemporaryUpReviewParams: CreditLimitTemporaryUpReviewParams): GCSCreditLimitTemporaryUpReviewResult
 
   /**
     * 临时提额提交
@@ -253,38 +173,26 @@ trait GCSService {
     * eosCustomerType - 客户预设额度类型 - "1-增额类"
     * eosRequestPath - 工单渠道标示 - "06微信"
     *
-    * @param sessionId                  gcsSessionId
-    * @param channelId                  渠道编号
     * @param gcsTemporaryUpCommitParams 临时提额授权参数
     * @return 临时提额授权结果
     */
-  def temporaryUpCommit(sessionId: String, channelId: String, gcsTemporaryUpCommitParams: GCSTemporaryUpCommitParams): Boolean
+  def temporaryUpCommit(gcsTemporaryUpCommitParams: GCSTemporaryUpCommitParams): BooleanResult
 
   /**
     * 信用卡额度临时提额调整状态查询
     *
-    * @param sessionId gcsSessionId
-    * @param channelId 渠道编号
-    * @param eosIDType 证件类型
-    * @param idNumber  证件号码
-    * @param cardNo    卡号
-    * @param eosId     工作单ID
+    * @param temporaryUpCommitStatusParams TemporaryUpCommitStatusParams
     * @return 信用卡额度临时提额调整状态列表
     */
-  def getTemporaryUpCommitStatus(sessionId: String, channelId: String, eosIDType: String, idNumber: String, cardNo: String, eosId: String): List[GCSCreditLimitTemporaryUpStatus]
+  def getTemporaryUpCommitStatus(temporaryUpCommitStatusParams: TemporaryUpCommitStatusParams): List[GCSCreditLimitTemporaryUpStatus]
 
   /**
     * 查询所有可分期的消费交易
     *
-    * @param sessionId    gcsSessionId
-    * @param channelId    渠道编号
-    * @param cardNo       卡号
-    * @param currencyCode 币种
-    * @param startNumber  起始条数
-    * @param selectNumber 显示条数
-    * @return (交易数量,是否有下一页,交易集合)
+    * @param consumptionInstallments ConsumptionInstallments
+    * @return ConsumptionInstallmentsResult
     */
-  def getConsumptionInstallments(sessionId: String, channelId: String, cardNo: String, currencyCode: String, startNumber: String, selectNumber: String): (String, Boolean, List[GCSConsumptionInstallmentsEntity])
+  def getConsumptionInstallments(consumptionInstallments: ConsumptionInstallmentsParams): ConsumptionInstallmentsResult
 
   /**
     * 查询消费分期试算结果
@@ -293,12 +201,10 @@ trait GCSService {
     * installmentPlan - “EP01”
     * merchantID - “0000000”
     *
-    * @param sessionId gcsSessionId
-    * @param channelId 渠道编号
-    * @param params    参数实体
+    * @param params 参数实体
     * @return 消费分期试算结果
     */
-  def costConsumptionInstallment(sessionId: String, channelId: String, params: GCSConsumptionInstallmentParams): GCSConsumptionInstallmentResult
+  def costConsumptionInstallment(params: GCSConsumptionInstallmentParams): GCSConsumptionInstallmentResult
 
   /**
     * 消费分期授权
@@ -309,79 +215,95 @@ trait GCSService {
     * installmentPlan - “EP01”
     * merchantID - “0000000”
     *
-    * @param sessionId gcsSessionId
-    * @param channelId 渠道编号
-    * @param params    参数实体
+    * @param params 参数实体
     * @return GCS返回码
     */
-  def authorizationConsumptionInstallment(sessionId: String, channelId: String, params: GCSConsumptionInstallmentParams): String
-
+  def authorizationConsumptionInstallment(params: GCSConsumptionInstallmentParams): GCSReturnCodeResult
 
   /**
     * 获取账单金额上下限
     * 1、根据卡号、币种查询查询账户ID
     * 2、根据账户ID、币种查询账单分期金额上下限
     *
-    * @param sessionId    gcsSessionId
-    * @param channelId    渠道编号
-    * @param cardNo       卡号
-    * @param currencyCode 币种
+    * @param amountLimitParams AmountLimitParams
     * @return 账单金额上下限结果
     */
-  def getAmountLimit(sessionId: String, channelId: String, cardNo: String, currencyCode: String): GCSAmountLimit
+  def getAmountLimit(amountLimitParams: AmountLimitParams): GCSAmountLimit
 
   /**
     * 账单分期费用试算
     *
-    * @param sessionId                gcsSessionId
-    * @param channelId                渠道编号
     * @param gcsBillInstallmentParams 账单分期费用试算参数
     * @return 账单分期费用试算结果
     */
-  def queryBillCost(sessionId: String, channelId: String, gcsBillInstallmentParams: GCSBillInstallmentParams): GCSBillInstallmentResult
+  def getBillCost(gcsBillInstallmentParams: GCSBillInstallmentParams): GCSBillInstallmentResult
 
   /**
     * 账单分期授权
     *
-    * @param sessionId                gcsSessionId
-    * @param channelId                渠道编号
     * @param gcsBillInstallmentParams 账单分期授权参数
     * @return GCS返回码
     */
-  def billInstallment(sessionId: String, channelId: String, gcsBillInstallmentParams: GCSBillInstallmentParams): String
+  def billInstallment(gcsBillInstallmentParams: GCSBillInstallmentParams): GCSReturnCodeResult
 
   /**
     * 根据证件类型和证件号查询所有卡信息
     *
-    * @param sessionId gcsSessionId
-    * @param channelId 渠道编号
-    * @param idType    证件类型
-    * @param idNum     证件号码
-    * @return (cardNo,主付卡标识)的集合
+    * @return CardInfosResult的集合
     */
-  def getCardInfos(sessionId: String, channelId: String, idType: String, idNum: String): List[(String, String)]
+  def getCardInfos(cardInfosParams: CardInfosParams): List[CardInfosResult]
 }
+
+trait GCSBase
+
+
+/**
+  * 公用的卡号参数
+  *
+  * @param sessionID GCSsessionID
+  * @param channelID GCS渠道号
+  * @param cardNo    卡号
+  */
+case class CardNoParams(sessionID: String, channelID: String, cardNo: String)
+
+object CardNoParams {
+  implicit val cardNoParamsReads: Reads[CardNoParams] = (
+    (__ \ "sessionID").read[String] ~ (__ \ "channelID").read[String] ~ (__ \ "cardNo").read[String]
+    ) (CardNoParams.apply _)
+
+  implicit val cardNoParamsWrites: Writes[CardNoParams] = (
+    (__ \ "sessionID").write[String] ~ (__ \ "channelID").write[String] ~ (__ \ "cardNo").write[String]
+    ) (unlift(CardNoParams.unapply))
+}
+
+/**
+  * 公用的卡号结果
+  *
+  * @param cardNo 卡号
+  */
+case class CardNoResult(cardNo: String)
 
 /**
   * 卡余额
   *
-  * @param cardNo                    卡号
-  * @param currencyCode              币种
-  * @param wholeCreditLimit          总授信额度
+  * @param cardNo                     卡号
+  * @param currencyCode               币种
+  * @param wholeCreditLimit           总授信额度
   * @param periodAvailableCreditLimit 总可用额
-  * @param preCashAdvanceCreditLimit 取现可用额度
+  * @param preCashAdvanceCreditLimit  取现可用额度
   */
-case class GCSBalance(cardNo: String, currencyCode: String, wholeCreditLimit: String, periodAvailableCreditLimit: String, preCashAdvanceCreditLimit: String)
+case class BalanceResult(cardNo: String, currencyCode: String, wholeCreditLimit: String, periodAvailableCreditLimit: String, preCashAdvanceCreditLimit: String) extends GCSBase
 
-object GCSBalance{
-  implicit val gcsBalanceReads: Reads[GCSBalance] = (
+object BalanceResult {
+  implicit val balanceResultReads: Reads[BalanceResult] = (
     (__ \ "cardNo").read[String] ~ (__ \ "currencyCode").read[String] ~ (__ \ "wholeCreditLimit").read[String] ~ (__ \ "periodAvailableCreditLimit").read[String] ~ (__ \ "preCashAdvanceCreditLimit").read[String]
-    ) (GCSBalance.apply _)
+    ) (BalanceResult.apply _)
 
-  implicit val gcsBalanceWrites: Writes[GCSBalance] = (
+  implicit val balanceResultWrites: Writes[BalanceResult] = (
     (__ \ "cardNo").write[String] ~ (__ \ "currencyCode").write[String] ~ (__ \ "wholeCreditLimit").write[String] ~ (__ \ "periodAvailableCreditLimit").write[String] ~ (__ \ "preCashAdvanceCreditLimit").write[String]
-    ) (unlift(GCSBalance.unapply))
+    ) (unlift(BalanceResult.unapply))
 }
+
 
 /**
   * 账单周期
@@ -392,16 +314,16 @@ object GCSBalance{
   * @param periodEndDate   账期结束日期
   * @param statementNo     账期号
   */
-case class GCSBillingPeriods(accountId: String, currencyCode: String, periodStartDate: String, periodEndDate: String, statementNo: String)
+case class BillingPeriodsResult(accountId: String, currencyCode: String, periodStartDate: String, periodEndDate: String, statementNo: String)
 
-object GCSBillingPeriods{
-  implicit val gcsBalanceReads: Reads[GCSBillingPeriods] = (
+object BillingPeriodsResult {
+  implicit val billingPeriodsResultReads: Reads[BillingPeriodsResult] = (
     (__ \ "accountId").read[String] ~ (__ \ "currencyCode").read[String] ~ (__ \ "periodStartDate").read[String] ~ (__ \ "periodEndDate").read[String] ~ (__ \ "statementNo").read[String]
-    ) (GCSBillingPeriods.apply _)
+    ) (BillingPeriodsResult.apply _)
 
-  implicit val gcsBalanceWrites: Writes[GCSBillingPeriods] = (
+  implicit val billingPeriodsResultWrites: Writes[BillingPeriodsResult] = (
     (__ \ "accountId").write[String] ~ (__ \ "currencyCode").write[String] ~ (__ \ "periodStartDate").write[String] ~ (__ \ "periodEndDate").write[String] ~ (__ \ "statementNo").write[String]
-    ) (unlift(GCSBillingPeriods.unapply))
+    ) (unlift(BillingPeriodsResult.unapply))
 }
 
 /**
@@ -415,16 +337,16 @@ object GCSBillingPeriods{
   * @param minPaymentAmount 最小还款额
   */
 //TODO 最小还款额 是否没有用到！
-case class GCSBillingSummary(periodStartDate: String, periodEndDate: String, paymentDueDate: String, closingBalance: String, currencyCode: String, minPaymentAmount: String)
+case class BillingSummaryResult(periodStartDate: String, periodEndDate: String, paymentDueDate: String, closingBalance: String, currencyCode: String, minPaymentAmount: String)
 
-object GCSBillingSummary{
-  implicit val gcsBalanceReads: Reads[GCSBillingSummary] = (
-    (__ \ "periodStartDate").read[String] ~ (__ \ "periodEndDate").read[String] ~ (__ \ "paymentDueDate").read[String] ~ (__ \ "closingBalance").read[String] ~ (__ \ "currencyCode").read[String]~ (__ \ "minPaymentAmount").read[String]
-    ) (GCSBillingSummary.apply _)
+object BillingSummaryResult {
+  implicit val billingSummaryResultReads: Reads[BillingSummaryResult] = (
+    (__ \ "periodStartDate").read[String] ~ (__ \ "periodEndDate").read[String] ~ (__ \ "paymentDueDate").read[String] ~ (__ \ "closingBalance").read[String] ~ (__ \ "currencyCode").read[String] ~ (__ \ "minPaymentAmount").read[String]
+    ) (BillingSummaryResult.apply _)
 
-  implicit val gcsBalanceWrites: Writes[GCSBillingSummary] = (
-    (__ \ "periodStartDate").write[String] ~ (__ \ "periodEndDate").write[String] ~ (__ \ "paymentDueDate").write[String] ~ (__ \ "closingBalance").write[String] ~ (__ \ "currencyCode").write[String]~ (__ \ "minPaymentAmount").write[String]
-    ) (unlift(GCSBillingSummary.unapply))
+  implicit val billingSummaryResultWrites: Writes[BillingSummaryResult] = (
+    (__ \ "periodStartDate").write[String] ~ (__ \ "periodEndDate").write[String] ~ (__ \ "paymentDueDate").write[String] ~ (__ \ "closingBalance").write[String] ~ (__ \ "currencyCode").write[String] ~ (__ \ "minPaymentAmount").write[String]
+    ) (unlift(BillingSummaryResult.unapply))
 }
 
 /**
@@ -438,7 +360,19 @@ object GCSBillingSummary{
   * @param debitCreditCode        借记,贷记标记  "DEBT"表示:借方 (比如：网上消费这种就是借方) "CRED"表示:贷方 "NMON"表示:非金融交易
   */
 //TODO debitCreditCode 改成枚举
-case class GCSBillingDetail(cardNo: String, currencyCode: String, transactionDate: String, transactionAmount: String, transactionDescription: String, debitCreditCode: String)
+case class BillingDetailResult(cardNo: String, currencyCode: String, transactionDate: String, transactionAmount: String, transactionDescription: String, debitCreditCode: String)
+
+object BillingDetailResult {
+  implicit val billingDetailResultReads: Reads[BillingDetailResult] = (
+    (__ \ "cardNo").read[String] ~ (__ \ "currencyCode").read[String] ~ (__ \ "transactionDate").read[String] ~ (__ \ "transactionAmount").read[String]
+      ~ (__ \ "transactionDescription").read[String] ~ (__ \ "debitCreditCode").read[String]
+    ) (BillingDetailResult.apply _)
+
+  implicit val billingDetailResultWrites: Writes[BillingDetailResult] = (
+    (__ \ "cardNo").write[String] ~ (__ \ "currencyCode").write[String] ~ (__ \ "transactionDate").write[String] ~ (__ \ "transactionAmount").write[String]
+      ~ (__ \ "transactionDescription").write[String] ~ (__ \ "debitCreditCode").write[String]
+    ) (unlift(BillingDetailResult.unapply))
+}
 
 /**
   * 持卡人信息
@@ -448,17 +382,27 @@ case class GCSBillingDetail(cardNo: String, currencyCode: String, transactionDat
   * @param gender     性别
   * @param mobileNo   手机号码
   */
-case class GCSCardHolderInfo(familyName: String, firstName: String, gender: String, mobileNo: String)
+case class CardHolderInfoResult(familyName: String, firstName: String, gender: String, mobileNo: String)
+
+object CardHolderInfoResult {
+  implicit val cardHolderInfoResultReads: Reads[CardHolderInfoResult] = (
+    (__ \ "familyName").read[String] ~ (__ \ "firstName").read[String] ~ (__ \ "gender").read[String] ~ (__ \ "mobileNo").read[String]
+    ) (CardHolderInfoResult.apply _)
+
+  implicit val cardHolderInfoResultWrites: Writes[CardHolderInfoResult] = (
+    (__ \ "familyName").write[String] ~ (__ \ "firstName").write[String] ~ (__ \ "gender").write[String] ~ (__ \ "mobileNo").write[String]
+    ) (unlift(CardHolderInfoResult.unapply))
+}
 
 /**
   * 临时提额评测结果
   *
-  * @param principalResultID         授权是否批准 （A-批准 B-拒绝）
-  * @param amount          建议额度
-  * @param cardStyle       产品类型（1，个人；2，白金；3，公务卡）
-  * @param issuingBranchId 发卡行号
-  * @param creditLimit     当前卡整体信用额度
-  * @param pmtCreditLimit  当前卡的永久额度
+  * @param principalResultID 授权是否批准 （A-批准 B-拒绝）
+  * @param amount            建议额度
+  * @param cardStyle         产品类型（1，个人；2，白金；3，公务卡）
+  * @param issuingBranchId   发卡行号
+  * @param creditLimit       当前卡整体信用额度
+  * @param pmtCreditLimit    当前卡的永久额度
   */
 case class GCSCreditLimitTemporaryUpReviewResult(principalResultID: String, amount: String, cardStyle: String, issuingBranchId: String, creditLimit: String, pmtCreditLimit: String)
 
@@ -500,12 +444,14 @@ case class GCSConsumptionInstallmentsEntity(cardNo: String, transactionDate: Str
   * @param billFeeMeans                分期手续费收取方式
   * @param installmentsNumber          分期期数
   */
-case class GCSConsumptionInstallmentResult( installmentAmount: String, installmentFee: String, installmentsAlsoAmountFirst: String, installmentsAlsoAmountEach: String,
+case class GCSConsumptionInstallmentResult(installmentAmount: String, installmentFee: String, installmentsAlsoAmountFirst: String, installmentsAlsoAmountEach: String,
                                            billFeeMeans: String, installmentsNumber: String)
 
 /**
   * 消费分期参数
   *
+  * @param sessionId          gcsSessionId
+  * @param channelId          渠道编号
   * @param accountKeyOne      帐户键值1--原消费中账户ID
   * @param accountKeyTwo      帐户键值2--原消费中入账账户ID
   * @param currencyCode       币种--原消费币种
@@ -516,7 +462,7 @@ case class GCSConsumptionInstallmentResult( installmentAmount: String, installme
   * @param installmentPeriods 分期付款期数
   * @param isfeeFlag          是否分期收取手续费
   */
-case class GCSConsumptionInstallmentParams(accountKeyOne: String, accountKeyTwo: String, currencyCode: String,
+case class GCSConsumptionInstallmentParams(sessionId: String, channelId: String, accountKeyOne: String, accountKeyTwo: String, currencyCode: String,
                                            billDateNo: String, transactionNo: String, transactionAmount: String, cardNo: String, accountNoId: String,
                                            installmentPeriods: String, isfeeFlag: String)
 
@@ -527,13 +473,17 @@ case class GCSConsumptionInstallmentParams(accountKeyOne: String, accountKeyTwo:
   * @param minAmount    账单分期金额下限真实
   * @param maxAmount    账单分期金额上限
   * @param respCode     返回码
+  * @param accountId    账户ID
+  * @param accountNo    账户号码
   */
-case class GCSAmountLimit(currencyCode: String, minAmount: String,maxAmount: String, respCode: String)
+case class GCSAmountLimit(currencyCode: String, minAmount: String, maxAmount: String, respCode: String, accountId: String, accountNo: String)
 
 /**
   * 账单分期参数
   * 用于账单分期试算和账单分期授权2个接口中
   *
+  * @param sessionId           gcsSessionId
+  * @param channelId           渠道编号
   * @param accountId           账户ID
   * @param accountNumber       帐户号码(使用TS011006查询后的“accountNo”域值)
   * @param currencyCode        币种
@@ -543,7 +493,7 @@ case class GCSAmountLimit(currencyCode: String, minAmount: String,maxAmount: Str
   * @param installmentsNumber  分期期数
   * @param feeInstallmentsFlag 手续费分期标识(1---标识手续费分期收取，0---标识手续费一次性收取)
   */
-case class GCSBillInstallmentParams(accountId: String, accountNumber: String, currencyCode: String, billLowerAmount: String,
+case class GCSBillInstallmentParams(sessionId: String, channelId: String, accountId: String, accountNumber: String, currencyCode: String, billLowerAmount: String,
                                     billActualAmount: String, installmentPlanID: String, installmentsNumber: String, feeInstallmentsFlag: String)
 
 /**
@@ -563,6 +513,8 @@ case class GCSBillInstallmentResult(currentBillMinimum: String, installmentsfee:
 /**
   * 临时提额授权参数
   *
+  * @param sessionId         GCSSessionId
+  * @param channelId         GCS渠道号
   * @param eosCustomerName   客户姓名
   * @param eosCustomerIdType 客户证件类型
   * @param certNum           客户证件号码
@@ -576,6 +528,226 @@ case class GCSBillInstallmentResult(currentBillMinimum: String, installmentsfee:
   * @param issuingBranchId   发卡行号 - 评测接口的返回结果
   * @param pmtCreditLimit    当前卡的永久额度 -评测接口的返回结果
   */
-case class GCSTemporaryUpCommitParams(eosCustomerName: String, eosCustomerIdType: String,
+case class GCSTemporaryUpCommitParams(sessionId: String, channelId: String, eosCustomerName: String, eosCustomerIdType: String,
                                       certNum: String, phoneNumber: String, cardNo: String, eosCurrency: String, eosPreAddLimit: String, eosStarLimitDate: String,
                                       eosEndLimitDate: String, cardStyle: String, issuingBranchId: String, pmtCreditLimit: String)
+
+/**
+  *
+  * @param sessionId   gcsSessionId
+  * @param channelId   渠道编号
+  * @param statementNo 账期号
+  * @param accountId   账户ID
+  */
+case class BillingSummaryParams(sessionId: String, channelId: String, statementNo: String, accountId: String)
+
+
+object BillingSummaryParams {
+  implicit val billingSummaryReads: Reads[BillingSummaryParams] = (
+    (__ \ "sessionID").read[String] ~ (__ \ "channelID").read[String] ~ (__ \ "statementNo").read[String] ~ (__ \ "accountId").read[String]) (BillingSummaryParams.apply _)
+
+  implicit val billingSummaryWrites: Writes[BillingSummaryParams] = (
+    (__ \ "sessionID").write[String] ~ (__ \ "channelID").write[String] ~ (__ \ "statementNo").write[String] ~ (__ \ "accountId").write[String]) (unlift(BillingSummaryParams.unapply))
+}
+
+/**
+  *
+  * @param sessionId    gcsSessionId
+  * @param channelId    渠道编号
+  * @param cardNo       卡号
+  * @param currencyCode 交易币种
+  * @param queryType    查询类型
+  * @param startNum     起始条数
+  * @param totalNum     显示条数
+  * @param startDate    交易开始日期
+  * @param endDate      交易结束日期
+  */
+case class BillingDetailsParams(sessionId: String, channelId: String, cardNo: String, currencyCode: String, queryType: String, startNum: String,
+                                totalNum: String, startDate: String, endDate: String)
+
+/**
+  *
+  * @param currencyCode 币种
+  */
+case class CurrencyCodeResult(currencyCode: String)
+
+/**
+  *
+  * @param currencyCodes 币种列表
+  * @param productType   卡片产品类型
+  */
+case class CardCurrencyCodeAndStyleResult(currencyCodes: List[CurrencyCodeResult], productType: String)
+
+/**
+  *
+  * @param billSendType 账单寄送方式
+  */
+case class BillSendTypeResult(billSendType: String)
+
+/**
+  * 公用的boolean结果
+  *
+  * @param isSuccess 是否成功
+  */
+case class BooleanResult(isSuccess: Boolean)
+
+/**
+  *
+  * @param sessionId  gcsSessionId
+  * @param channelId  渠道编号
+  * @param cardNo     卡号
+  * @param idType     证件类型
+  * @param idNum      证件号
+  * @param familyName 姓-海外的只有性，国内是姓名
+  * @param lossReason 挂失原因
+  */
+case class CreditCardReportLostParams(sessionId: String, channelId: String, cardNo: String, idType: String, idNum: String, familyName: String, lossReason: String)
+
+/**
+  *
+  * @param sessionId  gcsSessionId
+  * @param channelId  渠道编号
+  * @param cardNo     卡号
+  * @param entyMethod 卡号录入方式 01-手工  07-接触 98-非接
+  * @param idNum      证件号
+  * @param idType     证件类型
+  * @param familyName 姓-海外的只有性，国内是姓名
+  * @param lostReason 挂失原因
+  */
+case class TempCreditCardReportLostParams(sessionId: String, channelId: String, cardNo: String, entyMethod: String, idNum: String, idType: String, familyName: String, lostReason: String)
+
+/**
+  *
+  * @param sessionId  gcsSessionId
+  * @param channelId  渠道编号
+  * @param cardNo     卡号
+  * @param idNum      证件号
+  * @param familyName 姓-海外的只有性，国内是姓名
+  * @param idType     证件类型
+  */
+case class RelieveCreditCardTempReportLostParams(sessionId: String, channelId: String, cardNo: String, idNum: String, familyName: String, idType: String)
+
+/**
+  *
+  * @param sessionId gcsSessionId
+  * @param channelId 渠道编号
+  * @param idType    证件类型
+  * @param idNo      证件号
+  */
+case class MobilePhoneParams(sessionId: String, channelId: String, idType: String, idNo: String)
+
+/**
+  * 公用的手机号结果
+  *
+  * @param mobilePhoneNo 手机号
+  */
+case class MobilePhoneResult(mobilePhoneNo: String)
+
+/**
+  *
+  * @param sessionId   gcsSessionId
+  * @param channelId   渠道编号
+  * @param idNum       证件号
+  * @param idType      证件类型
+  * @param productCode 产品代码
+  */
+case class WbicCardInfoParams(sessionId: String, channelId: String, idNum: String, idType: String, productCode: String = "WBIC")
+
+/**
+  *
+  * @param wbicCardNo 海淘卡卡号
+  */
+case class WbicCardInfoResult(wbicCardNo: Option[String])
+
+/**
+  *
+  * @param sessionId gcsSessionId
+  * @param channelId 渠道编号
+  * @param idType    证件类型
+  * @param idNum     证件号
+  */
+case class CustMobileParams(sessionId: String, channelId: String, idType: String, idNum: String)
+
+/**
+  *
+  * @param sessionId   gcsSessionId
+  * @param channelId   渠道编号
+  * @param certType    客户证件类型
+  * @param certNum     客户证件号码
+  * @param phoneNumber 手机号
+  * @param cardNo      卡号
+  * @param currencyNo  币种
+  */
+case class CreditLimitTemporaryUpReviewParams(sessionId: String, channelId: String, certType: String, certNum: String,
+                                              phoneNumber: String, cardNo: String, currencyNo: String)
+
+/**
+  *
+  * @param sessionId gcsSessionId
+  * @param channelId 渠道编号
+  * @param eosIDType 证件类型
+  * @param idNumber  证件号码
+  * @param cardNo    卡号
+  * @param eosId     工作单ID
+  */
+case class TemporaryUpCommitStatusParams(sessionId: String, channelId: String, eosIDType: String, idNumber: String, cardNo: String, eosId: String)
+
+/**
+  *
+  * @param sessionId    gcsSessionId
+  * @param channelId    渠道编号
+  * @param cardNo       卡号
+  * @param currencyCode 币种
+  * @param startNumber  起始条数
+  * @param selectNumber 显示条数
+  */
+case class ConsumptionInstallmentsParams(sessionId: String, channelId: String, cardNo: String, currencyCode: String, startNumber: String, selectNumber: String)
+
+/**
+  *
+  * @param transactionNumber                 交易数量
+  * @param hasNext                           是否有下一页
+  * @param gcsConsumptionInstallmentsEntitys 交易集合
+  */
+case class ConsumptionInstallmentsResult(transactionNumber: String, hasNext: Boolean, gcsConsumptionInstallmentsEntitys: List[GCSConsumptionInstallmentsEntity])
+
+/**
+  * 公用的GCS返回码实体
+  *
+  * @param returnCode 返回码
+  */
+case class GCSReturnCodeResult(returnCode: String)
+
+/**
+  *
+  * @param sessionId    gcsSessionId
+  * @param channelId    渠道编号
+  * @param cardNo       卡号
+  * @param currencyCode 币种
+  */
+case class AmountLimitParams(sessionId: String, channelId: String, cardNo: String, currencyCode: String)
+
+/**
+  *
+  * @param sessionId gcsSessionId
+  * @param channelId 渠道编号
+  * @param idType    证件类型
+  * @param idNum     证件号码
+  */
+case class CardInfosParams(sessionId: String, channelId: String, idType: String, idNum: String)
+
+/**
+  *
+  * @param cardNo   卡号
+  * @param mianFlag 主副卡标识
+  */
+case class CardInfosResult(cardNo: String, mianFlag: String)
+
+/**
+  *
+  * @param sessionId    gcsSessionId
+  * @param channelId    渠道编号
+  * @param cardNo       卡号
+  * @param billSendType 账单寄送方式
+  */
+case class UpdateBillSendTypeParams(sessionId: String, channelId: String, cardNo: String, billSendType: String)
