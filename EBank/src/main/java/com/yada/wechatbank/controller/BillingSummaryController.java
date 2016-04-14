@@ -14,6 +14,7 @@ import com.yada.wechatbank.base.BaseController;
 import com.yada.wechatbank.model.BillingSummary;
 import com.yada.wechatbank.query.BillingSummaryQuery;
 import com.yada.wechatbank.service.BillingSummaryService;
+import com.yada.wechatbank.util.Crypt;
 
 /**
  * 账单摘要控制层
@@ -30,9 +31,7 @@ public class BillingSummaryController extends BaseController {
 	 */
 	@Autowired
 	private BillingSummaryService billingSummaryServiceImpl;
-	/**
-	 * 账单摘要list页面
-	 */
+	// 账单摘要list页面
 	private static final String LISTURL = "wechatbank_pages/BillingSummary/list";
 
 	/**
@@ -77,28 +76,26 @@ public class BillingSummaryController extends BaseController {
 	 */
 	@RequestMapping(value = "listP")
 	public String listP(@ModelAttribute("formBean") BillingSummaryQuery billingSummaryQuery, Model model) {
-		// TODO 获取卡列表，登录成功后有方法可以得到卡列表
-		List<String> cardList = null;
 		// 查询的账单日期
 		String date = billingSummaryQuery.getDate();
 		// 得到需要查询账单摘要的卡列表
-		List<String> queryCardList;
+		String cardNo;
 		try {
-			// TODO 获取卡列表的方式需要登录成功提供,替换null值
-			queryCardList = billingSummaryServiceImpl.getQueryCardList(billingSummaryQuery.getCardNo(), cardList);
+			cardNo = Crypt.decode(billingSummaryQuery.getCardNo());
 		} catch (Exception e) {
-			logger.error("@WDZD@cardList crypt error,billingSummaryQuery[" + billingSummaryQuery + "]:" + e);
+			// 解密失败
 			return ERROR;
 		}
 		// 调用行内service 获取账单摘要
-		List<BillingSummary> billsList = billingSummaryServiceImpl.getBillingSummaryList(queryCardList, date);
-		logger.info("@WDZD@调用行内service根据queryCardList[" + queryCardList + "],date[" + date + "]获取账单摘要,获取到的账单摘要合集billsList[" + billsList + "]");
+		List<BillingSummary> billsList = billingSummaryServiceImpl.getBillingSummaryList(cardNo, date);
+		logger.info("@WDZD@调用行内service根据queryCardList[" + cardNo + "],date[" + date + "]获取账单摘要,获取到的账单摘要合集billsList[" + billsList + "]");
 		// 返回值为空或没有数据
 		if (billsList == null) {
 			return ERROR;
 		}
-		// 查询账单可选日期
-		model.addAttribute("cardList", cardList);
+		// TODO 获取卡列表传到页面
+		List<String> cardList = null;
+		model.addAttribute("cardList", billingSummaryServiceImpl.getEncryptCardNOs(cardList));
 		model.addAttribute("dateList", billingSummaryServiceImpl.getDateList());
 		model.addAttribute("model", billingSummaryQuery);
 		model.addAttribute("billsList", billsList);

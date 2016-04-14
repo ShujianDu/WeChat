@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.model.BillingSummary;
 import com.yada.wechatbank.service.BillingSummaryService;
 import com.yada.wechatbank.util.Crypt;
@@ -21,12 +22,13 @@ import com.yada.wechatbank.util.Crypt;
  *
  */
 @Service
-public class BillingSummaryServiceImpl implements BillingSummaryService {
+public class BillingSummaryServiceImpl extends BaseService implements BillingSummaryService {
 	private final static Logger logger = LoggerFactory.getLogger(BillingSummaryServiceImpl.class);
 
 	@Override
-	public List<BillingSummary> getBillingSummaryList(List<String> queryCardList, String date) {
-		// TODO 调用行内service查询账单摘要
+	public List<BillingSummary> getBillingSummaryList(String cardNo, String date) {
+		// TODO 调用行内service根据卡号查询账期号
+		// TODO 根据账期集合调用行内service查询账单摘要，对卡号加密，页面需要回传
 		List<BillingSummary> billingSummaryList = null;
 		return billingSummaryList;
 	}

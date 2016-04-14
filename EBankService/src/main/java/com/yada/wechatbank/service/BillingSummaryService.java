@@ -17,13 +17,13 @@ public interface BillingSummaryService {
 	/**
 	 * 查询账单摘要集合
 	 * 
-	 * @param queryCardList
-	 *            查询摘要卡列表
+	 * @param cardNo
+	 *            卡号
 	 * @param date
-	 *            查询日期
-	 * @return 账单摘要集合
+	 *            账单查询日期
+	 * @return 账单摘要
 	 */
-	public List<BillingSummary> getBillingSummaryList(List<String> queryCardList, String date);
+	public List<BillingSummary> getBillingSummaryList(String cardNo, String date);
 
 	/**
 	 * 
