@@ -1,7 +1,9 @@
 package com.yada.wechatbank.model;
 
 
-public class Balance extends BaseModel{
+import com.yada.wechatbank.base.BaseModel;
+
+public class Balance extends BaseModel {
 	// 卡号
 	private String cardNo;
 	// 金额类型(币种)

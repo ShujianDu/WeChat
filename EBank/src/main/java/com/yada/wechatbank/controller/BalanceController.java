@@ -38,10 +38,9 @@ class BalanceController extends BaseController{
 	@RequestMapping(value = "list")
 	public String list(@ModelAttribute("formBean") BalanceQuery balanceQuery, Model model) {
 		//TODO 通过登录人信息获取证件号
-		List<CardInfo> cardinfos=null;
-		List<List<Balance>> newList = balanceService.getList(cardinfos);
-		//TODO 获取用户证件号
 		String identityNo="";
+		String identityType="";
+		List<List<Balance>> newList = balanceService.getList(identityType,identityNo);
 		if (newList == null) {
 			logger.warn("@WDED@获取到的额度集合为null，identityNo[" + identityNo + "]");
 			return BUSYURL;
