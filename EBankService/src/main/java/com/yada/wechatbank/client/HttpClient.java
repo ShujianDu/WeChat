@@ -1,6 +1,7 @@
 package com.yada.wechatbank.client;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,9 +40,18 @@ public class HttpClient {
      * @return Object
      */
     public <T> T send(String method, Object object, Class<T> targetClass) {
-        String data = JSON.toJSONString(object);
-        String respStr = postRequest(method, data);
-        return JSON.parseObject(respStr, targetClass);
+        T result = null;
+        try {
+            String data = JSON.toJSONString(object);
+            String respStr = postRequest(method, data);
+            result = JSON.parseObject(respStr, targetClass);
+        } catch (JSONException e) {
+            logger.error("数据转换异常", e);
+        } catch (Exception e) {
+            logger.error("HttpClient通讯时发生错误", e);
+        } finally {
+            return result;
+        }
     }
 
     /**
