@@ -5,21 +5,20 @@ import com.yada.wechatbank.client.model.CardInfoResp;
 import com.yada.wechatbank.model.CardInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
+ * Service父类，提供共用属性和方法
  * Created by QinQiang on 2016/4/12.
  */
-@Service
 public class BaseService {
 
     @Autowired
     protected HttpClient httpClient;
-    @Value("${url.getCardInfos}")
-    private String getCardInfos;
+
     // 直销系统参数
     @Value("${zx.txnId}")
     private String txnId;
@@ -31,11 +30,19 @@ public class BaseService {
     private String imei;
     @Value("${zx.channelNo}")
     private String channelNo;
+
     //GCS参数
     @Value("${gcs.sessionId}")
     private String gcsSessionId;
     @Value("${gcs.channelId}")
     private String gcsChannelId;
+
+    // 获取卡信息
+    @Value("${url.getCardInfos}")
+    protected String getCardInfos;
+    // 预约办卡进度查询
+    @Value(value = "${url.cardApply}")
+    protected String cardApplyUrl;
 
     /**
      * 构建直销系统参数
@@ -54,28 +61,29 @@ public class BaseService {
 
     /**
      * 初始化GCS参数
+     *
      * @return
      */
-    public Map<String, String> initGcsParam(){
+    public Map<String, String> initGcsParam() {
         Map<String, String> param = new HashMap<>();
-        param.put("sessionId",gcsSessionId);
-        param.put("channelId",gcsChannelId);
+        param.put("sessionId", gcsSessionId);
+        param.put("channelId", gcsChannelId);
         return param;
     }
 
     /**
      * 根据证件号和证件类型查询卡列表
+     *
      * @param identityNo
      * @param identityType
      * @return
      */
-    public List<CardInfo> selectCardNos(String identityNo, String identityType){
+    public List<CardInfo> selectCardNos(String identityNo, String identityType) {
         Map<String, String> map = initGcsParam();
-        map.put("idType",identityType);
-        map.put("idNum",identityNo);
-        CardInfoResp cardInfoResp = httpClient.send(getCardInfos,map,CardInfoResp.class);
-        return  cardInfoResp.getCardInfoList();
+        map.put("idType", identityType);
+        map.put("idNum", identityNo);
+        CardInfoResp cardInfoResp = httpClient.send(getCardInfos, map, CardInfoResp.class);
+        return cardInfoResp.getCardInfoList();
     }
-
 
 }
