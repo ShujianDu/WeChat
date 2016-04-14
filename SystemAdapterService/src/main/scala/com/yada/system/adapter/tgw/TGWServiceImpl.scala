@@ -10,18 +10,17 @@ class TGWServiceImpl extends TGWService {
   /**
     * 验密
     *
-    * @param cardNo 卡号
-    * @param pwd    电话银行密码
+    * @param verificationPWDParams verificationPWDParams
     * @return 返回是否验证成功    true/false
     */
-  override def verificationPWD(cardNo: String, pwd: String): Boolean = {
-    val fun001Req = new Fun001(cardNo, pwd)
+  override def verificationPWD(verificationPWDParams: TGWVerificationPWDParams): TGWBooleanResult = {
+    val fun001Req = new Fun001(verificationPWDParams.cardNo, verificationPWDParams.pwd)
     try {
       val fun001Resp = fun001Req.send
-      fun001Resp.rspCod == "000000"
+      TGWBooleanResult(fun001Resp.rspCod == "000000")
     } catch {
       case e: ErrorRespCodeException =>
-        false
+        TGWBooleanResult(false)
     }
   }
 }

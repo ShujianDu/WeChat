@@ -8,7 +8,7 @@ trait PointsService {
     * @param cardNo 卡号
     * @return PointsBalance
     */
-  def getBalance(cardNo: String): PointsBalance
+  def getBalance(cardNo: PointsCardNoParams): PointsBalance
 
   /**
     * 查询积分有校期
@@ -16,15 +16,15 @@ trait PointsService {
     * @param cardNo 卡号
     * @return 积分校期集合
     */
-  def getPointsValidates(cardNo: String):List[PointsValidates]
+  def getPointsValidates(cardNo: PointsCardNoParams): List[PointsValidates]
 
   /**
     * 查询积分明细
     *
     * @param cardNo 卡号
-    * @return  积分明细集合
+    * @return 积分明细集合
     */
-  def getPointsDetails(cardNo: String):List[PointsDetail]
+  def getPointsDetails(cardNo: PointsCardNoParams): List[PointsDetail]
 
 
   /**
@@ -33,17 +33,45 @@ trait PointsService {
     * @param cardNo 明文卡号
     * @return (密文卡号，加密验证消息)
     */
-  def verificationCardNo(cardNo:String):(String,String)
+  def verificationCardNo(cardNo: PointsCardNoParams): VerificationCardNoResult
 
   /**
     * 聪明购授权
     *
-    * @param cardNo 明文卡号
-    * @param mobileNo 明文手机号
-    * @return (密文卡号，密文手机号，加密验证消息)
+    * @param verificationCardNoAndMobileNoParams VerificationCardNoAndMobileNoParams
+    * @return VerificationCardNoAndMobileNoResult
     */
-  def verificationCardNoAndMobileNo(cardNo:String,mobileNo:String):(String,String,String)
+  def verificationCardNoAndMobileNo(verificationCardNoAndMobileNoParams: VerificationCardNoAndMobileNoParams): VerificationCardNoAndMobileNoResult
 }
+
+/**
+  * 积分公用的卡号参数
+  *
+  * @param cardNo 卡号
+  */
+case class PointsCardNoParams(cardNo: String)
+
+/**
+  *
+  * @param cardNo   明文卡号
+  * @param mobileNo 明文手机号
+  */
+case class VerificationCardNoAndMobileNoParams(cardNo: String, mobileNo: String)
+
+/**
+  *
+  * @param encryptCardNo 密文卡号
+  * @param encryptMobile 密文手机号
+  * @param sign          加密验证消息
+  */
+case class VerificationCardNoAndMobileNoResult(encryptCardNo: String, encryptMobile: String, sign: String)
+
+/**
+  *
+  * @param encryptCardNo 密文卡号
+  * @param sign          加密验证消息
+  */
+case class VerificationCardNoResult(encryptCardNo: String, sign: String)
 
 /**
   * @param totalPoint 积分余额
@@ -63,13 +91,13 @@ case class PointsValidates(productCode: String, productName: String, cardNo: Str
 
 /**
   *
-  * @param id 积分ID
-  * @param parentId 父ID
-  * @param totalPoint 有效积分余额
+  * @param id          积分ID
+  * @param parentId    父ID
+  * @param totalPoint  有效积分余额
   * @param productCode 产品代码/账号
   * @param productName 产品名称
-  * @param cardNo 信用卡号
-  * @param status 账户/卡状态描述
+  * @param cardNo      信用卡号
+  * @param status      账户/卡状态描述
   * @param pointuseFlg 积分账户状态
   */
-case class PointsDetail(id:String,parentId:String,totalPoint:String,productCode:String,productName:String,cardNo:String,status:String,pointuseFlg:String)
+case class PointsDetail(id: String, parentId: String, totalPoint: String, productCode: String, productName: String, cardNo: String, status: String, pointuseFlg: String)
