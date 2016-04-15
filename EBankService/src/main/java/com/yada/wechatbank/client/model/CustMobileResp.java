@@ -6,13 +6,13 @@ import com.yada.wechatbank.base.BaseModel;
  * Created by Echo on 2016/4/13.
  */
 public class CustMobileResp extends BaseModel{
-    private String mobile;
+    private String bizResult;
 
-    public String getMobile() {
-        return mobile;
+    public String getBizResult() {
+        return bizResult;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setBizResult(String bizResult) {
+        this.bizResult = bizResult;
     }
 }

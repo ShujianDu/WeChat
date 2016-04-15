@@ -28,10 +28,9 @@ import com.yada.wechatbank.util.JsMapUtil;
 @Controller
 @RequestMapping(value = "points")
 public class PointsController extends BaseController {
-	private final static Logger logger = LoggerFactory.getLogger(PointsController.class);
-	private static final String LISTURL = "wechatbank_pages/JiFen/list";
-	private static final String VALIDATEURL = "wechatbank_pages/JiFen/validate";
-	public static final String ERROR = "wechatbank_pages/error";
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static final String LISTURL = "wechatbank_pages/points/list";
+	private static final String VALIDATEURL = "wechatbank_pages/points/validate";
 
 	@Autowired
 	private PointsService pointsServiceImpl;

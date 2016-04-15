@@ -31,7 +31,7 @@ import com.yada.wechatbank.util.TokenUtil;
 @Controller
 @RequestMapping(value = "binding")
 public class BindingController extends BaseController{
-	private final static Logger logger = LoggerFactory.getLogger(BindingController.class);
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private static final String BOUNDURL = "wechatbank_pages/Binding/bound";
 	private static final String BINDLISTURL = "wechatbank_pages/Binding/binding";
 	private static final String BINDCARDURL = "wechatbank_pages/Binding/bindingDefCard";
@@ -39,9 +39,6 @@ public class BindingController extends BaseController{
 	private static final String ERRORURL = "wechatbank_pages/Binding/error";
 	private static final String LOCK = "wechatbank_pages/Binding/lock";
 	private static final String FILLIDTYPEURL = "wechatbank_pages/Binding/fillIdType";
-	private static String ERROR = "wechatbank_pages/error";
-	private static final String BUSYURL = "wechatbank_pages/busy";
-	private static final String NOCARDURL = "wechatbank_pages/nocard";
 	// 是否是默认卡(0 是，1 否)
 	private static final String ISDEFAULT = "0";
 	private static final String NODEFAULT = "1";

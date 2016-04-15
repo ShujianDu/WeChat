@@ -9,13 +9,13 @@ import java.util.List;
  * Created by Echo on 2016/4/13.
  */
 public class PointsValidatesResp extends BaseModel {
-    private List<PointsValidates> pointsValidatesList;
+    private List<PointsValidates> bizResult;
 
-    public List<PointsValidates> getPointsValidatesList() {
-        return pointsValidatesList;
+    public List<PointsValidates> getBizResult() {
+        return bizResult;
     }
 
-    public void setPointsValidatesList(List<PointsValidates> pointsValidatesList) {
-        this.pointsValidatesList = pointsValidatesList;
+    public void setBizResult(List<PointsValidates> bizResult) {
+        this.bizResult = bizResult;
     }
 }

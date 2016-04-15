@@ -2,7 +2,9 @@ package com.yada.wechatbank.model;
 
 import java.io.Serializable;
 
-
+/**
+ * @Auther zm
+ */
 public class SMSCodeManagement implements  Serializable{
 
 	private static final long serialVersionUID = -4771134377704276023L;
