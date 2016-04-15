@@ -83,7 +83,7 @@ public class BaseService {
         map.put("idType", identityType);
         map.put("idNum", identityNo);
         CardInfoResp cardInfoResp = httpClient.send(getCardInfos, map, CardInfoResp.class);
-        return cardInfoResp.getCardInfoList();
+        return cardInfoResp.getBizResult();
     }
 
 }
