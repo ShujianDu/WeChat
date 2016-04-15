@@ -103,7 +103,6 @@ public class BookingController extends BaseController {
 	public String address(
 			@ModelAttribute("formBean") BookingQuery bookingQuery,
 			HttpServletRequest request, Model model) {
-		String openId = (String) request.getAttribute("openId");
 		// 页面分享js需要的参数
 //		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
 //				"booking/address.do","中国银行信用卡预约申请");
@@ -113,7 +112,6 @@ public class BookingController extends BaseController {
 //		for (String key : jsMap.keySet()) {
 //			model.addAttribute(key, jsMap.get(key));
 //		}
-		model.addAttribute("openId",openId);
 		// 获取省份集合
 		List<NuwOrg> provinceList = bookingServiceImpl.selectNumOrgList("");
 		if(provinceList==null){

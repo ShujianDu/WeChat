@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import com.yada.wechatbank.model.JifenDetail;
-import com.yada.wechatbank.model.JifenValidate;
-import com.yada.wechatbank.query.JiFenQuery;
-import com.yada.wechatbank.service.JifenService;
+import com.yada.wechatbank.model.PointsDetail;
+import com.yada.wechatbank.model.PointsValidates;
+import com.yada.wechatbank.query.PointsQuery;
+import com.yada.wechatbank.service.PointsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,27 +26,27 @@ import com.yada.wechatbank.util.JsMapUtil;
  * 
  */
 @Controller
-@RequestMapping(value = "jifen")
-public class JifenController extends BaseController {
-	private final static Logger logger = LoggerFactory.getLogger(JifenController.class);
+@RequestMapping(value = "points")
+public class PointsController extends BaseController {
+	private final static Logger logger = LoggerFactory.getLogger(PointsController.class);
 	private static final String LISTURL = "wechatbank_pages/JiFen/list";
 	private static final String VALIDATEURL = "wechatbank_pages/JiFen/validate";
 	public static final String ERROR = "wechatbank_pages/error";
 
 	@Autowired
-	private JifenService jifenServiceImpl;
+	private PointsService pointsServiceImpl;
 	@Autowired
 	private ValidateTime validateTime;
 
 	/**
 	 * 积分明细列表
 	 * 
-	 * @param jiFenQuery 积分查询实体
+	 * @param pointsQuery 积分查询实体
 	 * @param request HttpServletRequest
 	 * @param model Model
 	 */
 	@RequestMapping(value = "list")
-	public String list(@ModelAttribute("formBean") JiFenQuery jiFenQuery, HttpServletRequest request, Model model) {
+	public String list(@ModelAttribute("formBean") PointsQuery pointsQuery, HttpServletRequest request, Model model) {
 		// 页面分享js需要的参数
 		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
 				"jifen/list.do","中国银行信用卡积分查询");
@@ -57,28 +57,28 @@ public class JifenController extends BaseController {
 			model.addAttribute(key, jsMap.get(key));
 		}
 		// 调用RMI 获取积分明细列表
-		List<JifenDetail> jiFenDetailList = jifenServiceImpl.getJifenDetail(getIdentityNo(request),getIdentityType(request));
-		List<List<JifenDetail>> newList = new ArrayList<List<JifenDetail>>();
+		List<PointsDetail> pointsDetailList = pointsServiceImpl.getPointsDetail(getIdentityNo(request),getIdentityType(request));
+		List<List<PointsDetail>> newList = new ArrayList<>();
 		// RMI返回值为空或没有数据
-		if (jiFenDetailList == null) {
+		if (pointsDetailList == null || pointsDetailList.size()==0) {
 			return BUSYURL;
-		} else if (jiFenDetailList.size() > 0 && jiFenDetailList.get(0).getCardNo() != null && jiFenDetailList.get(0).getId() != null) {
-			newList = jifenServiceImpl.getList(jiFenDetailList);
+		} else if (pointsDetailList.size() > 0 && pointsDetailList.get(0).getCardNo() != null && pointsDetailList.get(0).getId() != null) {
+			newList = pointsServiceImpl.getList(pointsDetailList);
 		}
 		model.addAttribute("newList", newList);
-		model.addAttribute("model", jiFenQuery);
+		model.addAttribute("model", pointsQuery);
 		return LISTURL;
 	}
 
 	/**
 	 * 积分到期日
 	 * 
-	 * @param jiFenQuery 积分查询实体
+	 * @param pointsQuery 积分查询实体
 	 * @param request HttpServletRequest
 	 * @param model Model
 	 */
 	@RequestMapping(value = "validate")
-	public String validate(@ModelAttribute("formBean") JiFenQuery jiFenQuery, HttpServletRequest request, Model model) {
+	public String validate(@ModelAttribute("formBean") PointsQuery pointsQuery, HttpServletRequest request, Model model) {
 		// 页面分享js需要的参数
 		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
 				"jifen/list.do","中国银行信用卡积分查询");
@@ -91,22 +91,22 @@ public class JifenController extends BaseController {
 		Integer numberP = Integer.parseInt(request.getParameter("numberP"));
 		Integer number = Integer.parseInt(request.getParameter("number"));
 		// 调用RMI 获取积分明细列表
-		List<JifenDetail> jiFenDetailList = jifenServiceImpl.getJifenDetail(getIdentityNo(request),getIdentityType(request));
-		List<List<JifenDetail>> newList = new ArrayList<List<JifenDetail>>();
+		List<PointsDetail> pointsDetailList = pointsServiceImpl.getPointsDetail(getIdentityNo(request),getIdentityType(request));
+		List<List<PointsDetail>> newList = new ArrayList<>();
 		// RMI返回值为空或没有数据
-		if (jiFenDetailList == null) {
+		if (pointsDetailList == null) {
 			return BUSYURL;
-		} else if (jiFenDetailList.size() > 0 && jiFenDetailList.get(0).getCardNo() != null && jiFenDetailList.get(0).getId() != null) {
-			newList = jifenServiceImpl.getList(jiFenDetailList);
+		} else if (pointsDetailList.size() > 0 && pointsDetailList.get(0).getCardNo() != null && pointsDetailList.get(0).getId() != null) {
+			newList = pointsServiceImpl.getList(pointsDetailList);
 		}
-		JifenDetail jifenDetail = newList.get(numberP).get(number);
+		PointsDetail pointsDetail = newList.get(numberP).get(number);
 		// 调用RMI 获取积分到期日明细列表
-		List<JifenValidate> jiFenValidateList = jifenServiceImpl.getJifenValidates(jifenDetail.getCardNo());
+		List<PointsValidates> pointsValidatesList = pointsServiceImpl.getPointsValidates(pointsDetail.getCardNo());
 		// RMI返回值为空或没有数据
-		if (jiFenValidateList == null) {
+		if (pointsValidatesList == null) {
 			return BUSYURL;
 		}
-		model.addAttribute("jiFenValidateList", jiFenValidateList);
+		model.addAttribute("pointsValidatesList", pointsValidatesList);
 		return VALIDATEURL;
 	}
 

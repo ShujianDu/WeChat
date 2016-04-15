@@ -20,7 +20,7 @@
 	</header>
 	<div class="mg-tb-20">
 		<!-- 不存在积分 -->
-		<c:if test="${fn:length(jiFenValidateList) eq 0}">
+		<c:if test="${fn:length(pointsValidatesList) eq 0}">
 			<div class="topOneB mar-1 allOneBradius">
 				<table class="topTwo mb-10">
 					<tr>
@@ -30,8 +30,8 @@
 			</div>
 		</c:if>
 		<!-- 存在积分 -->
-		<c:if test="${fn:length(jiFenValidateList) gt 0}">
-			<c:forEach items="${jiFenValidateList}" var="item" varStatus="status">
+		<c:if test="${fn:length(pointsValidatesList) gt 0}">
+			<c:forEach items="${pointsValidatesList}" var="item" varStatus="status">
 				<div class="topOneB mar-1 topOneBradius">
 					<table class="topTwo">
 						<tr>

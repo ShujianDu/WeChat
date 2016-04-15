@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author zm
  * 
  */
-public class JifenValidate implements Serializable{
+public class PointsValidates implements Serializable{
 	/**
 	 * 
 	 */

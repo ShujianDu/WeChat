@@ -63,14 +63,14 @@ public class BindingController extends BaseController{
 			bindingQuery.setOpenId(openId);
 		}
 		// 页面分享js需要的参数
-		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-				"binding/list.do","中国银行信用卡绑定业务");
-		if (jsMap == null) {
-			return ERROR;
-		}
-		for (String key : jsMap.keySet()) {
-			model.addAttribute(key, jsMap.get(key));
-		}
+//		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
+//				"binding/list.do","中国银行信用卡绑定业务");
+//		if (jsMap == null) {
+//			return ERROR;
+//		}
+//		for (String key : jsMap.keySet()) {
+//			model.addAttribute(key, jsMap.get(key));
+//		}
 		boolean rmiReturn = bindingServiceImpl.validateIsBinding(openId);
 		// 判断是否已经绑定
 		if (rmiReturn) {
@@ -151,9 +151,6 @@ public class BindingController extends BaseController{
 				} catch (Exception e) {
 					return BUSYURL;
 				}
-				// 将卡号信息集合放入Session中
-				request.getSession().setAttribute("session_defaultCardList",cardList);
-//				model.addAttribute("cardList", cardList);
 				model.addAttribute("cardListCrypt", cardListCrypt);
 				model.addAttribute("model", bindingQuery);
 			}
@@ -172,9 +169,6 @@ public class BindingController extends BaseController{
 		}
 		return BINDLISTURL;
 	}
-	
-	
-	
 	
 	/**
 	 * 默认卡绑定 需通过openId、authCode权限验证
