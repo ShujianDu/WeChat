@@ -2,9 +2,8 @@ package com.yada.wechatbank.service.impl;
 
 import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.HttpClient;
-import com.yada.wechatbank.client.model.CardInfoResp;
+import com.yada.wechatbank.client.model.BooleanResp;
 import com.yada.wechatbank.client.model.CustMobileResp;
-import com.yada.wechatbank.client.model.VerificationPWDResp;
 import com.yada.wechatbank.model.*;
 import com.yada.wechatbank.service.BindingService;
 import com.yada.wx.db.service.dao.CustomerInfoDao;
@@ -94,8 +93,8 @@ public class BindingServiceImpl extends BaseService implements BindingService {
 		map.put("cardNo",cardNo);
 		map.put("pwd",pwd);
 		//使用卡号密码验密
-		VerificationPWDResp verificationPWDResp = httpClient.send(verificationPWD,map,VerificationPWDResp.class);
-		if (!verificationPWDResp.isResult()){
+		BooleanResp booleanResp = httpClient.send(verificationPWD,map,BooleanResp.class);
+		if (!booleanResp.getBizResult()){
 			//TODO 统计错误次数
 			return pwdFiled;
 		}else {
@@ -118,7 +117,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
 		customerInfo.setOpenId(openId);
 		customerInfo.setIdentityType(idType);
 		customerInfo.setIdentityNo(idCardNo);
-		customerInfo.setMobilePhone(custMobileResp.getMobile());
+		customerInfo.setMobilePhone(custMobileResp.getBizResult());
 		Calendar cal = Calendar.getInstance();
 		String dateStr = new SimpleDateFormat("yyyyMMdd").format(cal.getTime());
 		customerInfo.setBindingDate(dateStr);
@@ -211,7 +210,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
 		CustMobileResp custMobileResp = httpClient.send(getCustMobile,map,CustMobileResp.class);
 		String mobile=null;
 		if (custMobileResp!=null){
-			mobile=custMobileResp.getMobile();
+			mobile=custMobileResp.getBizResult();
 		}
 		if (mobile==null) {
 			//TODO 证件号手机号操作次数记录限制

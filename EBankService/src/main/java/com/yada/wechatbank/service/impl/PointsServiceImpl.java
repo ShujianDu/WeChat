@@ -52,7 +52,7 @@ public class PointsServiceImpl extends BaseService implements PointsService {
         PointsDetailResp pointsDetailResp = httpClient.send(getPointsDetails,map,PointsDetailResp.class);
         List<PointsDetail> pointsList = null;
         if(pointsDetailResp!=null){
-            pointsList = pointsDetailResp.getPointsDetailList();
+            pointsList = pointsDetailResp.getBizResult();
         }
         return pointsList;
     }
@@ -98,7 +98,7 @@ public class PointsServiceImpl extends BaseService implements PointsService {
         map.put("cardNo",cardNo);
         //调用后台获取积分到期日
         PointsValidatesResp pointsValidatesResp = httpClient.send(getPointsValidates,map,PointsValidatesResp.class);
-        return pointsValidatesResp.getPointsValidatesList();
+        return pointsValidatesResp.getBizResult();
     }
 
 }
