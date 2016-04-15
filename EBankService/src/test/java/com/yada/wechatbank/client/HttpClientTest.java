@@ -31,6 +31,6 @@ public class HttpClientTest {
         CardApplyResp result = httpClient.send(reqUrl, map,  CardApplyResp.class);
         System.out.println(result.getReturnCode());
         System.out.println(result.getReturnMsg());
-        System.out.println(result.getBizResult().getApplyList().size());
+        System.out.println(result.getBizResult().getCardApplies().size());
     }
 }

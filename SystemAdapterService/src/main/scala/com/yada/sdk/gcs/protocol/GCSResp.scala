@@ -80,6 +80,8 @@ class GCSResp(xml: String) {
     * @return
     */
   protected def failedThrowException: Boolean = true
+
+  override def toString = s"GCSResp($gcs)"
 }
 
 case class ErrorGCSReturnCodeException(returnCode: String, returnMessage: String) extends RuntimeException(s"returnCode[$returnCode]returnMessage[$returnMessage]")

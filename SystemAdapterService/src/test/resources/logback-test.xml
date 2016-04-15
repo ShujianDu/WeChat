@@ -3,16 +3,15 @@
 <configuration>
     <!-- 控制台输出 -->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>[%-18(%d{HH:mm:ss.SSS}]%thread)[%-5level %logger{60}]->
-                %msg%n
-            </pattern>
-        </layout>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%msg%n</pattern>
+        </encoder>
     </appender>
     <logger name="com.yada.sdk.point.PointClient" level="DEBUG"/>
     <logger name="com.yada.sdk.bcsp.BCSPClient" level="DEBUG"/>
     <logger name="com.yada.sdk.tgw.TGWClient" level="DEBUG"/>
     <logger name="com.yada.sdk.ds.DirectSaleClient" level="DEBUG"/>
+    <logger name="com.yada.sdk.gcs.GCSClient" level="DEBUG"/>
     <root level="WARN">
         <appender-ref ref="stdout"/>
     </root>

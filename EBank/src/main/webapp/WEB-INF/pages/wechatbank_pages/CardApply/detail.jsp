@@ -17,7 +17,7 @@
     <span></span>
 </header>
 <div class="mg-tb-30">
-    <c:if test="${cardApplyList.applyList eq null}">
+    <c:if test="${cardApplyList.cardApplies eq null}">
         <div class="topOneB mar-1 allOneBradius">
             <table class="topTwo mb-10">
                 <tr>
@@ -28,8 +28,8 @@
             </table>
         </div>
     </c:if>
-    <c:if test="${fn:length(cardApplyList.applyList) gt 0}">
-        <c:forEach items="${cardApplyList.applyList}" var="item" varStatus="status">
+    <c:if test="${fn:length(cardApplyList.cardApplies) gt 0}">
+        <c:forEach items="${cardApplyList.cardApplies}" var="item" varStatus="status">
             <div class="topOneB mar-1 topOneBradius bcS">
                 <table class="topTwo">
                     <tr>
@@ -66,7 +66,7 @@
             </div>
         </c:forEach>
     </c:if>
-    <c:if test="${cardApplyList.next eq false}">
+    <c:if test="${cardApplyList.hasNext eq false}">
         <div style="border:1px solid #000;">
             <table class="topTwo">
                 <tr>
@@ -75,7 +75,7 @@
             </table>
         </div>
     </c:if>
-    <c:if test="${cardApplyList.next eq true}">
+    <c:if test="${cardApplyList.hasNext eq true}">
         <form action="listP.do" method="post" id="submitForm">
             <div style="margin-top: 10px;">
                 <table class="topTwo">
