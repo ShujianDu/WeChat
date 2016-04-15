@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by QinQiang on 2016/4/6.
  * 客户信息
  */
-@Entity(name = "T_B_CUSTOMER_INFO")
+@Entity(name = "T_B_CUSTOMER_INFO_NEW")
 public class CustomerInfo {
 
     @Id
