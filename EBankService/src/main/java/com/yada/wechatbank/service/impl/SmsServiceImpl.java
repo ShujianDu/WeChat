@@ -2,6 +2,7 @@ package com.yada.wechatbank.service.impl;
 
 import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.HttpClient;
+import com.yada.wechatbank.client.model.BooleanResp;
 import com.yada.wechatbank.service.SmsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 发送短信验证码
+ * ·
  * Created by QinQiang on 2016/4/14.
  */
 @Service
@@ -55,8 +56,8 @@ public class SmsServiceImpl extends BaseService implements SmsService {
         param.put("bsnType", bcspSmsBsnType);
         param.put("handsetNo", mobileNo);
         param.put("content", content);
-        Boolean result = httpClient.send(sendSMS, param, Boolean.class);
-        return result;
+        BooleanResp result = httpClient.send(sendSMS, param, BooleanResp.class);
+        return result.getBizResult();
     }
 
     /**
@@ -74,7 +75,7 @@ public class SmsServiceImpl extends BaseService implements SmsService {
         param.put("bsnType", bcspSmsCardApplyBsnType);
         param.put("handsetNo", mobileNo);
         param.put("content", content);
-        Boolean result = httpClient.send(sendSMS, param, Boolean.class);
-        return result;
+        BooleanResp result = httpClient.send(sendSMS, param, BooleanResp.class);
+        return result.getBizResult();
     }
 }
