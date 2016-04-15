@@ -6,22 +6,22 @@ package com.yada.wechatbank.base;
  */
 public class BaseModel {
 
-    private String respCode; // 响应码
-    private String respMsg; // 响应信息
+    private String returnCode; // 响应码
+    private String returnMsg; // 响应信息
 
-    public String getRespCode() {
-        return respCode;
+    public String getReturnCode() {
+        return returnCode;
     }
 
-    public void setRespCode(String respCode) {
-        this.respCode = respCode;
+    public void setReturnCode(String returnCode) {
+        this.returnCode = returnCode;
     }
 
-    public String getRespMsg() {
-        return respMsg;
+    public String getReturnMsg() {
+        return returnMsg;
     }
 
-    public void setRespMsg(String respMsg) {
-        this.respMsg = respMsg;
+    public void setReturnMsg(String returnMsg) {
+        this.returnMsg = returnMsg;
     }
 }
