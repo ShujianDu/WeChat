@@ -25,6 +25,8 @@ import com.yada.wechatbank.util.Crypt;
 public class BillingSummaryServiceImpl extends BaseService implements BillingSummaryService {
 	private final static Logger logger = LoggerFactory.getLogger(BillingSummaryServiceImpl.class);
 
+
+
 	@Override
 	public List<BillingSummary> getBillingSummaryList(String cardNo, String date) {
 		// TODO 调用行内service根据卡号查询账期号

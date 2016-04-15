@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import com.yada.wechatbank.base.BaseModel;
 
-public class BillingSummary extends BaseModel implements Serializable {
+public class BillingSummary implements Serializable {
 
 	private static final long serialVersionUID = -1661073990314861355L;
 	// 账期开始日期(账单日期)

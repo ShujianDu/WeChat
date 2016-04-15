@@ -36,7 +36,7 @@ public interface BillingSummaryService {
 	 *             加密时肯能出错，抛出异常
 	 * 
 	 */
-	public List<String> getQueryCardList(String cardNo, List<String> cardList) throws Exception;
+	 List<String> getQueryCardList(String cardNo, List<String> cardList) throws Exception;
 
 	/**
 	 * 解密卡列表集合
@@ -45,12 +45,12 @@ public interface BillingSummaryService {
 	 *            需要加密的卡列表集合
 	 * @return 加密好的卡列表
 	 */
-	public List<String> getEncryptCardNOs(List<String> cardList);
+	 List<String> getEncryptCardNOs(List<String> cardList);
 
 	/**
 	 * 获得用户可选账单月份
 	 * 
 	 * @return 日期集合
 	 */
-	public List<String> getDateList();
+	 List<String> getDateList();
 }
