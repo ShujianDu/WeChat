@@ -3,11 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <%@include file="../../base_pages/base.jsp" %>
-    <%@include file="../../base_pages/wxjs.jsp" %>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title>中国银行信用卡</title>
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/wechatbank/index.css"/>"/>
-    <%@include file="../../base_pages/wxReadyFunction.jsp" %>
+    <title>中国银行信用卡</title>
 </head>
 
 <body>

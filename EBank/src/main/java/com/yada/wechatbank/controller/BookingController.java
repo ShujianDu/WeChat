@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.yada.wechatbank.query.BookingQuery;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 信用卡预约申请Controller
@@ -171,7 +172,8 @@ public class BookingController extends BaseController {
 	 * 获取城市列表AJAX
 	 */
 	@RequestMapping(value = "getOrg_ajax")
-	public void getOrg_ajax(HttpServletRequest request,
+	@ResponseBody
+	public String getOrg_ajax(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		String result = "";
 		String pOrgIdstr = request.getParameter("pOrgId");
@@ -182,15 +184,15 @@ public class BookingController extends BaseController {
 		} else {
 			result = JSONArray.fromObject(list).toString();
 		}
-		response.getWriter().print(result);
-		response.getWriter().flush();
+		return result;
 	}
 
 	/**
 	 * 判断是否已经预约
      */
 	@RequestMapping(value = "isBooking_ajax")
-	public void isBooking_ajax(HttpServletRequest request,
+	@ResponseBody
+	public String isBooking_ajax(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		String result = "";
 		String bookingResult=bookingServiceImpl.isHaveBooking(request.getParameter("clientName"),request.getParameter("mobilePhone"));
@@ -199,7 +201,6 @@ public class BookingController extends BaseController {
 		}else if ("true".equals(bookingResult)) {
 			result = "true";
 		}
-		response.getWriter().print(result);
-		response.getWriter().flush();
+		return result;
 	}
 }
