@@ -31,11 +31,11 @@
 		</c:if>
 		<!-- 存在积分 -->
 		<c:if test="${fn:length(newList) gt 0}">
-			<c:forEach items="${newList}" var="jiFenDetailList"
+			<c:forEach items="${newList}" var="pointsDetailList"
 				varStatus="statusParent">
 				<!-- 不存在子积分的积分明细 -->
-				<c:if test="${fn:length(jiFenDetailList) eq 1}">
-					<c:forEach items="${jiFenDetailList}" var="item" varStatus="status">
+				<c:if test="${fn:length(pointsDetailList) eq 1}">
+					<c:forEach items="${pointsDetailList}" var="item" varStatus="status">
 						<div class="topOneB mar-1 topOneBradius bcS">
 							<table class="topTwo">
 								<tr>
@@ -56,8 +56,8 @@
 					</c:forEach>
 				</c:if>
 				<!-- 存在子积分的积分明细 -->
-				<c:if test="${fn:length(jiFenDetailList) gt 1}">
-					<c:forEach items="${jiFenDetailList}" var="item" varStatus="status">
+				<c:if test="${fn:length(pointsDetailList) gt 1}">
+					<c:forEach items="${pointsDetailList}" var="item" varStatus="status">
 						<c:if test="${fn:length(item.parentId) gt 0}">
 							<div class="topOneB mar-1 topOneBradius">
 								<table class="topTwo">
@@ -98,7 +98,7 @@
 									<table class="topTwo">
 										<tr>
 											<td><a class="allA"
-												href="../jifen/validate.do?numberP=${statusParent.index}&number=${status.index}&">积分到期日</a>
+												href="../points/validate.do?numberP=${statusParent.index}&number=${status.index}&">积分到期日</a>
 											</td>
 										</tr>
 									</table>

@@ -70,12 +70,12 @@
                 <tr>
                     <td class="td-le">手机号：</td>
                     <td>
-                        <input type="text" name="mobilNo" id="mobilNo" maxlength="11" onchange="changeWarning();"/>
+                        <input type="text" name="mobileNo" id="mobileNo" maxlength="11" onchange="changeWarning();"/>
                     </td>
                 </tr>
             </table>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span id="mobilNoWarning" style="color: red; font-size: 12px;"></span>
+            <span id="mobileNoWarning" style="color: red; font-size: 12px;"></span>
         </div>
         <div class="topOneB mar-1">
             <table class="topTwo">
@@ -208,16 +208,17 @@
         var keycode = $("#keycode").val();
         var identityNo = $("#identityNo").val();
         var identityType = $("#identityType").val();
-        var mobilNo = $("#mobilNo").val();
+        var mobileNo = $("#mobileNo").val();
         var verificationCode = $("#verificationCode").val();
 
-        var nameWarning = $("#nameWarning");
         var typeWarning = $("#typeWarning");
         var idNumWarning = $("#idNumWarning");
-        var mobilNoWarning = $("#mobilNoWarning");
+        var mobileNoWarning = $("#mobileNoWarning");
         var verificationCodeWarning = $("#verificationCodeWarning");
+        typeWarning.text("");
+        idNumWarning.text("");
         verificationCodeWarning.text("");
-        mobilNoWarning.text("");
+        mobileNoWarning.text("");
 
         if (identityType == null || identityType == "") {
             typeWarning.text("*证件类型不能为空，请选择！");
@@ -227,8 +228,8 @@
             idNumWarning.text("*证件号不能为空，请输入！");
             return false;
         }
-        if (mobilNo == null || mobilNo == "") {
-            mobilNoWarning.text("*手机号不能为空，请输入！");
+        if (mobileNo == null || mobileNo == "") {
+            mobileNoWarning.text("*手机号不能为空，请输入！");
             return false;
         }
         if (verificationCode == null || verificationCode == "") {
@@ -239,9 +240,8 @@
         $.ajax({
             url: "getMsgCode_ajax.do",
             data: {
-                identityType: identityType,
                 identityNo: identityNo,
-                mobilNo: mobilNo,
+                mobileNo: mobileNo,
                 keycode: keycode,
                 timestamp: new Date().getTime()
             },
@@ -260,8 +260,8 @@
                         window.location.href = "../error.html";
                     } else if (result == "errorCode") {
                         $("#verificationCodeWarning").text("您填写的验证码有误，请重新输入！");
-                    } else if (result == "wrongMobilNo") {
-                        $("#mobilNoWarning").text("您填写的手机号有误，请重新输入!");
+                    } else if (result == "wrongMobileNo") {
+                        $("#mobileNoWarning").text("您填写的手机号有误，请重新输入!");
                     } else {
                         buttonTimeOut();
                     }

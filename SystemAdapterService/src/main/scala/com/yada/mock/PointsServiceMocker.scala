@@ -1,50 +1,49 @@
 package com.yada.mock
 
-import com.yada.system.adapter.points.{PointsBalance, PointsDetail, PointsValidates, PointsService}
+import com.yada.system.adapter.points._
 
 class PointsServiceMocker extends PointsService{
   /**
     * 查询积分余额
     *
-    * @param cardNo 卡号
+    * @param cardNoParams 卡号
     * @return PointsBalance
     */
-  override def getBalance(cardNo: String): PointsBalance = {
-      PointsMockConfig.pointsBalanceResult(cardNo)
+  override def getBalance(cardNoParams: PointsCardNoParams): PointsBalance = {
+      PointsMockConfig.pointsBalanceResult(cardNoParams.cardNo)
   }
 
   /**
     * 查询积分明细
     *
-    * @param cardNo 卡号
+    * @param cardNoParams 卡号
     */
-  override def getPointsDetails(cardNo: String): List[PointsDetail] = {
-    PointsMockConfig.pointsDetailResult(cardNo)
+  override def getPointsDetails(cardNoParams: PointsCardNoParams): List[PointsDetail] = {
+    PointsMockConfig.pointsDetailResult(cardNoParams.cardNo)
   }
 
   /**
     * 查询积分有校期
     *
-    * @param cardNo 卡号
+    * @param cardNoParams 卡号
     */
-  override def getPointsValidates(cardNo: String): List[PointsValidates] = {
-    PointsMockConfig.pointsValidatesResult(cardNo)
+  override def getPointsValidates(cardNoParams: PointsCardNoParams): List[PointsValidates] = {
+    PointsMockConfig.pointsValidatesResult(cardNoParams.cardNo)
   }
 
   /**
     * 微信授权接口
     *
-    * @param cardNo 明文卡号
+    * @param cardNoParams 明文卡号
     * @return (密文卡号，加密验证消息)
     */
-  override def verificationCardNo(cardNo: String): (String, String) = ???
+  override def verificationCardNo(cardNoParams: PointsCardNoParams): VerificationCardNoResult = ???
 
   /**
     * 聪明购授权
     *
-    * @param cardNo   明文卡号
-    * @param mobileNo 明文手机号
-    * @return (密文卡号，密文手机号，加密验证消息)
+    * @param verificationCardNoAndMobileNoParams   VerificationCardNoAndMobileNoParams
+    * @return VerificationCardNoAndMobileNoResult
     */
-  override def verificationCardNoAndMobileNo(cardNo: String, mobileNo: String): (String, String, String) = ???
+  override def verificationCardNoAndMobileNo(verificationCardNoAndMobileNoParams: VerificationCardNoAndMobileNoParams): VerificationCardNoAndMobileNoResult = ???
 }

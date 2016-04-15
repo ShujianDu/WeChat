@@ -13,22 +13,19 @@ class BCSPServiceImpl extends BCSPService {
   /**
     * 短信调用
     *
-    * @param bsnType   BCSP业务类型
-    * @param content   内容
-    * @param handsetNo 手机号
-    * @param sysId     系统ID
+    * @param sendSMSParams BCSPSendSMSParams
     * @return 返回是否发送成功 true/false
     */
-  override def sendSMS(bsnType: String, content: String, handsetNo: String, sysId: String): Boolean = {
+  override def sendSMS(sendSMSParams: BCSPSendSMSParams): BCSPBooleanResult = {
     try {
-      log.info(s"sendSMS props:bsnType[$bsnType]content[$content]handsetNo[$handsetNo]sysId[$sysId]")
-      val t9req = new T900000000(handsetNo, sysId, bsnType, content)
+      log.info(s"sendSMS props:bsnType[$sendSMSParams.bsnType]content[$sendSMSParams.content]handsetNo[$sendSMSParams.handsetNo]sysId[$sendSMSParams.sysId]")
+      val t9req = new T900000000(sendSMSParams.handsetNo, sendSMSParams.sysId, sendSMSParams.bsnType, sendSMSParams.content)
       t9req.send
-      true
+      BCSPBooleanResult(true)
     } catch {
       case e: Exception =>
         log.error("sending to bcsp has a error...", e)
-        false
+        BCSPBooleanResult(false)
     }
   }
 }

@@ -28,11 +28,9 @@ import com.yada.wechatbank.util.JsMapUtil;
 @Controller
 @RequestMapping(value = "historyInstalment")
 public class HistoryInstallmentController extends BaseController {
-	private final static Logger logger = LoggerFactory
-			.getLogger(HistoryInstallmentController.class);
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private static final String LISTURL = "wechatbank_pages/HistoryInstallment/list";
 	private static final String SHOWURL = "wechatbank_pages/HistoryInstallment/show";
-	private static String JSERROR = "wechatbank_pages/error";
 	private static final String STARTNUM = "1";
 	private static final String SELECTNUM = "100";
 	private static final int ONEPAGE = 10;
@@ -43,14 +41,14 @@ public class HistoryInstallmentController extends BaseController {
 	@RequestMapping(value = "list")
 	public String list(HttpServletRequest request, String openId, Model model) {
 		// 页面分享js需要的参数
-		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-				"billinstallment/list.do","中国银行信用卡分期业务");
-		if (jsMap == null) {
-			return JSERROR;
-		}
-		for (String key : jsMap.keySet()) {
-			model.addAttribute(key, jsMap.get(key));
-		}
+//		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
+//				"billinstallment/list.do","中国银行信用卡分期业务");
+//		if (jsMap == null) {
+//			return JSERROR;
+//		}
+//		for (String key : jsMap.keySet()) {
+//			model.addAttribute(key, jsMap.get(key));
+//		}
 		// 调用RMI 获取卡片列表（OpenId）
 		List<String> cardList = historyInstallmentServiceImpl.selectCardNOs(getIdentityNo(request),getIdentityType(request));
 		// RMI返回值为空或没有数据
@@ -71,7 +69,7 @@ public class HistoryInstallmentController extends BaseController {
 		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
 				"billinstallment/list.do","中国银行信用卡分期业务");
 		if (jsMap == null) {
-			return JSERROR;
+			return ERROR;
 		}
 		for (String key : jsMap.keySet()) {
 			model.addAttribute(key, jsMap.get(key));
@@ -114,7 +112,7 @@ public class HistoryInstallmentController extends BaseController {
 		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
 				"billinstallment/list.do","中国银行信用卡分期业务");
 		if (jsMap == null) {
-			return JSERROR;
+			return ERROR;
 		}
 		for (String key : jsMap.keySet()) {
 			model.addAttribute(key, jsMap.get(key));
@@ -127,11 +125,11 @@ public class HistoryInstallmentController extends BaseController {
 				+ "", "1");
 		if (map == null || map.get("isFollowUp") == null
 				|| map.get("list") == null) {
-			return JSERROR;
+			return ERROR;
 		}else {
 			list = (List<HistoryInstallment>) map.get("list");
 			if (list==null || list.size()==0){
-				return JSERROR;
+				return ERROR;
 			}else {
 				historyInstallment = list.get(0);
 			}

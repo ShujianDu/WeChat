@@ -16,7 +16,7 @@ public interface HistoryInstallmentService {
      * @param selectNumber 查询号
      * @return 分期历史信息
      */
-    public Map<String, Object> queryHistoryInstallment(String cardNo, String startNumber, String selectNumber);
+    Map<String, Object> queryHistoryInstallment(String cardNo, String startNumber, String selectNumber);
 
     /**
      * 查询卡列表
@@ -24,6 +24,6 @@ public interface HistoryInstallmentService {
      * @param identityType 证件类型
      * @return 卡列表
      */
-    public List<String> selectCardNOs(String identityNo,String identityType);
+    List<String> selectCardNOs(String identityNo, String identityType);
 
 }

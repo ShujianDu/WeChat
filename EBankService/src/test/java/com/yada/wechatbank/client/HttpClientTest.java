@@ -1,5 +1,8 @@
 package com.yada.wechatbank.client;
 
+import com.yada.wechatbank.base.BaseModel;
+import com.yada.wechatbank.client.model.CardApplyResp;
+import com.yada.wechatbank.model.CardApplyList;
 import org.junit.Test;
 
 import java.net.MalformedURLException;
@@ -25,7 +28,9 @@ public class HttpClientTest {
         map.put("key2", "value2");
         map.put("key3", "value3");
 
-        Map<String, String> respMap = httpClient.send(reqUrl, map, map.getClass());
-        System.out.print(respMap.keySet());
+        CardApplyResp result = httpClient.send(reqUrl, map,  CardApplyResp.class);
+        System.out.println(result.getReturnCode());
+        System.out.println(result.getReturnMsg());
+        System.out.println(result.getBizResult().getCardApplies().size());
     }
 }

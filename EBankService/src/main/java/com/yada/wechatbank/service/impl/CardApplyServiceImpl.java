@@ -1,6 +1,8 @@
 package com.yada.wechatbank.service.impl;
 
+import com.yada.wechatbank.base.BaseModel;
 import com.yada.wechatbank.base.BaseService;
+import com.yada.wechatbank.client.model.CardApplyResp;
 import com.yada.wechatbank.model.CardApplyList;
 import com.yada.wechatbank.service.CardApplyService;
 import org.springframework.stereotype.Service;
@@ -24,9 +26,8 @@ public class CardApplyServiceImpl extends BaseService implements CardApplyServic
         param.put("id", identityNo);
         param.put("currentPage", "" + currentPage);
 
-        CardApplyList cardApplyList = httpClient.send(cardApplyUrl, param, CardApplyList.class);
-
-        return cardApplyList;
+        CardApplyResp cardApplyResp = httpClient.send(cardApplyUrl, param, CardApplyResp.class);
+        return cardApplyResp.getBizResult();
     }
 
 }

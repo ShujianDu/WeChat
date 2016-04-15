@@ -31,7 +31,7 @@ import com.yada.wechatbank.util.TokenUtil;
 @Controller
 @RequestMapping(value = "binding")
 public class BindingController extends BaseController{
-	private final static Logger logger = LoggerFactory.getLogger(BindingController.class);
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	private static final String BOUNDURL = "wechatbank_pages/Binding/bound";
 	private static final String BINDLISTURL = "wechatbank_pages/Binding/binding";
 	private static final String BINDCARDURL = "wechatbank_pages/Binding/bindingDefCard";
@@ -39,9 +39,6 @@ public class BindingController extends BaseController{
 	private static final String ERRORURL = "wechatbank_pages/Binding/error";
 	private static final String LOCK = "wechatbank_pages/Binding/lock";
 	private static final String FILLIDTYPEURL = "wechatbank_pages/Binding/fillIdType";
-	private static String ERROR = "wechatbank_pages/error";
-	private static final String BUSYURL = "wechatbank_pages/busy";
-	private static final String NOCARDURL = "wechatbank_pages/nocard";
 	// 是否是默认卡(0 是，1 否)
 	private static final String ISDEFAULT = "0";
 	private static final String NODEFAULT = "1";
@@ -63,14 +60,14 @@ public class BindingController extends BaseController{
 			bindingQuery.setOpenId(openId);
 		}
 		// 页面分享js需要的参数
-		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-				"binding/list.do","中国银行信用卡绑定业务");
-		if (jsMap == null) {
-			return ERROR;
-		}
-		for (String key : jsMap.keySet()) {
-			model.addAttribute(key, jsMap.get(key));
-		}
+//		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
+//				"binding/list.do","中国银行信用卡绑定业务");
+//		if (jsMap == null) {
+//			return ERROR;
+//		}
+//		for (String key : jsMap.keySet()) {
+//			model.addAttribute(key, jsMap.get(key));
+//		}
 		boolean rmiReturn = bindingServiceImpl.validateIsBinding(openId);
 		// 判断是否已经绑定
 		if (rmiReturn) {
@@ -151,9 +148,6 @@ public class BindingController extends BaseController{
 				} catch (Exception e) {
 					return BUSYURL;
 				}
-				// 将卡号信息集合放入Session中
-				request.getSession().setAttribute("session_defaultCardList",cardList);
-//				model.addAttribute("cardList", cardList);
 				model.addAttribute("cardListCrypt", cardListCrypt);
 				model.addAttribute("model", bindingQuery);
 			}
@@ -172,9 +166,6 @@ public class BindingController extends BaseController{
 		}
 		return BINDLISTURL;
 	}
-	
-	
-	
 	
 	/**
 	 * 默认卡绑定 需通过openId、authCode权限验证

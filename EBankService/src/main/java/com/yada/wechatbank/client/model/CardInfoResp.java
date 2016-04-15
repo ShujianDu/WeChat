@@ -9,13 +9,14 @@ import java.util.List;
  * Created by Echo on 2016/4/13.
  */
 public class CardInfoResp extends BaseModel{
-    private List<CardInfo> cardInfoList;
+    private List<CardInfo> bizResult;
 
-    public List<CardInfo> getCardInfoList() {
-        return cardInfoList;
+
+    public List<CardInfo> getBizResult() {
+        return bizResult;
     }
 
-    public void setCardInfoList(List<CardInfo> cardInfoList) {
-        this.cardInfoList = cardInfoList;
+    public void setBizResult(List<CardInfo> bizResult) {
+        this.bizResult = bizResult;
     }
 }

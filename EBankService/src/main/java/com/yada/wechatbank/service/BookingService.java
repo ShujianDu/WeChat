@@ -15,20 +15,20 @@ public interface BookingService {
      * 获取客户ID的Sequences，前置处理
      * @return Sequences
      */
-    public String getSequences();
+    String getSequences();
 
     /**
      * 预约办卡新增
      * @param booking 预约办卡实体
      * @return 预约办卡结果
      */
-    public boolean insertBooking(Booking booking);
+    boolean insertBooking(Booking booking);
     /**
      * 查询地区
      * @param pOrgId pOrgId
      * @return 地区列表
      */
-    public List<NuwOrg> selectNumOrgList(String pOrgId);
+    List<NuwOrg> selectNumOrgList(String pOrgId);
 
     /**
      * 判断预约办卡是否已存在
@@ -36,6 +36,6 @@ public interface BookingService {
      * @param mobilePhone 手机号
      * @return 判断预约办卡是否存在结果
      */
-    public String isHaveBooking(String clientName, String mobilePhone);
+    String isHaveBooking(String clientName, String mobilePhone);
 
 }
