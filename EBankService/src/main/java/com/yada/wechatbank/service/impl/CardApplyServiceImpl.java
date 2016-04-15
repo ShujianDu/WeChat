@@ -1,6 +1,5 @@
 package com.yada.wechatbank.service.impl;
 
-import com.yada.wechatbank.base.BaseModel;
 import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.CardApplyResp;
 import com.yada.wechatbank.model.CardApplyList;
@@ -14,7 +13,7 @@ import java.util.Map;
  * Created by QinQiang on 2016/4/11.
  */
 @Service
-public class CardApplyServiceImpl extends BaseService implements CardApplyService{
+public class CardApplyServiceImpl extends BaseService implements CardApplyService {
 
     @Override
     public CardApplyList getCrdCardSchedule(String name, String identityType, String identityNo, int currentPage) {
@@ -27,7 +26,7 @@ public class CardApplyServiceImpl extends BaseService implements CardApplyServic
         param.put("currentPage", "" + currentPage);
 
         CardApplyResp cardApplyResp = httpClient.send(cardApplyUrl, param, CardApplyResp.class);
-        return cardApplyResp.getBizResult();
+        return cardApplyResp == null ? null : cardApplyResp.getBizResult();
     }
 
 }

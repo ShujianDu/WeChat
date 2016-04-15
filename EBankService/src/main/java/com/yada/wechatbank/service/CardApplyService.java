@@ -16,5 +16,5 @@ public interface CardApplyService {
      * @param currentPage  当前页
      * @return CardApplyList
      */
-    public CardApplyList getCrdCardSchedule(String name, String identityType, String identityNo, int currentPage);
+    CardApplyList getCrdCardSchedule(String name, String identityType, String identityNo, int currentPage);
 }
