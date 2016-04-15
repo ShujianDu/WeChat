@@ -1,14 +1,19 @@
 package com.yada.wechatbank.permit;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import com.yada.wechatbank.base.BaseService;
+import com.yada.wechatbank.client.model.BooleanResp;
+import com.yada.wechatbank.model.CardInfo;
 import com.yada.wx.db.service.dao.CustomerInfoDao;
 import com.yada.wx.db.service.model.CustomerInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PermitHander  {
+public class PermitHander  extends BaseService{
 	@Autowired
 	protected CustomerInfoDao customerInfoDao;
 
@@ -26,17 +31,25 @@ public class PermitHander  {
 		if(cusList!=null && cusList.size()!=0){
 			cardNo=cusList.get(0).getDefCardNo();
 		}else{
-			//TODO 通过证件号和证件类型去后台查询卡号
+			//通过证件号和证件类型去后台查询卡号
+			List<CardInfo> cardInfoList = selectCardNos(identityNo,identityType);
+			if(cardInfoList!=null && cardInfoList.size()!=0) {
+                cardNo = cardInfoList.get(0).getCardNo();
+            }
 		}
 		if(cardNo == null || "".equals(cardNo)){//获取卡号为空
 			return false;
 		}
 		try {
-			//TODO 调用后台验密
-//			if(!bizProcImpl.verificationPWD(cardNo, password)){
-//				return false;
-//			}
-		} 
+            Map<String,String> map = new HashMap<>();
+            map.put("cardNo",cardNo);
+            map.put("pwd",password);
+			//调用后台验密
+            BooleanResp booleanResp = httpClient.send("",map,BooleanResp.class);
+            if(!booleanResp.getBizResult()){
+                return false;
+            }
+		}
 		catch (Exception e) {
 			return false;
 		}

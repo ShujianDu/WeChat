@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.yada.wechatbank.query.BindingQuery;
 import com.yada.wechatbank.util.JsMapUtil;
 import com.yada.wechatbank.util.TokenUtil;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 客户身份绑定、默认卡绑定
@@ -265,8 +266,10 @@ public class BindingController extends BaseController{
 	 * @param response HttpServletResponse
 	 */
 	@RequestMapping(value = "getSMSCode_ajax")
-	public void getSMSCode_ajax(HttpServletRequest request,
+	@ResponseBody
+	public String getSMSCode_ajax(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
+		//TODO 获取短信验证码
 		String result = "false";
 		String identityType=request.getParameter("idType");
 		String identity=request.getParameter("identityNo");
@@ -301,8 +304,7 @@ public class BindingController extends BaseController{
 		}else {
 			result = "errorCode";
 		}
-		response.getWriter().print(result);
-		response.getWriter().flush();
+		return result;
 	}
 	
 	/**

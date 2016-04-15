@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.yada.wechatbank.base.BaseController;
 import com.yada.wechatbank.util.Crypt;
 import com.yada.wechatbank.util.JsMapUtil;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 历史分期付款查询
@@ -92,7 +93,7 @@ public class HistoryInstallmentController extends BaseController {
 		List<HistoryInstallment> list = (List<HistoryInstallment>) map.get("list");
 		List<HistoryInstallment> historyInstallmentList = new ArrayList<HistoryInstallment>();
 		// RMI返回值为空或没有数据
-		if (list == null || list.size()==0) {
+		if (list == null) {
 			return BUSYURL;
 		} else if (list.size() > 0) {
 			for (int i = 0; i < ONEPAGE; i++) {
@@ -118,8 +119,8 @@ public class HistoryInstallmentController extends BaseController {
 			model.addAttribute(key, jsMap.get(key));
 		}
 		int index = Integer.parseInt(number);
-		List<HistoryInstallment> list = new ArrayList<HistoryInstallment>();
-		HistoryInstallment historyInstallment = null;
+		List<HistoryInstallment> list;
+		HistoryInstallment historyInstallment;
 		//调用后台查询分期历史
 		Map<String, Object> map = historyInstallmentServiceImpl.queryHistoryInstallment(cardNo, index
 				+ "", "1");
@@ -138,13 +139,13 @@ public class HistoryInstallmentController extends BaseController {
 		return SHOWURL;
 	}
 
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "getMore_ajax")
-	public void ajax_getMore(HttpServletRequest request,HttpServletResponse response) throws IOException {
+	@ResponseBody
+	public String ajax_getMore(HttpServletRequest request,HttpServletResponse response) throws IOException {
 		//返回结果
 		String result = "";
 		List<HistoryInstallment> historyInstallmentList = new ArrayList<HistoryInstallment>();
-		List<HistoryInstallment> list = new ArrayList<HistoryInstallment>();
+		List<HistoryInstallment> list;
 		String cardNo = "";
 		try {
 			cardNo = Crypt.decode(request.getParameter("cardNo"));
@@ -172,8 +173,6 @@ public class HistoryInstallmentController extends BaseController {
 						historyInstallmentList).toString();
 			}
 		}
-		response.getWriter().print(result);
-		response.getWriter().flush();
-
+		return result;
 	}
 }
