@@ -6,7 +6,7 @@ import com.yada.wechatbank.model.BillingSummary;
 /**
  * Created by liangtieluan on 2016/4/15.
  */
-public class BillingSummaryResp extends BaseModel{
+public class BillingSummaryResp extends BaseModel {
     private BillingSummary bizResult;
 
     public BillingSummary getBizResult() {

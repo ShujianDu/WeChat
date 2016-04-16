@@ -25,7 +25,7 @@ public interface BillingSummaryService {
 	 * @throws Exception
 	 *             卡号加密抛异常
 	 */
-	public List<BillingSummary> getBillingSummaryList(String cardNo, String date) throws Exception;
+	 List<BillingSummary> getBillingSummaryList(String cardNo, String date) throws Exception;
 
 	/**
 	 * 

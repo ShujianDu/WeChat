@@ -33,13 +33,13 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 	@Override
 	public List<BillingSummary> getBillingSummaryList(String cardNo, String date) throws Exception {
 		// 账单摘要集合
-		List<BillingSummary> billingSummaries = new ArrayList<BillingSummary>();
+		List<BillingSummary> billingSummaries = new ArrayList<>();
 		// 可用账期
-		List<BillingPeriod> usableBillPeriods = new ArrayList<BillingPeriod>();
+		List<BillingPeriod> usableBillPeriods = new ArrayList<>();
 		// 查询到的账期
-		List<BillingPeriod> billingPeriods = null;
+		List<BillingPeriod> billingPeriods;
 		// 账单摘要实体
-		BillingSummary billingSummary = null;
+		BillingSummary billingSummary;
 		// 根据卡号获取查询账期需要数据
 		Map<String, String> paramPeriods = initGcsParam();
 		paramPeriods.put("cardNo", cardNo);
@@ -84,7 +84,7 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 
 	@Override
 	public List<String> getQueryCardList(String cardNo, List<String> cardList) throws Exception {
-		List<String> queryCardList = new ArrayList<String>();
+		List<String> queryCardList = new ArrayList<>();
 		if (cardNo == null || "".equals(cardNo) || cardList == null || cardList.size() == 0) {
 			return null;
 		}
@@ -119,7 +119,7 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 
 	@Override
 	public List<String> getDateList() {
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		try {
 			for (int i = 0; i < 12; i++) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyyMM");
