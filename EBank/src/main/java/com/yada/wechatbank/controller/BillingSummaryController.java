@@ -80,17 +80,18 @@ public class BillingSummaryController extends BaseController {
 		String date = billingSummaryQuery.getDate();
 		// 得到需要查询账单摘要的卡列表
 		String cardNo;
+		List<BillingSummary> billingSummaries;
 		try {
 			cardNo = Crypt.decode(billingSummaryQuery.getCardNo());
+			// 调用行内service 获取账单摘要
+			billingSummaries = billingSummaryServiceImpl.getBillingSummaryList(cardNo, date);
 		} catch (Exception e) {
-			// 解密失败
+			// 解密或解密失败
 			return ERROR;
 		}
-		// 调用行内service 获取账单摘要
-		List<BillingSummary> billsList = billingSummaryServiceImpl.getBillingSummaryList(cardNo, date);
-		logger.info("@WDZD@调用行内service根据queryCardList[" + cardNo + "],date[" + date + "]获取账单摘要,获取到的账单摘要合集billsList[" + billsList + "]");
+		logger.info("@WDZD@调用行内service根据queryCardList[" + cardNo + "],date[" + date + "]获取账单摘要,获取到的账单摘要合集billsList[" + billingSummaries + "]");
 		// 返回值为空或没有数据
-		if (billsList == null) {
+		if (billingSummaries == null) {
 			return ERROR;
 		}
 		// TODO 获取卡列表传到页面
@@ -98,7 +99,7 @@ public class BillingSummaryController extends BaseController {
 		model.addAttribute("cardList", billingSummaryServiceImpl.getEncryptCardNOs(cardList));
 		model.addAttribute("dateList", billingSummaryServiceImpl.getDateList());
 		model.addAttribute("model", billingSummaryQuery);
-		model.addAttribute("billsList", billsList);
+		model.addAttribute("billsList", billingSummaries);
 		return LISTURL;
 	}
 }

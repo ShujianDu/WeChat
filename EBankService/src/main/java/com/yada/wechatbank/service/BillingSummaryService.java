@@ -22,8 +22,10 @@ public interface BillingSummaryService {
 	 * @param date
 	 *            账单查询日期
 	 * @return 账单摘要
+	 * @throws Exception
+	 *             卡号加密抛异常
 	 */
-	public List<BillingSummary> getBillingSummaryList(String cardNo, String date);
+	public List<BillingSummary> getBillingSummaryList(String cardNo, String date) throws Exception;
 
 	/**
 	 * 
@@ -36,7 +38,7 @@ public interface BillingSummaryService {
 	 *             加密时肯能出错，抛出异常
 	 * 
 	 */
-	 List<String> getQueryCardList(String cardNo, List<String> cardList) throws Exception;
+	List<String> getQueryCardList(String cardNo, List<String> cardList) throws Exception;
 
 	/**
 	 * 解密卡列表集合
@@ -45,12 +47,12 @@ public interface BillingSummaryService {
 	 *            需要加密的卡列表集合
 	 * @return 加密好的卡列表
 	 */
-	 List<String> getEncryptCardNOs(List<String> cardList);
+	List<String> getEncryptCardNOs(List<String> cardList);
 
 	/**
 	 * 获得用户可选账单月份
 	 * 
 	 * @return 日期集合
 	 */
-	 List<String> getDateList();
+	List<String> getDateList();
 }

@@ -1,12 +1,13 @@
 package com.yada.wechatbank.model;
 
-import java.io.Serializable;
+/**
+ * 账单摘要实体
+ * 
+ * @author liangtieluan
+ *
+ */
+public class BillingSummary {
 
-import com.yada.wechatbank.base.BaseModel;
-
-public class BillingSummary implements Serializable {
-
-	private static final long serialVersionUID = -1661073990314861355L;
 	// 账期开始日期(账单日期)
 	private String periodStartDate;
 	// 账期结束日期/账单日期(微信显示：账单日期)
@@ -18,25 +19,9 @@ public class BillingSummary implements Serializable {
 	// 币种(金额类型)
 	private String currencyCode;
 	// 最小还款额(微信显示：应还金额---20130827修改为closingBalance)
-	// 20131107与发卡GCS宋庆楠确认后，最小还款额修改回此字段
 	private String minPaymentAmount;
 	// 卡号
 	private String cardNo;
-
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("BillingSummary [currencyCode=").append(currencyCode);
-		sb.append(", periodEndDate=").append(periodEndDate);
-		sb.append(", closingBalance=").append(closingBalance);
-		sb.append(", periodStartDate=").append(periodStartDate);
-		sb.append(", minPaymentAmount=").append(minPaymentAmount);
-		sb.append(", paymentDueDate=").append(paymentDueDate);
-		// sb.append(", closingMinPayment=").append(closingMinPayment);
-		sb.append(", cardNo=").append(cardNo);
-		sb.append("]");
-		return sb.toString();
-	}
 
 	public String getPeriodStartDate() {
 		return periodStartDate;
@@ -94,4 +79,18 @@ public class BillingSummary implements Serializable {
 		this.cardNo = cardNo;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("BillingSummary [currencyCode=").append(currencyCode);
+		sb.append(", periodEndDate=").append(periodEndDate);
+		sb.append(", closingBalance=").append(closingBalance);
+		sb.append(", periodStartDate=").append(periodStartDate);
+		sb.append(", minPaymentAmount=").append(minPaymentAmount);
+		sb.append(", paymentDueDate=").append(paymentDueDate);
+		// sb.append(", closingMinPayment=").append(closingMinPayment);
+		sb.append(", cardNo=").append(cardNo);
+		sb.append("]");
+		return sb.toString();
+	}
 }
