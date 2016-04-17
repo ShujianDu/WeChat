@@ -1,20 +1,34 @@
-	var m=0;
 	//账单日期
-	var date;
+	var date=$("#date").val();
+	//当月份发生变化时执行方法
 	$(document).ready(function(){
 			$(".check_box .select_date .date_box li").click(function(){
 			$(".check_box .select_date .date_box li").removeClass("current_mounth");
 			$(this).addClass("current_mounth");
 			m=$(this).index();
 			date = $(this).val();
+			alert(date);
 			messageRevealWait();
 		});
 	});
-	//等待加载的界面显示和隐藏
+	//等待加载的界面显示和隐藏（卡号变化时执行方法）
 	function messageRevealWait(){
+		$(".wait_box").fadeIn(500);
+		setTimeout(function(){
+			getBillingSummaryAjax();
+			},4000);
+		setTimeout(function(){
+				$(".wait_box").fadeOut(500);
+			},2000);
+		}
+	//ajax获取账单
+	function getBillingSummaryAjax(){
+		alert(date);
 		var cardNo = $("#cardNo").val();
 		var cardNoWarning = $("#cardNoWarning");
+		var noBillingWarning = $("#noBillingWarning");
 		cardNoWarning.text("");
+		noBillingWarning.text("");
 		if (cardNo == null || cardNo == "") {
 			cardNoWarning.text("*请选择卡号！");
             return;
@@ -31,6 +45,10 @@
 	            success: function (json) {
 	                if (json != null && json != "") {
 	                	messageReveal(json);
+	                }else if(json==""){
+	                	noBillingWarning.text("*很抱歉，没有查询到您当月的账单！");
+	                }else{
+	                	window.location.href = "../error.html";
 	                }
 	            }
 	        });
@@ -83,13 +101,14 @@
 		document.getElementById("closingBalance1").innerText = json[0].closingBalance;
 		document.getElementById("currencyCode5").innerText = json[0].currencyCode;
 		document.getElementById("minPaymentAmount1").innerText = json[0].minPaymentAmount;
-		document.getElementById("closingBalance2").innerText = json[1].closingBalance;
-		document.getElementById("minPaymentAmount2").innerText = json[1].minPaymentAmount;
-		document.getElementById("currencyCode2").innerText = json[1].currencyCode;
-		document.getElementById("currencyCode4").innerText = json[1].currencyCode;
-		document.getElementById("currencyCode4").innerText = json[1].currencyCode;
-		document.getElementById("currencyCode6").innerText = json[1].currencyCode;
-		if(json[1].closingBalance<0){
+		if(json.length>1){
+			document.getElementById("closingBalance2").innerText = json[1].closingBalance;
+			document.getElementById("minPaymentAmount2").innerText = json[1].minPaymentAmount;
+			document.getElementById("currencyCode2").innerText = json[1].currencyCode;
+			document.getElementById("currencyCode4").innerText = json[1].currencyCode;
+			document.getElementById("currencyCode4").innerText = json[1].currencyCode;
+			document.getElementById("currencyCode6").innerText = json[1].currencyCode;
+		if(json[1].closingBalance>0){
 			$(".view_value  #value2").parent(".value").children(".valueState").show();
 				$(".view_value  #value2").css("color","#e05d4f");
 				$(".view_value  #value2").css("font-size","22px");
@@ -105,6 +124,7 @@
 			}else{
 				$(".view_value .dollarDebt").hide();
 			}
+		}
 	}
 	
 $(function(){

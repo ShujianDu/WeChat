@@ -71,7 +71,7 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 				BillingSummaryResp billingSummaryResp = httpClient.send(billingSummaryUrl, paramBillingSummary, BillingSummaryResp.class);
 				if (billingSummaryResp == null || billingSummaryResp.getBizResult() == null) {
 					logger.info("@BillingSummary@BillingSummary is null,cardNo[" + cardNo + "]billingPeriod[" + billingPeriod + "]");
-					billingSummary = new BillingSummary();
+					return null;
 				} else {
 					billingSummary = billingSummaryResp.getBizResult();
 				}

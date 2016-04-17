@@ -12,8 +12,6 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
 <c:set var="path" value="${pageContext.request.contextPath }"></c:set>
-<script type="text/javascript" src="${path }/js/myBill.js"
-	charset="UTF-8"></script>
 </head>
 <body>
 	<div id="myBill_box">
@@ -23,7 +21,7 @@
 				<c:forEach items="${cardList}" var="item" varStatus="status">
 					<option class=""
 						value="${fn:substringAfter(item, ',')}" name="cardNo"
-						onclick="cardChange();">
+						onclick="messageRevealWait();">
 						<c:out value="${fn:substring(item, 0, 16)}" />
 					</option>
 				</c:forEach>
@@ -55,7 +53,7 @@
 				</div>
 			</div>
 					<input type="hidden" id="date" value="${dateList[0]}"></input>
-					<span id="dateWarning" style="color: red; font-size: 12px;"></span>
+					<span id="noBillingWarning" style="color: red; font-size: 12px;"></span>
 			<!--显示价格-->
 			<div class="view_value">
 				<div class="value_title"></div>
@@ -113,15 +111,12 @@
 		<!--wait_box -->
 		<div class="wait_box">
 			<div class="tip_box">
-				<img src="images/Loading2.gif" /> <span class="wait_text">loading</span>
+				<img src="${path }/images/Loading2.gif" /> <span class="wait_text">loading</span>
 			</div>
 		</div>
 	</div>
-	<script>
-	function cardChange() {
-		messageRevealWait();
-	}
-</script>
+	<script type="text/javascript" src="${path }/js/myBill.js"
+	charset="UTF-8"></script>
 </body>
 </html>
 
