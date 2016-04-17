@@ -23,7 +23,6 @@
 		}
 	//ajax获取账单
 	function getBillingSummaryAjax(){
-		alert(date);
 		var cardNo = $("#cardNo").val();
 		var cardNoWarning = $("#cardNoWarning");
 		var noBillingWarning = $("#noBillingWarning");

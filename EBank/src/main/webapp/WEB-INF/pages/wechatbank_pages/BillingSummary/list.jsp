@@ -3,6 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <%@include file="../../base_pages/base.jsp"%>
+<c:set var="path" value="${pageContext.request.contextPath }"></c:set>
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/css/myBill.css"/>" />
 <title>中国银行信用卡</title>
@@ -11,7 +12,6 @@
 <meta name=" format-detection" content="telephone=no" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
-<c:set var="path" value="${pageContext.request.contextPath }"></c:set>
 </head>
 <body>
 	<div id="myBill_box">
@@ -59,15 +59,14 @@
 				<div class="value_title"></div>
 				<div class="value_box ">
 					<span class="value_type"><span id="currencyCode5"></span>欠款</span>
-					<input type="text" class="value" id="value1" name="value1"
-						value="" /> <span type="text" class="value"><span
+					<span type="text" class="value"><span
 						id="value1"></span></span> <input type="button" class="check_dt"
-						id="check_dt1" />
+						id="check_dt1" onclick="getBillingDetail();"/>
 				</div>
 				<div class="value_box ">
 					<span class="value_type"><span id="currencyCode6"></span>欠款</span>
 					<span type="text" class="value"><span id="value2">0.00</span></span>
-					<input type="button" class="check_dt" id="check_dt2" />
+					<input type="button" class="check_dt" id="check_dt2" onclick="getBillingDetail();"/>
 				</div>
 			</div>
 		</div>
@@ -117,6 +116,11 @@
 	</div>
 	<script type="text/javascript" src="${path }/js/myBill.js"
 	charset="UTF-8"></script>
+	<script type="text/javascript">
+	function getBillingDetail(){
+		
+	}
+	</script>
 </body>
 </html>
 
