@@ -50,7 +50,7 @@
 					</ul>
 				</div>
 			</div>
-			<input type="hidden" id="date" value="${dateList[0]}"></input> <span
+			<input type="hidden" id="date" value="${dateList[0]}"> <span
 				id="noBillingWarning" style="color: red; font-size: 12px;"></span>
 			<!--显示价格-->
 			<div class="view_value">
