@@ -19,14 +19,12 @@
 			<select id="cardNo" name="messagePick" class="control_card">
 				<option value="">请选择下列的银行卡</option>
 				<c:forEach items="${cardList}" var="item" varStatus="status">
-					<option class=""
-						value="${fn:substringAfter(item, ',')}" name="cardNo"
-						onclick="messageRevealWait();">
+					<option class="" value="${fn:substringAfter(item, ',')}"
+						name="cardNo" onclick="messageRevealWait();">
 						<c:out value="${fn:substring(item, 0, 16)}" />
 					</option>
 				</c:forEach>
-			</select>
-			 <span id="cardNoWarning" style="color: red; font-size: 12px;"></span>
+			</select> <span id="cardNoWarning" style="color: red; font-size: 12px;"></span>
 		</form>
 		<!--选择日期账单显示-->
 		<div class="check_box">
@@ -40,7 +38,7 @@
 					<ul>
 						<c:forEach items="${dateList}" var="item" varStatus="status">
 							<c:if test="${status.index==0 }">
-								<li  class="current_mounth" value="${item }"><span
+								<li class="current_mounth" value="${item }"><span
 									class="year">${fn:substring(item,0,4)}</span> <span
 									class="mounth">${fn:substring(item,4,6)}月 </span></li>
 							</c:if>
@@ -52,21 +50,22 @@
 					</ul>
 				</div>
 			</div>
-					<input type="hidden" id="date" value="${dateList[0]}"></input>
-					<span id="noBillingWarning" style="color: red; font-size: 12px;"></span>
+			<input type="hidden" id="date" value="${dateList[0]}"></input> <span
+				id="noBillingWarning" style="color: red; font-size: 12px;"></span>
 			<!--显示价格-->
 			<div class="view_value">
 				<div class="value_title"></div>
 				<div class="value_box ">
 					<span class="value_type"><span id="currencyCode5"></span>欠款</span>
-					<span type="text" class="value"><span
-						id="value1"></span></span> <input type="button" class="check_dt"
-						id="check_dt1" onclick="getBillingDetail();"/>
+					<span type="text" class="value"><span id="value1"></span></span> <input
+						type="button" class="check_dt" id="check_dt1"
+						onclick="getBillingDetail();" />
 				</div>
 				<div class="value_box ">
 					<span class="value_type"><span id="currencyCode6"></span>欠款</span>
 					<span type="text" class="value"><span id="value2">0.00</span></span>
-					<input type="button" class="check_dt" id="check_dt2" onclick="getBillingDetail();"/>
+					<input type="button" class="check_dt" id="check_dt2"
+						onclick="getBillingDetail();" />
 				</div>
 			</div>
 		</div>
@@ -115,11 +114,10 @@
 		</div>
 	</div>
 	<script type="text/javascript" src="${path }/js/myBill.js"
-	charset="UTF-8"></script>
+		charset="UTF-8"></script>
 	<script type="text/javascript">
-	function getBillingDetail(){
-		
-	}
+		function getBillingDetail() {
+		}
 	</script>
 </body>
 </html>
