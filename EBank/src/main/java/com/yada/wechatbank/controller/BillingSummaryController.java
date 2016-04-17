@@ -89,8 +89,7 @@ public class BillingSummaryController extends BaseController {
 			billingSummaries = billingSummaryServiceImpl.getBillingSummaryList(cardNo, date);
 		} catch (Exception e) {
 			// 解密或解密失败
-			billingSummaries = null;
-			logger.error("@WDZD@调用行内service根据queryCardList[" + cardNo + "],date[" + date + "]获取账单摘要,获取到的账单摘要合集billsList[" + billingSummaries + "]");
+			logger.error("@WDZD@调用行内service根据queryCardList[" + cardNo + "],date[" + date + "]获取账单摘要,获取到的账单摘要合集billsList[" + null + "]");
 			// 返回null直接跳错误页面
 			return JSONObject.toJSONString(null);
 		}
