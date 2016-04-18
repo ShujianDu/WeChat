@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import net.sf.json.JSONArray;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +13,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yada.wechatbank.base.BaseController;
 import com.yada.wechatbank.model.BillingDetail;
 import com.yada.wechatbank.query.BillingSummaryQuery;
@@ -80,7 +79,6 @@ public class BillingDetailController extends BaseController {
 			periodStartDate = billingSummaryQuery.getPeriodStartDate();
 			periodEndDate = billingSummaryQuery.getPeriodEndDate();
 		}
-		// 获得账单明细
 		List<BillingDetail> billingDetailList = billingDetailServiceImpl.getBillingDetail(cardNo, queryType, STARTNUM, TOTALNUM, periodStartDate,
 				periodEndDate, currencyCode);
 		// 返回值为空或没有数据
@@ -106,46 +104,39 @@ public class BillingDetailController extends BaseController {
 	 * @throws IOException
 	 *             IO异常
 	 */
-	@RequestMapping(value = "getMore_ajax")
-	public void getMore_ajax(HttpServletRequest request, HttpServletResponse response, BillingDetail billingDetail) throws IOException {
-		request.setCharacterEncoding("utf-8");
-		// 返回结果
-		String result = "";
+	@RequestMapping(value = "getMoreBillingDetail")
+	@ResponseBody
+	public String getMore_ajax(BillingSummaryQuery billingSummaryQuery, String startnum) {
 		// 账单明细集合
 		List<BillingDetail> billingDetailList = new ArrayList<BillingDetail>();
 		// 卡号,需要先解密
 		String cardNo = "";
 		try {
-			cardNo = Crypt.decode(request.getParameter("cardNo"));
+			cardNo = Crypt.decode(billingSummaryQuery.getCardNo());
 		} catch (Exception e) {
 			logger.error("@WDZD@cardNo crypt error,cardNo[" + cardNo + "]:" + e);
 		}
 		// 币种
-		String currencyCode = request.getParameter("currencyCode");
+		String currencyCode = billingSummaryQuery.getCurrencyCode();
 		// 账单开始日期
-		String periodStartDate = request.getParameter("periodStartDate");
+		String periodStartDate = billingSummaryQuery.getPeriodStartDate();
 		// 账单结束日期
-		String periodEndDate = request.getParameter("periodEndDate");
+		String periodEndDate = billingSummaryQuery.getPeriodEndDate();
 		// 账单类型
-		String queryType = request.getParameter("queryType");
-		// 查询开始条数
-		String startnum = request.getParameter("startnum");
+		String queryType = billingSummaryQuery.getQueryType();
 		// 查询账单，从开始条数开始查询
 		billingDetailList = billingDetailServiceImpl.getBillingDetail(cardNo, queryType, startnum, TOTALNUM, periodStartDate, periodEndDate, currencyCode);
 		// 获得当前账单明细的展示数目
 		if (billingDetailList == null) {
-			result = "null";
+			return JSONObject.toJSONString("null");
+		} else if (billingDetailList.size() == 0) {
+			return JSONObject.toJSONString("");
 		} else if (billingDetailList.size() == ONEPAGE) {
 			// 设置开始条数
 			billingDetailList.get(0).setStartnum(Integer.valueOf(startnum) + ONEPAGE + "");
 		}
-		// 将账单明细转换为json格式
-		result = JSONArray.fromObject(billingDetailList).toString();
-		if ("".equals(result) || result == null) {
-			result = "null";
-		}
-		logger.info("@WDZD@get more billingdetail----------the next Page (ajax)----------return result[" + result + "]");
-		response.getWriter().print(result);
-		response.getWriter().flush();
+
+		logger.info("@WDZD@get more billingdetail----------the next Page (ajax)----------return result[" + JSONObject.toJSONString(billingDetailList) + "]");
+		return JSONObject.toJSONString(billingDetailList);
 	}
 }

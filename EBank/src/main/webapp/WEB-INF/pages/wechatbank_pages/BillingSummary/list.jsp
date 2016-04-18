@@ -114,8 +114,6 @@
 			</div>
 		</div>
 	</div>
-	<script type="text/javascript" src="${path }/js/test.js"
-		charset="UTF-8"></script>
 	<script type="text/javascript" src="${path }/js/myBill.js"
 		charset="UTF-8"></script>
 	<script type="text/javascript">
@@ -128,19 +126,19 @@
 				return;
 			}
 			if (queryType == 'UNSM') {
-				$.get("../billingdetail/list.do?cardNo=" + cardNo
-						+ "&queryType=" + queryType);
+				window.location.href = "../billingdetail/list.do?cardNo="
+						+ cardNo + "&queryType=" + queryType;
 			} else {
 				var currencyCode = $("#currencyCode1").text();
 				var periodStartDate = $("#periodStartDate").text();
 				var periodEndDate = $("#periodEndDate").text();
-				$.get("../billingdetail/list.do?cardNo=" + cardNo
-						+ "&currencyCode=" + currencyCode + "&periodStartDate="
-						+ periodStartDate + "&periodEndDate=" + periodEndDate
-						+ "&queryType=" + queryType);
+				window.location.href = "../billingdetail/list.do?cardNo="
+						+ cardNo + "&currencyCode=" + currencyCode
+						+ "&periodStartDate=" + periodStartDate
+						+ "&periodEndDate=" + periodEndDate + "&queryType="
+						+ queryType;
 			}
 		}
 	</script>
 </body>
 </html>
-

@@ -4,16 +4,19 @@ import com.yada.wechatbank.base.BaseModel;
 import com.yada.wechatbank.model.BillingSummary;
 
 /**
- * Created by liangtieluan on 2016/4/15.
+ * 账单摘要返回实体
+ * 
+ * @author liangtieluan
+ *
  */
 public class BillingSummaryResp extends BaseModel {
-    private BillingSummary bizResult;
+	private BillingSummary bizResult;
 
-    public BillingSummary getBizResult() {
-        return bizResult;
-    }
+	public BillingSummary getBizResult() {
+		return bizResult;
+	}
 
-    public void setBizResult(BillingSummary bizResult) {
-        this.bizResult = bizResult;
-    }
+	public void setBizResult(BillingSummary bizResult) {
+		this.bizResult = bizResult;
+	}
 }

@@ -49,6 +49,12 @@ public class BaseService {
 	// 账单摘要查询
 	@Value(value = "${url.billingSummary}")
 	protected String billingSummaryUrl;
+	// 已出账单明细查询
+	@Value(value = "${url.alltBillingDetail}")
+	protected String alltBillingDetailUrl;
+	// 未出账单明细查询
+	@Value(value = "${url.unsmBillingDetail}")
+	protected String unsmBillingDetailUrl;
 
 	/**
 	 * 构建直销系统参数
