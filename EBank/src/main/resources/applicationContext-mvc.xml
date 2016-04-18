@@ -17,8 +17,6 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
-    <mvc:annotation-driven/>
-
     <!-- 解决使用@ResponseBody注解，返回中文乱码的问题 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
@@ -28,12 +26,9 @@
                 </bean>
             </list>
         </property>
-        <property name="customArgumentResolvers">
-            <list>
-                <bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver"/>
-            </list>
-        </property>
     </bean>
+
+    <mvc:annotation-driven/>
 
     <!-- 响应处理的配置 -->
     <bean id="viewResolver"
