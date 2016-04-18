@@ -94,6 +94,7 @@
 		var n=0;
 		n=document.value_debt.messagePick.selectedIndex;
 		document.getElementById("pay_date").innerText = json[0].paymentDueDate;
+		document.getElementById("periodStartDate").innerText = json[0].periodStartDate;
 		document.getElementById("periodEndDate").innerText = json[0].periodEndDate;
 		document.getElementById("currencyCode1").innerText = json[0].currencyCode;
 		document.getElementById("currencyCode3").innerText = json[0].currencyCode;
@@ -104,7 +105,6 @@
 			document.getElementById("closingBalance2").innerText = json[1].closingBalance;
 			document.getElementById("minPaymentAmount2").innerText = json[1].minPaymentAmount;
 			document.getElementById("currencyCode2").innerText = json[1].currencyCode;
-			document.getElementById("currencyCode4").innerText = json[1].currencyCode;
 			document.getElementById("currencyCode4").innerText = json[1].currencyCode;
 			document.getElementById("currencyCode6").innerText = json[1].currencyCode;
 		if(json[1].closingBalance>0){

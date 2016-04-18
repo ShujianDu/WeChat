@@ -32,6 +32,7 @@
 				<span class="date">账单日期<span id="periodEndDate"></span></span><span
 					class="state_1">已出账单</span>
 			</div>
+			<span style="display: none" id="periodStartDate"></span>
 			<div class="select_date">
 				<span class="left left1"></span> <span class="right right2"></span>
 				<div class="date_box">
@@ -59,13 +60,13 @@
 					<span class="value_type"><span id="currencyCode5"></span>欠款</span>
 					<span type="text" class="value"><span id="value1"></span></span> <input
 						type="button" class="check_dt" id="check_dt1"
-						onclick="getBillingDetail();" />
+						onclick="getBillingDetail('ALLT');" />
 				</div>
 				<div class="value_box ">
 					<span class="value_type"><span id="currencyCode6"></span>欠款</span>
 					<span type="text" class="value"><span id="value2">0.00</span></span>
 					<input type="button" class="check_dt" id="check_dt2"
-						onclick="getBillingDetail();" />
+						onclick="getBillingDetail('ALLT');" />
 				</div>
 			</div>
 		</div>
@@ -104,7 +105,7 @@
 		</div>
 
 		<!--未出账单-->
-		<a href="#" class="noBill">未出账单</a>
+		<a href="#" class="noBill" onclick="getBillingDetail('UNSM');">未出账单</a>
 
 		<!--wait_box -->
 		<div class="wait_box">
@@ -113,11 +114,31 @@
 			</div>
 		</div>
 	</div>
+	<script type="text/javascript" src="${path }/js/test.js"
+		charset="UTF-8"></script>
 	<script type="text/javascript" src="${path }/js/myBill.js"
 		charset="UTF-8"></script>
 	<script type="text/javascript">
-		function getBillingDetail() {
-
+		//获取账单明细
+		function getBillingDetail(queryType) {
+			$("#cardNoWarning").text("");
+			var cardNo = $("#cardNo").val();
+			if (cardNo == null || cardNo == "") {
+				$("#cardNoWarning").text("*请选择卡号！");
+				return;
+			}
+			if (queryType == 'UNSM') {
+				$.get("../billingdetail/list.do?cardNo=" + cardNo
+						+ "&queryType=" + queryType);
+			} else {
+				var currencyCode = $("#currencyCode1").text();
+				var periodStartDate = $("#periodStartDate").text();
+				var periodEndDate = $("#periodEndDate").text();
+				$.get("../billingdetail/list.do?cardNo=" + cardNo
+						+ "&currencyCode=" + currencyCode + "&periodStartDate="
+						+ periodStartDate + "&periodEndDate=" + periodEndDate
+						+ "&queryType=" + queryType);
+			}
 		}
 	</script>
 </body>

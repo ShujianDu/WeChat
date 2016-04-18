@@ -50,8 +50,6 @@ public class BillingSummaryController extends BaseController {
 	public String list(@ModelAttribute("formBean") BillingSummaryQuery billingSummaryQuery, Model model) {
 		// TODO 获取卡列表，登录成功后有方法可以得到卡列表
 		List<String> cardList = new ArrayList<>();
-		cardList.add("1111111111111111");
-		cardList.add("2222222222222222");
 		logger.info("@WDZD@卡列表cardList[" + cardList + "]");
 		// 获取加密后的卡列表，传至页面用
 		cardList = billingSummaryServiceImpl.getEncryptCardNOs(cardList);
