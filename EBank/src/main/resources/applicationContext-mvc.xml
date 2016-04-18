@@ -19,6 +19,22 @@
 
     <mvc:annotation-driven/>
 
+    <!-- 解决使用@ResponseBody注解，返回中文乱码的问题 -->
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <constructor-arg value="UTF-8"/>
+                </bean>
+            </list>
+        </property>
+        <property name="customArgumentResolvers">
+            <list>
+                <bean class="org.springframework.data.web.PageableHandlerMethodArgumentResolver"/>
+            </list>
+        </property>
+    </bean>
+
     <!-- 响应处理的配置 -->
     <bean id="viewResolver"
           class="org.springframework.web.servlet.view.UrlBasedViewResolver">
