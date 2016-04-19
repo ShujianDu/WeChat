@@ -69,8 +69,8 @@
 				</div>
 				<div class="value_box ">
 					<span class="value_type"><span id="currencyCode6"></span>欠款</span>
-					<span type="text" class="value"><span id="value2"></span></span>
-					<input type="button" class="check_dt" id="check_dt2"
+					<span type="text" class="value"><span id="value2"></span></span> <input
+						type="button" class="check_dt" id="check_dt2"
 						onclick="getBillingDetail('ALLT','currencyCodeReal2');" />
 				</div>
 			</div>
