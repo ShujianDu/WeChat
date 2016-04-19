@@ -1,66 +1,115 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html >
+<html>
 <head>
 <%@include file="../../base_pages/base.jsp"%>
-<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
-<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+<meta http-equiv="Content-Type"
+	content="application/xhtml+xml; charset=utf-8" />
+<meta name="viewport"
+	content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <style type="text/css">
-body,html {
+body, html {
 	width: 100%;
 	height: 100%;
 	margin: 0;
 }
+
 #allmap {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
 	margin: 0;
 }
+
 header {
-    position: absolute;
+	position: absolute;
 	background: #ddd;
 	border-bottom: 1px solid #115B76;
 	height: 37px;
 	position: relative;
 	box-shadow: #999 0 5px 5px;
 	overflow: hidden;
-	background-image: -webkit-gradient(linear, left top, left bottom, from( #fefefe /*{a-bup-background-start}*/), to( #ddd /*{a-bup-background-end}*/)); /* Saf4+, Chrome */
-	background-image: -webkit-linear-gradient( #fefefe /*{a-bup-background-start}*/, #ddd /*{a-bup-background-end}*/); /* Chrome 10+, Saf5.1+ */
-	background-image: -moz-linear-gradient( #fefefe /*{a-bup-background-start}*/, #ddd /*{a-bup-background-end}*/); /* FF3.6 */
-	background-image: -ms-linear-gradient( #fefefe /*{a-bup-background-start}*/, #ddd /*{a-bup-background-end}*/); /* IE10 */
-	background-image: -o-linear-gradient( #fefefe /*{a-bup-background-start}*/, #ddd /*{a-bup-background-end}*/); /* Opera 11.10+ */
-	background-image: linear-gradient( #fefefe /*{a-bup-background-start}*/, #ddd /*{a-bup-background-end}*/);
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fefefe
+		/*{a-bup-background-start}*/), to(#ddd /*{a-bup-background-end}*/));
+	/* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient(#fefefe /*{a-bup-background-start}*/, #ddd
+		/*{a-bup-background-end}*/); /* Chrome 10+, Saf5.1+ */
+	background-image: -moz-linear-gradient(#fefefe /*{a-bup-background-start}*/, #ddd
+		/*{a-bup-background-end}*/); /* FF3.6 */
+	background-image: -ms-linear-gradient(#fefefe /*{a-bup-background-start}*/, #ddd
+		/*{a-bup-background-end}*/); /* IE10 */
+	background-image: -o-linear-gradient(#fefefe /*{a-bup-background-start}*/, #ddd
+		/*{a-bup-background-end}*/); /* Opera 11.10+ */
+	background-image: linear-gradient(#fefefe /*{a-bup-background-start}*/, #ddd
+		/*{a-bup-background-end}*/);
 }
-header table{width:150px; text-align:center;}
+
+header table {
+	width: 150px;
+	text-align: center;
+}
+
 button {
-    
 	width: 100%;
 	font-size: 14px;
-	height:30px;
-	text-shadow:#fff 1px 1px 1px;
-	background-image: -webkit-gradient(linear, left top, left bottom, from( #fefefe /*{a-bup-background-start}*/), to( #ddd /*{a-bup-background-end}*/)); /* Saf4+, Chrome */
-	background-image: -webkit-linear-gradient( #fefefe /*{a-bup-background-start}*/, #ddd /*{a-bup-background-end}*/); /* Chrome 10+, Saf5.1+ */
-	background-image: -moz-linear-gradient( #fefefe /*{a-bup-background-start}*/, #ddd /*{a-bup-background-end}*/); /* FF3.6 */
-	background-image: -ms-linear-gradient( #fefefe /*{a-bup-background-start}*/, #ddd /*{a-bup-background-end}*/); /* IE10 */
-	background-image: -o-linear-gradient( #fefefe /*{a-bup-background-start}*/, #ddd /*{a-bup-background-end}*/); /* Opera 11.10+ */
-	background-image: linear-gradient( #fefefe /*{a-bup-background-start}*/, #ddd /*{a-bup-background-end}*/);
-	border:1px solid #aaa;
+	height: 30px;
+	text-shadow: #fff 1px 1px 1px;
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#fefefe
+		/*{a-bup-background-start}*/), to(#ddd /*{a-bup-background-end}*/));
+	/* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient(#fefefe /*{a-bup-background-start}*/, #ddd
+		/*{a-bup-background-end}*/); /* Chrome 10+, Saf5.1+ */
+	background-image: -moz-linear-gradient(#fefefe /*{a-bup-background-start}*/, #ddd
+		/*{a-bup-background-end}*/); /* FF3.6 */
+	background-image: -ms-linear-gradient(#fefefe /*{a-bup-background-start}*/, #ddd
+		/*{a-bup-background-end}*/); /* IE10 */
+	background-image: -o-linear-gradient(#fefefe /*{a-bup-background-start}*/, #ddd
+		/*{a-bup-background-end}*/); /* Opera 11.10+ */
+	background-image: linear-gradient(#fefefe /*{a-bup-background-start}*/, #ddd
+		/*{a-bup-background-end}*/);
+	border: 1px solid #aaa;
 }
-.botton{
-background-image: -webkit-gradient(linear, left top, left bottom, from( #ddd /*{a-bup-background-start}*/), to( #ddd /*{a-bup-background-end}*/)); /* Saf4+, Chrome */
-	background-image: -webkit-linear-gradient( #ddd /*{a-bup-background-start}*/, #ddd /*{a-bup-background-end}*/); /* Chrome 10+, Saf5.1+ */
-	background-image: -moz-linear-gradient( #ddd /*{a-bup-background-start}*/, #ddd /*{a-bup-background-end}*/); /* FF3.6 */
-	background-image: -ms-linear-gradient( #ddd /*{a-bup-background-start}*/, #ddd /*{a-bup-background-end}*/); /* IE10 */
-	background-image: -o-linear-gradient( #ddd /*{a-bup-background-start}*/, #ddd /*{a-bup-background-end}*/); /* Opera 11.10+ */
-	background-image: linear-gradient( #ddd /*{a-bup-background-start}*/, #fefefe /*{a-bup-background-end}*/);
+
+.botton {
+	background-image: -webkit-gradient(linear, left top, left bottom, from(#ddd
+		/*{a-bup-background-start}*/), to(#ddd /*{a-bup-background-end}*/));
+	/* Saf4+, Chrome */
+	background-image: -webkit-linear-gradient(#ddd /*{a-bup-background-start}*/, #ddd
+		/*{a-bup-background-end}*/); /* Chrome 10+, Saf5.1+ */
+	background-image: -moz-linear-gradient(#ddd /*{a-bup-background-start}*/, #ddd
+		/*{a-bup-background-end}*/); /* FF3.6 */
+	background-image: -ms-linear-gradient(#ddd /*{a-bup-background-start}*/, #ddd
+		/*{a-bup-background-end}*/); /* IE10 */
+	background-image: -o-linear-gradient(#ddd /*{a-bup-background-start}*/, #ddd
+		/*{a-bup-background-end}*/); /* Opera 11.10+ */
+	background-image: linear-gradient(#ddd /*{a-bup-background-start}*/, #fefefe
+		/*{a-bup-background-end}*/);
 }
-input{padding:5px;font-size: 12px;}
-.bottom-tab td{width:33.3333333333333%}
-.bottom-tab td input{width:100%; border:1px solid #fff; background:#999;color:#fff;}
-.bottom-tab .td input{width:100%; border:1px solid #666; background:#fff;color:#666;}
+
+input {
+	padding: 5px;
+	font-size: 12px;
+}
+
+.bottom-tab td {
+	width: 33.3333333333333%
+}
+
+.bottom-tab td input {
+	width: 100%;
+	border: 1px solid #fff;
+	background: #999;
+	color: #fff;
+}
+
+.bottom-tab .td input {
+	width: 100%;
+	border: 1px solid #666;
+	background: #fff;
+	color: #666;
+}
 </style>
 <script type="text/javascript"
 	src="http://api.map.baidu.com/api?v=2.0&ak=D40182b07eafd5fa0dcf52e1c139157f"></script>
@@ -69,27 +118,35 @@ input{padding:5px;font-size: 12px;}
 <title>附近的中国银行</title>
 </head>
 <body>
-	<header id="tab" >
+	<header id="tab">
 		<table style="width: 100%">
 			<tr>
-				<td><div align="right"><button onclick="hiddenRoute()" style="width: 80px" id='botton-1' class="botton ">地图</button></div></td>
-				<td ><div align="left"><button onclick="hiddenMap()" style="width: 80px" id='botton-2'>路线</button></div></td>
+				<td><div align="right">
+						<button onclick="hiddenRoute()" style="width: 80px" id='botton-1'
+							class="botton ">地图</button>
+					</div></td>
+				<td><div align="left">
+						<button onclick="hiddenMap()" style="width: 80px" id='botton-2'>路线</button>
+					</div></td>
 			</tr>
 		</table>
 	</header>
 	<div id="allMap" style="height: 90%"></div>
-	<div id="routeDiv" style="width: 100%;display: none;text-align:center;" >
-		<table style="height:70px;width: 100%;background:#ddd;"class="bottom-tab">
+	<div id="routeDiv"
+		style="width: 100%; display: none; text-align: center;">
+		<table style="height: 70px; width: 100%; background: #ddd;"
+			class="bottom-tab">
 			<tr id='tab-3'>
 				<td class='td'><input type="button" id="buxing" name="buxing"
 					onclick="buxingFunction()" value="步行路线" /></td>
 				<td><input type="button" id="gongjiao" name="gongjiao"
 					onclick="gongjiaoFunction()" value="最佳公交路线" /></td>
-				<td><input type="button" id="zijia" name="zijia" onclick="zijiaFunction()"
-					value="最佳自驾路线" /></td>
+				<td><input type="button" id="zijia" name="zijia"
+					onclick="zijiaFunction()" value="最佳自驾路线" /></td>
 			</tr>
 		</table>
-		<div style="height: 90%;font-size: 14px;overflow:scroll;" id="r-result"></div>
+		<div style="height: 90%; font-size: 14px; overflow: scroll;"
+			id="r-result"></div>
 	</div>
 </body>
 <script type="text/javascript">
@@ -275,7 +332,7 @@ input{padding:5px;font-size: 12px;}
 		}, 30000);
 	}
 </script>
-<script type="text/javascript" >
+<script type="text/javascript">
 	var tabs = $("#tab-3").find("td");
 	for ( var i = 0; i < tabs.length; i++) {
 		tabs[i].onclick = function() {
