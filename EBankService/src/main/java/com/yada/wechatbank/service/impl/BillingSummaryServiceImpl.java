@@ -45,9 +45,12 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 		paramPeriods.put("cardNo", cardNo);
 		BillingPeriodResp billingPeriodResp = httpClient.send(billingPeriodUrl, paramPeriods, BillingPeriodResp.class);
 		// 判断账期
-		if (billingPeriodResp == null || billingPeriodResp.getBizResult() == null) {
+		if (billingPeriodResp == null) {
 			logger.info("@BillingPeriods@BillingPeriods is null,cardNo[" + cardNo + "]");
 			return null;
+		} else if (billingPeriodResp.getBizResult() == null) {
+			// 没有账期
+			return billingSummaries;
 		}
 		// 账期不为空，判断有无合适账期
 		billingPeriods = billingPeriodResp.getBizResult();
@@ -59,9 +62,7 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 		}
 		// 没有可用账期
 		if (usableBillPeriods.size() == 0) {
-			billingSummary = new BillingSummary();
-			billingSummary.setCardNo(cardNo);
-			billingSummaries.add(billingSummary);
+			return billingSummaries;
 		} else {
 			// 有可用账期,循环账期查询账单摘要
 			Map<String, String> paramBillingSummary = initGcsParam();
@@ -69,13 +70,16 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 				paramBillingSummary.put("statementNo", billingPeriod.getStatementNo());
 				paramBillingSummary.put("accountId", billingPeriod.getAccountId());
 				BillingSummaryResp billingSummaryResp = httpClient.send(billingSummaryUrl, paramBillingSummary, BillingSummaryResp.class);
-				if (billingSummaryResp == null || billingSummaryResp.getBizResult() == null) {
+				if (billingSummaryResp == null) {
 					logger.info("@BillingSummary@BillingSummary is null,cardNo[" + cardNo + "]billingPeriod[" + billingPeriod + "]");
 					return null;
+				} else if (billingSummaryResp.getBizResult() == null) {
+					billingSummary = new BillingSummary();
+					billingSummary.setClosingBalance("0");
+					billingSummaries.add(billingSummary);
 				} else {
 					billingSummary = billingSummaryResp.getBizResult();
 				}
-				billingSummary.setCardNo(Crypt.cardNoOneEncode(cardNo));
 				billingSummaries.add(billingSummary);
 			}
 		}

@@ -77,7 +77,7 @@ public class BillingSummaryController extends BaseController {
 	 *            账单日期
 	 * @return 查询结果
 	 */
-	@RequestMapping(value = "getBillingSummary", produces = "application/json; charset=utf-8")
+	@RequestMapping(value = "getBillingSummary")
 	@ResponseBody
 	public String getBillingSummary(String cardNo, String date) {
 		List<BillingSummary> billingSummaries;

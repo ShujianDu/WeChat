@@ -87,8 +87,12 @@ public class BillingDetailController extends BaseController {
 		}
 		model.addAttribute("billingDetailList", billingDetailList);
 		model.addAttribute("startnum", STARTNUM + 1);
-		model.addAttribute("model", billingSummaryQuery);
-		model.addAttribute("cardNoShow", cardNo.subSequence(0, 4) + "********" + cardNo.substring(cardNo.length() - 4, cardNo.length()));
+		try {
+			model.addAttribute("cardNo", Crypt.cardNoOneEncode(cardNo));
+		} catch (Exception e) {
+			logger.error("@WDZD@cardNo crypt error,cardNo[" + cardNo + "]:" + e);
+			return ERROR;
+		}
 		return LISTURL;
 	}
 
@@ -115,6 +119,7 @@ public class BillingDetailController extends BaseController {
 			cardNo = Crypt.decode(billingSummaryQuery.getCardNo());
 		} catch (Exception e) {
 			logger.error("@WDZD@cardNo crypt error,cardNo[" + cardNo + "]:" + e);
+			return JSONObject.toJSONString(null);
 		}
 		// 币种
 		String currencyCode = billingSummaryQuery.getCurrencyCode();
@@ -128,8 +133,9 @@ public class BillingDetailController extends BaseController {
 		billingDetailList = billingDetailServiceImpl.getBillingDetail(cardNo, queryType, startnum, TOTALNUM, periodStartDate, periodEndDate, currencyCode);
 		// 获得当前账单明细的展示数目
 		if (billingDetailList == null) {
-			return JSONObject.toJSONString("null");
+			return JSONObject.toJSONString(null);
 		} else if (billingDetailList.size() == 0) {
+			// 没有更多账单
 			return JSONObject.toJSONString("");
 		} else if (billingDetailList.size() == ONEPAGE) {
 			// 设置开始条数

@@ -1,5 +1,6 @@
 package com.yada.wechatbank.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,8 @@ public class BillingDetailServiceImpl extends BaseService implements BillingDeta
 	@Override
 	public List<BillingDetail> getBillingDetail(String cardNo, String queryType, String STARTNUM, String TOTALNUM, String periodStartDate,
 			String periodEndDate, String currencyCode) {
+		// 账单明细查询结果
+		List<BillingDetail> billingDetailList = new ArrayList<>();
 		BillingDetailResp billingDetailResp;
 		Map<String, String> param = initGcsParam();
 		param.put("cardNo", cardNo);
@@ -35,10 +38,14 @@ public class BillingDetailServiceImpl extends BaseService implements BillingDeta
 			// 未出账单查询
 			billingDetailResp = httpClient.send(unsmBillingDetailUrl, param, BillingDetailResp.class);
 		}
-		if (billingDetailResp == null || billingDetailResp.getBizResult() == null) {
+		if (billingDetailResp == null) {
 			logger.error("@BillingDetail@BillingDetail is null,cardNo[" + cardNo + "]");
 			return null;
+		} else if (billingDetailResp.getBizResult() == null) {
+			return billingDetailList;
+		} else {
+			billingDetailList = billingDetailResp.getBizResult();
 		}
-		return billingDetailResp.getBizResult();
+		return billingDetailList;
 	}
 }

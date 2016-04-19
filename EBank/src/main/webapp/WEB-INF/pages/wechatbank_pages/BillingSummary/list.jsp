@@ -24,7 +24,8 @@
 						<c:out value="${fn:substring(item, 0, 16)}" />
 					</option>
 				</c:forEach>
-			</select> <span id="cardNoWarning" style="color: red; font-size: 12px;"></span>
+			</select> <span id="cardNoWarning"
+				style="color: #e05d4f; font-size: 13px; line-height: 40px; margin-left: 16px;"></span>
 		</form>
 		<!--选择日期账单显示-->
 		<div class="check_box">
@@ -51,8 +52,12 @@
 					</ul>
 				</div>
 			</div>
-			<input type="hidden" id="date" value="${dateList[0]}"> <span
-				id="noBillingWarning" style="color: red; font-size: 12px;"></span>
+			<input type="hidden" id="date" value="${dateList[0]}" />
+			<div id="noBillingWarning"
+				style="color: #999999; font-size: 13px; line-height: 40px; margin-left: 16px;"></div>
+			<!--实际币种,其余为页面展示的中文币种  -->
+			<span id="currencyCodeReal1" style='dispay: none'></span> <span
+				id="currencyCodeReal2" style='dispay: none'></span>
 			<!--显示价格-->
 			<div class="view_value">
 				<div class="value_title"></div>
@@ -60,13 +65,13 @@
 					<span class="value_type"><span id="currencyCode5"></span>欠款</span>
 					<span type="text" class="value"><span id="value1"></span></span> <input
 						type="button" class="check_dt" id="check_dt1"
-						onclick="getBillingDetail('ALLT');" />
+						onclick="getBillingDetail('ALLT','currencyCodeReal1');" />
 				</div>
 				<div class="value_box ">
 					<span class="value_type"><span id="currencyCode6"></span>欠款</span>
-					<span type="text" class="value"><span id="value2">0.00</span></span>
+					<span type="text" class="value"><span id="value2"></span></span>
 					<input type="button" class="check_dt" id="check_dt2"
-						onclick="getBillingDetail('ALLT');" />
+						onclick="getBillingDetail('ALLT','currencyCodeReal2');" />
 				</div>
 			</div>
 		</div>
@@ -79,11 +84,11 @@
 			</div>
 			<div class="pay_value">
 				账单金额&nbsp;&nbsp;&nbsp;&nbsp;
-				<div class="doubleState1">
+				<div class="doubleState1" id="doubleState5">
 					<span id="currencyCode1" class="currencyCode"></span><span
 						id="closingBalance1"></span>
 				</div>
-				<div class="doubleState">
+				<div class="doubleState" id="doubleState3">
 					<span id="currencyCode2" class="currencyCode"></span><span
 						id="closingBalance2"></span>
 				</div>
@@ -91,21 +96,18 @@
 			<div class="lineGray"></div>
 			<div class="pay_value">
 				最低还款额&nbsp;&nbsp;&nbsp;&nbsp;
-				<div class="doubleState1">
+				<div class="doubleState1" id="doubleState6">
 					<span id="currencyCode3" class="currencyCode"></span><span
 						id="minPaymentAmount1"></span>
 				</div>
-				<div class="doubleState">
+				<div class="doubleState" id="doubleState4">
 					<span id="currencyCode4" class="currencyCode"></span><span
 						id="minPaymentAmount2"></span>
 				</div>
 			</div>
-			<input type="button" value="账单分期" class="stage_btn" /> <input
-				type="button" value="消费分期" class="spend_btn" />
 		</div>
-
 		<!--未出账单-->
-		<a href="#" class="noBill" onclick="getBillingDetail('UNSM');">未出账单</a>
+		<a href="#" class="noBill" onclick="getBillingDetail('UNSM','');">未出账单</a>
 
 		<!--wait_box -->
 		<div class="wait_box">
@@ -118,7 +120,7 @@
 		charset="UTF-8"></script>
 	<script type="text/javascript">
 		//获取账单明细
-		function getBillingDetail(queryType) {
+		function getBillingDetail(queryType, currencyCodeReal) {
 			$("#cardNoWarning").text("");
 			var cardNo = $("#cardNo").val();
 			if (cardNo == null || cardNo == "") {
@@ -129,7 +131,7 @@
 				window.location.href = "../billingdetail/list.do?cardNo="
 						+ cardNo + "&queryType=" + queryType;
 			} else {
-				var currencyCode = $("#currencyCode1").text();
+				var currencyCode = $("#" + currencyCodeReal + "").text();
 				var periodStartDate = $("#periodStartDate").text();
 				var periodEndDate = $("#periodEndDate").text();
 				window.location.href = "../billingdetail/list.do?cardNo="

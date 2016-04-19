@@ -7,7 +7,6 @@
 			$(this).addClass("current_mounth");
 			m=$(this).index();
 			date = $(this).val();
-			alert(date);
 			messageRevealWait();
 		});
 	});
@@ -19,7 +18,7 @@
 			},4000);
 		setTimeout(function(){
 				$(".wait_box").fadeOut(500);
-			},2000);
+			},3000);
 		}
 	//ajax获取账单
 	function getBillingSummaryAjax(){
@@ -58,18 +57,26 @@
 				$(".view_value  #value1").css("color","#e05d4f");
 				$(".view_value  #value1").css("font-size","22px");
 				$(".view_value  #value1").parent(".value").parent(".value_box").children("#check_dt1").show();
-			document.getElementById("value1").innerText = json[0].closingBalance;
+				$("#currencyCode1").show();
+				$("#closingBalance1").show();
+				$("#currencyCode3").show();
+				$("#minPaymentAmount1").show();
+			   $("#value1").text(json[0].closingBalance);
 			}else if(json[0].closingBalance==0){
+				$("#currencyCode1").hide();
+				$("#closingBalance1").hide();
+				$("#currencyCode3").hide();
+				$("#minPaymentAmount1").hide();
 				$(".view_value .RMBdebt").show();
-				document.getElementById("value1").innerText="本卡当前月未出"+json[0].currencyCode+"账单";
+				$("#value1").text("本卡当前月未出"+json[0].currencyCode+"账单");
 				$(".view_value  #value1").parent(".value").children(".valueState").hide();
 				$(".view_value  #value1").css("color","#999999");
 				$(".view_value  #value1").css("font-size","14px");
 				$(".view_value  #value1").parent(".value").parent(".value_box").children("#check_dt1").hide();
 			}else{
 				$(".view_value .RMBdebt").hide();
-				
 			}
+		
 		//分是否为双币单币卡
 		if(json.length>1){
 			$(".view_value").show();
@@ -91,31 +98,47 @@
 				$(".pay_box .pay_value  .doubleState1").hide();
 				$(".pay_box .pay_value  .doubleState").hide();
 				}
+		if(json[0].closingBalance==0&&json[1].closingBalance==0){
+			$(".pay_box").hide();
+		}else{
+			$(".pay_box").show();
+		}
 		var n=0;
 		n=document.value_debt.messagePick.selectedIndex;
-		document.getElementById("pay_date").innerText = json[0].paymentDueDate;
-		document.getElementById("periodStartDate").innerText = json[0].periodStartDate;
-		document.getElementById("periodEndDate").innerText = json[0].periodEndDate;
-		document.getElementById("currencyCode1").innerText = json[0].currencyCode;
-		document.getElementById("currencyCode3").innerText = json[0].currencyCode;
-		document.getElementById("closingBalance1").innerText = json[0].closingBalance;
-		document.getElementById("currencyCode5").innerText = json[0].currencyCode;
-		document.getElementById("minPaymentAmount1").innerText = json[0].minPaymentAmount;
+		$("#pay_date").text(json[0].paymentDueDate);
+		$("#periodStartDate").text(json[0].periodStartDate);
+		$("#periodEndDate").text(json[0].periodEndDate);
+		$("#currencyCodeReal1").text(json[0].currencyCode);
+		//TODO 币种转换
+		$("#currencyCode1").text(json[0].currencyCode);
+		$("#currencyCode3").text(json[0].currencyCode);
+		$("#closingBalance1").text(json[0].closingBalance);
+		$("#currencyCode5").text(json[0].currencyCode);
+		$("#minPaymentAmount1").text(json[0].minPaymentAmount);
 		if(json.length>1){
-			document.getElementById("closingBalance2").innerText = json[1].closingBalance;
-			document.getElementById("minPaymentAmount2").innerText = json[1].minPaymentAmount;
-			document.getElementById("currencyCode2").innerText = json[1].currencyCode;
-			document.getElementById("currencyCode4").innerText = json[1].currencyCode;
-			document.getElementById("currencyCode6").innerText = json[1].currencyCode;
+			if(json[1].closingBalance!=null){
+				$("#pay_date").text(json[1].periodEndDate);
+			}
+			$("#closingBalance2").text(json[1].closingBalance);
+			$("#minPaymentAmount2").text(json[1].minPaymentAmount);
+			$("#currencyCodeReal2").text(json[1].currencyCode);
+			//TODO 币种转换
+			$("#currencyCode2").text(json[1].currencyCode);
+			$("#currencyCode4").text(json[1].currencyCode);
+			$("#currencyCode6").text(json[1].currencyCode);
 		if(json[1].closingBalance>0){
 			$(".view_value  #value2").parent(".value").children(".valueState").show();
 				$(".view_value  #value2").css("color","#e05d4f");
 				$(".view_value  #value2").css("font-size","22px");
 				$(".view_value  #value2").parent(".value").parent(".value_box").children("#check_dt2").show();
-				document.getElementById("value2").innerText = json[1].closingBalance;
+				$("#value2").text(json[1].closingBalance);
+				$("#doubleState3").show();
+				$("#doubleState4").show();
 			}else if(json[1].closingBalance==0){
 				$(".view_value .dollarDebt").show();
-				document.getElementById("value2").innerText="本卡当前月未出"+json[1].currencyCode+"账单";
+				$("#doubleState3").hide();
+				$("#doubleState4").hide();
+				$("#value2").text("本卡当前月未出"+json[1].currencyCode+"账单");
 				$(".view_value  #value2").parent(".value").children(".valueState").hide();
 				$(".view_value  #value2").css("color","#999999");
 				$(".view_value  #value2").css("font-size","14px");
