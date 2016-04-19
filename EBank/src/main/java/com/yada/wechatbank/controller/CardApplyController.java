@@ -85,7 +85,7 @@ public class CardApplyController extends BaseController {
     @ResponseBody
     public String getMsgCode_ajax() {
         String result = "true";
-        // TODO QQ 调用发送短信模块
+        smsService.sendCardApplySMS("", "","");
         return result;
     }
 

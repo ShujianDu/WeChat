@@ -243,10 +243,8 @@ public class BindingServiceImpl extends BaseService implements BindingService {
 	public boolean bindingVerificationCode(String openId,String idNumber,String code) {
 		SMSCodeManagement smsCode = new SMSCodeManagement();
 		openId = openId + idNumber;
-		smsCode.setOpenId(openId);
 		smsCode.setSmsCode(code);
 		smsCode.setChannelCode("binding");
-		smsCode.setCreatTime(Calendar.getInstance().getTimeInMillis());
 		//TODO 验证手机验证码
 //		if(SMSCodeManagementService.checkSMSCode(smsCode)==true){
 			//验证码输入正确，次数清零

@@ -7,12 +7,10 @@ import com.yada.wechatbank.service.BalanceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.yada.wechatbank.model.CardInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -28,7 +26,7 @@ class BalanceController extends BaseController{
 			.getLogger(this.getClass());
 
 	@Autowired
-	private BalanceService balanceService;
+	private BalanceService balanceServiceImpl;
 	private static final String LISTURL = "wechatbank_pages/Balance/list";
 
 	/**
@@ -42,7 +40,7 @@ class BalanceController extends BaseController{
 	public String list(HttpServletRequest request,@ModelAttribute("formBean") BalanceQuery balanceQuery, Model model) {
 		String identityNo=getIdentityNo(request);
 		String identityType=getIdentityType(request);
-		List<List<Balance>> newList = balanceService.getList(identityType,identityNo);
+		List<List<Balance>> newList = balanceServiceImpl.getList(identityType,identityNo);
 		if (newList == null) {
 			logger.warn("@WDED@获取到的额度集合为null，identityNo[" + identityNo + "]");
 			return BUSYURL;

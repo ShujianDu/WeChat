@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 public class CardHolderInfoController extends BaseController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
-	private CardHolderInfoService cardHolderInfoService;
+	private CardHolderInfoService cardHolderInfoServiceImpl;
 
 	/**
 	 * 用户个人信息查询
@@ -27,7 +27,7 @@ public class CardHolderInfoController extends BaseController {
 
 		String identityNo=getIdentityNo(request);
 		String identityType=getIdentityType(request);
-		CardHolderInfo cardHolderInfo=cardHolderInfoService.getCardHolderInfo(identityType,identityNo);
+		CardHolderInfo cardHolderInfo= cardHolderInfoServiceImpl.getCardHolderInfo(identityType,identityNo);
 		//判断是否获取到数据
 		if (cardHolderInfo == null) {
 			return BUSYURL;

@@ -292,7 +292,8 @@ public class BindingController extends BaseController{
 					//TODO 获取短信验证码
 					String code = bindingServiceImpl.getBinDingSendCode(identityNo,identityType,mobilNo);
 					//发送短信验证码
-					boolean sendResult = smsServiceImpl.sendBinDingSMS(mobilNo,code);
+					//TODO 调用发送短信验证码方法
+					boolean sendResult =false;
 					if (!sendResult) {
 						result = "exception";
 					} else
