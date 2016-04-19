@@ -20,7 +20,6 @@ import com.yada.wechatbank.util.Crypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,13 +40,9 @@ public class BillInstallmentController extends BaseController {
     private static final String BILL_COST = "wechatbank_pages/BillInstallment/billCost";
 
     @Autowired
-    private BillInstallmentService billInstallmentService;
+    private BillInstallmentService billInstallmentServiceImpl;
     @Autowired
     private SmsService smsService;
-
-
-    @Value("${sms.installmentContent}")
-    private String installmentContent; // 分期交易验证码发送
 
     @RequestMapping(value = "list")
     public String list() {
@@ -61,7 +56,7 @@ public class BillInstallmentController extends BaseController {
     public String search(HttpServletRequest request,Model model) {
         String identityNo = getIdentityNo(request);
         String identityType = getIdentityType(request);
-        List<CardInfo> cardList = billInstallmentService.getProessCardNoList(identityType, identityNo);
+        List<CardInfo> cardList = billInstallmentServiceImpl.getProessCardNoList(identityType, identityNo);
         logger.debug("@ZDFQ@根据证件类型[{}]证件号[{}]获取卡片列表,获取到的卡列表cardList[{}]", identityType, identityNo, cardList);
         // RMI返回值为空或没有数据
         if (cardList == null) {
@@ -90,7 +85,7 @@ public class BillInstallmentController extends BaseController {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         Date curDate = sdf.parse(getDate());
         // 根据卡号获取当期账单
-        BillingSummary billingSummary = billInstallmentService.getCurrentPeriodBill(cardNo);
+        BillingSummary billingSummary = billInstallmentServiceImpl.getCurrentPeriodBill(cardNo);
         if (billingSummary == null) {
             logger.info("@ZDFQ@接收到账单列表为null,cardNo[{}]", cardNo);
             return BUSYURL;
@@ -120,7 +115,7 @@ public class BillInstallmentController extends BaseController {
 
         logger.info("@ZDFQ@计算账单分期金额上下限，参数：cardNo[{}]currencyCode[{}]" ,cardNo, currencyCode);
 
-        AmountLimit amountLimit = billInstallmentService.getAmountLimit(cardNo, currencyCode);
+        AmountLimit amountLimit = billInstallmentServiceImpl.getAmountLimit(cardNo, currencyCode);
         if (amountLimit == null) {
             logger.info("@ZDFQ@根据cardNo[{}],currencyCode[{}]获取账单分期金额上下限,获取账单分期金额上下限为null",cardNo,currencyCode);
             return BUSYURL;
@@ -186,7 +181,7 @@ public class BillInstallmentController extends BaseController {
             logger.info("@ZDFQ@卡号解密出现错误cardNo[{}] e[{}]",cardNo,e.getMessage());
             return ERROR;
         }
-        BillCost billCost = billInstallmentService.getBillCost(accountId,accountNo, currencyCode,
+        BillCost billCost = billInstallmentServiceImpl.getBillCost(accountId,accountNo, currencyCode,
                 billLowerAmount, billActualAmount, installmentsNumber,
                 feeInstallmentsFlag);
         if (billCost == null) {
@@ -233,7 +228,7 @@ public class BillInstallmentController extends BaseController {
         // 分期手续费收取方式
         String feeInstallmentsFlag = request
                 .getParameter("feeInstallmentsFlag");
-        boolean res = billInstallmentService.billInstallment(accountId,accountNo,cardNo, currencyCode,
+        boolean res = billInstallmentServiceImpl.billInstallment(accountId,accountNo,cardNo, currencyCode,
                 billLowerAmount, billActualAmount, installmentsNumber,
                 feeInstallmentsFlag);
         logger.debug("@ZDFQ@根据cardNo[{}],currencyCode[{}],billLowerAmount[{}],billActualAmount[{}],installmentsNumber["
@@ -259,7 +254,7 @@ public class BillInstallmentController extends BaseController {
         String identityNo=getIdentityNo(request);
         if (verificationCode != null
                 && verificationCode.equalsIgnoreCase(Randomcode_yz)) {
-            result = smsService.sendSMS(identityNo, mobilNo, "BillInstallment",installmentContent);
+            result = smsService.sendInstallmentSMS(identityNo, mobilNo, "BillInstallment");
             logger.debug("@ZDFQ@根据identityNo[{}],手机号[{}]发送账单分期验证短信验证码,"
                     + "发送结果sendResult[{}]",identityNo,mobilNo,result);
         }

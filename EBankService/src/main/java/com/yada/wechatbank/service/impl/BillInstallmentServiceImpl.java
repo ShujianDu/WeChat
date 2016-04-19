@@ -11,31 +11,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import javax.management.RuntimeErrorException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Service
 public class BillInstallmentServiceImpl extends BaseService implements BillInstallmentService {
     private final Logger logger = LoggerFactory
             .getLogger(this.getClass());
 
-    //TODO 配置文件中增加对应链接地址
-    @Value("${}")
+    @Value(value = "${url.getCurrentPeriodBillMethod}")
     private String getCurrentPeriodBillMethod;
-    //TODO 配置文件中增加对应链接地址
-    @Value("${}")
+    @Value(value = "${url.getBillingPeriodMethod}")
     private String getBillingPeriodMethod;
-    //TODO 配置文件中增加对应链接地址
-    @Value("${}")
+    @Value(value = "${url.getAmountLimitMethod}")
     private String getAmountLimitMethod;
-    //TODO 配置文件中增加对应链接地址
-    @Value("${}")
+    @Value(value = "${url.queryBillCostMethod}")
     private String queryBillCostMethod;
-    //TODO 配置文件中增加对应链接地址
-    @Value("${}")
-    private String billInstallment;
+    @Value(value = "${url.billInstallmentMethod}")
+    private String billInstallmentMethod;
 
     @Autowired
     private InstallmentInfoDao installmentInfoDao;
@@ -143,7 +140,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
         map.put("installmentPlanID", "BI01");
         String tDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         InstallmentInfo bi = new InstallmentInfo(cardNo, "账单分期", currencyCode, billActualAmount, installmentsNumber, feeInstallmentsFlag, tDate);
-        String resultCode = httpClient.send(billInstallment, bi, String.class);
+        String resultCode = httpClient.send(billInstallmentMethod, bi, String.class);
         if (resultCode != null) {
             bi.setGcsCode(resultCode);
         }
