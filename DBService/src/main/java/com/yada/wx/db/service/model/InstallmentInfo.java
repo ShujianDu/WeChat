@@ -143,4 +143,20 @@ public class InstallmentInfo {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+    public InstallmentInfo(String cardNo, String tradingDec, String currencyCode,
+                           String instalAmount, String instalCount, String feeMethod,String tradingDate) {
+        this.cardNo = cardNo;
+        this.tradingDec = tradingDec;
+        this.currencyCode = currencyCode;
+        this.instalAmount = instalAmount;
+        this.instalCount = instalCount;
+        this.feeMethod = feeMethod;
+        this.tradingDate = tradingDate;
+    }
+    public InstallmentInfo(){}
+
+
+
+
 }

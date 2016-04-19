@@ -161,7 +161,8 @@
 		</div>	
 		<div class="HandIn" style="margin-top: 10px; margin-bottom: 10px;">
 			<input type="submit" value="确认"  onclick="return validate_form();"/>
-			<input type="hidden" id="openId" name="openId" value="${openId}" />
+			<input type="hidden" id="accountId" name="accountId" value="${accountId}" />
+			<input type="hidden" id="accountNo" name="accountNo" value="${accountNo}" />
 			<input type="hidden" id="currencyCode" name="currencyCode" value="${currencyCode}" />
 			<input type="hidden" id="cardNo" name="cardNo" value="${fn:substringAfter(cardNo,',')}" />
 			<input type="hidden" id="billActualAmount" name="billActualAmount" value="${billActualAmount}" />

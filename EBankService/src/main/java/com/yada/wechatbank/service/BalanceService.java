@@ -1,7 +1,6 @@
 package com.yada.wechatbank.service;
 
 import com.yada.wechatbank.model.Balance;
-import com.yada.wechatbank.model.CardInfo;
 
 import java.util.List;
 

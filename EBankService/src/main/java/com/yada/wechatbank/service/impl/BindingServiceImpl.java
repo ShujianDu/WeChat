@@ -198,14 +198,12 @@ public class BindingServiceImpl extends BaseService implements BindingService {
 	 * 绑定时获取短信验证码
 	 * @param identityType 证件类型
 	 * @param identityNo 证件号
-	 * @param openId openId
 	 * @param mobilNo 手机号
 	 * @return String
 	 */
 	@Override
-	public String bindingSend(String identityType,String identityNo,String openId,String mobilNo){
+	public String getBinDingSendCode(String identityNo,String identityType,String mobilNo){
 		//TODO 判断账户是否锁定
-
 		Map<String, String> map = initGcsParam();
 		map.put("idType",identityType);
 		map.put("idNum",identityNo);
@@ -231,15 +229,6 @@ public class BindingServiceImpl extends BaseService implements BindingService {
 		//countSMSCodeCache.remove(openId);
 		//TODO 生成验证码放入内存
 		//String msg = SMSCodeManagementService.generateSMSCode(openId, "binding");
-		//TODO 替换消息内容
-		//String content = bindingContent.replace("#sms.msg#", msg);
-		try {
-			//TODO 调用发送短信验证码方法
-			//return bizProc.sendSMS(bsnType, content, mobile).toString();
-		} catch (Exception e) {
-			return "false";
-		}
-		//TODO 删除
 		return "";
 	}
 	

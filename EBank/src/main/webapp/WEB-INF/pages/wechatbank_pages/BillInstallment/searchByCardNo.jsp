@@ -4,13 +4,12 @@
 <head>
 <%@include file="../../base_pages/base.jsp"%>
 <%@include file="../../base_pages/wxjs.jsp"%>
+<%@include file="../../base_pages/wxReadyFunction.jsp"%>
 <meta name="viewport"
 	content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 <title>中国银行信用卡</title>
-
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/css/wechatbank/index.css"/>" />
-<%@include file="../../base_pages/wxReadyFunction.jsp"%>
 </head>
 <body>
 	<header id="top">
@@ -26,7 +25,7 @@
 					<td><select id="cardNo" name="cardNo"
 						onchange="changeWarning();">
 							<c:forEach items="${cardList}" var="item">
-								<option value="${fn:substringAfter(item, ',')}">${fn:substring(item, 0, 16)}</option>
+								<option value="${fn:substringAfter(item.cardNo, ',')}">${fn:substring(item.cardNo, 0, 16)}</option>
 							</c:forEach>
 					</select></td>
 				</tr>
@@ -51,9 +50,7 @@
 		<div class="HandIn" style="margin-top: 10px; margin-bottom: 10px;">
 			<input type="submit" value="查询" onclick="return validate_form();" />
 		</div>
-		<input type="hidden" id="openId"
-				name="openId" value="${openId}" />
-		<c:if test="${marker == '1' }">
+		<c:if test="${status == 'noBill' }">
 			<div class="topOneB mar-1 allOneBradius" style="margin-bottom: 10px">
 				<table class="topTwo" style="margin-bottom: 10px;">
 					<tr>
@@ -62,7 +59,7 @@
 				</table>
 			</div>
 		</c:if>
-		<c:if test="${marker == '2' }">
+		<c:if test="${status == 'notSatisfied' }">
 			<div class="topOneB mar-1 allOneBradius" style="margin-bottom: 10px">
 				<table class="topTwo" style="margin-bottom: 10px;">
 					<tr>

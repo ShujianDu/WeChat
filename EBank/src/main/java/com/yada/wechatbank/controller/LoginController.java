@@ -25,8 +25,6 @@ public class LoginController extends BaseController {
 	 */
 	@RequestMapping(value = "list")
 	public String list(Model model, HttpServletRequest request) {
-		String openId = (String) request.getSession().getAttribute("openId");
-		model.addAttribute("openId",openId);
 		Subject subject = SecurityUtils.getSubject();
 		 // 如果已经通过认证，直接访问该login方法，返回欢迎页面
 		if (subject.isAuthenticated()) {
@@ -41,11 +39,13 @@ public class LoginController extends BaseController {
         }
         //认证失败，将用户名回显
         String username=request.getParameter("username");
+		String identityType = request.getParameter("idType");
         if(!"".equals(username)){
         	model.addAttribute("username", username);
         }
-        //原访问链接中的参数信息
-       // SavedRequest sr = (SavedRequest) session.getAttribute("shiroSavedRequest");
+		if(!"".equals(identityType)){
+			model.addAttribute("identityType", identityType);
+		}
         return LOGINURL;
 	}
 }

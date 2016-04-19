@@ -27,6 +27,52 @@
 		<form action="list.do" method="post"  id="submitForm">
 			<div class="table-shadow">
 				<table class="table table-none">
+					<tr>
+						<td class="td-left td-left-top">证件类型</td>
+						<td class="td-center td-right-top" colspan="2">
+							<div class="select-none">
+								<select class="select " id="identityType" name="identityType">
+									<option value="">请选择</option>
+									<option value="01"
+											<c:if test="${'01' eq model.identityType}">selected</c:if>>居民身份证
+									</option>
+									<option value="03"
+											<c:if test="${'03' eq model.identityType}">selected</c:if>>护照
+									</option>
+									<option value="05"
+											<c:if test="${'05' eq model.identityType}">selected</c:if>>军人身份证
+									</option>
+									<option value="06"
+											<c:if test="${'06' eq model.identityType}">selected</c:if>>武装警察身份证
+									</option>
+									<option value="04"
+											<c:if test="${'04' eq model.identityType}">selected</c:if>>户口簿
+									</option>
+									<option value="47"
+											<c:if test="${'47' eq model.identityType}">selected</c:if>>港澳居民来往内地通行证（香港）
+									</option>
+									<option value="48"
+											<c:if test="${'48' eq model.identityType}">selected</c:if>>港澳居民来往内地通行证（澳门）
+									</option>
+									<option value="49"
+											<c:if test="${'49' eq model.identityType}">selected</c:if>>台湾居民往来大陆通行证
+									</option>
+									<option value="08"
+											<c:if test="${'08' eq model.identityType}">selected</c:if>>外交人员身份证
+									</option>
+									<option value="09"
+											<c:if test="${'09' eq model.identityType}">selected</c:if>>外国人居留许可证
+									</option>
+									<option value="10"
+											<c:if test="${'10' eq model.identityType}">selected</c:if>>边民出入境通行证
+									</option>
+									<option value="11"
+											<c:if test="${'11' eq model.identityType}">selected</c:if>>其他
+									</option>
+								</select>
+							</div>
+						</td>
+					</tr>
 					<tr >
 						<td class="td-left td-left-top">证件号码</td>
 						<td class="td-center td-right-top" colspan="2">

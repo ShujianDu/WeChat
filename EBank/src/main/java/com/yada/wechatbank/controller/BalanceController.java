@@ -7,11 +7,14 @@ import com.yada.wechatbank.service.BalanceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.yada.wechatbank.model.CardInfo;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -36,10 +39,9 @@ class BalanceController extends BaseController{
 	 * @return 额度页面/错误页面
 	 */
 	@RequestMapping(value = "list")
-	public String list(@ModelAttribute("formBean") BalanceQuery balanceQuery, Model model) {
-		//TODO 通过登录人信息获取证件号
-		String identityNo="";
-		String identityType="";
+	public String list(HttpServletRequest request,@ModelAttribute("formBean") BalanceQuery balanceQuery, Model model) {
+		String identityNo=getIdentityNo(request);
+		String identityType=getIdentityType(request);
 		List<List<Balance>> newList = balanceService.getList(identityType,identityNo);
 		if (newList == null) {
 			logger.warn("@WDED@获取到的额度集合为null，identityNo[" + identityNo + "]");

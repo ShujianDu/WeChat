@@ -23,7 +23,6 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
 
 	public List<List<Balance>> getList(String identityType,String identityNo ) {
 
-		//TODO 卡列表获取需改变逻辑
 		List<CardInfo> cardInfos=selectCardNos(identityType,identityNo);
 		//TODO 与后台接口调用获取额度列表
 		List<Balance> balanceList=null;

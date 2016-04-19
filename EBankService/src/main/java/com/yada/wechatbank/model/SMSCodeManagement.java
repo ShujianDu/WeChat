@@ -1,42 +1,78 @@
 package com.yada.wechatbank.model;
 
-import java.io.Serializable;
-
 /**
- * @Auther zm
+ * 短信验证码实体
+ * @auther tx
  */
-public class SMSCodeManagement implements  Serializable{
-
-	private static final long serialVersionUID = -4771134377704276023L;
-	private String id;
-	//WeChat用户的唯一标示
-	private String openId;
+public class SMSCodeManagement {
+	//证件号
+	private String identityNo;
+	//手机号
+	private String mobile;
 	//短信码
 	private String smsCode;
-	//创建时间
-	private long creatTime;
-	//渠道编号  
+	//渠道编号
 	private String channelCode;
 	//尝试次数
 	private int count=0;
-	
+
 	public String getChannelCode() {
 		return channelCode;
 	}
 	public void setChannelCode(String channelCode) {
 		this.channelCode = channelCode;
 	}
-	public String getId() {
-		return id;
+	public String getIdentityNo() {
+		return identityNo;
 	}
+	public void setIdentityNo(String identityNo) {
+		this.identityNo = identityNo;
+	}
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	public String getSmsCode() {
+		return smsCode;
+	}
+	public void setSmsCode(String smsCode) {
+		this.smsCode = smsCode;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+
+
+	public SMSCodeManagement(){}
+
+	public SMSCodeManagement(String identityNo, String mobile, String channelCode,String smsCode) {
+		this.identityNo = identityNo;
+		this.mobile = mobile;
+		this.smsCode = smsCode;
+		this.channelCode = channelCode;
+	}
+
+	@Override
+	public String toString() {
+		return "SMSCodeManagement [" + " identityNo=" + identityNo + ", mobile=" + mobile + ", SmsCode=" + smsCode + ", ChannelCode=" + channelCode + ", count=" + count + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((openId == null) ? 0 : openId.hashCode());
+		result = prime * result + ((identityNo == null) ? 0 : identityNo.hashCode());
 		result = prime * result + ((channelCode == null) ? 0 : channelCode.hashCode());
 		return result;
 	}
+
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -46,10 +82,15 @@ public class SMSCodeManagement implements  Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		SMSCodeManagement other = (SMSCodeManagement) obj;
-		if (openId == null) {
-			if (other.openId != null)
+		if (identityNo == null) {
+			if (other.identityNo != null)
 				return false;
-		} else if (!openId.equals(other.openId))
+		} else if (!identityNo.equals(other.identityNo))
+			return false;
+		if (mobile == null) {
+			if (other.mobile != null)
+				return false;
+		} else if (!mobile.equals(other.mobile))
 			return false;
 		if (channelCode == null) {
 			if (other.channelCode != null)
@@ -58,46 +99,4 @@ public class SMSCodeManagement implements  Serializable{
 			return false;
 		return true;
 	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getOpenId() {
-		return openId;
-	}
-	public void setOpenId(String openId) {
-		this.openId = openId;
-	}
-	public String getSmsCode() {
-		return smsCode;
-	}
-	public void setSmsCode(String smsCode) {
-		this.smsCode = smsCode;
-	}
-	public long getCreatTime() {
-		return creatTime;
-	}
-	public void setCreatTime(long creatTime) {
-		this.creatTime = creatTime;
-	}
-	
-	public int getCount() {
-		return count;
-	}
-	public void setCount(int count) {
-		this.count = count;
-	}
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("SMSCodeManagement [");
-		sb.append("Id=").append(id);
-		sb.append(", OpenId=").append(openId);
-		sb.append(", SmsCode=").append(smsCode);
-		sb.append(", CreatTime=").append(creatTime);
-		sb.append(", ChannelCode=").append(channelCode);
-		sb.append(", count=").append(count);
-		sb.append("]");
-		return sb.toString();
-	}
-	
 }
