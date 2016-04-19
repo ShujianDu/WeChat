@@ -1,9 +1,7 @@
 package com.yada.sdk.point.protocol
 
-import com.yada.sdk.point.protocol.impl.P0004_GetECIF
-import com.yada.sdk.point.xml.{XmlHandler, IPointClient}
-import org.mockito.Mockito
-import org.scalatest.{Matchers, FlatSpec}
+import com.yada.sdk.point.xml.XmlHandler
+import org.scalatest.{FlatSpec, Matchers}
 
 /**
   * 根据客户卡号查询客户的ECIF号
