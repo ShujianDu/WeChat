@@ -86,11 +86,11 @@ public class BaseService {
 	/**
 	 * 根据证件号和证件类型查询卡列表
 	 *
-	 * @param identityNo
-	 * @param identityType
+	 * @param identityType   证件类型
+	 * @param identityNo     证件号
 	 * @return
 	 */
-	public List<CardInfo> selectCardNos(String identityNo, String identityType) {
+	public List<CardInfo> selectCardNos( String identityType,String identityNo) {
 		Map<String, String> map = initGcsParam();
 		map.put("idType", identityType);
 		map.put("idNum", identityNo);
