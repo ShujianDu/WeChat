@@ -55,7 +55,7 @@ trait GCSReq {
     *
     * @return
     */
-  protected def gcsClient = GCSClient.GLOBAL
+  private[gcs] var gcsClient = GCSClient.GLOBAL
 
   def send: GCSResp = {
     val resp = gcsClient.send(reqXML)
