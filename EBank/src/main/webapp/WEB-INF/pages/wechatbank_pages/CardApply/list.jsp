@@ -77,7 +77,7 @@
         <div class="topOneB mar-1">
             <table class="topTwo">
                 <tr>
-                    <td>验证码:</td>
+                    <td class="td-le">验证码：</td>
                     <td>
                         <table width="100%">
                             <tr>
