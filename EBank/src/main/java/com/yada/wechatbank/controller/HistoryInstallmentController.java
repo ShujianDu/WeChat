@@ -42,14 +42,14 @@ public class HistoryInstallmentController extends BaseController {
 	@RequestMapping(value = "list")
 	public String list(HttpServletRequest request, String openId, Model model) {
 		// 页面分享js需要的参数
-//		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-//				"billinstallment/list.do","中国银行信用卡分期业务");
-//		if (jsMap == null) {
-//			return JSERROR;
-//		}
-//		for (String key : jsMap.keySet()) {
-//			model.addAttribute(key, jsMap.get(key));
-//		}
+		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
+				"billinstallment/list.do","中国银行信用卡分期业务");
+		if (jsMap == null) {
+			return ERROR;
+		}
+		for (String key : jsMap.keySet()) {
+			model.addAttribute(key, jsMap.get(key));
+		}
 		// 调用RMI 获取卡片列表（OpenId）
 		List<String> cardList = historyInstallmentServiceImpl.selectCardNOs(getIdentityNo(request),getIdentityType(request));
 		// RMI返回值为空或没有数据

@@ -78,4 +78,24 @@ public class SmsServiceImpl extends BaseService implements SmsService {
         BooleanResp result = httpClient.send(sendSMS, param, BooleanResp.class);
         return result.getBizResult();
     }
+
+    /**
+     * 发送绑定短信验证码
+     * @param mobileNo 手机号
+     * @param code 验证码
+     * @return true-成功，false-失败
+     */
+    @Override
+    public boolean sendBinDingSMS(String mobileNo, String code) {
+        String content = bindingContent.replace("#sms.msg#", code);
+        Map<String, String> param = new HashMap<>();
+        param.put("sysId", bcspSmsSysId);
+        param.put("bsnType", bcspSmsCardApplyBsnType);
+        param.put("handsetNo", mobileNo);
+        param.put("content", content);
+        BooleanResp result = httpClient.send(sendSMS, param, BooleanResp.class);
+        return result.getBizResult();
+    }
+
+
 }

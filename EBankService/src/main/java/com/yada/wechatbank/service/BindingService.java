@@ -70,14 +70,12 @@ public interface BindingService {
     boolean defCardBinding(String openId, String defCardNO);
 
     /**
-     * 绑定时获取短信验证码
-     * @param identityType 证件类型
+     * 获取绑定时的短信验证码
      * @param identityNo 证件号
-     * @param openId openId
-     * @param mobilNo 手机号
-     * @return 发送结果
+     * @param identityType 证件类型
+     * @return 手机号码
      */
-    String bindingSend(String identityType, String identityNo, String openId, String mobilNo);
+    String getBinDingSendCode(String identityNo,String identityType,String mobilNo);
 
     /**
      * 验证绑定的短信验证码

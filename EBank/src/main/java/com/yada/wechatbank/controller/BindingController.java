@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.yada.wechatbank.base.BaseController;
 import com.yada.wechatbank.model.CardInfo;
 import com.yada.wechatbank.service.BindingService;
+import com.yada.wechatbank.service.SmsService;
 import com.yada.wechatbank.util.Crypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,8 @@ public class BindingController extends BaseController{
 	private static final String NODEFAULT = "1";
 	@Autowired
 	private BindingService bindingServiceImpl;
+	@Autowired
+	private SmsService smsServiceImpl;
 
 	/**
 	 * 进入客户绑定界面
@@ -61,14 +64,14 @@ public class BindingController extends BaseController{
 			bindingQuery.setOpenId(openId);
 		}
 		// 页面分享js需要的参数
-//		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-//				"binding/list.do","中国银行信用卡绑定业务");
-//		if (jsMap == null) {
-//			return ERROR;
-//		}
-//		for (String key : jsMap.keySet()) {
-//			model.addAttribute(key, jsMap.get(key));
-//		}
+		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
+				"binding/list.do","中国银行信用卡绑定业务");
+		if (jsMap == null) {
+			return ERROR;
+		}
+		for (String key : jsMap.keySet()) {
+			model.addAttribute(key, jsMap.get(key));
+		}
 		boolean rmiReturn = bindingServiceImpl.validateIsBinding(openId);
 		// 判断是否已经绑定
 		if (rmiReturn) {
@@ -111,7 +114,8 @@ public class BindingController extends BaseController{
 			model.addAttribute("model", bindingQuery);
 			return BINDLISTURL;
 		}
-        //获取session中存储的短信验证码的证件号	
+		//TODO 获取存储的短信验证码的证件号
+        //获取session中存储的短信验证码的证件号
 		String smsIdNum = (String) request.getSession().getAttribute("idNum");
         //两次的证件号是否一致		
 		if(!bindingQuery.getIdNumber().equals(smsIdNum)){
@@ -272,7 +276,7 @@ public class BindingController extends BaseController{
 		//TODO 获取短信验证码
 		String result = "false";
 		String identityType=request.getParameter("idType");
-		String identity=request.getParameter("identityNo");
+		String identityNo=request.getParameter("identityNo");
 		String openId=request.getParameter("openId");
 		
 		// Session中存储的验证码
@@ -282,23 +286,22 @@ public class BindingController extends BaseController{
 		String mobilNo = request.getParameter("mobilNo");
 		if (verificationCode != null
 				&& verificationCode.equalsIgnoreCase(Randomcode_yz)) {
-				if(!"".equals(identity)&&!"".equals(openId)&& !"".equals(mobilNo))
+				if(!"".equals(identityNo)&&!"".equals(openId)&& !"".equals(mobilNo))
 				{
-					
-					String sendResult = bindingServiceImpl.bindingSend(identityType,identity,openId+identity, mobilNo);
-					logger.info("@**BD@调用核心根据identityType[" + identityType +"]identity["+identity+"],openId["+openId+"]发送短信验证码,绑定结果sendResult["+sendResult+"]");
-					if (sendResult == null) {
-					    logger.debug("@**BD@绑定默认卡失败,openId["+openId+"],identityType["+identityType+"],identity["+identity+"]");
+					//TODO 获取手机号
+					//TODO 获取短信验证码
+					String code = bindingServiceImpl.getBinDingSendCode(identityNo,identityType,mobilNo);
+					//发送短信验证码
+					boolean sendResult = smsServiceImpl.sendBinDingSMS(mobilNo,code);
+					if (!sendResult) {
 						result = "exception";
 					} else
 					{
                         //验证码发送成功记录证件号，防止黑客修改卡号后再验证查询密码						
-						if("true".equals(sendResult)){
-							request.getSession().setAttribute("idNum", identity);
-						}
-//				        result=sendResult;
+						request.getSession().setAttribute("idNum", identityNo);
 				        TokenUtil.addToken(request);
-						result = sendResult+","+request.getSession().getAttribute("keyInSession");
+						//TODO 处理验证码返回问题
+						//result = sendResult+","+request.getSession().getAttribute("keyInSession");
 					}
 				}
 		}else {

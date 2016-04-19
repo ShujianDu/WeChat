@@ -21,4 +21,12 @@ public interface SmsService {
      * @return true-成功，false-失败
      */
     public boolean sendCardApplySMS(String mobileNo, String code);
+
+    /**
+     * 发送绑定短信验证码
+     * @param mobileNo 手机号
+     * @param code 验证码
+     * @return 发送结果（true-成功，false-失败）
+     */
+    boolean sendBinDingSMS(String mobileNo, String code);
 }
