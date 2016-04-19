@@ -37,11 +37,6 @@ public class ReportLostController extends BaseController {
     @RequestMapping(value = "list")
     public String list(Model model, HttpServletRequest request) {
         List<String> cardNoList = reportLostService.selectCardNoList(getIdentityType(request), getIdentityNo(request));
-        // TODO QQ Test代码，提交删除
-        if (cardNoList == null) {
-            cardNoList = new ArrayList<>();
-            cardNoList.add("6225990148528293");
-        }
         if (cardNoList == null) {
             return BUSYURL;
         } else if (cardNoList.size() == 0) {
@@ -78,18 +73,14 @@ public class ReportLostController extends BaseController {
 
     @RequestMapping(value = "cancel")
     public String cancel(Model model, HttpServletRequest request) {
-        List<String> cardNoList = reportLostService.selectCardNoList(getIdentityType(request), getIdentityNo(request));
-        // TODO QQ Test代码，提交删除
-        if (cardNoList == null) {
-            cardNoList = new ArrayList<>();
-            cardNoList.add("6225990148528293");
-        }
-        if (cardNoList == null) {
-            return BUSYURL;
-        } else if (cardNoList.size() == 0) {
-            return NOCARDURL;
-        }
+        List<String> cardNoList;
         try {
+            cardNoList = reportLostService.selectCardNoList(getIdentityType(request), getIdentityNo(request));
+            if (cardNoList == null) {
+                return BUSYURL;
+            } else if (cardNoList.size() == 0) {
+                return NOCARDURL;
+            }
             Crypt.cardNoCrypt(cardNoList);
         } catch (Exception e) {
             e.printStackTrace();
