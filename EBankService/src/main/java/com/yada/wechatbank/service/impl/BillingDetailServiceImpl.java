@@ -45,6 +45,7 @@ public class BillingDetailServiceImpl extends BaseService implements BillingDeta
 			return billingDetailList;
 		} else {
 			billingDetailList = billingDetailResp.getBizResult();
+			// TODO 中文币种设置
 		}
 		return billingDetailList;
 	}

@@ -12,14 +12,16 @@
 <meta name=" format-detection" content="telephone=no" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+
 </head>
 <body>
 	<div class="BillingDetails_content">
-		<input value="${cardNo }" id="control_card" type="text"
-			disabled="disabled" />
+	<div class="BillingDetails"><span class="name">
+	<c:if test="${queryType=='ALLT' }">已出账单明细</c:if>
+	<c:if test="${queryType=='UNSM' }">未出账单明细</c:if>
+	</span><span class="dynamicData" id="CardNumber">${fn:substring(cardNo, 0, 16)}</span></div>
 		<!--BillingDetails-->
-		<ul class="showMoreNChildren" pagesize="4">
-
+		<ul class="showMoreNChildren" id="showMoreNChildren">
 			<c:forEach items="${billingDetailList}" var="item" varStatus="status">
 				<li class="Billing_box">
 				    <span id="BillingName">${item.transactionDescription }</span>
@@ -32,14 +34,24 @@
 						</c:if>
 					</span> 
 					<span id="periodEndDate">${item.transactionDate}</span>
-					<span id="currencyCode">${item.currencyCode} ${item.transactionAmount} </span>
+					<span id="currencyCode"><span>${item.currencyChinaCode} </span><span>${item.transactionAmount} </span></span>
 				</li>
 			</c:forEach>
 		</ul>
-		<div class="readMore" id="readMore"onclick="getMore();">查看更多</div>
+		<div class="readMore" id="readMore" onclick="getMore();">查看更多</div>
 	</div>
+	<!--ajax查询用到的参数  -->
+	<input value="${fn:substringAfter(cardNo, ',')}" id="cardNo" type="hidden"/>
+	<input value="${model.queryType}" id="queryType" type="hidden"/>
+	<input value="${startnum}" id="startnum" type="hidden"/>
+	<input value="${model.periodStartDate}" id="periodStartDate" type="hidden"/>
+	<input value="${model.periodEndDate}" id="periodEndDateAjax" type="hidden"/>
+	<input value="${model.currencyCode}" id="currencyCodeReal" type="hidden"/>
+	<!-- 一次最多显示的条数 -->
+	<input value="${onepage}" id="onepage" type="hidden"/>
 	<script type="text/javascript" src="${path }/js/BillingDetails.js"
 		charset="UTF-8"></script>
+<script>$(".BillingDetails_content").height(parseInt(document.documentElement.clientHeight)-211);</script> 
 </body>
 </html>
 

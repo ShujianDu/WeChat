@@ -56,8 +56,8 @@
 			<div id="noBillingWarning"
 				style="color: #999999; font-size: 13px; line-height: 40px; margin-left: 16px;"></div>
 			<!--实际币种,其余为页面展示的中文币种  -->
-			<span id="currencyCodeReal1" style='dispay: none'></span> <span
-				id="currencyCodeReal2" style='dispay: none'></span>
+			<span id="currencyCodeReal1" style='dispay: none'></span> 
+			<span id="currencyCodeReal2" style='dispay: none'></span>
 			<!--显示价格-->
 			<div class="view_value">
 				<div class="value_title"></div>

@@ -79,6 +79,7 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 					billingSummaries.add(billingSummary);
 				} else {
 					billingSummary = billingSummaryResp.getBizResult();
+					// TODO 中文显示币种添加
 				}
 				billingSummaries.add(billingSummary);
 			}
