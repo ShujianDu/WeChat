@@ -239,6 +239,7 @@
             data: {
                 identityNo: identityNo,
                 mobileNo: mobileNo,
+                verificationCode: encodeURI(verificationCode),
                 keycode: keycode,
                 timestamp: new Date().getTime()
             },

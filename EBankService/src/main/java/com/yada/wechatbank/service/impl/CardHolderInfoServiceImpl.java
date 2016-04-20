@@ -13,9 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 个人资料Manager
+ * 个人资料serviceImpl
  *
- * @author hh
+ * @author Tx
  */
 @Service
 public class CardHolderInfoServiceImpl extends BaseService implements CardHolderInfoService {
@@ -24,8 +24,7 @@ public class CardHolderInfoServiceImpl extends BaseService implements CardHolder
     private static final String DEFAULT = "未登记";
     private static final String REPLACESTRING = "****";
 
-    //TODO 增加链接
-    @Value("")
+    @Value(value="url.getCardHolderInfoMethod")
     private String getCardHolderInfoMethod;
 
 
