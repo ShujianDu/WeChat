@@ -3,7 +3,11 @@ package com.yada.wechatbank.model;
 
 import com.yada.wechatbank.base.BaseModel;
 
-public class CardHolderInfo extends BaseModel {
+/**
+ * 个人资料实体
+ * @author Tx
+ */
+public class CardHolderInfo  {
 	
 	//手机号码
 	private String mobileNo;

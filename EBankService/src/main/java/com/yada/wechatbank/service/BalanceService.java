@@ -1,6 +1,7 @@
 package com.yada.wechatbank.service;
 
 import com.yada.wechatbank.model.Balance;
+import com.yada.wechatbank.model.CardInfo;
 
 import java.util.List;
 
@@ -12,9 +13,16 @@ import java.util.List;
 public interface BalanceService {
 	/**
 	 * 为前台处理需要展示的额度信息
-	 * @param identityType  证件类型
-	 * @param identityNo    证件号
+	 * @param cardNo  卡号
 	 * @return 展示的用户额度列表
 	 */
-	 List<List<Balance>> getList(String identityType,String identityNo) ;
+	List<Balance> getCardNoBalance(String cardNo ) ;
+
+	/**
+	 * 获取卡列表
+	 * @param identityType   证件类型
+	 * @param identityNo     证件号
+	 * @return               返回处理后的卡列表信息
+	 */
+	List<CardInfo> getProessCardNoList(String identityType, String identityNo);
 }
