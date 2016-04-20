@@ -73,7 +73,7 @@
 <div class="HandIn">
     <input type="button" value="计算"  onclick="CalcTax();" />
 </div>
-<div class="topOneB mar-1 topOneBradius">
+<div class="topOneB mar-1 topOneBradius" style="margin-top: 10px">
         <table class="topTwo " >
             <tr>
                 <td>应纳税款(元):</td>

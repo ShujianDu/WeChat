@@ -3,11 +3,17 @@ package com.yada.wechatbank.model;
 
 import com.yada.wechatbank.base.BaseModel;
 
-public class Balance extends BaseModel {
+/**
+ * 额度实体
+ * @author Tx
+ */
+public class Balance  {
 	// 卡号
 	private String cardNo;
 	// 金额类型(币种)
 	private String currencyCode;
+	// 金额中文描述(币种)
+	private String currencyChinaCode;
 	// 总授信额度
 	private String limitCount;
 	// 总可用额
@@ -38,7 +44,13 @@ public class Balance extends BaseModel {
 	public void setCurrencyCode(String currencyCode) {
 		this.currencyCode = currencyCode;
 	}
+	public String getCurrencyChinaCode() {
+		return currencyChinaCode;
+	}
 
+	public void setCurrencyChinaCode(String currencyChinaCode) {
+		this.currencyChinaCode = currencyChinaCode;
+	}
 	public String getCardNo() {
 		return cardNo;
 	}

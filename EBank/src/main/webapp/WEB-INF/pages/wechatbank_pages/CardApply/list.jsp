@@ -77,7 +77,7 @@
         <div class="topOneB mar-1">
             <table class="topTwo">
                 <tr>
-                    <td>验证码:</td>
+                    <td class="td-le">验证码：</td>
                     <td>
                         <table width="100%">
                             <tr>
@@ -212,10 +212,12 @@
         var idNumWarning = $("#idNumWarning");
         var mobileNoWarning = $("#mobileNoWarning");
         var verificationCodeWarning = $("#verificationCodeWarning");
+        var codeWarning = $("#codeWarning");
         typeWarning.text("");
         idNumWarning.text("");
         verificationCodeWarning.text("");
         mobileNoWarning.text("");
+        codeWarning.text("");
 
         if (identityType == null || identityType == "") {
             typeWarning.text("*证件类型不能为空，请选择！");
@@ -233,32 +235,36 @@
             verificationCodeWarning.text("*验证码不能为空，请输入！");
             return false;
         }
-
+        $("#msgCodeButton").attr("disabled", true);
         $.ajax({
             url: "getMsgCode_ajax.do",
             data: {
                 identityNo: identityNo,
                 mobileNo: mobileNo,
+                verificationCode: encodeURI(verificationCode),
                 keycode: keycode,
                 timestamp: new Date().getTime()
             },
             type: "post",
             dataType: "text",
-            async: false,
+            async: true,
             success: function (result) {
+                $("#msgCodeButton").removeAttr("disabled");
                 if (result != null && result != "") {
-                    var resultIndex = result.indexOf(",")
+                    var resultIndex = result.indexOf(",");
                     if (resultIndex != -1) {
                         var resultOne = result.substring(resultIndex + 1);
-                        $("#keycode").value = resultOne;
+                        $("#keycode").val(resultOne);
                         result = result.substring(0, resultIndex);
                     }
-                    if (result == "exception" || result == "false") {
+                    if (result == "exception") {
                         window.location.href = "../error.html";
-                    } else if (result == "errorCode") {
-                        $("#verificationCodeWarning").text("您填写的验证码有误，请重新输入！");
+                    } else if (result == "false"){
+                        codeWarning.text("短信验证码发送失败，请稍候再试！");
+                    }else if (result == "errorCode") {
+                        verificationCodeWarning.text("您填写的验证码有误，请重新输入！");
                     } else if (result == "wrongMobileNo") {
-                        $("#mobileNoWarning").text("您填写的手机号有误，请重新输入!");
+                        mobileNoWarning.text("您填写的手机号有误，请重新输入!");
                     } else {
                         buttonTimeOut();
                     }

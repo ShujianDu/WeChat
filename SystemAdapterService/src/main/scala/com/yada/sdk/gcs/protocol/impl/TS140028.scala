@@ -1,14 +1,15 @@
 package com.yada.sdk.gcs.protocol.impl
 
+import com.yada.sdk.gcs.GCSClient
 import com.yada.sdk.gcs.protocol.GCSReq
 
 /**
   * 查询客户手机预留号码
   */
-class TS140028(tranSessionId: String, reqChannelId: String, idType: String, idNo: String) extends GCSReq {
+class TS140028(tranSessionId: String, reqChannelId: String, idType: String, idNo: String)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
-  setPageProps("idType",idType)
-  setPageProps("idNo",idNo)
+  setPageProps("idType", idType)
+  setPageProps("idNo", idNo)
 
   override def transactionID: String = "140028"
 

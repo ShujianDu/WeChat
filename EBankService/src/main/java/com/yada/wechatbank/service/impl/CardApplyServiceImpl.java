@@ -4,6 +4,7 @@ import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.CardApplyResp;
 import com.yada.wechatbank.model.CardApplyList;
 import com.yada.wechatbank.service.CardApplyService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -14,6 +15,10 @@ import java.util.Map;
  */
 @Service
 public class CardApplyServiceImpl extends BaseService implements CardApplyService {
+
+    // 预约办卡进度查询
+    @Value(value = "${url.cardApply}")
+    protected String cardApplyUrl;
 
     @Override
     public CardApplyList getCrdCardSchedule(String name, String identityType, String identityNo, int currentPage) {

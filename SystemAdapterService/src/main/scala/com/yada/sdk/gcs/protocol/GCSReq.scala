@@ -10,7 +10,7 @@ import scala.collection.mutable
 /**
   * GCS协议
   */
-trait GCSReq {
+abstract class GCSReq(gcsClient: GCSClient) {
   private val systemProps = mutable.Map.empty[String, String]
   private val pageProps = mutable.Map.empty[String, String]
   setSystemProp("transactionCode", transactionCode)
@@ -49,13 +49,6 @@ trait GCSReq {
     val gcs = GCS(transactionID, isRequest, isResponse, System(systemProps), Some(Page(pageKey, pageProps, None)))
     xmlHandler.toXml(gcs)
   }
-
-  /**
-    * GCS的客户端获取
-    *
-    * @return
-    */
-  protected def gcsClient = GCSClient.GLOBAL
 
   def send: GCSResp = {
     val resp = gcsClient.send(reqXML)

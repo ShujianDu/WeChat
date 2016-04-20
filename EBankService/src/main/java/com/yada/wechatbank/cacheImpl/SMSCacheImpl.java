@@ -6,28 +6,29 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.Cache.ValueWrapper;
-import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SMSCache implements ISMSCache{
+public class SMSCacheImpl implements ISMSCache {
 	
-	private static org.slf4j.Logger logger = LoggerFactory.getLogger(SMSCache.class);
-	@Autowired
-	private EhCacheCacheManager cacheManager;
-	@Value("${cacheName.SMS}")
+	private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
+	//TODO Ôö¼Óehcache
+//	@Autowired
+//	private EhCacheCacheManager cacheManager;
+//	@Value("${cacheName.SMS}")
 	private String cacheName;
 
 	@Override
 	public SMSCodeManagement put(String smsKey, SMSCodeManagement smsCodeManagement){
-		cacheManager.getCache(cacheName).put(smsKey,smsCodeManagement);
+//		cacheManager.getCache(cacheName).put(smsKey,smsCodeManagement);
 		logger.info("CACHE[{}].put() key=[{}],value=[{}]", cacheName,smsKey,smsCodeManagement);
 		return smsCodeManagement;
 	}
 	
 	@Override
 	public SMSCodeManagement get(String smsKey){
-		ValueWrapper valueWrapper = cacheManager.getCache(cacheName).get(smsKey);
+		ValueWrapper valueWrapper=null;
+//		ValueWrapper valueWrapper = cacheManager.getCache(cacheName).get(smsKey);
 		if(valueWrapper == null){
 			logger.info("CACHE[{}].get() key=[{}],value=[{}]", cacheName,smsKey,null);
 			return null;
@@ -38,8 +39,8 @@ public class SMSCache implements ISMSCache{
 	
 	@Override
 	public void remove(String smsKey){
-		logger.info("CACHE[{}].remove() key=[{}]", cacheName,smsKey);
-		cacheManager.getCache(cacheName).evict(smsKey);
+		logger.info("CACHE[{}].remove() key=[{}]", cacheName, smsKey);
+//		cacheManager.getCache(cacheName).evict(smsKey);
 	}
 
 }

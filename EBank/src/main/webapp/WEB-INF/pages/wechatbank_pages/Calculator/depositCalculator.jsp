@@ -302,7 +302,7 @@
 	<div class="HandIn">
 		<input type="button" onclick="calcu()" value="计算">
 	</div>
-	<div class="topOneB mar-1 topOneBradius">
+	<div class="topOneB mar-1 topOneBradius" style="margin-top: 10px">
 		<table class="topTwo ">
 			<tr>
 				<td><span id="layerresult">到期本息总额</span>(元):</td>

@@ -29,7 +29,7 @@ public class BillingSendWayController extends BaseController {
 	private static final String EDITURL = "wechatbank_pages/BillingSendWay/edit";
 
 	@Autowired
-	private BillingSendWayService billingSendWayService;
+	private BillingSendWayService billingSendWayServiceImpl;
 
 	/**
 	 * 寄送方式查询
@@ -40,7 +40,7 @@ public class BillingSendWayController extends BaseController {
 	public String list(Model model) {
 		String identityType = "";
 		String identityNo = "";
-		List<BillSendType> list = billingSendWayService.getBillSendType(identityType, identityNo);
+		List<BillSendType> list = billingSendWayServiceImpl.getBillSendType(identityType, identityNo);
 		logger.debug("@ZDJSFSCX@通过identityType[{}],identityNo[{}]获取账单寄送方式集合为[{}]", identityType, identityNo, list);
 		if (list == null) {
 			logger.warn("@ZDJSFSCX@通过identityType[{}],identityNo[{}]获取寄送方式集合为空或没有数据", identityType, identityNo);
@@ -82,7 +82,7 @@ public class BillingSendWayController extends BaseController {
 		try {
 			if (cardNo != null && !"".equals(cardNo) && billSendType != null
 					&& !"".equals(billSendType)) {
-				boolean result = billingSendWayService.updateBillSendType(cardNo, billSendType);
+				boolean result = billingSendWayServiceImpl.updateBillSendType(cardNo, billSendType);
 				logger.info("@ZDJSFSXG@调用核心根据cardNo[" + cardNo
 						+ "]修改账单寄送方式，账单寄送方式修改结果result[" + result + "]");
 				response.getWriter().write("修改成功");
