@@ -46,10 +46,6 @@ public class ReportLostController extends BaseController {
     public String list(Model model, HttpServletRequest request) {
         List<String> cardNoList = reportLostService.selectCardNoList(getIdentityType(request), getIdentityNo(request));
         if (cardNoList == null) {
-            cardNoList = new ArrayList<>();
-            cardNoList.add("6225880148529852");
-        }
-        if (cardNoList == null) {
             return BUSYURL;
         } else if (cardNoList.size() == 0) {
             return NOCARDURL;
