@@ -35,7 +35,6 @@
 	//处理ajax请求返回的数据
 	function messageReveal(json) {
 		var onepage = $("#onepage").val();
-		alert(onepage);
 		//如果数据小于十条，获取更多按钮隐藏
 		if(json.length<onepage){$("#readMore").hide();}
 		for(var i=0;i<json.length;i++){
