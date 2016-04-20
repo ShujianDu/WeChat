@@ -1,11 +1,12 @@
 package com.yada.sdk.gcs.protocol.impl
 
-import com.yada.sdk.gcs.protocol.{GCSResp, GCSReq}
+import com.yada.sdk.gcs.GCSClient
+import com.yada.sdk.gcs.protocol.{GCSReq, GCSResp}
 
 /**
   * 账单分期金额上下限查询
   */
-class TS011062(tranSessionId: String, reqChannelId: String, accountId: String, currencyCode: String) extends GCSReq {
+class TS011062(tranSessionId: String, reqChannelId: String, accountId: String, currencyCode: String)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
   setPageProps("accountId", accountId)
   setPageProps("currencyCode", currencyCode)

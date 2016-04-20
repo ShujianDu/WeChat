@@ -1,12 +1,13 @@
 package com.yada.sdk.gcs.protocol.impl
 
+import com.yada.sdk.gcs.GCSClient
 import com.yada.sdk.gcs.protocol.GCSReq
 import com.yada.system.adapter.gcs.GCSBillInstallmentParams
 
 /**
   * 卡户分期项目账单分期（授权）
   */
-class TS011171(gcsBillInstallmentParams: GCSBillInstallmentParams) extends GCSReq {
+class TS011171(gcsBillInstallmentParams: GCSBillInstallmentParams)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
   setPageProps("accountId", gcsBillInstallmentParams.accountId)
   setPageProps("accountNumber", gcsBillInstallmentParams.accountNumber)

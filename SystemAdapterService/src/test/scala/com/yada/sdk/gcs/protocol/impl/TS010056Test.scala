@@ -47,11 +47,10 @@ class TS010056Test extends FlatSpec with Matchers with MockitoSugar {
         |    </page>
         |</GCS>
       """.stripMargin
-
-    val protocol = new TS010056(sessionID, channelID, cardNo, "C")
-    protocol.gcsClient = mock[GCSClient]
+    val gcsClient = mock[GCSClient]
+    val protocol = new TS010056(sessionID, channelID, cardNo, "C")(gcsClient)
     val req = protocol.reqXML
-    Mockito.when(protocol.gcsClient.send(org.mockito.Matchers.any())).thenReturn(resp)
+    Mockito.when(gcsClient.send(org.mockito.Matchers.any())).thenReturn(resp)
     val reqXML = XML.loadString(req)
     reqXML \@ "transactionID" shouldBe "010056"
     reqXML \@ "isRequest" shouldBe "true"

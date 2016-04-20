@@ -1,12 +1,13 @@
 package com.yada.sdk.gcs.protocol.impl
 
+import com.yada.sdk.gcs.GCSClient
 import com.yada.sdk.gcs.protocol.GCSReq
 import com.yada.system.adapter.gcs.GCSConsumptionInstallmentParams
 
 /**
   * 卡户分期项目消费分期（授权）
   */
-class TS011173(params: GCSConsumptionInstallmentParams) extends GCSReq {
+class TS011173(params: GCSConsumptionInstallmentParams)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
   setPageProps("accountKeyOne", params.accountKeyOne)
   setPageProps("accountKeyTwo", params.accountKeyTwo)

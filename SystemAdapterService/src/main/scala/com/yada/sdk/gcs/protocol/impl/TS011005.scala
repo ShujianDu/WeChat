@@ -1,26 +1,27 @@
 package com.yada.sdk.gcs.protocol.impl
 
+import com.yada.sdk.gcs.GCSClient
 import com.yada.sdk.gcs.protocol.GCSReq
 
-class TS011005(sessionID: String, channelID: String, cardNo: Option[String], idType: Option[String], idNum: Option[String], startNum: String, totalNum: String, isFilterCardStatus: String = "0") extends GCSReq {
+class TS011005(sessionID: String, channelID: String, cardNo: Option[String], idType: Option[String], idNum: Option[String], startNum: String, totalNum: String, isFilterCardStatus: String = "0")(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
   cardNo match {
-    case Some(x) => setPageProps("cardNo",x)
+    case Some(x) => setPageProps("cardNo", x)
     case _ =>
   }
 
   idType match {
-    case Some(x) => setPageProps("idType",x)
+    case Some(x) => setPageProps("idType", x)
     case _ =>
   }
 
   idNum match {
-    case Some(x) => setPageProps("idNum",x)
+    case Some(x) => setPageProps("idNum", x)
     case _ =>
   }
-  setPageProps("startNum",startNum)
-  setPageProps("totalNum",totalNum)
-  setPageProps("isFilterCardStatus",isFilterCardStatus)
+  setPageProps("startNum", startNum)
+  setPageProps("totalNum", totalNum)
+  setPageProps("isFilterCardStatus", isFilterCardStatus)
 
   override def transactionID: String = "011005"
 

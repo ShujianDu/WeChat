@@ -1,6 +1,6 @@
 package com.yada.sdk.gcs
 
-import com.yada.sdk.gcs.protocol.impl.{TS010002, TS010056, TS010102, TS010201}
+import com.yada.sdk.gcs.protocol.impl._
 
 /**
   * GCS协议执行测试
@@ -30,14 +30,17 @@ object GCSProtocolTestApp extends App {
   //  testTS010102()
 
   // 按卡号查询持卡人客户信息交易--“BOC”客户号
-  testTS010201()
+  //  testTS010201()
+
+  // 账单周期查询
+  testTS010301()
 
   /**
     * 账单寄送方式查询
     */
   def testTS010002(): Unit = {
     val cardNo = "5149580068840943"
-    val req = new TS010002(sessionID, channelID, cardNo)
+    val req = new TS010002(sessionID, channelID, cardNo)()
     val resp = req.send
     println(resp)
   }
@@ -54,7 +57,7 @@ object GCSProtocolTestApp extends App {
     */
   def testTS010056(): Unit = {
     val cardNo = "5149580068840943"
-    val req = new TS010056(sessionID, channelID, cardNo, "C")
+    val req = new TS010056(sessionID, channelID, cardNo, "C")()
     val resp = req.send
     println(resp)
   }
@@ -85,7 +88,7 @@ object GCSProtocolTestApp extends App {
     */
   def testTS010102(): Unit = {
     val cardNo = "5149580068840943"
-    val req = new TS010102(sessionID, channelID, cardNo)
+    val req = new TS010102(sessionID, channelID, cardNo)()
     val resp = req.send
     println(resp)
   }
@@ -95,7 +98,17 @@ object GCSProtocolTestApp extends App {
     */
   def testTS010201(): Unit = {
     val cardNo = "5149580068840943"
-    val req = new TS010201(sessionID, channelID, cardNo)
+    val req = new TS010201(sessionID, channelID, cardNo)()
+    val resp = req.send
+    println(resp)
+  }
+
+  /**
+    * 账单周期查询
+    */
+  def testTS010301(): Unit = {
+    val cardNo = "5149580068840943"
+    val req = new TS010301(sessionID, channelID, cardNo)()
     val resp = req.send
     println(resp)
   }
