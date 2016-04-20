@@ -21,7 +21,7 @@ trait GCSService {
     */
   def getBillingPeriods(cardNoParams: CardNoParams): List[BillingPeriodsResult]
 
-  /** a
+  /**
     * 账单摘要查询
     *
     * @param billingSummaryParams BillingSummaryParams
@@ -252,10 +252,16 @@ trait GCSService {
     * @return CardInfosResult的集合
     */
   def getCardInfos(cardInfosParams: CardInfosParams): List[CardInfosResult]
+
+  /**
+    * 历史分期查询
+    * @param historyInstallmentParams 参数
+    * @return 历史分期查询结果
+    */
+  def getHistoryInstallment(historyInstallmentParams: HistoryInstallmentParams): HistoryInstallmentResult
 }
 
 trait GCSBase
-
 
 /**
   * 公用的卡号参数
@@ -489,12 +495,11 @@ case class GCSAmountLimit(currencyCode: String, minAmount: String, maxAmount: St
   * @param currencyCode        币种
   * @param billLowerAmount     账单分期下限金额
   * @param billActualAmount    账单分期实际金额
-  * @param installmentPlanID   分期计划ID
   * @param installmentsNumber  分期期数
   * @param feeInstallmentsFlag 手续费分期标识(1---标识手续费分期收取，0---标识手续费一次性收取)
   */
 case class GCSBillInstallmentParams(sessionId: String, channelId: String, accountId: String, accountNumber: String, currencyCode: String, billLowerAmount: String,
-                                    billActualAmount: String, installmentPlanID: String, installmentsNumber: String, feeInstallmentsFlag: String)
+                                    billActualAmount: String, installmentsNumber: String, feeInstallmentsFlag: String)
 
 /**
   * 账单分期费用试算结果
@@ -751,3 +756,43 @@ case class CardInfosResult(cardNo: String, mianFlag: String)
   * @param billSendType 账单寄送方式
   */
 case class UpdateBillSendTypeParams(sessionId: String, channelId: String, cardNo: String, billSendType: String)
+
+/**
+  * 历史分期查询参数
+  * @param cardNo 卡号
+  * @param startNumber  开始数量
+  * @param selectNumber 查询数量
+  */
+case class HistoryInstallmentParams(sessionId: String, channelId: String,cardNo: String, startNumber: String, selectNumber: String)
+
+/**
+  * 历史分期查询结果
+  * @param transactionNumber 交易数量
+  * @param isFollowUp 是否有下一页
+  * @param entityList 历史分期查询实体列表
+  */
+case class HistoryInstallmentResult(transactionNumber: String, isFollowUp: Boolean, entityList: List[HistoryInstallmentEntity])
+
+/**
+  * 历史分期查询实体
+  *
+  * @param cardNo 卡号
+  * @param instalmentOriginalTransactionDate 分期付款交易日期(页面：分期日期)
+  * @param instalmentRuleDescription 分期付款计划描述(页面：分期描述)
+  * @param currencyCode 货币代码(页面：分期币种)
+  * @param instalmentOriginalAmount 分期付款原始金额(页面：分期金额)
+  * @param instalmentOriginalNumber 分期付款期数(页面：期数)
+  * @param instalmentCompleteDate 分期付款完成日期(页面：完成日期)
+  * @param instFeeFlag 分期手续费收取方式
+  * @param instalmentFirstPostingAmount 首次入帐金额
+  * @param instalmentNextPostingAmount 下次入帐金额
+  * @param instalmentPostedNumber 分期付款已入帐期数(页面：已入账期数)
+  * @param instalmentReversalAmount 分期付款冲正金额(页面：已入账金额)
+  * @param instalmentOutstandingNumber 分期付款剩余期数(页面：剩余未入账期数)
+  * @param instalmentOutstandingAmount 分期付款剩余金额(页面：剩余未入账金额)
+  * @param instalmentNextPostingDate 下次入帐日期
+  */
+case class HistoryInstallmentEntity(cardNo: String, instalmentOriginalTransactionDate: String, instalmentRuleDescription: String, currencyCode: String, instalmentOriginalAmount: String,
+                                    instalmentOriginalNumber: String, instalmentCompleteDate: String, instFeeFlag: String, instalmentFirstPostingAmount: String,
+                                    instalmentNextPostingAmount: String, instalmentPostedNumber: String, instalmentReversalAmount: String, instalmentOutstandingNumber: String,
+                                    instalmentOutstandingAmount: String, instalmentNextPostingDate: String)
