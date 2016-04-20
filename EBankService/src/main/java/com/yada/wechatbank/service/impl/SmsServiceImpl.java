@@ -44,8 +44,6 @@ public class SmsServiceImpl extends BaseService implements SmsService {
     private String sendSMS;
 
 
-
-
     @Value("${sms.content}")
     private String smsContent; // 短信验证发送的内容
     @Value("${sms.bindingContent}")
@@ -65,8 +63,9 @@ public class SmsServiceImpl extends BaseService implements SmsService {
      */
     @Override
     public boolean sendSMS(String identityNo, String mobileNo, String channelCode) {
-        return  assemblySMS(identityNo, mobileNo, channelCode,smsContent,bcspSmsBsnType);
+        return assemblySMS(identityNo, mobileNo, channelCode, smsContent, bcspSmsBsnType);
     }
+
     /**
      * 发送预约办卡短信验证码
      *
@@ -77,8 +76,9 @@ public class SmsServiceImpl extends BaseService implements SmsService {
      */
     @Override
     public boolean sendCardApplySMS(String identityNo, String mobileNo, String channelCode) {
-       return  assemblySMS(identityNo, mobileNo, channelCode,cardApplyContent,bcspSmsCardApplyBsnType);
+        return assemblySMS(identityNo, mobileNo, channelCode, cardApplyContent, bcspSmsCardApplyBsnType);
     }
+
     /**
      * 发送预约办卡短信验证码
      *
@@ -89,21 +89,19 @@ public class SmsServiceImpl extends BaseService implements SmsService {
      */
     @Override
     public boolean sendInstallmentSMS(String identityNo, String mobileNo, String channelCode) {
-       return  assemblySMS(identityNo, mobileNo, channelCode,installmentContent,bcspSmsCardApplyBsnType);
+        return assemblySMS(identityNo, mobileNo, channelCode, installmentContent, bcspSmsCardApplyBsnType);
     }
 
 
     /**
-     *
-     * @param identityNo        证件号
-     * @param mobileNo          手机号
-     * @param channelCode       渠道号
-     * @param smsContent        短信模板
-     * @param bxnType           SMS模板类型
-     * @return                 是否发送和保存成功
+     * @param identityNo  证件号
+     * @param mobileNo    手机号
+     * @param channelCode 渠道号
+     * @param smsContent  短信模板
+     * @param bxnType     SMS模板类型
+     * @return 是否发送和保存成功
      */
-    private boolean assemblySMS(String identityNo, String mobileNo, String channelCode, String smsContent,String bxnType)
-    {
+    private boolean assemblySMS(String identityNo, String mobileNo, String channelCode, String smsContent, String bxnType) {
         String code = generateSMSCode();
         if (code == null || "".equals(code)) {
             logger.warn("为用户identityNo[{}]，mobile[{}]在渠道[{}]生成验证码失败", identityNo, mobileNo, channelCode);
@@ -117,13 +115,11 @@ public class SmsServiceImpl extends BaseService implements SmsService {
         param.put("content", content);
         BooleanResp result = httpClient.send(sendSMS, param, BooleanResp.class);
         //发送成功保存缓存
-        if (!result.getBizResult()) {
+        if (result != null && result.getBizResult()) {
             saveSMSCodeToCache(identityNo, mobileNo, channelCode, code);
         }
-        return result.getBizResult();
+        return result == null ? false : result.getBizResult();
     }
-
-
 
 
     @Override

@@ -26,6 +26,8 @@ public class CardApplyController extends BaseController {
 
     private static final String LIST_URL = "wechatbank_pages/CardApply/list";
     private static final String DETAIL_URL = "wechatbank_pages/CardApply/detail";
+    private static final String CHANNEL_CODE = "EBank_CardApply";
+
 
     @Autowired
     private CardApplyService cardApplyService;
@@ -83,9 +85,32 @@ public class CardApplyController extends BaseController {
      */
     @RequestMapping(value = "getMsgCode_ajax")
     @ResponseBody
-    public String getMsgCode_ajax() {
+    public String getMsgCode_ajax(HttpServletRequest request, String identityNo, String mobileNo, String verificationCode) {
         String result = "true";
-        smsService.sendCardApplySMS("", "","");
+        // Session中存储的验证码
+        String randomCode = (String) request.getSession().getAttribute("jcmsrandomchar");
+        // 验证图片验证码
+        if (verificationCode == null || !verificationCode.equalsIgnoreCase(randomCode)) {
+            return "errorCode";
+        }
+        // 验证要素是否为空
+        if (identityNo == null || identityNo.isEmpty() || mobileNo == null || mobileNo.isEmpty()) {
+            return "exception";
+        }
+        // 验证Token
+        if (!TokenUtil.validateCode(request)) {
+            TokenUtil.removeCode(request);
+            return "exception";
+        }
+        // 验证成功后Remove
+        TokenUtil.removeCode(request);
+        // 发送短信验证码
+        boolean sendResult = smsService.sendCardApplySMS(identityNo, mobileNo, CHANNEL_CODE);
+        // 如果发送失败，则重新生成Token并返回
+        if (!sendResult) {
+            TokenUtil.addToken(request);
+            result = sendResult + "," + request.getSession().getAttribute("keyInSession");
+        }
         return result;
     }
 
@@ -96,9 +121,8 @@ public class CardApplyController extends BaseController {
      */
     @RequestMapping(value = "checkMsgCode_ajax")
     @ResponseBody
-    public String checkMsgCode_ajax() {
-        // TODO QQ 完善验证短信验证码
-        String result = "true";
+    public String checkMsgCode_ajax(String identityNo, String mobileNo, String code) {
+        String result = Boolean.toString(smsService.checkSMSCode(identityNo, mobileNo, CHANNEL_CODE, code)).toLowerCase();
         return result;
     }
 
