@@ -10,8 +10,15 @@ object GCSProtocolTest extends App {
   val channelID = "WX01"
   // 账单寄送方式查询
   //  testTS010002()
+
+  // 信用卡挂失
+  //  testTS010052()
+
   // 账单寄送方式修改
-  testTS010056()
+  //  testTS010056()
+
+  // 临时挂失
+  //  testTS010059()
 
   def testTS010002(): Unit = {
     val cardNo = "5149580068840943"
@@ -20,10 +27,18 @@ object GCSProtocolTest extends App {
     println(resp)
   }
 
+  def testTS010052(): Unit = {
+    //TODO
+  }
+
   def testTS010056(): Unit = {
     val cardNo = "5149580068840943"
     val req = new TS010056(sessionID, channelID, cardNo, "C")
     val resp = req.send
     println(resp)
+  }
+
+  def testTS010059(): Unit = {
+    // TODO
   }
 }
