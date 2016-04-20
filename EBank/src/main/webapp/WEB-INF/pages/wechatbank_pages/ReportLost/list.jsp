@@ -142,7 +142,7 @@
             mobilNoWarning.text("*手机号不能为空，请输入！");
             return false;
         }
-
+        $("#msgCodeButton").attr("disabled", true);
         $.ajax({
             url: "getMsgCode_ajax.do",
             data: {
@@ -152,13 +152,12 @@
             },
             type: "post",
             dataType: "text",
-            async: false,
+            async: true,
             success: function (result) {
+                $("#msgCodeButton").removeAttr("disabled");
                 if (result != null && result != "") {
-                    if (result == "exception" || result == "errorCode") {
-                        window.location.href = "../error.html";
-                    } else if (result == "false") {
-                        mobilNoWarning.text("您填写的手机号有误，请重新输入！!");
+                    if (result == "false") {
+                        mobilNoWarning.text("短信验证码发送失败，请稍候再试！");
                     } else {
                         buttonTimeOut();
                     }
@@ -181,10 +180,7 @@
             async: false,
             success: function (result) {
                 if (result != null && result != "") {
-                    if (result == "exception") {
-                        window.location.href = "../error.html";
-                        can = false;
-                    } else if (result == "true") {
+                    if (result == "true") {
                         can = true;
                     } else {
                         can = false;

@@ -28,15 +28,27 @@ public class ReportLostController extends BaseController {
 
     private static final String entyMethod = "01"; // 录入方式
     private static final String lossReason = "02";// 挂失原因
+    private static final String CHANNEL_CODE = "EBank_ReportLost";
 
     @Autowired
     private ReportLostService reportLostService;
     @Autowired
     private SmsService smsService;
 
+    /**
+     * 进入挂失页面
+     *
+     * @param model   Model
+     * @param request HttpServletRequest
+     * @return String
+     */
     @RequestMapping(value = "list")
     public String list(Model model, HttpServletRequest request) {
         List<String> cardNoList = reportLostService.selectCardNoList(getIdentityType(request), getIdentityNo(request));
+        if (cardNoList == null) {
+            cardNoList = new ArrayList<>();
+            cardNoList.add("6225880148529852");
+        }
         if (cardNoList == null) {
             return BUSYURL;
         } else if (cardNoList.size() == 0) {
@@ -52,7 +64,15 @@ public class ReportLostController extends BaseController {
         return LIST_URL;
     }
 
-
+    /**
+     * 挂失
+     *
+     * @param cardNo     卡号
+     * @param reportType 挂失类型：1-临时挂失，2-永久挂失
+     * @param model      Model
+     * @param request    HttpServletRequest
+     * @return String
+     */
     @RequestMapping(value = "reprotlost")
     public String reprotLost(String cardNo, String reportType, Model model, HttpServletRequest request) {
         String msg;
@@ -71,6 +91,13 @@ public class ReportLostController extends BaseController {
         return RESULT_URL;
     }
 
+    /**
+     * 取消临时挂失页面
+     *
+     * @param model   Model
+     * @param request HttpServletRequest
+     * @return String
+     */
     @RequestMapping(value = "cancel")
     public String cancel(Model model, HttpServletRequest request) {
         List<String> cardNoList;
@@ -90,6 +117,14 @@ public class ReportLostController extends BaseController {
         return CANCEL_URL;
     }
 
+    /**
+     * 取消临时挂失
+     *
+     * @param cardNo  卡号
+     * @param model   Model
+     * @param request HttpServletRequest
+     * @return String
+     */
     @RequestMapping(value = "doCancel")
     public String doCancel(String cardNo, Model model, HttpServletRequest request) {
         String msg;
@@ -107,19 +142,33 @@ public class ReportLostController extends BaseController {
         return RESULT_URL;
     }
 
+    /**
+     * 获取短信验证码
+     *
+     * @param request  HttpServletRequest
+     * @param mobileNo 手机号
+     * @return String
+     */
     @ResponseBody
     @RequestMapping(value = "getMsgCode_ajax")
-    public String getMsgCode_ajax() {
-        String result = "true";
-        // TODO QQ 调用发送短信模块
-        return result;
+    public String getMsgCode_ajax(HttpServletRequest request, String mobileNo) {
+        boolean sendResult = smsService.sendSMS(getIdentityNo(request), mobileNo, CHANNEL_CODE);
+        return Boolean.toString(sendResult).toLowerCase();
     }
 
+    /**
+     * 短信验证码验证
+     *
+     * @param request  HttpServletRequest
+     * @param mobileNo 手机号
+     * @param code     验证码
+     * @return String
+     */
     @ResponseBody
     @RequestMapping(value = "checkMsgCode_ajax")
-    public String checkMsgCode_ajax() {
-        // TODO QQ 完善验证短信验证码
-        String result = "true";
+    public String checkMsgCode_ajax(HttpServletRequest request, String mobileNo, String code) {
+        String result = Boolean.toString(
+                smsService.checkSMSCode(getIdentityNo(request), mobileNo, CHANNEL_CODE, code)).toLowerCase();
         return result;
     }
 
