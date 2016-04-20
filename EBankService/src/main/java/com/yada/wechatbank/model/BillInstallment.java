@@ -7,7 +7,7 @@ import com.yada.wechatbank.base.BaseModel;
  * @author Tx
  */
 
-public class BillInstallment extends BaseModel {
+public class BillInstallment  {
 
 	//卡号
 	private String id;

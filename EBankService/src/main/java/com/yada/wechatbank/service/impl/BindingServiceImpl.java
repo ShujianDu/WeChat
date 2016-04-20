@@ -244,7 +244,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
 		SMSCodeManagement smsCode = new SMSCodeManagement();
 		openId = openId + idNumber;
 		smsCode.setSmsCode(code);
-		smsCode.setChannelCode("binding");
+		smsCode.setBizCode("binding");
 		//TODO 验证手机验证码
 //		if(SMSCodeManagementService.checkSMSCode(smsCode)==true){
 			//验证码输入正确，次数清零

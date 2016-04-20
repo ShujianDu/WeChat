@@ -116,7 +116,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
     }
 
     public BillCost getBillCost(String accountId, String accountNo, String currencyCode, String billLowerAmount, String billActualAmount, String installmentsNumber, String feeInstallmentsFlag) {
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = initDirectSaleParam();
         map.put("accountId", accountId);
         map.put("accountNo", accountNo);
         map.put("currencyCode", currencyCode);
@@ -129,7 +129,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 
     public boolean billInstallment(String accountId, String accountNo, String cardNo, String currencyCode, String billLowerAmount, String billActualAmount, String installmentsNumber, String feeInstallmentsFlag) {
         boolean returnRes;
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = initDirectSaleParam();
         map.put("accountId", accountId);
         map.put("accountNumber", accountNo);
         map.put("currencyCode", currencyCode);

@@ -34,4 +34,5 @@ public class DateUtil {
 		}
 		return new SimpleDateFormat(targetPattern).format(date);
 	}
+
 }

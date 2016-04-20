@@ -12,15 +12,15 @@ public class SMSCodeManagement {
 	//短信码
 	private String smsCode;
 	//渠道编号
-	private String channelCode;
+	private String bizCode;
 	//尝试次数
 	private int count=0;
 
-	public String getChannelCode() {
-		return channelCode;
+	public String getBizCode() {
+		return bizCode;
 	}
-	public void setChannelCode(String channelCode) {
-		this.channelCode = channelCode;
+	public void setBizCode(String bizCode) {
+		this.bizCode = bizCode;
 	}
 	public String getIdentityNo() {
 		return identityNo;
@@ -51,16 +51,16 @@ public class SMSCodeManagement {
 
 	public SMSCodeManagement(){}
 
-	public SMSCodeManagement(String identityNo, String mobile, String channelCode,String smsCode) {
+	public SMSCodeManagement(String identityNo, String mobile, String bizCode,String smsCode) {
 		this.identityNo = identityNo;
 		this.mobile = mobile;
 		this.smsCode = smsCode;
-		this.channelCode = channelCode;
+		this.bizCode = bizCode;
 	}
 
 	@Override
 	public String toString() {
-		return "SMSCodeManagement [" + " identityNo=" + identityNo + ", mobile=" + mobile + ", SmsCode=" + smsCode + ", ChannelCode=" + channelCode + ", count=" + count + "]";
+		return "SMSCodeManagement [" + " identityNo=" + identityNo + ", mobile=" + mobile + ", SmsCode=" + smsCode + ", ChannelCode=" + bizCode + ", count=" + count + "]";
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class SMSCodeManagement {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((identityNo == null) ? 0 : identityNo.hashCode());
-		result = prime * result + ((channelCode == null) ? 0 : channelCode.hashCode());
+		result = prime * result + ((bizCode == null) ? 0 : bizCode.hashCode());
 		return result;
 	}
 
@@ -92,10 +92,10 @@ public class SMSCodeManagement {
 				return false;
 		} else if (!mobile.equals(other.mobile))
 			return false;
-		if (channelCode == null) {
-			if (other.channelCode != null)
+		if (bizCode == null) {
+			if (other.bizCode != null)
 				return false;
-		} else if (!channelCode.equals(other.channelCode))
+		} else if (!bizCode.equals(other.bizCode))
 			return false;
 		return true;
 	}

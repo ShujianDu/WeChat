@@ -1,6 +1,8 @@
 package com.yada.wechatbank.service.impl;
 
+import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.model.BillSendType;
+import com.yada.wechatbank.model.CardInfo;
 import com.yada.wechatbank.service.BillingSendWayService;
 import com.yada.wechatbank.util.Crypt;
 import org.slf4j.Logger;
@@ -9,23 +11,23 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
-public class BillingSendWayServiceImpl implements BillingSendWayService{
+public class BillingSendWayServiceImpl extends BaseService implements BillingSendWayService{
 	private final Logger logger = LoggerFactory
 			.getLogger(this.getClass());
 	@Override
 	public List<BillSendType> getBillSendType(String identityType,String identityNo) {
 
-		//TODO 调取后台获取卡列表
-		List<String> cardNos=null;
+		List<CardInfo> cardNos=selectCardNos(identityType,identityNo);
 
 		List<BillSendType> list=new ArrayList<>();
 
 		//TODO 增加判断后台是否业务错误返回空情况
 
 		//TODO 获取卡对应的账单寄送方式地址
-		for(String cardNo:cardNos)
+		for(CardInfo cardNo:cardNos)
 		{
 
 			//list.add();
@@ -43,7 +45,10 @@ public class BillingSendWayServiceImpl implements BillingSendWayService{
 
 	@Override
 	public boolean updateBillSendType(String cardNo,String billSendType) {
-		//TODO 通过卡号和寄送方式到行内服务调取GCS修改
+		Map<String,String> map=initGcsParam();
+		map.put("cardNo", cardNo);
+		map.put("billSendType", billSendType);
+
 		return true;
 	}
 
