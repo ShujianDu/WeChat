@@ -4,11 +4,13 @@ import com.yada.sdk.gcs.protocol.GCSReq
 
 /**
   * 信用卡挂失
-  *   海淘卡挂失使用
+  * 海淘卡挂失使用
+  *
+  * @param cardNo 卡号
   */
-class TS010063(sessionId: String, channelId: String, cardNo: String) extends GCSReq{
+class TS010063(sessionId: String, channelId: String, cardNo: String) extends GCSReq {
 
-  setPageProps("cardNo",cardNo)
+  setPageProps("cardNo", cardNo)
 
   override def transactionID: String = "010063"
 
