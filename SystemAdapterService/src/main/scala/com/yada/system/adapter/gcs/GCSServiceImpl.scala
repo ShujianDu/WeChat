@@ -497,8 +497,7 @@ class GCSServiceImpl extends GCSService {
     * @return 历史分期查询结果
     */
   override def getHistoryInstallment(historyInstallmentParams: HistoryInstallmentParams): HistoryInstallmentResult = {
-    val ts011021 = new TS011021(historyInstallmentParams.sessionId,historyInstallmentParams.channelId,historyInstallmentParams.cardNo
-      ,historyInstallmentParams.startNumber,historyInstallmentParams.selectNumber)
+    val ts011021 = new TS011021(historyInstallmentParams.sessionId,historyInstallmentParams.channelId,historyInstallmentParams.cardNo,historyInstallmentParams.startNumber,historyInstallmentParams.selectNumber)()
     val rs = ts011021.send
     HistoryInstallmentResult(rs.pageValue("transactionNumber"),rs.pageValue("isFollowUp").toInt !=0 ,rs.pageListValues(props =>
       HistoryInstallmentEntity(props.getOrElse("cardNo",""),props.getOrElse("instalmentOriginalTransactionDate",""),props.getOrElse("instalmentRuleDescription",""),
