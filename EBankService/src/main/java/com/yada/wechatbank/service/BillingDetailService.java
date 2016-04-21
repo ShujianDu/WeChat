@@ -27,6 +27,6 @@ public interface BillingDetailService {
 	 *            币种
 	 * @return 账单明细集合
 	 */
-	public List<BillingDetail> getBillingDetail(String cardNo, String queryType, String STARTNUM, String TOTALNUM, String periodStartDate,
+	 List<BillingDetail> getBillingDetail(String cardNo, String queryType, String STARTNUM, String TOTALNUM, String periodStartDate,
 			String periodEndDate, String currencyCode);
 }
