@@ -47,6 +47,9 @@ object GCSProtocolTestApp extends App {
   // 消费分期查询
   //  testTS011007()
 
+  // 历史分期查询
+  //  testTS011021()
+
   /**
     * 账单寄送方式查询
     */
@@ -175,4 +178,18 @@ object GCSProtocolTestApp extends App {
     val resp = req.send
     println(resp)
   }
+
+  /**
+    * 历史分期查询
+    */
+  def testTS011021(): Unit = {
+    // TODO 交易没有返回交易列表
+    val cardNo = "5149580068840943"
+    val startNumber = "1"
+    val selectNumber = "10"
+    val req = new TS011021(sessionID, channelID, cardNo, startNumber, selectNumber)()
+    val resp = req.send
+    println(resp)
+  }
+
 }
