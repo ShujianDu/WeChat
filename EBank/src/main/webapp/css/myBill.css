@@ -1,76 +1,5 @@
-@charset "utf-8";
-	/* CSS Document */
-	/*@import "menu.css";*/
-	/** 清除内外边距  */
-	body, h1, h2, h3, h4, h5, h6, hr, p,
-	blockquote, /* structural elements 结构元素 */
-	dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
-	pre, /* text formatting elements 文本格式元素 */
-	form, fieldset, legend, button, input, textarea, /* form elements 表单元素 */
-	th, td, /* table elements 表格元素 */
-	img/* img elements 图片元素 */{
-	border:medium none;
-	margin: 0;
-	padding: 0;font-family:"微软雅黑";
-	}
-	/** 设置默认字体 **/
-	body,button, input, select, textarea {
-	font: 12px/1.5 '微软雅黑',tahoma, Srial, helvetica, sans-serif; }
-	h1, h2, h3, h4, h5, h6 { font-size: 100%; }
-	em{font-style:normal;}
-	/** 重置列表元素 **/
-	ul, ol { list-style: none;}
-	/** 重置超链接元素 **/
-	a { text-decoration: none; color:#000;}
-	/** 重置图片元素 **/
-	/** 重置表格元素 **/
-	table { border-collapse: collapse; border-spacing: 0; }
-	*{padding:0;margin:0;font-size:12px;}
-	button, input, select, textarea { font-size: 100%; margin: 0; vertical-align: baseline; *vertical-align: middle; }
-	img/* img elements 图片元素 */,select,option{
-	border:medium none;
-	margin: 0;
-	padding: 0;font-family:"微软雅黑";
-	list-style:none;border:none;
-	border:none;
-	background-color:none;
-	
-	overflow: hidden; /*隐藏了小三角，因为宽度为110px,而select宽度为130px*/border-width:0px;border-top-style: none; border-right-style: none; 
-border-left-style: none; 
-border-bottom-style: none;
-	}
-	button, input[type="button"], input[type="reset"], input[type="submit"] { cursor: pointer; -webkit-appearance: button; }
-	input[type="checkbox"], input[type="radio"] { box-sizing: border-box; }
-	input[type="search"] { -webkit-appearance: textfield; -moz-box-sizing: content-box; -webkit-box-sizing: content-box; box-sizing: content-box; }
-	input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
-	button::-moz-focus-inner, input::-moz-focus-inner { border: 0; padding: 0; }
-	textarea { overflow: auto; vertical-align: top; resize: vertical; }
-	select {
-  /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
 
-  /*很关键：将默认的select选择框样式清除*/
-  appearance:none;
-  -moz-appearance:none;
-  -webkit-appearance:none;
-
-  /*在选择框的最右侧中间显示小箭头图片*/
-  background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
-
-
-  /*为下拉小箭头留出一点位置，避免被文字覆盖*/
-  padding-right: 14px;
-	}
-	
-	
-	/*清除ie的默认选择框样式清除，隐藏下拉箭头*/
-	select::-ms-expand { display: none; }
-	
 	body{width:100%;background-color:#eeeeee;}
-	/*header*/
-	.header{width:100%;height:45px;background-color:#efefef;}
-	.header_logo{float:left;margin-left:16px;width:102px;margin-top:13px;}
-	.header_menu{float:right;margin-right:16px;width:18px;height:15px;margin-top:15px;background-image:url(../images/header_menu.png);background-size:100% 100%;}
-	
 	/*select*/
 	.control_card{font-size:13px;line-height:40px;color:#666666;padding-left:16px;width:100%;height:40px;list-style: none;background-image:url(../images/select_bg.png);background-size:100% 100%;}
 	 option{width:100%;height:40px;display:block;line-height:40px;display:block;font-size:24px;}
@@ -94,19 +23,11 @@ border-bottom-style: none;
 	.check_box .select_date .date_box .year{display:block;font-size:13px;width:70px;text-align:center;margin-top:6px;line-height:16px;}
 	.check_box .select_date .date_box .mounth{display:block;font-size:16px;width:70px;text-align:center;line-height:18px;}
 	.check_box .select_date .date_box .current_mounth{background-image:url(../images/date_bg1.png);color:#e05d4f;}
-	/*显示的价格*/
-	.view_value{width:100%;margin-top:10px;}
-		.view_value .value_title{color:#333333;font-size:16px;margin-left:16px;height:20px;}
-		.view_value{display:none;}
-		.view_value .value_box span{color:#999999;font-size:14px;margin-left:14px;line-height:40px;}
-		.view_value .value_box .value{color:#e05d4f;font-size:22px;position:absolute;left:25%;}
-		.view_value .value_box .value span{color:#e05d4f;font-size:22px;}
-		.view_value .value_box .check_dt{background-image:url(../images/check_dt.png);width:89px;height:28px;background-size:100% 100%;float:right;margin-top:8px;margin-right:16px;}
-		
+		.check_dt{background-image:url(../images/check_dt.png);width:89px;height:28px;background-size:100% 100%;float:right;margin-top:8px;margin-right:16px;margin-bottom:16px;}
 		/*未出账单*/
 	.noBill{margin-top:16px;display:block;width:96%;height:42px;background-image:url(../images/noBill_bg.png);line-height:42px;font-size:14px;background-size:100% 100%;padding-left:4%;color:#666666;margin-bottom:16px;}
 	/*还款形式和信息*/
-	.pay_box{width:100%;margin-top:16px;background-color:white;overflow:hidden;padding-bottom:20px;}
+	.pay_box{width:100%;margin-top:16px;background-color:white;padding-bottom:30px;}
 	.pay_box .lineGray{width:70%;height:1px;background-color:#eeeeee;margin-top:10px;margin-bottom:10px;margin-left:15%;}
 	.pay_box .pay_date{position:relative;padding-top:10px;margin-left:16px;font-size:14px;height:36px;color:#999999;}
 	.pay_box .pay_date #pay_date{color:#666666;position:absolute;left:90px;}
@@ -118,19 +39,3 @@ border-bottom-style: none;
 	.pay_box .pay_value span{font-size:16px;color:#e05d4f;display:block;}
 	.pay_box .stage_btn{width:120px;height:40px;float:left;margin-left:10%;background-color:#e05d4f;color:white;font-size:16px;line-height:40px;border-radius:6px;-webkit-border-radius:6px;-moz-border-radius:6px;margin-top:20px;}
 	.pay_box .spend_btn{width:120px;height:40px;float:right;margin-right:10%;background-color:#e05d4f;color:white;font-size:16px;line-height:40px;border-radius:6px;-webkit-border-radius:6px;-moz-border-radius:6px;margin-top:20px;}
-	/*bottom*/
-	.bottom_box{width:100%;height:100px;border-top:2px solid #b20429;-moz-border-top-colors:#b20429;background-color:white;}
-	.bottom_box .copy_a{height:40px;float:left;margin-left:16%;color:#666666;font-size:15px;line-height:40px;font-size:16px;}
-	.bottom_box .help_a{height:40px;float:right;margin-right:16%;color:#666666;font-size:15px;line-height:40px;font-size:16px;}
-	.bottom_box .hot_line{display:block;clear:both;color:#aaaaaa;font-size:13px;width:100%;text-align:center;line-height:24px;}
-	
-	.wait_box{width:100%;height:100%;position:fixed;background-image:url(../images/black.png);left:0;top:0;display:none;}
-	.wait_box .tip_box{width:72%;position:relative;left:14%;top:50%;margin-top:-100px;}
-	.wait_box .tip_box img{width:40px;height:40px;margin-left:auto;margin-right:auto;display:block;
-	}
-	
-	/*wait*/
-	.wait_box{width:100%;height:100%;position:fixed;background-image:url(../images/black.png);left:0;top:0;display:none;}
-	.wait_box .tip_box{width:72%;position:relative;left:14%;top:50%;margin-top:-100px;}
-	.wait_box .tip_box img{width:40px;height:40px;margin-left:auto;margin-right:auto;display:block;}
-	.wait_box .tip_box .wait_text{margin-left:auto;text-align:center;display:block;font-size:16px;color:#eeeeee;font-weight:bold;}
