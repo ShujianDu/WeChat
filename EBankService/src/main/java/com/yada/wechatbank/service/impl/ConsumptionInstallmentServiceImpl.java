@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import com.yada.wechatbank.client.model.ConsumptionInstallmentsResp;
 import com.yada.wechatbank.model.ConsumptionInstallments;
 import com.yada.wechatbank.model.ConsumptionInstallmentsesReceive;
 import com.yada.wechatbank.service.ConsumptionInstallmentService;
+import com.yada.wechatbank.util.CurrencyUtil;
 
 /**
  * 消费分期业务实现类
@@ -28,6 +30,8 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 	// 从配置文件读取消费分期交易金额下限
 	@Value("${consumptionInstallmentMinAmount}")
 	private String consumptionInstallmentMinAmount;
+	@Autowired
+	private CurrencyUtil currencyUtil;
 
 	@Override
 	public List<String> selectCardNoList(String identityType, String identityNo) {
@@ -59,11 +63,9 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 			// 交易金额---过滤出大于600的数据 借方、贷方---过滤出DEBT表示借方（例如，消费）
 			if (Double.parseDouble(consumptionInstallments.getTransactionAmount()) >= Double.parseDouble(consumptionInstallmentMinAmount)
 					&& "DEBT".equalsIgnoreCase(consumptionInstallments.getDebitCreditCode())) {
+				consumptionInstallments.setCurrencyChinaCode(currencyUtil.translateChinese(consumptionInstallments.getOriginalCurrencyCode()));
 				consumptionInstallmentsList.add(consumptionInstallments);
 			}
-		}
-		if (consumptionInstallmentsesReceive.getConsumptionInstallmentsList().size() == 0) {
-			return null;
 		}
 		map.put("consumptionInstallmentsList", consumptionInstallmentsList);
 		return map;

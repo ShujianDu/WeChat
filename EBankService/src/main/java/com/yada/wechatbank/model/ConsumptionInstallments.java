@@ -23,6 +23,36 @@ public class ConsumptionInstallments {
 	private String accountedID;
 	// 账户ID -供消费分期费用试算上送用
 	private String accountNoID;
+	// 清算币种
+	private String originalCurrencyCode;
+	// 清算金额
+	private String originalTransactionAmount;
+	// 币种中文描述
+	private String currencyChinaCode;
+
+	public String getCurrencyChinaCode() {
+		return currencyChinaCode;
+	}
+
+	public void setCurrencyChinaCode(String currencyChinaCode) {
+		this.currencyChinaCode = currencyChinaCode;
+	}
+
+	public String getOriginalCurrencyCode() {
+		return originalCurrencyCode;
+	}
+
+	public void setOriginalCurrencyCode(String originalCurrencyCode) {
+		this.originalCurrencyCode = originalCurrencyCode;
+	}
+
+	public String getOriginalTransactionAmount() {
+		return originalTransactionAmount;
+	}
+
+	public void setOriginalTransactionAmount(String originalTransactionAmount) {
+		this.originalTransactionAmount = originalTransactionAmount;
+	}
 
 	public String getCardNo() {
 		return cardNo;
@@ -86,13 +116,6 @@ public class ConsumptionInstallments {
 
 	public void setAccountNoID(String accountNoID) {
 		this.accountNoID = accountNoID;
-	}
-
-	@Override
-	public String toString() {
-		return "ConsumptionInstallments [cardNo=" + cardNo + ", transactionDate=" + transactionDate + ", transactionAmount=" + transactionAmount
-				+ ", debitCreditCode=" + debitCreditCode + ", transactionDescription=" + transactionDescription + ", accountID=" + accountID + ", accountedID="
-				+ accountedID + ", accountNoID=" + accountNoID + "]";
 	}
 
 }
