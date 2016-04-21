@@ -30,6 +30,16 @@ public class BillingSummaryQuery extends WcbBaseQuery {
 	private String date;
 	/** 账单类型 ALLT已出账单 UNSM未出账单 */
 	private String queryType;
+	/** 币种中文显示 */
+	private String currencyChinaCode;
+
+	public String getCurrencyChinaCode() {
+		return currencyChinaCode;
+	}
+
+	public void setCurrencyChinaCode(String currencyChinaCode) {
+		this.currencyChinaCode = currencyChinaCode;
+	}
 
 	public String getDate() {
 		return date;

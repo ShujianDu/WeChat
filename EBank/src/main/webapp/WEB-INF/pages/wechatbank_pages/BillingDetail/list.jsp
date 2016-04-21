@@ -17,8 +17,8 @@
 <body>
 	<div class="BillingDetails_content">
 	<div class="BillingDetails"><span class="name">
-	<c:if test="${queryType=='ALLT' }">已出账单明细</c:if>
-	<c:if test="${queryType=='UNSM' }">未出账单明细</c:if>
+	<c:if test="${model.queryType=='ALLT' }">已出账单明细</c:if>
+	<c:if test="${model.queryType=='UNSM' }">未出账单明细</c:if>
 	</span><span class="dynamicData" id="CardNumber">${fn:substring(cardNo, 0, 16)}</span></div>
 		<!--BillingDetails-->
 		<ul class="showMoreNChildren" id="showMoreNChildren">

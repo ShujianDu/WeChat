@@ -94,19 +94,11 @@ border-bottom-style: none;
 	.check_box .select_date .date_box .year{display:block;font-size:13px;width:70px;text-align:center;margin-top:6px;line-height:16px;}
 	.check_box .select_date .date_box .mounth{display:block;font-size:16px;width:70px;text-align:center;line-height:18px;}
 	.check_box .select_date .date_box .current_mounth{background-image:url(../images/date_bg1.png);color:#e05d4f;}
-	/*显示的价格*/
-	.view_value{width:100%;margin-top:10px;}
-		.view_value .value_title{color:#333333;font-size:16px;margin-left:16px;height:20px;}
-		.view_value{display:none;}
-		.view_value .value_box span{color:#999999;font-size:14px;margin-left:14px;line-height:40px;}
-		.view_value .value_box .value{color:#e05d4f;font-size:22px;position:absolute;left:25%;}
-		.view_value .value_box .value span{color:#e05d4f;font-size:22px;}
-		.view_value .value_box .check_dt{background-image:url(../images/check_dt.png);width:89px;height:28px;background-size:100% 100%;float:right;margin-top:8px;margin-right:16px;}
-		
-		/*未出账单*/
+	.check_dt{background-image:url(../images/check_dt.png);width:89px;height:28px;background-size:100% 100%;float:right;margin-top:8px;margin-right:16px;margin-bottom:16px;}
+	/*未出账单*/
 	.noBill{margin-top:16px;display:block;width:96%;height:42px;background-image:url(../images/noBill_bg.png);line-height:42px;font-size:14px;background-size:100% 100%;padding-left:4%;color:#666666;margin-bottom:16px;}
 	/*还款形式和信息*/
-	.pay_box{width:100%;margin-top:16px;background-color:white;overflow:hidden;padding-bottom:20px;}
+	.pay_box{width:100%;margin-top:16px;background-color:white;padding-bottom:30px;}
 	.pay_box .lineGray{width:70%;height:1px;background-color:#eeeeee;margin-top:10px;margin-bottom:10px;margin-left:15%;}
 	.pay_box .pay_date{position:relative;padding-top:10px;margin-left:16px;font-size:14px;height:36px;color:#999999;}
 	.pay_box .pay_date #pay_date{color:#666666;position:absolute;left:90px;}
