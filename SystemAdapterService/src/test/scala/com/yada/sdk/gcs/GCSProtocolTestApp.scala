@@ -50,6 +50,15 @@ object GCSProtocolTestApp extends App {
   // 历史分期查询
   //  testTS011021()
 
+  // 虚拟卡查询(分页)
+  //  testTS011031()
+
+  // 账单分期金额上下限查询
+  //  testTS011062()
+
+  // 根据证件号码或卡号查询客户信息
+  //  testTS011101()
+
   /**
     * 账单寄送方式查询
     */
@@ -183,7 +192,6 @@ object GCSProtocolTestApp extends App {
     * 历史分期查询
     */
   def testTS011021(): Unit = {
-    // TODO 交易没有返回交易列表
     val cardNo = "5149580068840943"
     val startNumber = "1"
     val selectNumber = "10"
@@ -192,4 +200,42 @@ object GCSProtocolTestApp extends App {
     println(resp)
   }
 
+
+  /**
+    * 虚拟卡查询(分页)
+    */
+  def testTS011031(): Unit = {
+    // TODO 当前查询都是无虚拟卡
+    val cardNo = "5149580068840943"
+    val startNum = "1"
+    val totalNum = "10"
+    val req = new TS011031(sessionID, channelID, cardNo, startNum, totalNum)()
+    val resp = req.send
+    println(resp)
+  }
+
+  /**
+    * 账单分期金额上下限查询
+    */
+  def testTS011062(): Unit = {
+    // TODO 当前查询是账户状态异常，不支持账单分期
+    val accountId = "001A0213064FF77E"
+    val currencyCode = "CNY"
+    val req = new TS011062(sessionID, channelID, accountId, currencyCode)()
+    val resp = req.send
+    println(resp)
+  }
+
+  /**
+    * 根据证件号码或卡号查询客户信息
+    */
+  def testTS011101(): Unit = {
+    val idNum = "AAP0191"
+    val idType = "SSNO"
+    val req = new TS011101(sessionID, channelID, None, Some(idType), Some(idNum))()
+    //    val cardNo = "5149580068840943"
+    //    val req = new TS011101(sessionID, channelID, Some(cardNo), None, None)()
+    val resp = req.send
+    println(resp)
+  }
 }

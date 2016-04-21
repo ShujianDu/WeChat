@@ -1,0 +1,114 @@
+package com.yada.sdk.gcs.protocol.impl
+
+import com.yada.sdk.gcs.GCSClient
+import org.mockito.Mockito
+import org.scalatest.mock.MockitoSugar
+import org.scalatest.{FlatSpec, Matchers}
+
+import scala.xml.XML
+
+/**
+  * 根据证件号码或卡号查询客户信息
+  */
+class TS011101Test extends FlatSpec with Matchers with MockitoSugar {
+
+  "TS011101" should "handle successful" in {
+    val sessionID = "93c4399ad67d925fa40d0693adb0a222"
+    val channelID = "WX01"
+    val idNum = "AAP0191"
+    val idType = "SSNO"
+    val resp =
+      """<?xml version="1.0" encoding="UTF-8"?>
+        |<GCS transactionID="011101" isRequest="false" isResponse="true">
+        |    <system>
+        |        <prop key="transactionCode" value="011101"/>
+        |        <prop key="transactionNumber" value="0020160421155336"/>
+        |        <prop key="txnTraceNumber" value="0012337648"/>
+        |        <prop key="transactionSessionId" value="93c4399ad67d925fa40d0693adb0a222"/>
+        |        <prop key="requestChannelId" value="WX01"/>
+        |        <prop key="txnBankCode" value="003"/>
+        |        <prop key="txnProvinceCode" value=""/>
+        |        <prop key="txnBranchCode" value="00003"/>
+        |        <prop key="txnCounterCode" value=""/>
+        |        <prop key="txnTerminalCode" value=""/>
+        |        <prop key="txnUserCode" value="wx0000000000"/>
+        |        <prop key="localBankTxnRequestTime" value="15:51:25"/>
+        |        <prop key="localBankTxnRequestDate" value="2016-04-21"/>
+        |        <prop key="localBankTxnResponseTime" value="15:51:26"/>
+        |        <prop key="localBankTxnResponseDate" value="2016-04-21"/>
+        |        <prop key="bocBankTxnRequestTime" value="15:51:25"/>
+        |        <prop key="bocBankTxnRequestDate" value="2016-04-21"/>
+        |        <prop key="bocBankTxnResponseTime" value="15:51:26"/>
+        |        <prop key="bocBankTxnResponseDate" value="2016-04-21"/>
+        |        <prop key="returnCode" value="+GC00000"/>
+        |        <prop key="returnMessage" value="Success"/>
+        |    </system>
+        |    <page key="RP011101">
+        |        <prop key="mobilePhone" value="13910150191"/>
+        |        <prop key="emailAddress" value="                                                  "/>
+        |        <prop key="workPhone" value="                              "/>
+        |        <prop key="familyName" value="AAP0191"/>
+        |        <prop key="firstName" value="                              "/>
+        |        <prop key="idType" value="03"/>
+        |        <prop key="idNum" value="AAP0191"/>
+        |    </page>
+        |</GCS>
+      """.stripMargin
+    val gcsClient = mock[GCSClient]
+    val protocol = new TS011101(sessionID, channelID, None, Some(idType), Some(idNum))(gcsClient)
+    val req = protocol.reqXML
+    Mockito.when(gcsClient.send(org.mockito.Matchers.any())).thenReturn(resp)
+    val reqXML = XML.loadString(req)
+    reqXML \@ "transactionID" shouldBe "011101"
+    reqXML \@ "isRequest" shouldBe "true"
+    reqXML \@ "isResponse" shouldBe "false"
+    reqXML \ "page" \@ "key" shouldBe "RQ011101"
+    val reqMap = (reqXML \\ "prop" map (node => {
+      node \@ "key" -> node \@ "value"
+    })).toMap
+    reqMap("txnTerminalCode") shouldBe ""
+    reqMap("requestChannelId") shouldBe "WX01"
+    reqMap("transactionSessionId") shouldBe "93c4399ad67d925fa40d0693adb0a222"
+    reqMap("txnBankCode") shouldBe "003"
+    reqMap("txnCounterCode") shouldBe ""
+    reqMap("transactionCode") shouldBe "011101"
+    reqMap("txnBranchCode") shouldBe "00003"
+    reqMap("txnProvinceCode") shouldBe ""
+    reqMap("txnUserCode") shouldBe "wx0000000000"
+    reqMap("transactionNumber") should not be ""
+    reqMap("idNum") shouldBe "AAP0191"
+    reqMap("idType") shouldBe "SSNO"
+
+    val respObj = protocol.send
+    respObj.systemValue("transactionCode") shouldBe "011101"
+    respObj.systemValue("transactionNumber") shouldBe "0020160421155336"
+    respObj.systemValue("txnTraceNumber") shouldBe "0012337648"
+    respObj.systemValue("transactionSessionId") shouldBe "93c4399ad67d925fa40d0693adb0a222"
+    respObj.systemValue("requestChannelId") shouldBe "WX01"
+    respObj.systemValue("txnBankCode") shouldBe "003"
+    respObj.systemValue("txnProvinceCode") shouldBe ""
+    respObj.systemValue("txnBranchCode") shouldBe "00003"
+    respObj.systemValue("txnCounterCode") shouldBe ""
+    respObj.systemValue("txnTerminalCode") shouldBe ""
+    respObj.systemValue("txnUserCode") shouldBe "wx0000000000"
+    respObj.systemValue("localBankTxnRequestTime") shouldBe "15:51:25"
+    respObj.systemValue("localBankTxnRequestDate") shouldBe "2016-04-21"
+    respObj.systemValue("localBankTxnResponseTime") shouldBe "15:51:26"
+    respObj.systemValue("localBankTxnResponseDate") shouldBe "2016-04-21"
+    respObj.systemValue("bocBankTxnRequestTime") shouldBe "15:51:25"
+    respObj.systemValue("bocBankTxnRequestDate") shouldBe "2016-04-21"
+    respObj.systemValue("bocBankTxnResponseTime") shouldBe "15:51:26"
+    respObj.systemValue("bocBankTxnResponseDate") shouldBe "2016-04-21"
+    respObj.systemValue("returnCode") shouldBe "+GC00000"
+    respObj.systemValue("returnMessage") shouldBe "Success"
+
+    respObj.pageValue("mobilePhone") shouldBe "13910150191"
+    respObj.pageValue("emailAddress").trim shouldBe ""
+    respObj.pageValue("workPhone").trim shouldBe ""
+    respObj.pageValue("familyName") shouldBe "AAP0191"
+    respObj.pageValue("firstName").trim shouldBe ""
+    respObj.pageValue("idType") shouldBe "03"
+    respObj.pageValue("idNum") shouldBe "AAP0191"
+
+  }
+}

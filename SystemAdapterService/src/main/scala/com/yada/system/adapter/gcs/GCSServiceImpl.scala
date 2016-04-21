@@ -402,7 +402,7 @@ class GCSServiceImpl extends GCSService {
     * @return 手机号
     */
   override def getCustMobile(custMobileParams: CustMobileParams): MobilePhoneResult = {
-    val ts011101 = new TS011101(custMobileParams.sessionId, custMobileParams.channelId, custMobileParams.idType, custMobileParams.idNum)()
+    val ts011101 = new TS011101(custMobileParams.sessionId, custMobileParams.channelId, None, Some(custMobileParams.idType), Some(custMobileParams.idNum))()
     MobilePhoneResult(ts011101.send.pageValue("mobilePhone"))
   }
 
@@ -497,15 +497,15 @@ class GCSServiceImpl extends GCSService {
     * @return 历史分期查询结果
     */
   override def getHistoryInstallment(historyInstallmentParams: HistoryInstallmentParams): HistoryInstallmentResult = {
-    val ts011021 = new TS011021(historyInstallmentParams.sessionId,historyInstallmentParams.channelId,historyInstallmentParams.cardNo,historyInstallmentParams.startNumber,historyInstallmentParams.selectNumber)()
+    val ts011021 = new TS011021(historyInstallmentParams.sessionId, historyInstallmentParams.channelId, historyInstallmentParams.cardNo, historyInstallmentParams.startNumber, historyInstallmentParams.selectNumber)()
     val rs = ts011021.send
-    HistoryInstallmentResult(rs.pageValue("transactionNumber"),rs.pageValue("isFollowUp").toInt !=0 ,rs.pageListValues(props =>
-      HistoryInstallmentEntity(props.getOrElse("cardNo",""),props.getOrElse("instalmentOriginalTransactionDate",""),props.getOrElse("instalmentRuleDescription",""),
-        props.getOrElse("currencyCode",""),props.getOrElse("instalmentOriginalAmount",""),props.getOrElse("instalmentOriginalNumber",""),
-        props.getOrElse("instalmentCompleteDate",""),props.getOrElse("instFeeFlag",""),props.getOrElse("instalmentFirstPostingAmount",""),
-        props.getOrElse("instalmentNextPostingAmount",""),props.getOrElse("instalmentPostedNumber",""),props.getOrElse("instalmentReversalAmount",""),
-        props.getOrElse("instalmentOutstandingNumber",""),props.getOrElse("instalmentOutstandingAmount",""),props.getOrElse("instalmentNextPostingDate","")
-        )
+    HistoryInstallmentResult(rs.pageValue("transactionNumber"), rs.pageValue("isFollowUp").toInt != 0, rs.pageListValues(props =>
+      HistoryInstallmentEntity(props.getOrElse("cardNo", ""), props.getOrElse("instalmentOriginalTransactionDate", ""), props.getOrElse("instalmentRuleDescription", ""),
+        props.getOrElse("currencyCode", ""), props.getOrElse("instalmentOriginalAmount", ""), props.getOrElse("instalmentOriginalNumber", ""),
+        props.getOrElse("instalmentCompleteDate", ""), props.getOrElse("instFeeFlag", ""), props.getOrElse("instalmentFirstPostingAmount", ""),
+        props.getOrElse("instalmentNextPostingAmount", ""), props.getOrElse("instalmentPostedNumber", ""), props.getOrElse("instalmentReversalAmount", ""),
+        props.getOrElse("instalmentOutstandingNumber", ""), props.getOrElse("instalmentOutstandingAmount", ""), props.getOrElse("instalmentNextPostingDate", "")
+      )
     ))
   }
 }

@@ -4,9 +4,11 @@ import com.yada.sdk.gcs.GCSClient
 import com.yada.sdk.gcs.protocol.GCSReq
 
 /**
-  * 根据卡号查询所有客户信息和卡信息
-  * “卡号”或“证件类型，证件号码”必须有一组必输
-  *
+  * 根据卡号或证件查询“所有”客户信息和卡信息<br>
+  * “卡号”或“证件类型，证件号码”必须有一组必输<br>
+  * 能查询到的客户相关信息包括：idType（证件类型）；idNum（证件号）；customerName（客户姓名）；
+  * customerNo（客户号）；customerType（客户类型）；vipFlag（VIP标识）；vipCustomer（重要客户标识）；
+  * @see com.yada.sdk.gcs.protocol.impl.TS011101
   * @param sessionID          交易会话标识，用来表示客户访问身份
   * @param channelID          交易请求渠道标识
   * @param cardNo             卡号
