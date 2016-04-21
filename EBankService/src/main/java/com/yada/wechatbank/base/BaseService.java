@@ -17,97 +17,93 @@ import com.yada.wechatbank.model.CardInfo;
  */
 public class BaseService {
 
-	@Autowired
-	protected HttpClient httpClient;
+    @Autowired
+    protected HttpClient httpClient;
 
-	// 直销系统参数
-	@Value("${zx.txnId}")
-	private String txnId;
-	@Value("${zx.deviceType}")
-	private String deviceType;
-	@Value("${zx.deviceToken}")
-	private String deviceToken;
-	@Value("${zx.imei}")
-	private String imei;
-	@Value("${zx.channelNo}")
-	private String channelNo;
+    // 直销系统参数
+    @Value("${zx.txnId}")
+    private String txnId;
+    @Value("${zx.deviceType}")
+    private String deviceType;
+    @Value("${zx.deviceToken}")
+    private String deviceToken;
+    @Value("${zx.imei}")
+    private String imei;
+    @Value("${zx.channelNo}")
+    private String channelNo;
 
-	// GCS参数
-	@Value("${gcs.sessionId}")
-	private String gcsSessionId;
-	@Value("${gcs.channelId}")
-	private String gcsChannelId;
+    // GCS参数
+    @Value("${gcs.sessionId}")
+    private String gcsSessionId;
+    @Value("${gcs.channelId}")
+    private String gcsChannelId;
 
-	// 获取卡信息
-	@Value("${url.getCardInfos}")
-	protected String getCardInfos;
+    // 获取卡信息
+    @Value("${url.getCardInfos}")
+    protected String getCardInfos;
 
-	/**
-	 * 构建直销系统参数
-	 *
-	 * @return Map<String, String>
-	 */
-	public Map<String, String> initDirectSaleParam() {
-		Map<String, String> param = new HashMap<>();
-		param.put("txnId", txnId);
-		param.put("deviceType", deviceType);
-		param.put("deviceToken", deviceToken);
-		param.put("imei", imei);
-		param.put("channelNo", channelNo);
-		return param;
-	}
+    /**
+     * 构建直销系统参数
+     *
+     * @return Map<String, String>
+     */
+    public Map<String, String> initDirectSaleParam() {
+        Map<String, String> param = new HashMap<>();
+        param.put("txnId", txnId);
+        param.put("deviceType", deviceType);
+        param.put("deviceToken", deviceToken);
+        param.put("imei", imei);
+        param.put("channelNo", channelNo);
+        return param;
+    }
 
-	/**
-	 * 初始化GCS参数
-	 *
-	 * @return
-	 */
-	public Map<String, String> initGcsParam() {
-		Map<String, String> param = new HashMap<>();
-		param.put("sessionId", gcsSessionId);
-		param.put("channelId", gcsChannelId);
-		return param;
-	}
+    /**
+     * 初始化GCS参数
+     *
+     * @return
+     */
+    public Map<String, String> initGcsParam() {
+        Map<String, String> param = new HashMap<>();
+        param.put("sessionId", gcsSessionId);
+        param.put("channelId", gcsChannelId);
+        return param;
+    }
 
-	/**
-	 * 根据证件号和证件类型查询卡列表
-	 *
-	 * @param identityType
-	 *            证件类型
-	 * @param identityNo
-	 *            证件号
-	 * @return List<CardInfo>
-	 */
-	public List<CardInfo> selectCardNos(String identityType, String identityNo) {
-		Map<String, String> map = initGcsParam();
-		map.put("idType", identityType);
-		map.put("idNum", identityNo);
-		CardInfoResp cardInfoResp = httpClient.send(getCardInfos, map, CardInfoResp.class);
-		return cardInfoResp.getBizResult();
-	}
+    /**
+     * 根据证件号和证件类型查询卡列表
+     *
+     * @param identityType 证件类型
+     * @param identityNo   证件号
+     * @return List<CardInfo>
+     */
+    public List<CardInfo> selectCardNos(String identityType, String identityNo) {
+        Map<String, String> map = initGcsParam();
+        map.put("idType", identityType);
+        map.put("idNum", identityNo);
+        CardInfoResp cardInfoResp = httpClient.send(getCardInfos, map, CardInfoResp.class);
+        return cardInfoResp == null ? null : cardInfoResp.getBizResult();
+    }
 
-	/**
-	 * 根据证件号和证件类型查询卡号列表
-	 *
-	 * @param identityType
-	 *            证件类型
-	 * @param identityNo
-	 *            证件号
-	 * @return List<String>
-	 */
-	public List<String> selectCardNoList(String identityType, String identityNo) {
-		Map<String, String> map = initGcsParam();
-		map.put("idType", identityType);
-		map.put("idNum", identityNo);
-		CardInfoResp cardInfoResp = httpClient.send(getCardInfos, map, CardInfoResp.class);
-		if (cardInfoResp == null) {
-			return null;
-		}
-		List<String> cardNoList = new ArrayList<>();
-		for (int i = 0; i < cardInfoResp.getBizResult().size(); i++) {
-			cardNoList.add(cardInfoResp.getBizResult().get(i).getCardNo());
-		}
-		return cardNoList;
-	}
+    /**
+     * 根据证件号和证件类型查询卡号列表
+     *
+     * @param identityType 证件类型
+     * @param identityNo   证件号
+     * @return List<String>
+     */
+    public List<String> selectCardNoList(String identityType, String identityNo) {
+        Map<String, String> map = initGcsParam();
+        map.put("idType", identityType);
+        map.put("idNum", identityNo);
+        CardInfoResp cardInfoResp = httpClient.send(getCardInfos, map, CardInfoResp.class);
+        if (cardInfoResp == null) {
+            return null;
+        }
+        List<String> cardNoList = new ArrayList<>();
+        for (int i = 0; i < cardInfoResp.getBizResult().size(); i++) {
+            cardNoList.add(cardInfoResp.getBizResult().get(i).getCardNo());
+        }
+        return cardNoList;
+    }
 
 }
