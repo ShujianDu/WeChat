@@ -41,6 +41,9 @@ object GCSProtocolTestApp extends App {
   // 未出账单/已出账单某账期交易查询（带存入/支出）
   //  testTS010310()
 
+  // 根据卡号查询所有客户信息和卡信息
+  testTS011005()
+
   /**
     * 账单寄送方式查询
     */
@@ -142,6 +145,16 @@ object GCSProtocolTestApp extends App {
     val startDate = "2022-09-11"
     val endDate = "2022-10-10"
     val req = new TS010310(sessionID, channelID, cardNo, currencyCode, queryType, startNum, totalNum, startDate, endDate)()
+    val resp = req.send
+    println(resp)
+  }
+
+  /**
+    * 根据卡号查询所有客户信息和卡信息
+    */
+  def testTS011005(): Unit = {
+    val cardNo = "5149580068840943"
+    val req = new TS011005(sessionID, channelID, Some(cardNo), None, None, "1", "10")()
     val resp = req.send
     println(resp)
   }
