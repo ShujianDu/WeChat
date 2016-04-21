@@ -7,10 +7,9 @@ import java.io.Serializable;
  * @author zm
  *
  */
-public class HistoryInstallment implements Serializable{
+public class HistoryInstallment {
 
-	private static final long serialVersionUID = -5925837661240179159L;
-	
+
 	//卡号
 	private String cardNo;
 	//分期付款交易日期(页面：分期日期)

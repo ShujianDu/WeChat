@@ -10,13 +10,15 @@ import com.yada.wechatbank.model.CardInfo;
 import com.yada.wx.db.service.dao.CustomerInfoDao;
 import com.yada.wx.db.service.model.CustomerInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class PermitHander  extends BaseService{
 	@Autowired
 	protected CustomerInfoDao customerInfoDao;
-
+	@Value("${url.verificationPWD}")
+	private String verificationPWD;
 	/**
 	 *
 	 * @param identityNo 证件号
@@ -26,16 +28,10 @@ public class PermitHander  extends BaseService{
      */
 	public boolean hasPermits(String identityNo, String password,String identityType) {
 		String cardNo ="";
-		//通过证件号去数据库查询默认卡
-		List<CustomerInfo> cusList = customerInfoDao.findByIdentityNo(identityNo);
-		if(cusList!=null && cusList.size()!=0){
-			cardNo=cusList.get(0).getDefCardNo();
-		}else{
-			//通过证件号和证件类型去后台查询卡号
-			List<CardInfo> cardInfoList = selectCardNos(identityNo,identityType);
-			if(cardInfoList!=null && cardInfoList.size()!=0) {
-                cardNo = cardInfoList.get(0).getCardNo();
-            }
+		//通过证件号和证件类型去后台查询卡号
+		List<CardInfo> cardInfoList = selectCardNos(identityNo,identityType);
+		if(cardInfoList!=null && cardInfoList.size()!=0) {
+			cardNo = cardInfoList.get(0).getCardNo();
 		}
 		if(cardNo == null || "".equals(cardNo)){//获取卡号为空
 			return false;
@@ -45,7 +41,7 @@ public class PermitHander  extends BaseService{
             map.put("cardNo",cardNo);
             map.put("pwd",password);
 			//调用后台验密
-            BooleanResp booleanResp = httpClient.send("",map,BooleanResp.class);
+            BooleanResp booleanResp = httpClient.send("verificationPWD",map,BooleanResp.class);
             if(!booleanResp.getBizResult()){
                 return false;
             }

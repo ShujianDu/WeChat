@@ -83,17 +83,8 @@ public interface BindingService {
      * @param identityType 证件类型
      * @return 手机号码
      */
-    String getBinDingSendCode(String identityNo, String identityType, String mobilNo);
+    String vaidateMobilNo(String identityNo, String identityType, String mobilNo);
 
-    /**
-     * 验证绑定的短信验证码
-     *
-     * @param openId   openId
-     * @param idNumber 证件号
-     * @param code     验证码
-     * @return 验证结果
-     */
-    boolean bindingVerificationCode(String openId, String idNumber, String code);
 
     /**
      * 补充证件类型是否正确

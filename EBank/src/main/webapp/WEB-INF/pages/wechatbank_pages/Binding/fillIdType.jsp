@@ -75,10 +75,10 @@
 	function validate_form() {
 		var isClicked = false;
 		if (isClicked == false) {
-			var idType = document.getElementById("idType");
-			var idTypeWarning = document.getElementById("idTypeWarning");
-			if (idType.value == null || idType.value == "") {
-				idTypeWarning.innerHTML = "请您选择证件类型后再继续操作";
+			var idType = $("#idType").val();
+			var idTypeWarning = $("#idTypeWarning");
+			if (idType == null || idType == "") {
+				idTypeWarning.text("请您选择证件类型后再继续操作");
 				return false;
 			}
 			isClicked = true;
@@ -86,9 +86,7 @@
 		} else {
 			return false;
 		}
-
 	}
-
 	</script>
 </body>
 </html>

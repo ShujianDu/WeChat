@@ -41,6 +41,15 @@ object GCSProtocolTestApp extends App {
   // 未出账单/已出账单某账期交易查询（带存入/支出）
   //  testTS010310()
 
+  // 根据卡号查询所有客户信息和卡信息
+  //  testTS011005()
+
+  // 消费分期查询
+  //  testTS011007()
+
+  // 历史分期查询
+  //  testTS011021()
+
   /**
     * 账单寄送方式查询
     */
@@ -145,4 +154,42 @@ object GCSProtocolTestApp extends App {
     val resp = req.send
     println(resp)
   }
+
+  /**
+    * 根据卡号查询所有客户信息和卡信息
+    */
+  def testTS011005(): Unit = {
+    val cardNo = "5149580068840943"
+    val req = new TS011005(sessionID, channelID, Some(cardNo), None, None, "1", "10")()
+    val resp = req.send
+    println(resp)
+  }
+
+  /**
+    * 消费分期查询
+    */
+  def testTS011007(): Unit = {
+    // TODO 交易没有返回交易列表
+    val cardNo = "5149580068840943"
+    val currencyCode = "CNY"
+    val startNumber = "1"
+    val selectNumber = "10"
+    val req = new TS011007(sessionID, channelID, cardNo, currencyCode, startNumber, selectNumber)()
+    val resp = req.send
+    println(resp)
+  }
+
+  /**
+    * 历史分期查询
+    */
+  def testTS011021(): Unit = {
+    // TODO 交易没有返回交易列表
+    val cardNo = "5149580068840943"
+    val startNumber = "1"
+    val selectNumber = "10"
+    val req = new TS011021(sessionID, channelID, cardNo, startNumber, selectNumber)()
+    val resp = req.send
+    println(resp)
+  }
+
 }

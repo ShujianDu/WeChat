@@ -157,109 +157,107 @@
 <script type="text/javascript">
     var isClicked = false;
     function validate_form() {
-
-        spanMess.innerHTML = "";
-        var idNumber = document.getElementById("idNumber");
-        var idType = document.getElementById("idType");
-        var mobileCode = document.getElementById("mobileCode");
-        var passwordQuery = document.getElementById("passwordQuery");
-        var verificationCode = document
-                .getElementById("verificationCode");
-        var check = document.getElementById("check");
-        var sending = document.getElementById("sending");
-
-        var spanMess = document.getElementById("spanMess");
-        if (idType.value == null || idType.value == "") {
-            spanMess.innerHTML = "请您选择证件类型后再继续操作";
+        var idNumber = $("#idNumber").val();
+        var idType = $("#idType").val();
+        var mobileCode = $("#mobileCode").val();
+        var passwordQuery = $("#passwordQuery").val();
+        var verificationCode = $("#verificationCode").val();
+        var check = $("#check");
+        var sending = $("#sending");
+        var spanMess = $("#spanMess");
+        spanMess.text("");
+        if (idType == null || idType == "") {
+            spanMess.text("请您选择证件类型后再继续操作");
             return false;
         }
-        if (idNumber.value == null || idNumber.value == "") {
-            spanMess.innerHTML = "证件号不能为空，请输入！";
+        if (idNumber == null || idNumber == "") {
+            spanMess.text("证件号不能为空，请输入！");
             return false;
         }
 
-        if (passwordQuery.value == null || passwordQuery.value == "") {
-            spanMess.innerHTML = "查询密码不能为空，请输入！";
+        if (passwordQuery == null || passwordQuery == "") {
+            spanMess.text("查询密码不能为空，请输入！");
             return false;
         }
         var pswReg = /(^\d{6}$)/;
-        if (pswReg.test(passwordQuery.value) == false) {
-            spanMess.innerHTML = "查询密码格式不正确，请重新输入！";
+        if (pswReg.test(passwordQuery) == false) {
+            spanMess.text("查询密码格式不正确，请重新输入！");
             return false;
         }
-        if (verificationCode.value == null
-                || verificationCode.value == "") {
-            spanMess.innerHTML = "附加验证码不能为空，请输入！";
+        if (verificationCode == null
+                || verificationCode == "") {
+            spanMess.text("附加验证码不能为空，请输入！");
             return false;
         }
-        var mobileCodeValue = mobileCode.value.replace(/\s/gi, '');
+        var mobileCodeValue = mobileCode.replace(/\s/gi, '');
         if (mobileCodeValue == null || mobileCodeValue == "") {
-            spanMess.innerHTML = "手机验证码不能为空，请输入！";
+            spanMess.text("手机验证码不能为空，请输入！");
             return false;
         }
         if (check.checked == "") {
-            spanMess.innerHTML = "请勾选已阅读免责声明！";
+            spanMess.text( "请勾选已阅读免责声明！");
             return false;
         }
-        sending.style.visibility = "visible";
+        sending.css("visibility", "visible");
         isClicked = true;
         return true;
     }
 
     function changeWarning() {
-        document.getElementById("spanMess").innerHTML = "";
-        var bindWarning = document.getElementById("bindWarning");
-        if (bindWarning) {
-            bindWarning.style.display = "none";
-        }
+        var spanMess = $("#spanMess");
+        spanMess.text("");
+        var bindWarning = $("#bindWarning");
+        bindWarning.css("visibility","hidden");
     }
 
     function getMobileCodeFunction() {
-        var openId = document.getElementById("openId").value;
-        var idType = document.getElementById("idType").value;
-        var identityNo = document.getElementById("idNumber").value;
-        var mobilNo = document.getElementById("mobilNo").value;
-        var verificationCode = document.getElementById("verificationCode").value;
-        var spanMess = document.getElementById("spanMess").value;
+        var keycode = $("#keycode").val();
+        var idType = $("#idType").val();
+        var identityNo = $("#idNumber").val();
+        var mobilNo = $("#mobilNo").val();
+        var verificationCode = $("#verificationCode").val();
+        var spanMess = $("#spanMess");
         if (idType == null || idType == "") {
-            document.getElementById("spanMess").innerHTML = "请选择证件类型";
+            spanMess.text("请选择证件类型");
             return false;
         }
         if (identityNo == null || identityNo == "") {
-            document.getElementById("spanMess").innerHTML = "请输入证件号码";
+            spanMess.text("请输入证件号码");
             return false;
         }
         if (mobilNo == null || mobilNo == "") {
-            spanMess.innerHTML = "手机号不能为空，请输入！";
+            spanMess.text("手机号不能为空，请输入！");
             return false;
         }
         if (verificationCode == null || verificationCode == "") {
-            spanMess.innerHTML = "附加验证码不能为空，请输入！";
+            spanMess.text("附加验证码不能为空，请输入！");
             return false;
         }
         failureSendSMS = "";
-        var xmlhttp;
-        if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-            xmlhttp = new XMLHttpRequest();
-        } else {// code for IE6, IE5
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        //获得来自服务器的响应
-        var result;
-        xmlhttp.onreadystatechange = function () {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                result = xmlhttp.responseText;
+        $.ajax({
+            url: "getSMSCode_ajax.do",
+            data: {
+                idType: idType,
+                identityNo: identityNo,
+                verificationCode: encodeURI(verificationCode),
+                keycode: keycode,
+                timestamp: new Date().getTime()
+            },
+            type: "post",
+            dataType: "text",
+            async: false,
+            success: function (result) {
                 if (result != null && result != "") {
-                    resultIndex = result.indexOf(",")
+                    var resultIndex = result.indexOf(",")
                     if (resultIndex != -1) {
-                        resultOne = result.substring(resultIndex + 1);
-                        document.getElementById("keycode").value = resultOne;
+                        var resultOne = result.substring(resultIndex + 1);
+                        $("#keycode").value = resultOne;
                         result = result.substring(0, resultIndex);
                     }
                     if (result == "exception" || result == "false") {
                         failureSendSMS = "false";
                         i = 0;
-                        document.getElementById("spanMess").innerHTML = "证件号错误，请核对证件号！";
+                        spanMess.text("证件号错误，请核对证件号！");
                     } else if (result == "locked") {
                         window.location.href = "./locked.do";
                     } else if (result == "keycodeexception") {
@@ -267,55 +265,48 @@
                     } else if (result == "noMobileNumber") {
                         failureSendSMS = "false";
                         i = 0;
-                        document.getElementById("spanMess").innerHTML = "未获取到您申请时填写的手机号！";
+                        spanMess.text("未获取到您申请时填写的手机号！");
                     } else if (result == "wrongMobilNo") {
-                        document.getElementById("spanMess").innerHTML = "您填写的手机号有误，请重新输入!";
+                        spanMess.text("您填写的手机号有误，请重新输入!");
                     } else if (result == "errorCode") {
-                        document.getElementById("spanMess").innerHTML = "您填写的验证码有误，请重新输入！";
+                        spanMess.text("您填写的验证码有误，请重新输入！");
                     } else {
                         buttonTimeOut();
                     }
                 }
             }
-        }
-        var keycode = document.getElementById("keycode").value;
-        xmlhttp.open("POST", "getSMSCode_ajax.do?openId=" + openId
-                + "&idType=" + idType + "&identityNo=" + identityNo
-                + "&mobilNo=" + mobilNo + "&verificationCode="
-                + encodeURI(verificationCode) + "&date="
-                + new Date().getTime() + "&keycode=" + keycode, true);
-        xmlhttp.send();
+        });
     }
 
     var i = 60;
     var failureSendSMS = "";
     function buttonTimeOut() {
-        var msgCodeButton = document.getElementById("getMobileCodeButton");
+        var msgCodeButton = $("#getMobileCodeButton");
         i--;
         if (i <= 0) {
             i = 60;
             if (failureSendSMS == "") {
-                msgCodeButton.disabled = "";
-                msgCodeButton.value = "重新获取";
+                msgCodeButton.attr("disabled", false);
+                msgCodeButton.val("重新获取")
             }
         } else {
-            msgCodeButton.disabled = "disabled";
-            msgCodeButton.value = i + "秒";
+            msgCodeButton.attr("disabled", true);
+            msgCodeButton.val(i + "秒");
             setTimeout("buttonTimeOut()", 1000);
         }
     }
 
     var j = 30;
     function disabledButton() {
-        var smsCodeButton = document.getElementById("getMobileCodeButton");
+        var smsCodeButton = $("#getMobileCodeButton");
         j--;
         if (j <= 0) {
             j = 30;
-            smsCodeButton.disabled = "";
-            smsCodeButton.value = "获取验证码";
+            smsCodeButton.attr("disabled", false);
+            smsCodeButton.val("获取验证码");
         } else {
-            smsCodeButton.disabled = "disabled";
-            smsCodeButton.value = j + "秒";
+            smsCodeButton.attr("disabled", true);
+            smsCodeButton.val(j + "秒")
             setTimeout("disabledButton()", 1000);
         }
     }
