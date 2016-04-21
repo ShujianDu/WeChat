@@ -2,7 +2,9 @@ package com.yada.wechatbank.service.impl;
 
 import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.HttpClient;
+import com.yada.wechatbank.client.model.PointsBalanceResp;
 import com.yada.wechatbank.client.model.PointsValidatesResp;
+import com.yada.wechatbank.model.PointsBalance;
 import com.yada.wechatbank.model.PointsDetail;
 import com.yada.wechatbank.client.model.PointsDetailResp;
 import com.yada.wechatbank.model.CardInfo;
@@ -32,20 +34,33 @@ public class PointsServiceImpl extends BaseService implements PointsService {
     private String getPointsDetails;
     @Value("${url.getPointsValidates}")
     private String getPointsValidates;
+    @Value("${url.getBalance}")
+    private String getBalance;
+
+    /**
+     * 获取账户积分余额
+     * @param identityNo 证件号
+     * @param identityType 证件类型
+     * @return
+     */
+    @Override
+    public PointsBalance getPointsBlance(String identityNo, String identityType) {
+        String cardNo = getCardNo(identityNo,identityType);
+        Map<String,String> map = new HashMap<>();
+        map.put("cardNo",cardNo);
+        PointsBalanceResp pointsBlanceResp = httpClient.send("getBalance",map,PointsBalanceResp.class);
+        return pointsBlanceResp.getPointsBlance();
+    }
+
+    /**
+     * 获取积分明细
+     * @param identityNo 证件号
+     * @param identityType 证件类型
+     * @return
+     */
     @Override
     public List<PointsDetail> getPointsDetail(String identityNo,String identityType) {
-        String cardNo ="";
-        //通过证件号去数据库查询默认卡
-        List<CustomerInfo> cusList = customerInfoDao.findByIdentityNo(identityNo);
-        if(cusList!=null && cusList.size()!=0){
-            cardNo=cusList.get(0).getDefCardNo();
-        }else{
-            //通过证件号和证件类型去后台查询卡号
-            List<CardInfo> cardInfoList = selectCardNos(identityNo,identityType);
-            if (cardInfoList!=null && cardInfoList.size()!=0){
-                cardNo=cardInfoList.get(0).getCardNo();
-            }
-        }
+        String cardNo = getCardNo(identityNo,identityType);
         //查询积分明细
         Map<String,String> map = new HashMap<>();
         map.put("cardNo",cardNo);
@@ -92,6 +107,11 @@ public class PointsServiceImpl extends BaseService implements PointsService {
         return newList;
     }
 
+    /**
+     * 获取积分有效期
+     * @param cardNo 卡号
+     * @return
+     */
     @Override
     public List<PointsValidates> getPointsValidates(String cardNo) {
         Map<String,String> map = new HashMap<>();
@@ -101,4 +121,25 @@ public class PointsServiceImpl extends BaseService implements PointsService {
         return pointsValidatesResp.getBizResult();
     }
 
+    /**
+     * 获取手机号
+     * @param identityNo
+     * @param identityType
+     * @return
+     */
+    private String getCardNo(String identityNo, String identityType){
+        String cardNo ="";
+        //通过证件号去数据库查询默认卡
+        List<CustomerInfo> cusList = customerInfoDao.findByIdentityNo(identityNo);
+        if(cusList!=null && cusList.size()!=0){
+            cardNo=cusList.get(0).getDefCardNo();
+        }else{
+            //通过证件号和证件类型去后台查询卡号
+            List<CardInfo> cardInfoList = selectCardNos(identityNo,identityType);
+            if (cardInfoList!=null && cardInfoList.size()!=0){
+                cardNo=cardInfoList.get(0).getCardNo();
+            }
+        }
+        return cardNo;
+    }
 }

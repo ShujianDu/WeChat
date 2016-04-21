@@ -16,24 +16,24 @@
 		var cityId = "${model.cityId}";
 		var areaId = "${model.areaId}";
 		if (provId != null && provId != "") {
-			var provSelect = document.getElementById("provSelect");
+			var provSelect = $("#provSelect");
 			select(provSelect, provId);
 		}
 		if (cityId != null && cityId != "") {
-			var citySelect = document.getElementById("citySelect");
-			document.getElementById("citySelect").disabled = "";
+			var citySelect = $("#citySelect");
+			$("#citySelect").attr("disabled","");
 			select(citySelect, cityId);
 		}
 		if (areaId != null && areaId != "") {
-			var areaSelect = document.getElementById("areaSelect");
-			document.getElementById("areaSelect").disabled = "";
+			var areaSelect = $("#areaSelect");
+			$("#areaSelect").attr("disabled","");
 			select(areaSelect, areaId);
 		}
 	}
 	function select(objSelect, id) {
 		for ( var i = 0; i < objSelect.length; i++) {
 			if (id == objSelect[i].value) {
-				objSelect[i].selected = "selected";
+				objSelect[i].attr("selected",true);
 			}
 		}
 	}
@@ -128,27 +128,27 @@
 	</div>
 	<script type="text/javascript">
 		var isClicked = false;
-		var provSelect = document.getElementById("provSelect");
-		var citySelect = document.getElementById("citySelect");
-		var areaSelect = document.getElementById("areaSelect");
+		var provSelect = $("#provSelect");
+		var citySelect = $("#citySelect");
+		var areaSelect = $("#areaSelect");
 		function validate_form() {
 			if (isClicked == false) {
 				if (provSelect.value == null || provSelect.value == "") {
-					document.getElementById("provWarning").innerHTML = "请选择省市！";
+					$("#provWarning").text("请选择省市！");
 					return false;
 				}
 				if (citySelect.value == null || citySelect.value == "") {
-					document.getElementById("cityWarning").innerHTML = "请选择市区！";
+					$("#cityWarning").text("请选择市区！");
 					return false;
 				}
 				if (areaSelect.value == null || areaSelect.value == "") {
-					document.getElementById("areaWarning").innerHTML = "请选择区县！";
+					$("#areaWarning").text("请选择区县！");
 					return false;
 				}
-				citySelect.disabled = "";
-				areaSelect.disabled = "";
-				var sending = document.getElementById("sending");
-				sending.style.visibility = "visible";
+				citySelect.attr("disabled","");
+				areaSelect.attr("disabled","");
+				var sending = $("#sending");
+				sending.css("visibility", "visible");
 				isClicked = true;
 				return true;
 			} else {
@@ -158,16 +158,16 @@
 
 		function changeProv() {
 			removeSelectedItem(citySelect);
-			if (provSelect.value != null && provSelect.value != "") {
+			if (provSelect.val() != null && provSelect.val() != "") {
 				getOrgList(provSelect,citySelect);
-				citySelect.disabled = "";
+				citySelect.attr("disabled","");
 			} else {
 				removeSelectedItem(citySelect);
 				removeSelectedItem(areaSelect);
-				citySelect.disabled = "disabled";
-				areaSelect.disabled = "disabled";
+				citySelect.attr("disabled","disabled");
+				areaSelect.attr("disabled","disabled");
 			}
-			document.getElementById("provWarning").innerHTML = "";
+			$("#provWarning").text("");
 		}
 
 		function changeCity() {
@@ -175,15 +175,18 @@
 			if (citySelect.value != null && citySelect.value != "") {
 				getOrgList(citySelect,areaSelect);
 				document.getElementById("areaSelect").disabled = "";
+				$("#areaSelect").attr("disabled","");
 			} else {
 				removeSelectedItem(areaSelect);
 				areaSelect.disabled = "disabled";
+				areaSelect.attr("disabled","disabled");
 			}
-			document.getElementById("cityWarning").innerHTML = "";
+			$("#cityWarning").text("");
 		}
 
 		function changeArea() {
 			document.getElementById("areaWarning").innerHTML = "";
+			$("#areaWarning").text("");
 		}
 
 		function removeSelectedItem(objSelect) {
@@ -193,21 +196,20 @@
 		}
 
 		function getOrgList(pOrgSelect,orgSelect) {
-			var pOrgId = pOrgSelect.value;
-			var xmlhttp;
-			if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-				xmlhttp = new XMLHttpRequest();
-			} else {// code for IE6, IE5
-				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			//获得来自服务器的响应
-			var result;
-			xmlhttp.onreadystatechange = function() {
-				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-					result = xmlhttp.responseText;
+			var pOrgId = pOrgSelect.val();
+			$.ajax({
+				url: "getOrg_ajax.do",
+				data: {
+					pOrgId: pOrgId,
+					timestamp: new Date().getTime()
+				},
+				type: "post",
+				dataType: "text",
+				async: false,
+				success: function (result) {
 					if (result != null&&result!="") {
 						if(result=="exception"){
-							window.location.href="../error.html"; 
+							window.location.href="../error.html";
 						}else{
 							var list = eval("("+result+")");
 							for ( var i = 0; i < list.length; i++) {
@@ -217,10 +219,7 @@
 						}
 					}
 				}
-			}
-			xmlhttp.open("POST", "getOrg_ajax.do?pOrgId=" + pOrgId + "&date="
-					+ new Date().getTime(), true);
-			xmlhttp.send();
+			});
 		}
 
 	</script>

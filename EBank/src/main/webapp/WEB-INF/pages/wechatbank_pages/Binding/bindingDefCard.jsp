@@ -12,16 +12,16 @@
 <script type="text/javascript">
 	window.onload = function() {
 		if (${fn:length(defCardNo)== 0}) {
-			var bindDefCard = document.getElementById("bindDefCard");
-			bindDefCard.style.display = "block";
+			var bindDefCard = $("#bindDefCard");
+			bindDefCard.css("display","block");
 		}
 	}
 	
 	function changeDefCard(){
-		var yes = document.getElementById("yes");
-		yes.style.display = "none";
-		var bindDefCard = document.getElementById("bindDefCard");
-		bindDefCard.style.display = "block";
+		var yes = $("#yes");
+		yes.css("display","none");
+		var bindDefCard = $("#bindDefCard");
+		bindDefCard.css("display","block");
 	}
 </script>
 <%@include file="../../base_pages/wxReadyFunction.jsp"%>
@@ -80,13 +80,13 @@
 		var isClicked=false;
 		function validate_form() {
 			if(isClicked==false){
-				var defaultCardValue = document.getElementById("defaultCard").value;
+				var defaultCardValue = $("#defaultCard").val();
 				if (defaultCardValue == null || defaultCardValue == "") {
-					document.getElementById("defaultCardWarning").innerHTML = "请选择默认卡";
+					$("#defaultCardWarning").text("请选择默认卡");
 					return false;
 				}
-				var sending = document.getElementById("sending");
-				sending.style.visibility = "visible";
+				var sending = $("#sending");
+				sending.css("visibility", "visible");
 				isClicked=true;
 				return true;
 			}else{
@@ -95,10 +95,10 @@
 		}
 		
 		function showCardStyle() {
-			var cardNo = document.getElementById("defaultCard").value;
-			document.getElementById("defaultCardWarning").innerHTML = "";
-			var style = document.getElementById(cardNo).value;
-			document.getElementById("cardStyle").innerHTML = style;
+			var cardNo = $("#defaultCard").val();
+			$("#defaultCardWarning").text("");
+			var style = $("#cardNo").val();
+			$("#cardStyle").text(style);
 		}
 		
 		

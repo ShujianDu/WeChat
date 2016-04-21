@@ -12,12 +12,12 @@
 <script type="text/javascript">
 	window.onload = function() {
 		var areaStr = "${areaStr}";
-		var areaButton = document.getElementById("areaButton");
+		var areaButton = $("#areaButton");
 		if (areaStr != null && areaStr != "") {
 			if (areaStr.length > 11) {
-				areaButton.value = areaStr.substr(0,11)+ "...";
+				areaButton.val(areaStr.substr(0,11)+ "...");
 			} else {
-				areaButton.value = areaStr;
+				areaButton.val(areaStr);
 			}
 		}
 	}
@@ -145,78 +145,79 @@
 	<script type="text/javascript">
 		var isClicked = false;
 		var can = false;
-		var bookingWarning = document.getElementById("isHaveBookingWarning");
-		var clientNameWarning = document.getElementById("clientNameWarning");
-		var phoneWarning = document.getElementById("phoneWarning");
-		var mobilePhoneWarning = document.getElementById("mobilePhoneWarning");
-		var serviceAddrWarning = document.getElementById("serviceAddrWarning");
+		var bookingWarning = $("#isHaveBookingWarning");
+		var clientNameWarning = $("#clientNameWarning");
+		var phoneWarning = $("#phoneWarning");
+		var mobilePhoneWarning = $("#mobilePhoneWarning");
+		var serviceAddrWarning = $("#serviceAddrWarning");
+		var areaWarning = $("#areaWarning");
 		function validate_form() {
 			if (isClicked == false) {
-				var areaButton = document.getElementById("areaButton");
-				var clientName = document.getElementById("clientName");
-				var areaCode = document.getElementById("areaCode");
-				var phoneNum = document.getElementById("phoneNum");
-				var mobilePhone = document.getElementById("mobilePhone");
-				var serviceAddr = document.getElementById("serviceAddr");
+				var areaButton = $("#areaButton");
+				var clientName = $("#clientName").val();
+				var areaCode = $("#areaCode").val();
+				var phoneNum = $("#phoneNum").val();
+				var mobilePhone = $("#mobilePhone").val();
+				var serviceAddr = $("#serviceAddr").val();
 				if (areaButton.value == "省/市/区") {
-					document.getElementById("areaWarning").innerHTML = "请选择省/市/区";
+					$("#areaWarning").text("请选择省/市/区");
 					return false;
 				}
 				//不能输入“|”正则表达式
 				var allReg=/(\|)/;
-				if (clientName.value == null || clientName.value == "") {
-					clientNameWarning.innerHTML = "请填写姓名！";
+				if (clientName == null || clientName == "") {
+					clientNameWarning.text("请填写姓名！");
 					return false;
 				}
-				if(allReg.test(clientName.value) == true){
-					clientNameWarning.innerHTML = "姓名不能输入“|”符号！";
+				if(allReg.test(clientName) == true){
+					clientNameWarning.text("姓名不能输入“|”符号！");
 					return false;
 				}
 				var areaCodeReg = /(^\d{3,5}$)/;
-				if (areaCode.value != null && areaCode.value != "" && areaCodeReg.test(areaCode.value) == false) {
-					phoneWarning.innerHTML = "区号格式不正确，请重新输入！";
+				if (areaCode != null && areaCode != "" && areaCodeReg.test(areaCode) == false) {
+					phoneWarning.text("区号格式不正确，请重新输入！");
 					return false;
 				}
-				if (phoneNum.value != null && phoneNum.value != "") {
+				if (phoneNum != null && phoneNum != "") {
 					var phoneNumReg = /(^\d{7,8}$)/;
-					if (phoneNumReg.test(phoneNum.value) == false) {
-						phoneWarning.innerHTML = "号码格式不正确，请重新输入！";
+					if (phoneNumReg.test(phoneNum) == false) {
+						phoneWarning.text("号码格式不正确，请重新输入！");
 						return false;
 					}
-					if (areaCode.value == null || areaCode.value == "") {
-						phoneWarning.innerHTML = "请填写区号！";
+					if (areaCode == null || areaCode == "") {
+						phoneWarning.text("请填写区号！");
 						return false;
 					}
 				}
-				if (mobilePhone.value == null || mobilePhone.value == "") {
-					mobilePhoneWarning.innerHTML = "请填写手机号码！";
+				if (mobilePhone == null || mobilePhone == "") {
+					mobilePhoneWarning.text("请填写手机号码！");
 					return false;
 				}
 				var mobilePhoneReg = /(^\d{11}$)/;
-				if (mobilePhoneReg.test(mobilePhone.value) == false) {
-					mobilePhoneWarning.innerHTML = "手机号码格式不正确，请重新输入！";
+				if (mobilePhoneReg.test(mobilePhone) == false) {
+					mobilePhoneWarning.text("手机号码格式不正确，请重新输入！");
 					return false;
 				}
-				if (serviceAddr.value == null || serviceAddr.value == "") {
-					serviceAddrWarning.innerHTML = "请填写详细地址！";
+				if (serviceAddr == null || serviceAddr == "") {
+					serviceAddrWarning.text("请填写详细地址！");
 					return false;
 				}
-				if(allReg.test(serviceAddr.value) == true){
-					serviceAddrWarning.innerHTML = "详细地址不能输入“|”符号！";
+				if(allReg.test(serviceAddr) == true){
+					serviceAddrWarning.text("详细地址不能输入“|”符号！");
 					return false;
 				}
-				var sending = document.getElementById("sending");
-				sending.style.visibility = "visible";
+				var sending = $("#sending");
+				sending.css("visibility", "visible");
 				isClicked = true;
-				if (bookingWarning.innerHTML == null|| bookingWarning.innerHTML == "") {
+				if (bookingWarning.text() == null|| bookingWarning.text() == "") {
 					//验证是否提交过预约信息
 					isBooking();
 					if (can) {
-						bookingWarning.innerHTML = "您已经进行过预约，是否需要再次预约？";
-						document.getElementById("affirmdiv").style.display = "block";
-						document.getElementById("isHaveBookingDiv").style.display = "block";
+						bookingWarning.text("您已经进行过预约，是否需要再次预约？");
+						$("#affirmdiv").css("display","block");
+						$("#isHaveBookingDiv").css("display","block");
 						closeform("disabled");
-						sending.style.visibility = "hidden";
+						sending.css("visibility", "hidden");
 						isClicked = false;
 						return false;
 					}
@@ -228,50 +229,51 @@
 		}
 		
 		function closeform(closeoropen){
-			var form=document.getElementById("submitForm");
+			var form = $("#submitForm");
 			for(var i=0;i<form.elements.length;i++){
-				form.elements[i].disabled=closeoropen;
+				form.elements[i].attr("disabled",closeoropen);
 			}
 		}
 		
 		function affirm(){
-			var sending = document.getElementById("sending");
-			sending.style.visibility = "visible";
+			var sending = $("#sending");
+			sending.css("visibility", "visible");
 			closeform("");
-			var form = document.getElementById("submitForm");
-			form.action = "listP.do";
+			var form = $("#submitForm");
+			form.attr("action","listP.do");
 			form.submit();
 		}
 		
 		function cancel(){
-			bookingWarning.innerHTML = "";
-			document.getElementById("isHaveBookingDiv").style.display = "none";
-			document.getElementById("affirmdiv").style.display = "none";
+			bookingWarning.text("");
+			$("#isHaveBookingDiv").css("display","none");
+			$("#affirmdiv").css("display","none");
 			closeform("");
 		}
 
-		function choiceAddress(addressButton) {
-			var sending = document.getElementById("sending");
-			sending.style.visibility = "visible";
-			var form = document.getElementById("submitForm");
-			form.action = "address.do";
+		function choiceAddress() {
+			var sending = $("#sending");
+			sending.css("visibility", "visible");
+			var form = $("#submitForm");
+			form.attr("action","address.do");
 			form.submit();
 		}
 
 		function isBooking() {
-			var clientName = document.getElementById("clientName").value;
-			var mobilePhone = document.getElementById("mobilePhone").value;
-			var xmlhttp;
-			if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-				xmlhttp = new XMLHttpRequest();
-			} else {// code for IE6, IE5
-				xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-			}
-			//获得来自服务器的响应
-			var result;
-			xmlhttp.onreadystatechange = function() {
-				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-					result = xmlhttp.responseText;
+			var clientName = $("#clientName").val();
+			var mobilePhone = $("#mobilePhone").val();
+
+			$.ajax({
+				url: "isBooking_ajax.do",
+				data: {
+					clientName: clientName,
+					mobilePhone: mobilePhone,
+					timestamp: new Date().getTime()
+				},
+				type: "post",
+				dataType: "text",
+				async: false,
+				success: function (result) {
 					if (result != null && result != "") {
 						if (result == "exception") {
 							window.location.href="../error.html";
@@ -283,19 +285,15 @@
 						}
 					}
 				}
-			}
-			xmlhttp.open("POST", "isBooking_ajax.do?clientName=" + clientName
-					+ "&mobilePhone=" + mobilePhone + "&date="
-					+ new Date().getTime(), false);
-			xmlhttp.send();
+			});
 		}
 
 		function changeWarning() {
-			areaWarning.innerHTML = "";
-			clientNameWarning.innerHTML = "";
-			phoneWarning.innerHTML = "";
-			mobilePhoneWarning.innerHTML = "";
-			serviceAddrWarning.innerHTML = "";
+			areaWarning.text("");
+			clientNameWarning.text("");
+			phoneWarning.text("");
+			mobilePhoneWarning.text("");
+			serviceAddrWarning.text("");
 		}
 	</script>
 </body>

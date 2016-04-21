@@ -10,21 +10,21 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/wechatbank/index.css"/>" />
 <script type="text/javascript">
 	window.onload = function() {
-		var cardSelect = document.getElementById("cardNoSelect");
+		var cardSelect = $("#cardNoSelect");
 		for ( var i = 0; i < cardSelect.length; i++) {
-			if (cardSelect[i].value == "${cardNo}") {
-				cardSelect[i].selected = "selected";
+			if (cardSelect[i].val() == "${cardNo}") {
+				cardSelect[i].attr("selected",true);
 			}
 		}
 		var listlength=${fn:length(pageList)}
 		var isFollowUp=${isFollowUp}
 		if(listlength==10){
-			document.getElementById("moreButton").style.display = "block";
+			$("#moreButton").css("display","block");
 		}else{
 			if(isFollowUp > 0) {
-				document.getElementById("moreButton").style.display = "block";
+				$("#moreButton").css("display","block");
 			}
-			document.getElementById("moreButton").style.display = "none";
+			$("#moreButton").css("display","block");
 		}
 	}
 </script>
@@ -172,8 +172,8 @@
 		var page = 0;
 		function validate_form() {
 			if (isClicked == false) {
-				var sending = document.getElementById("sending");
-				sending.style.visibility = "visible";
+				var sending = $("#sending");
+				sending.css("visibility", "visible");
 				isClicked = true;
 				return true;
 			} else {
@@ -183,114 +183,112 @@
 		function getMore() {
 			page++;
 			if(isClicked==false){
-				var sending = document.getElementById("sending");
-				sending.style.visibility = "visible";
+				var sending = $("#sending");
+				sending.css("visibility", "visible");
 				isClicked = true;
-				var xmlhttp;
-				if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-					xmlhttp = new XMLHttpRequest();
-				} else {// code for IE6, IE5
-					xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-				}
-				//获得来自服务器的响应
-				var result;
-				xmlhttp.onreadystatechange=function(){
-				    if (xmlhttp.readyState==4 && xmlhttp.status==200){
-				    	result=xmlhttp.responseText;
-				    	if(result==null||result=="null"){
-				    		document.getElementById("moreButton").style.display = "none";
-						}else if(result=="exception"){
-							window.location.href="../error.html";
-						}else{
-							var list=eval("("+result+")");
-							if(list.length>0&&list[0].instalmentOriginalAmount!=""){
-								for(var i=0;i<list.length;i++){
-									 var cardNo = list[i].cardNo;
-									 var cardNoLength = cardNo.length;
-									 cardNo = cardNo.substring(0,4)+"********"+cardNo.substring(cardNoLength-4,cardNoLength);
+				$.ajax({
+					url: "getMore_ajax.do",
+					data: {
+						cardNo: ${cardNo},
+						currencyCodeChinese: ${currencyCodeChinese},
+						timestamp: new Date().getTime()
+					},
+					type: "post",
+					dataType: "text",
+					async: false,
+					success: function (result) {
+						if (result == null || result == "null") {
+							$("#moreButton").css("display","block");
+						} else if (result == "exception") {
+							window.location.href = "../error.html";
+						} else {
+							var list = eval("(" + result + ")");
+							if (list.length > 0 && list[0].instalmentOriginalAmount != "") {
+								for (var i = 0; i < list.length; i++) {
+									var cardNo = list[i].cardNo;
+									var cardNoLength = cardNo.length;
+									cardNo = cardNo.substring(0, 4) + "********" + cardNo.substring(cardNoLength - 4, cardNoLength);
 									//增加HTML对象，并附加到容器最后
-									var newDiv = "<div class='topOneB mar-1 topOneBradius'>"+
-									             "<table class='topTwo'>"+
-												 "<tr>"+
-												 "<td class='td-le'>交易日期：</td>"+
-												 "<td align='right'>"+list[i].instalmentOriginalTransactionDate+"</td>"+
-												 "</tr>"+
-									             "</table>"+
-											     "</div>"+
-									             "<div class='topOneB mar-1'>"+
-									             "<table class='topTwo'>"+
-												 "<tr>"+
-												 "<td class='td-le'>卡号：</td>"+
-												 "<td align='right'>"+cardNo+"</td>"+
-												 "</tr>"+
-									             "</table>"+
-											     "</div>"+
-									             "<div class='topOneB mar-1'>"+
-									             "<table class='topTwo'>"+
-												 "<tr>"+
-												 "<td class='td-le'>分期描述：</td>"+
-												 "<td align='right'>"+list[i].instalmentRuleDescription+"</td>"+
-												 "</tr>"+
-									             "</table>"+
-											     "</div>"+
-											     "<div class='topOneB mar-1'>"+
-									             "<table class='topTwo'>"+
-												 "<tr>"+
-												 "<td class='td-le'>分期币种：</td>"+
-												 "<td align='right'>"+list[i].currencyCode+"</td>"+
-												 "</tr>"+
-									             "</table>"+
-											     "</div>"+
-									             "<div class='topOneB mar-1'>"+
-									             "<table class='topTwo'>"+
-												 "<tr>"+
-												 "<td class='td-le'>分期金额：</td>"+
-												 "<td align='right'>"+list[i].instalmentOriginalAmount+"</td>"+
-												 "</tr>"+
-									             "</table>"+
-											     "</div>"+
-									             "<div class='topOneB mar-1'>"+
-									             "<table class='topTwo'>"+
-												 "<tr>"+
-												 "<td class='td-le'>期数：</td>"+
-												 "<td align='right'>"+list[i].instalmentOriginalNumber+"</td>"+
-												 "</tr>"+
-									             "</table>"+
-											     "</div>"+
-											     "<div class='topOneB mar-1'>"+
-									             "<table class='topTwo'>"+
-												 "<tr>"+
-												 "<td class='td-le'>完成日期：</td>"+
-												 "<td align='right'>"+list[i].instalmentCompleteDate+"</td>"+
-												 "</tr>"+
-									             "</table>"+
-											     "</div>"+
-									             "<div class='topOneB mar-1 bottomOneBradius'>"+
-									             "<table class='topTwo'>"+
-												 "<tr>"+
-												 "<td><a class='allA' href='show.do?number="+(page*10+i)+"&cardNo?="+cardNo+'>查看详情</a></td>"+
-												 "</tr>"+
-									             "</table>"+
-											     "</div>"+
-											     "<div style='margin-top: 10px;'></div>";
-									document.getElementById("addViewDiv").insertAdjacentHTML(
+									var newDiv = "<div class='topOneB mar-1 topOneBradius'>" +
+											"<table class='topTwo'>" +
+											"<tr>" +
+											"<td class='td-le'>交易日期：</td>" +
+											"<td align='right'>" + list[i].instalmentOriginalTransactionDate + "</td>" +
+											"</tr>" +
+											"</table>" +
+											"</div>" +
+											"<div class='topOneB mar-1'>" +
+											"<table class='topTwo'>" +
+											"<tr>" +
+											"<td class='td-le'>卡号：</td>" +
+											"<td align='right'>" + cardNo + "</td>" +
+											"</tr>" +
+											"</table>" +
+											"</div>" +
+											"<div class='topOneB mar-1'>" +
+											"<table class='topTwo'>" +
+											"<tr>" +
+											"<td class='td-le'>分期描述：</td>" +
+											"<td align='right'>" + list[i].instalmentRuleDescription + "</td>" +
+											"</tr>" +
+											"</table>" +
+											"</div>" +
+											"<div class='topOneB mar-1'>" +
+											"<table class='topTwo'>" +
+											"<tr>" +
+											"<td class='td-le'>分期币种：</td>" +
+											"<td align='right'>" + list[i].currencyCode + "</td>" +
+											"</tr>" +
+											"</table>" +
+											"</div>" +
+											"<div class='topOneB mar-1'>" +
+											"<table class='topTwo'>" +
+											"<tr>" +
+											"<td class='td-le'>分期金额：</td>" +
+											"<td align='right'>" + list[i].instalmentOriginalAmount + "</td>" +
+											"</tr>" +
+											"</table>" +
+											"</div>" +
+											"<div class='topOneB mar-1'>" +
+											"<table class='topTwo'>" +
+											"<tr>" +
+											"<td class='td-le'>期数：</td>" +
+											"<td align='right'>" + list[i].instalmentOriginalNumber + "</td>" +
+											"</tr>" +
+											"</table>" +
+											"</div>" +
+											"<div class='topOneB mar-1'>" +
+											"<table class='topTwo'>" +
+											"<tr>" +
+											"<td class='td-le'>完成日期：</td>" +
+											"<td align='right'>" + list[i].instalmentCompleteDate + "</td>" +
+											"</tr>" +
+											"</table>" +
+											"</div>" +
+											"<div class='topOneB mar-1 bottomOneBradius'>" +
+											"<table class='topTwo'>" +
+											"<tr>" +
+											"<td><a class='allA' href='show.do?number=" + (page * 10 + i) + "&cardNo?=" + cardNo + '>查看详情</a></td>"+
+									"</tr>" +
+									"</table>" +
+									"</div>" +
+									"<div style='margin-top: 10px;'></div>";
+									$("#addViewDiv").insertAdjacentHTML(
 											"beforeEnd", newDiv);
 								}
-								if(list.length==10){
-									document.getElementById("moreButton").style.display = "block";
-								}else{
-									document.getElementById("moreButton").style.display = "none";
+								if (list.length == 10) {
+									$("#moreButton").css("display","block");
+								} else {
+									$("#moreButton").css("display","none");
 								}
-							}else{
-								document.getElementById("moreButton").style.display = "none";
+							} else {
+								$("#moreButton").css("display","none");
 							}
 						}
-				    	sending.style.visibility = "hidden";
-						isClicked=false;
-				    }
-				}
-				xmlhttp.open("GET","getMore_ajax.do?cardNo=${cardNo}&currencyCodeChinese=${currencyCodeChinese}&date="+new Date().getTime(),true);
-				xmlhttp.send();
+						sending.css("visibility","hidden");
+						isClicked = false;
+					}
+				});
 			}
 		}
 	</script>
