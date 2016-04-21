@@ -429,17 +429,19 @@ case class GCSCreditLimitTemporaryUpStatus(eosId: String, eosState: String, eosI
 /**
   * 可分期的消费交易
   *
-  * @param cardNo                 卡号
-  * @param transactionDate        交易日期
-  * @param transactionAmount      交易金额
-  * @param debitCreditCode        借方、贷方(交易类型)
-  * @param transactionDescription 交易描述
-  * @param accountID              账户ID
-  * @param accountedID            入账账户ID
-  * @param accountNoID            账户ID -供消费分期费用试算上送用
+  * @param cardNo                    卡号
+  * @param transactionDate           交易日期
+  * @param transactionAmount         交易金额
+  * @param debitCreditCode           借方、贷方(交易类型)
+  * @param transactionDescription    交易描述i
+  * @param accountID                 账户ID
+  * @param accountedID               入账账户ID
+  * @param accountNoID               账户ID -供消费分期费用试算上送用
+  * @param originalCurrencyCode      清算币种
+  * @param originalTransactionAmount 清算金额
   */
 case class GCSConsumptionInstallmentsEntity(cardNo: String, transactionDate: String, transactionAmount: String, debitCreditCode: String, transactionDescription: String,
-                                            accountID: String, accountedID: String, accountNoID: String)
+                                            accountID: String, accountedID: String, accountNoID: String, originalCurrencyCode: String, originalTransactionAmount: String)
 
 /**
   * 消费分期结果
