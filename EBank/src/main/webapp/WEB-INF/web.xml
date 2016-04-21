@@ -59,14 +59,24 @@
         <filter-name>shiroFilter</filter-name>
         <url-pattern>*.do</url-pattern>
     </filter-mapping>
+    <!-- SiteMesh web页面布局 filter -->
+    <filter>
+        <filter-name>sitemesh</filter-name>
+        <filter-class>org.sitemesh.config.ConfigurableSiteMeshFilter</filter-class>
+    </filter>
+    <!-- SiteMesh web页面布局 filter -->
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     <!-- JPA lazy filter -->
     <!--<filter>-->
-        <!--<filter-name>openEntityManagerInViewFilter</filter-name>-->
-        <!--<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>-->
+    <!--<filter-name>openEntityManagerInViewFilter</filter-name>-->
+    <!--<filter-class>org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter</filter-class>-->
     <!--</filter>-->
     <!-- JPA lazy filter mapping -->
     <!--<filter-mapping>-->
-        <!--<filter-name>openEntityManagerInViewFilter</filter-name>-->
-        <!--<url-pattern>/*</url-pattern>-->
+    <!--<filter-name>openEntityManagerInViewFilter</filter-name>-->
+    <!--<url-pattern>/*</url-pattern>-->
     <!--</filter-mapping>-->
 </web-app>
