@@ -5,8 +5,12 @@ import com.yada.sdk.gcs.protocol.GCSReq
 
 /**
   * 某一期账单信息汇总查询
+  *
+  * @param statementNo 账期号
+  * @param accountId   账号ID
   */
-class TS010302(tranSessionId: String, reqChannelId: String, statementNo: String, accountId: String)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+class TS010302(tranSessionId: String, reqChannelId: String,
+               statementNo: String, accountId: String)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
   setPageProps("statementNo", statementNo)
   setPageProps("accountId", accountId)
 

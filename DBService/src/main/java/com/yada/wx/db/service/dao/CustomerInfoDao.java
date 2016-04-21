@@ -18,13 +18,13 @@ public interface CustomerInfoDao extends JpaRepository<CustomerInfo, Long>, JpaS
 
     List<CustomerInfo> findByIdentityNo(String identityNo);
 
-    CustomerInfo findByIdentityTypeAndIdentityNo(String identityType,String identityNo);
+    List<CustomerInfo> findByIdentityTypeAndIdentityNo(String identityType,String identityNo);
 
     CustomerInfo findByOpenIdAndIdentityNo(String openId,String identityNo);
 
     @Modifying(clearAutomatically = true)
     @Query(nativeQuery = true, value = "UPDATE T_B_CUSTOMER_INFO SET IDENTITY_TYPE = :identityType WHERE IDENTITY_NO = :identityNo")
-    int updateIdentityTypeByIdentityNo(@Param("identityNo") String identityNo, @Param("identityType") String identityType);
+    int updateIdentityTypeByIdentityNo(@Param("identityType") String identityType, @Param("identityNo") String identityNo);
 
     @Modifying(clearAutomatically = true)
     @Query(nativeQuery = true, value = "SELECT T.OPENID FROM T_B_CUSTOMER_INFO T WHERE T.IDENTITY_NO = :identityNo")
