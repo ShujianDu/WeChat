@@ -8,11 +8,7 @@ import java.io.Serializable;
  * @author zm
  * 
  */
-public class PointsValidates implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -619215266150960161L;
+public class PointsValidates {
 	private String productCode;// 产品代码
 	private String productName;// 产品名称
 	private String cardNo;// 信用卡卡号

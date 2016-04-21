@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.yada.wechatbank.base.BaseController;
 import com.yada.wechatbank.model.CardInfo;
@@ -108,8 +107,8 @@ public class BindingController extends BaseController{
 			return LOCK;
 		}
 		String mobileCode=request.getParameter("mobileCode");
-		//短信 验证码未验证通过
-		if (!checkBindingSMSCode(bindingQuery.getOpenId(),bindingQuery.getIdNumber(),mobileCode)) {
+		//TODO 短信 验证码未验证通过
+		if (smsServiceImpl.checkSMSCode(bindingQuery.getIdNumber(),bindingQuery.getMobilNo(),"",mobileCode)) {
 			model.addAttribute("msg", "3");
 			model.addAttribute("model", bindingQuery);
 			return BINDLISTURL;
@@ -267,18 +266,15 @@ public class BindingController extends BaseController{
 	 * 获取短信验证码
 	 * 
 	 * @param request HttpServletRequest
-	 * @param response HttpServletResponse
 	 */
 	@RequestMapping(value = "getSMSCode_ajax")
 	@ResponseBody
-	public String getSMSCode_ajax(HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
+	public String getSMSCode_ajax(HttpServletRequest request) throws IOException {
 		//TODO 获取短信验证码
 		String result = "false";
 		String identityType=request.getParameter("idType");
 		String identityNo=request.getParameter("identityNo");
-		String openId=request.getParameter("openId");
-		
+
 		// Session中存储的验证码
 		String Randomcode_yz = (String) request.getSession().getAttribute(
 						"jcmsrandomchar");
@@ -286,23 +282,23 @@ public class BindingController extends BaseController{
 		String mobilNo = request.getParameter("mobilNo");
 		if (verificationCode != null
 				&& verificationCode.equalsIgnoreCase(Randomcode_yz)) {
-				if(!"".equals(identityNo)&&!"".equals(openId)&& !"".equals(mobilNo))
+				if(!"".equals(identityNo)&& !"".equals(mobilNo))
 				{
-					//TODO 获取手机号
-					//TODO 获取短信验证码
-					String code = bindingServiceImpl.getBinDingSendCode(identityNo,identityType,mobilNo);
-					//发送短信验证码
-					//TODO 调用发送短信验证码方法
-					boolean sendResult =false;
-					if (!sendResult) {
-						result = "exception";
-					} else
-					{
-                        //验证码发送成功记录证件号，防止黑客修改卡号后再验证查询密码						
-						request.getSession().setAttribute("idNum", identityNo);
-				        TokenUtil.addToken(request);
-						//TODO 处理验证码返回问题
-						//result = sendResult+","+request.getSession().getAttribute("keyInSession");
+					//TODO 验证手机号
+					String valResult = bindingServiceImpl.vaidateMobilNo(identityNo,identityType,mobilNo);
+					if("true".equals(valResult)){
+						//TODO 调用发送短信验证码方法
+						boolean sendResult =smsServiceImpl.sendBinDingSMS(identityNo,mobilNo,"");
+						if (!sendResult) {
+							result = "exception";
+						} else {
+							//验证码发送成功记录证件号，防止黑客修改卡号后再验证查询密码
+							request.getSession().setAttribute("idNum", identityNo);
+							TokenUtil.addToken(request);
+							result = sendResult+","+request.getSession().getAttribute("keyInSession");
+						}
+					}else {
+						result = valResult;
 					}
 				}
 		}else {
@@ -310,18 +306,6 @@ public class BindingController extends BaseController{
 		}
 		return result;
 	}
-	
-	/**
-	 * 验证短信验证码
-	 * 
-	 * @param openId  openID
-	 * @param idNumber 证件号
-	 * @param mobileCode 短信验证码
-	 */
-	private boolean checkBindingSMSCode(String openId, String idNumber, String mobileCode) {
-		return  bindingServiceImpl.bindingVerificationCode(openId,idNumber, mobileCode);
-	}
-	
 	
 	@RequestMapping(value = "duty")
 	public String duty(Model model, HttpServletRequest request) {

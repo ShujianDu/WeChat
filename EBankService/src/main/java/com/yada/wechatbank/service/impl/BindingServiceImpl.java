@@ -209,7 +209,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      * @return String
      */
     @Override
-    public String getBinDingSendCode(String identityNo, String identityType, String mobilNo) {
+    public String vaidateMobilNo(String identityNo, String identityType, String mobilNo) {
         //TODO 判断账户是否锁定
         Map<String, String> map = initGcsParam();
         map.put("idType", identityType);
@@ -234,36 +234,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
         }
         //TODO 证件号手机号输入正确，次数清零
         //countSMSCodeCache.remove(openId);
-        //TODO 生成验证码放入内存
-        //String msg = SMSCodeManagementService.generateSMSCode(openId, "binding");
-        return "";
-    }
-
-    /**
-     * 验证绑定的短信验证码
-     *
-     * @param openId   openId
-     * @param idNumber 证件号
-     * @param code     短信码
-     * @return 验证结果
-     */
-    @Override
-    public boolean bindingVerificationCode(String openId, String idNumber, String code) {
-        SMSCodeManagement smsCode = new SMSCodeManagement();
-        openId = openId + idNumber;
-        smsCode.setSmsCode(code);
-        smsCode.setBizCode("binding");
-        //TODO 验证手机验证码
-//		if(SMSCodeManagementService.checkSMSCode(smsCode)==true){
-        //验证码输入正确，次数清零
-//			countSMSCodeCache.remove(openId);
-//			return true;
-//		}else{
-        //证件号手机号操作次数记录限制
-//			countSMSCodeCache.put(openId, idNumber);
-//			return false;
-//		}
-        return true;
+        return "true";
     }
 
     /**

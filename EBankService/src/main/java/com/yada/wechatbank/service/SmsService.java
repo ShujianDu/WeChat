@@ -44,4 +44,13 @@ public interface SmsService {
      * @return true-验证成功，false-验证失败
      */
     boolean checkSMSCode(String identityNo,String mobile,String bizCode,String smsCode);
+
+    /**
+     * 发送绑定短信验证码
+     * @param identityNo 证件号
+     * @param mobileNo 手机号
+     * @param channelCode 杜鳌好
+     * @return true-成功，false-失败
+     */
+    boolean sendBinDingSMS(String identityNo, String mobileNo, String channelCode);
 }

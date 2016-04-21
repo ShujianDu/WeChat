@@ -11,7 +11,7 @@ import com.yada.wechatbank.base.WcbBaseQuery;
  * @author zm
  * 
  */
-public class PointsQuery extends WcbBaseQuery {
+public class PointsQuery {
 	private String id;
 	private String ParentId;// 父类的ID
 	private String TotalPoint;// 有效积分余额
