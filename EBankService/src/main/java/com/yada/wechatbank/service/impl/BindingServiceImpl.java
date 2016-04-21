@@ -275,8 +275,8 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      */
     @Override
     public boolean isCorrectIdentityType(String identityNo, String identityType) {
-        CustomerInfo customerInfo = customerInfoDao.findByIdentityTypeAndIdentityNo(identityType, identityNo);
-        return customerInfo != null;
+        List<CustomerInfo> customerInfoList = customerInfoDao.findByIdentityTypeAndIdentityNo(identityType, identityNo);
+        return customerInfoList != null || customerInfoList.size() == 0;
     }
 
     /**

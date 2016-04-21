@@ -18,7 +18,7 @@ public interface CustomerInfoDao extends JpaRepository<CustomerInfo, Long>, JpaS
 
     List<CustomerInfo> findByIdentityNo(String identityNo);
 
-    CustomerInfo findByIdentityTypeAndIdentityNo(String identityType,String identityNo);
+    List<CustomerInfo> findByIdentityTypeAndIdentityNo(String identityType,String identityNo);
 
     CustomerInfo findByOpenIdAndIdentityNo(String openId,String identityNo);
 
