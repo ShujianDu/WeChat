@@ -22,6 +22,16 @@ public class BillingSummary {
 	private String minPaymentAmount;
 	// 卡号
 	private String cardNo;
+	// 币种中文描述
+	private String currencyChinaCode;
+
+	public String getCurrencyChinaCode() {
+		return currencyChinaCode;
+	}
+
+	public void setCurrencyChinaCode(String currencyChinaCode) {
+		this.currencyChinaCode = currencyChinaCode;
+	}
 
 	public String getPeriodStartDate() {
 		return periodStartDate;

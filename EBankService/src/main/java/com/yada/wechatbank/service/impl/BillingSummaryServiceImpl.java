@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.yada.wechatbank.base.BaseService;
@@ -18,6 +19,7 @@ import com.yada.wechatbank.model.BillingPeriod;
 import com.yada.wechatbank.model.BillingSummary;
 import com.yada.wechatbank.service.BillingSummaryService;
 import com.yada.wechatbank.util.Crypt;
+import com.yada.wechatbank.util.CurrencyUtil;
 import com.yada.wechatbank.util.DateUtil;
 
 /**
@@ -29,6 +31,8 @@ import com.yada.wechatbank.util.DateUtil;
 @Service
 public class BillingSummaryServiceImpl extends BaseService implements BillingSummaryService {
 	private final static Logger logger = LoggerFactory.getLogger(BillingSummaryServiceImpl.class);
+	@Autowired
+	private CurrencyUtil currencyUtil;
 
 	@Override
 	public List<BillingSummary> getBillingSummaryList(String cardNo, String date) throws Exception {
@@ -79,6 +83,8 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 					billingSummaries.add(billingSummary);
 				} else {
 					billingSummary = billingSummaryResp.getBizResult();
+					// 设置中文显示币种
+					billingSummary.setCurrencyChinaCode(currencyUtil.translateChinese(billingSummary.getCurrencyCode()));
 				}
 				billingSummaries.add(billingSummary);
 			}

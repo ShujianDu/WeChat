@@ -109,11 +109,11 @@
 		$("#periodStartDate").text(json[0].periodStartDate);
 		$("#periodEndDate").text(json[0].periodEndDate);
 		$("#currencyCodeReal1").text(json[0].currencyCode);
-		//TODO 币种转换
-		$("#currencyCode1").text(json[0].currencyCode);
-		$("#currencyCode3").text(json[0].currencyCode);
-		$("#closingBalance1").text(json[0].closingBalance);
-		$("#currencyCode5").text(json[0].currencyCode);
+		//显示中文币种
+		$("#currencyCode1").text(json[0].currencyChinaCode);
+		$("#currencyCode3").text(json[0].currencyChinaCode);
+		$("#closingBalance1").text(json[0].currencyChinaCode);
+		$("#currencyCode5").text(json[0].currencyChinaCode);
 		$("#minPaymentAmount1").text(json[0].minPaymentAmount);
 		if(json.length>1){
 			if(json[1].closingBalance!=null){
@@ -122,10 +122,10 @@
 			$("#closingBalance2").text(json[1].closingBalance);
 			$("#minPaymentAmount2").text(json[1].minPaymentAmount);
 			$("#currencyCodeReal2").text(json[1].currencyCode);
-			//TODO 币种转换
-			$("#currencyCode2").text(json[1].currencyCode);
-			$("#currencyCode4").text(json[1].currencyCode);
-			$("#currencyCode6").text(json[1].currencyCode);
+			//显示中文币种
+			$("#currencyCode2").text(json[1].currencyChinaCode);
+			$("#currencyCode4").text(json[1].currencyChinaCode);
+			$("#currencyCode6").text(json[1].currencyChinaCode);
 		if(json[1].closingBalance>0){
 			$(".view_value  #value2").parent(".value").children(".valueState").show();
 				$(".view_value  #value2").css("color","#e05d4f");
