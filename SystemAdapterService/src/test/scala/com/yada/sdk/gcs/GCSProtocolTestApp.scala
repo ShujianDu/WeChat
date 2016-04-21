@@ -33,7 +33,10 @@ object GCSProtocolTestApp extends App {
   //  testTS010201()
 
   // 账单周期查询
-  testTS010301()
+  //  testTS010301()
+
+  // 某一期账单信息汇总查询
+  //  testTS010302()
 
   /**
     * 账单寄送方式查询
@@ -63,7 +66,7 @@ object GCSProtocolTestApp extends App {
   }
 
   /**
-    * 账单寄送方式修改
+    * 临时挂失
     */
   def testTS010059(): Unit = {
     // TODO
@@ -109,6 +112,14 @@ object GCSProtocolTestApp extends App {
   def testTS010301(): Unit = {
     val cardNo = "5149580068840943"
     val req = new TS010301(sessionID, channelID, cardNo)()
+    val resp = req.send
+    println(resp)
+  }
+
+  def testTS010302(): Unit = {
+    val accountId = "001A0213064FF77E"
+    val statementNo = "18"
+    val req = new TS010302(sessionID, channelID, statementNo, accountId)()
     val resp = req.send
     println(resp)
   }
