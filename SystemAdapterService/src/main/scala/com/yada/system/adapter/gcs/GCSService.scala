@@ -255,6 +255,7 @@ trait GCSService {
 
   /**
     * 历史分期查询
+    *
     * @param historyInstallmentParams 参数
     * @return 历史分期查询结果
     */
@@ -488,8 +489,8 @@ case class GCSAmountLimit(currencyCode: String, minAmount: String, maxAmount: St
   * 账单分期参数
   * 用于账单分期试算和账单分期授权2个接口中
   *
-  * @param sessionId           gcsSessionId
-  * @param channelId           渠道编号
+  * @param tranSessionID       gcsSessionId
+  * @param reqChannelID        渠道编号
   * @param accountId           账户ID
   * @param accountNumber       帐户号码(使用TS011006查询后的“accountNo”域值)
   * @param currencyCode        币种
@@ -497,9 +498,11 @@ case class GCSAmountLimit(currencyCode: String, minAmount: String, maxAmount: St
   * @param billActualAmount    账单分期实际金额
   * @param installmentsNumber  分期期数
   * @param feeInstallmentsFlag 手续费分期标识(1---标识手续费分期收取，0---标识手续费一次性收取)
+  * @param channelID           渠道ID（目前渠道标识为1位长的字符，存放在channelId 的第一位，渠道标识的具体含义待业务提供）
   */
-case class GCSBillInstallmentParams(sessionId: String, channelId: String, accountId: String, accountNumber: String, currencyCode: String, billLowerAmount: String,
-                                    billActualAmount: String, installmentsNumber: String, feeInstallmentsFlag: String)
+case class GCSBillInstallmentParams(tranSessionID: String, reqChannelID: String, accountId: String, accountNumber: String, currencyCode: String, billLowerAmount: String,
+                                    billActualAmount: String, installmentsNumber: String, feeInstallmentsFlag: String,
+                                    channelID: String)
 
 /**
   * 账单分期费用试算结果
@@ -759,38 +762,40 @@ case class UpdateBillSendTypeParams(sessionId: String, channelId: String, cardNo
 
 /**
   * 历史分期查询参数
-  * @param cardNo 卡号
+  *
+  * @param cardNo       卡号
   * @param startNumber  开始数量
   * @param selectNumber 查询数量
   */
-case class HistoryInstallmentParams(sessionId: String, channelId: String,cardNo: String, startNumber: String, selectNumber: String)
+case class HistoryInstallmentParams(sessionId: String, channelId: String, cardNo: String, startNumber: String, selectNumber: String)
 
 /**
   * 历史分期查询结果
+  *
   * @param transactionNumber 交易数量
-  * @param isFollowUp 是否有下一页
-  * @param entityList 历史分期查询实体列表
+  * @param isFollowUp        是否有下一页
+  * @param entityList        历史分期查询实体列表
   */
 case class HistoryInstallmentResult(transactionNumber: String, isFollowUp: Boolean, entityList: List[HistoryInstallmentEntity])
 
 /**
   * 历史分期查询实体
   *
-  * @param cardNo 卡号
+  * @param cardNo                            卡号
   * @param instalmentOriginalTransactionDate 分期付款交易日期(页面：分期日期)
-  * @param instalmentRuleDescription 分期付款计划描述(页面：分期描述)
-  * @param currencyCode 货币代码(页面：分期币种)
-  * @param instalmentOriginalAmount 分期付款原始金额(页面：分期金额)
-  * @param instalmentOriginalNumber 分期付款期数(页面：期数)
-  * @param instalmentCompleteDate 分期付款完成日期(页面：完成日期)
-  * @param instFeeFlag 分期手续费收取方式
-  * @param instalmentFirstPostingAmount 首次入帐金额
-  * @param instalmentNextPostingAmount 下次入帐金额
-  * @param instalmentPostedNumber 分期付款已入帐期数(页面：已入账期数)
-  * @param instalmentReversalAmount 分期付款冲正金额(页面：已入账金额)
-  * @param instalmentOutstandingNumber 分期付款剩余期数(页面：剩余未入账期数)
-  * @param instalmentOutstandingAmount 分期付款剩余金额(页面：剩余未入账金额)
-  * @param instalmentNextPostingDate 下次入帐日期
+  * @param instalmentRuleDescription         分期付款计划描述(页面：分期描述)
+  * @param currencyCode                      货币代码(页面：分期币种)
+  * @param instalmentOriginalAmount          分期付款原始金额(页面：分期金额)
+  * @param instalmentOriginalNumber          分期付款期数(页面：期数)
+  * @param instalmentCompleteDate            分期付款完成日期(页面：完成日期)
+  * @param instFeeFlag                       分期手续费收取方式
+  * @param instalmentFirstPostingAmount      首次入帐金额
+  * @param instalmentNextPostingAmount       下次入帐金额
+  * @param instalmentPostedNumber            分期付款已入帐期数(页面：已入账期数)
+  * @param instalmentReversalAmount          分期付款冲正金额(页面：已入账金额)
+  * @param instalmentOutstandingNumber       分期付款剩余期数(页面：剩余未入账期数)
+  * @param instalmentOutstandingAmount       分期付款剩余金额(页面：剩余未入账金额)
+  * @param instalmentNextPostingDate         下次入帐日期
   */
 case class HistoryInstallmentEntity(cardNo: String, instalmentOriginalTransactionDate: String, instalmentRuleDescription: String, currencyCode: String, instalmentOriginalAmount: String,
                                     instalmentOriginalNumber: String, instalmentCompleteDate: String, instFeeFlag: String, instalmentFirstPostingAmount: String,

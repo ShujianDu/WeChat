@@ -65,6 +65,13 @@ object GCSProtocolTestApp extends App {
   // 海淘信用卡短信通知
   //  testTS011113()
 
+  // 卡户分期项目账单分期（费用试算）
+  //  testTS011170()
+
+  // 卡户分期项目账单分期（授权）
+  //  testTS011171()
+
+
   /**
     * 账单寄送方式查询
     */
@@ -110,6 +117,7 @@ object GCSProtocolTestApp extends App {
     * 海淘卡挂失使用
     */
   def testTS010063(): Unit = {
+    // TODO 海淘卡挂失，不可测试
     throw new RuntimeException("海淘卡挂失，不可测试")
   }
 
@@ -249,6 +257,7 @@ object GCSProtocolTestApp extends App {
     * 海淘信用卡查询
     */
   def testTS011111(): Unit = {
+    // TODO 海淘卡查询 无法测试
     throw new RuntimeException("海淘卡查询，没有数据支持")
   }
 
@@ -256,6 +265,21 @@ object GCSProtocolTestApp extends App {
     * 海淘信用卡短信通知
     */
   def testTS011113(): Unit = {
+    // TODO 海淘信用卡短信通知 无法测试
     throw new RuntimeException("海淘信用卡短信通知，没有数据支持")
+  }
+
+  /**
+    * 卡户分期项目账单分期（费用试算）
+    */
+  def testTS011170(): Unit = {
+    // TODO 卡户分期项目账单分期（费用试算）无法测试
+  }
+
+  /**
+    * 卡户分期项目账单分期（授权）
+    */
+  def testTS011171(): Unit = {
+    //TODO 卡户分期项目账单分期（授权） 无法测试
   }
 }

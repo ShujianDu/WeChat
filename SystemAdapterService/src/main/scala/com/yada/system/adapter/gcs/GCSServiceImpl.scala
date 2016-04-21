@@ -335,11 +335,12 @@ class GCSServiceImpl extends GCSService {
   /**
     * 账单分期费用试算
     *
-    * @param gcsBillInstallmentParams 账单分期费用试算参数
+    * @param p 账单分期费用试算参数
     * @return 账单分期费用试算结果
     */
-  override def getBillCost(gcsBillInstallmentParams: GCSBillInstallmentParams): GCSBillInstallmentResult = {
-    val ts011170 = new TS011170(gcsBillInstallmentParams)()
+  override def getBillCost(p: GCSBillInstallmentParams): GCSBillInstallmentResult = {
+    val ts011170 = new TS011170(p.tranSessionID, p.reqChannelID, p.accountId, p.accountNumber, p.currencyCode, p.billLowerAmount,
+      p.billActualAmount, p.installmentsNumber, p.feeInstallmentsFlag, p.channelID)
     val result = ts011170.send
 
     GCSBillInstallmentResult(result.pageValue("currentBillMinimum"), result.pageValue("installmentsfee"), result.pageValue("installmentsAlsoAmountFirst"),
@@ -425,11 +426,12 @@ class GCSServiceImpl extends GCSService {
   /**
     * 账单分期授权
     *
-    * @param gcsBillInstallmentParams 账单分期授权参数
+    * @param p 账单分期授权参数
     * @return GCS返回码
     */
-  override def billInstallment(gcsBillInstallmentParams: GCSBillInstallmentParams): GCSReturnCodeResult = {
-    val ts011171 = new TS011171(gcsBillInstallmentParams)()
+  override def billInstallment(p: GCSBillInstallmentParams): GCSReturnCodeResult = {
+    val ts011171 = new TS011171(p.tranSessionID, p.channelID, p.accountId, p.accountNumber, p.currencyCode, p.billLowerAmount
+      , p.billActualAmount, p.installmentsNumber, p.feeInstallmentsFlag)
     GCSReturnCodeResult(ts011171.send.pageValue("authReturnCode"))
   }
 
