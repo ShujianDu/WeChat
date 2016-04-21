@@ -18,7 +18,6 @@ import com.yada.wechatbank.client.model.BillingSummaryResp;
 import com.yada.wechatbank.model.BillingPeriod;
 import com.yada.wechatbank.model.BillingSummary;
 import com.yada.wechatbank.service.BillingSummaryService;
-import com.yada.wechatbank.util.Crypt;
 import com.yada.wechatbank.util.CurrencyUtil;
 import com.yada.wechatbank.util.DateUtil;
 
@@ -93,41 +92,6 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 	}
 
 	@Override
-	public List<String> getQueryCardList(String cardNo, List<String> cardList) throws Exception {
-		List<String> queryCardList = new ArrayList<>();
-		if (cardNo == null || "".equals(cardNo) || cardList == null || cardList.size() == 0) {
-			return null;
-		}
-		// 查询单张卡的账单摘要
-		if (!"all".equals(cardNo)) {
-			cardNo = Crypt.decode(cardNo);
-			queryCardList.add(cardNo);
-		} else {
-			// 查询所有卡的账单摘要
-			queryCardList = Crypt.cardNoDecode(cardList);
-		}
-		return queryCardList;
-	}
-
-	@Override
-	public List<String> getEncryptCardNOs(List<String> cardList) {
-		// 判断卡列表是否为空
-		if (cardList == null) {
-			return null;
-		} else if (cardList.size() == 0) {
-			return cardList;
-		} else {
-			// 不为空，加密卡列表
-			try {
-				return Crypt.cardNoCrypt(cardList);
-			} catch (Exception e) {
-				logger.error("@WDZD@cardList crypt error,cardList[" + cardList + "]:" + e);
-				return null;
-			}
-		}
-	}
-
-	@Override
 	public List<String> getDateList() {
 		List<String> list = new ArrayList<>();
 		try {
@@ -143,5 +107,10 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 			throw new RuntimeException("@WDZD@getDateList error,ParseException");
 		}
 		return list;
+	}
+
+	@Override
+	public List<String> selectCardNoList(String identityType, String identityNo) {
+		return super.selectCardNoList(identityType, identityNo);
 	}
 }

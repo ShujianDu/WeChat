@@ -1,7 +1,8 @@
 package com.yada.wechatbank.controller;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,18 +48,22 @@ public class BillingSummaryController extends BaseController {
 	 * @return 跳转路径
 	 */
 	@RequestMapping(value = "list")
-	public String list(@ModelAttribute("formBean") BillingSummaryQuery billingSummaryQuery, Model model) {
-		// TODO 获取卡列表，登录成功后有方法可以得到卡列表
-		List<String> cardList = new ArrayList<>();
-		logger.info("@WDZD@卡列表cardList[" + cardList + "]");
+	public String list(@ModelAttribute("formBean") BillingSummaryQuery billingSummaryQuery, HttpServletRequest request, Model model) {
+		String identityNo = getIdentityNo(request);
+		String identityType = getIdentityType(request);
 		// 获取加密后的卡列表，传至页面用
-		cardList = billingSummaryServiceImpl.getEncryptCardNOs(cardList);
-		// 返回值为空或没有数据
+		List<String> cardList = billingSummaryServiceImpl.selectCardNoList(identityType, identityNo);
 		if (cardList == null) {
-			return ERROR;
+			return BUSYURL;
 		} else if (cardList.size() == 0) {
 			return NOCARDURL;
 		} else {
+			try {
+				Crypt.cardNoCrypt(cardList);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return BUSYURL;
+			}
 			// 查询账单可选日期
 			List<String> dateList = billingSummaryServiceImpl.getDateList();
 			model.addAttribute("cardList", cardList);

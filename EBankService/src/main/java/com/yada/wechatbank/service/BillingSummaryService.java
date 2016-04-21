@@ -15,6 +15,17 @@ import com.yada.wechatbank.model.BillingSummary;
 @Service
 public interface BillingSummaryService {
 	/**
+	 * 获取卡号列表
+	 *
+	 * @param identityType
+	 *            证件类型
+	 * @param identityNo
+	 *            证件号
+	 * @return List<String>
+	 */
+	List<String> selectCardNoList(String identityType, String identityNo);
+
+	/**
 	 * 查询账单摘要集合
 	 * 
 	 * @param cardNo
@@ -25,29 +36,7 @@ public interface BillingSummaryService {
 	 * @throws Exception
 	 *             卡号加密抛异常
 	 */
-	 List<BillingSummary> getBillingSummaryList(String cardNo, String date) throws Exception;
-
-	/**
-	 * 
-	 * @param cardNo
-	 *            单张卡号
-	 * @param cardList
-	 *            卡列表
-	 * @return 需要查询账单摘要的卡集合
-	 * @throws Exception
-	 *             加密时肯能出错，抛出异常
-	 * 
-	 */
-	List<String> getQueryCardList(String cardNo, List<String> cardList) throws Exception;
-
-	/**
-	 * 解密卡列表集合
-	 * 
-	 * @param cardList
-	 *            需要加密的卡列表集合
-	 * @return 加密好的卡列表
-	 */
-	List<String> getEncryptCardNOs(List<String> cardList);
+	List<BillingSummary> getBillingSummaryList(String cardNo, String date) throws Exception;
 
 	/**
 	 * 获得用户可选账单月份
