@@ -359,7 +359,7 @@ public class BindingController extends BaseController{
 			return FILLIDTYPEURL;
 		}
 		
-		if(bindingServiceImpl.fillIdentityType(openId,identityNo,identityType)){
+		if(bindingServiceImpl.fillIdentityType(openId,identityType,identityNo)){
 			// 获取默认卡
 			String defCardNo = bindingServiceImpl.getDefCardNo(openId);
 			if (defCardNo == null) {
