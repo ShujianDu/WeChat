@@ -59,6 +59,12 @@ object GCSProtocolTestApp extends App {
   // 根据证件号码或卡号查询客户信息
   //  testTS011101()
 
+  // 海淘信用卡查询
+  //  testTS011111()
+
+  // 海淘信用卡短信通知
+  //  testTS011113()
+
   /**
     * 账单寄送方式查询
     */
@@ -237,5 +243,19 @@ object GCSProtocolTestApp extends App {
     //    val req = new TS011101(sessionID, channelID, Some(cardNo), None, None)()
     val resp = req.send
     println(resp)
+  }
+
+  /**
+    * 海淘信用卡查询
+    */
+  def testTS011111(): Unit = {
+    throw new RuntimeException("海淘卡查询，没有数据支持")
+  }
+
+  /**
+    * 海淘信用卡短信通知
+    */
+  def testTS011113(): Unit = {
+    throw new RuntimeException("海淘信用卡短信通知，没有数据支持")
   }
 }

@@ -290,7 +290,7 @@ class GCSServiceImpl extends GCSService {
     * @return 返回是否发送成功 true/false
     */
   override def wbicCardSendSMS(cardNoParams: CardNoParams): BooleanResult = {
-    val ts011113 = new TS011113(cardNoParams.sessionID, cardNoParams.channelID, cardNoParams.cardNo)()
+    val ts011113 = new TS011113(cardNoParams.sessionID, cardNoParams.channelID, cardNoParams.cardNo)
     try {
       ts011113.send
       BooleanResult(true)
@@ -415,7 +415,7 @@ class GCSServiceImpl extends GCSService {
     */
   override def getWbicCardInfo(wbicCardInfoParams: WbicCardInfoParams): WbicCardInfoResult = {
 
-    val ts011111 = new TS011111(wbicCardInfoParams.sessionId, wbicCardInfoParams.channelId, wbicCardInfoParams.idNum, wbicCardInfoParams.idType, wbicCardInfoParams.productCode)()
+    val ts011111 = new TS011111(wbicCardInfoParams.sessionId, wbicCardInfoParams.channelId, wbicCardInfoParams.idNum, wbicCardInfoParams.idType, wbicCardInfoParams.productCode)
     //查找卡状态为“ ”空格的卡集合，然后返回第一个元素
     WbicCardInfoResult(ts011111.send.pageListValues[(String, String)](m =>
       (m("cardNo"), m("cardStatus"))
