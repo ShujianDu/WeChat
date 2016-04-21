@@ -6,6 +6,10 @@
 <c:set var="path" value="${pageContext.request.contextPath }"></c:set>
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/css/BillingDetails.css"/>" />
+	<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/BlackTip.css"/>" />
+	<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/DefaultStyle.css"/>" />
 <title>中国银行信用卡</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
