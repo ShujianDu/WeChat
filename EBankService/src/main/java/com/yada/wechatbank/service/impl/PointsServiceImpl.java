@@ -45,7 +45,12 @@ public class PointsServiceImpl extends BaseService implements PointsService {
      */
     @Override
     public PointsBalance getPointsBlance(String identityNo, String identityType) {
-        String cardNo = getCardNo(identityNo,identityType);
+        String cardNo = "";
+        //通过证件号和证件类型去后台查询卡号
+        List<CardInfo> cardInfoList = selectCardNos(identityNo,identityType);
+        if (cardInfoList!=null && cardInfoList.size()!=0){
+            cardNo=cardInfoList.get(0).getCardNo();
+        }
         Map<String,String> map = new HashMap<>();
         map.put("cardNo",cardNo);
         PointsBalanceResp pointsBlanceResp = httpClient.send("getBalance",map,PointsBalanceResp.class);
@@ -60,7 +65,12 @@ public class PointsServiceImpl extends BaseService implements PointsService {
      */
     @Override
     public List<PointsDetail> getPointsDetail(String identityNo,String identityType) {
-        String cardNo = getCardNo(identityNo,identityType);
+        String cardNo ="";
+        //通过证件号和证件类型去后台查询卡号
+        List<CardInfo> cardInfoList = selectCardNos(identityNo,identityType);
+        if (cardInfoList!=null && cardInfoList.size()!=0){
+            cardNo=cardInfoList.get(0).getCardNo();
+        }
         //查询积分明细
         Map<String,String> map = new HashMap<>();
         map.put("cardNo",cardNo);
@@ -121,25 +131,4 @@ public class PointsServiceImpl extends BaseService implements PointsService {
         return pointsValidatesResp.getBizResult();
     }
 
-    /**
-     * 获取手机号
-     * @param identityNo
-     * @param identityType
-     * @return
-     */
-    private String getCardNo(String identityNo, String identityType){
-        String cardNo ="";
-        //通过证件号去数据库查询默认卡
-        List<CustomerInfo> cusList = customerInfoDao.findByIdentityNo(identityNo);
-        if(cusList!=null && cusList.size()!=0){
-            cardNo=cusList.get(0).getDefCardNo();
-        }else{
-            //通过证件号和证件类型去后台查询卡号
-            List<CardInfo> cardInfoList = selectCardNos(identityNo,identityType);
-            if (cardInfoList!=null && cardInfoList.size()!=0){
-                cardNo=cardInfoList.get(0).getCardNo();
-            }
-        }
-        return cardNo;
-    }
 }
