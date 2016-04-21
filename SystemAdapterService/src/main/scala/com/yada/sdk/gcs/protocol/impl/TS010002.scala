@@ -1,13 +1,14 @@
 package com.yada.sdk.gcs.protocol.impl
 
+import com.yada.sdk.gcs.GCSClient
 import com.yada.sdk.gcs.protocol.GCSReq
 
 /**
   * 账单寄送方式查询
   */
-class TS010002(tranSessionId: String, reqChannelId: String, cardNo: String) extends GCSReq {
+class TS010002(tranSessionId: String, reqChannelId: String, cardNo: String)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
-  setPageProps("cardNo",cardNo)
+  setPageProps("cardNo", cardNo)
 
   override def transactionID: String = "010002"
 

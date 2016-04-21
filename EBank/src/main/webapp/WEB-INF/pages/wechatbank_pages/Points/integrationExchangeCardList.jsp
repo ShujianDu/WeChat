@@ -16,7 +16,7 @@
 	<script type="text/javascript">
 	function toJFDH()
 	{
-		document.getElementById("submitForm").submit();
+		$("#submitForm").submit();
 	}
 	</script>
 </body>

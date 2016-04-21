@@ -21,8 +21,16 @@ public class BindingQuery extends WcbBaseQuery {
 	private String verificationCode;
 	/** 默认绑定卡号 */
 	private String defaultCard;
-	/**	公众平台Id toUser */
-	private String toUser;
+	/**手机号*/
+	private String mobilNo;
+
+	public String getMobilNo() {
+		return mobilNo;
+	}
+
+	public void setMobilNo(String mobilNo) {
+		this.mobilNo = mobilNo;
+	}
 
 	public String getIdNumber() {
 		return idNumber;
@@ -70,13 +78,5 @@ public class BindingQuery extends WcbBaseQuery {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this,
 				ToStringStyle.MULTI_LINE_STYLE);
-	}
-
-	public String getToUser() {
-		return toUser;
-	}
-
-	public void setToUser(String toUser) {
-		this.toUser = toUser;
 	}
 }

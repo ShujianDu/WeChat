@@ -23,6 +23,16 @@ public class BillingDetail extends BaseModel implements Serializable {
 	private String debitCreditCode;
 	// 查询开始条数
 	private String startnum;
+	// 币种中文描述
+	private String currencyChinaCode;
+
+	public String getCurrencyChinaCode() {
+		return currencyChinaCode;
+	}
+
+	public void setCurrencyChinaCode(String currencyChinaCode) {
+		this.currencyChinaCode = currencyChinaCode;
+	}
 
 	public String getStartnum() {
 		return startnum;

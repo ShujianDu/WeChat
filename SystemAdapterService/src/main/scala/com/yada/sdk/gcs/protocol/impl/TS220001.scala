@@ -3,16 +3,17 @@ package com.yada.sdk.gcs.protocol.impl
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
+import com.yada.sdk.gcs.GCSClient
 import com.yada.sdk.gcs.protocol.GCSReq
 import com.yada.system.adapter.gcs.GCSTemporaryUpCommitParams
 
 /**
   * 个人信用卡额度调整申请交易
   */
-class TS220001(sessionId: String, channelId: String, gcsTemporaryUpCommitParams: GCSTemporaryUpCommitParams) extends GCSReq {
+class TS220001(sessionId: String, channelId: String, gcsTemporaryUpCommitParams: GCSTemporaryUpCommitParams)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
   //TODO 8位随机数 -目前随机是使用HHmmssSS
-  setPageProps("eosId", "0602"+new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance.getTime)+new SimpleDateFormat("HHmmssSS").format(Calendar.getInstance.getTime))
+  setPageProps("eosId", "0602" + new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance.getTime) + new SimpleDateFormat("HHmmssSS").format(Calendar.getInstance.getTime))
   setPageProps("eosType", "02")
   setPageProps("eosReason", "01")
   setPageProps("eosEmergencyDegree", "2")

@@ -5,7 +5,6 @@
 			$(".check_box .select_date .date_box li").click(function(){
 			$(".check_box .select_date .date_box li").removeClass("current_mounth");
 			$(this).addClass("current_mounth");
-			m=$(this).index();
 			date = $(this).val();
 			messageRevealWait();
 		});
@@ -13,12 +12,7 @@
 	//等待加载的界面显示和隐藏（卡号变化时执行方法）
 	function messageRevealWait(){
 		$(".wait_box").fadeIn(500);
-		setTimeout(function(){
 			getBillingSummaryAjax();
-			},4000);
-		setTimeout(function(){
-				$(".wait_box").fadeOut(500);
-			},3000);
 		}
 	//ajax获取账单
 	function getBillingSummaryAjax(){
@@ -29,6 +23,7 @@
 		noBillingWarning.text("");
 		if (cardNo == null || cardNo == "") {
 			cardNoWarning.text("*请选择卡号！");
+			$(".wait_box").fadeOut(500);
             return;
         }
 		 $.ajax({
@@ -41,6 +36,7 @@
 	            dataType: "json",
 	            async: false,
 	            success: function (json) {
+	            	$(".wait_box").fadeOut(500);
 	                if (json != null && json != "") {
 	                	messageReveal(json);
 	                }else if(json==""){
@@ -109,11 +105,10 @@
 		$("#periodStartDate").text(json[0].periodStartDate);
 		$("#periodEndDate").text(json[0].periodEndDate);
 		$("#currencyCodeReal1").text(json[0].currencyCode);
-		//TODO 币种转换
-		$("#currencyCode1").text(json[0].currencyCode);
-		$("#currencyCode3").text(json[0].currencyCode);
+		//显示中文币种
+		$("#currencyCode1").text(json[0].currencyChinaCode);
+		$("#currencyCode3").text(json[0].currencyChinaCode);
 		$("#closingBalance1").text(json[0].closingBalance);
-		$("#currencyCode5").text(json[0].currencyCode);
 		$("#minPaymentAmount1").text(json[0].minPaymentAmount);
 		if(json.length>1){
 			if(json[1].closingBalance!=null){
@@ -122,10 +117,9 @@
 			$("#closingBalance2").text(json[1].closingBalance);
 			$("#minPaymentAmount2").text(json[1].minPaymentAmount);
 			$("#currencyCodeReal2").text(json[1].currencyCode);
-			//TODO 币种转换
-			$("#currencyCode2").text(json[1].currencyCode);
-			$("#currencyCode4").text(json[1].currencyCode);
-			$("#currencyCode6").text(json[1].currencyCode);
+			//显示中文币种
+			$("#currencyCode2").text(json[1].currencyChinaCode);
+			$("#currencyCode4").text(json[1].currencyChinaCode);
 		if(json[1].closingBalance>0){
 			$(".view_value  #value2").parent(".value").children(".valueState").show();
 				$(".view_value  #value2").css("color","#e05d4f");

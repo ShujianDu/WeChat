@@ -6,6 +6,10 @@
 <c:set var="path" value="${pageContext.request.contextPath }"></c:set>
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/css/myBill.css"/>" />
+	<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/BlackTip.css"/>" />
+	<link rel="stylesheet" type="text/css"
+	href="<c:url value="/css/DefaultStyle.css"/>" />
 <title>中国银行信用卡</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -56,26 +60,8 @@
 			<div id="noBillingWarning"
 				style="color: #999999; font-size: 13px; line-height: 40px; margin-left: 16px;"></div>
 			<!--实际币种,其余为页面展示的中文币种  -->
-			<span id="currencyCodeReal1" style='dispay: none'></span> <span
-				id="currencyCodeReal2" style='dispay: none'></span>
-			<!--显示价格-->
-			<div class="view_value">
-				<div class="value_title"></div>
-				<div class="value_box ">
-					<span class="value_type"><span id="currencyCode5"></span>欠款</span>
-					<span type="text" class="value"><span id="value1"></span></span> <input
-						type="button" class="check_dt" id="check_dt1"
-						onclick="getBillingDetail('ALLT','currencyCodeReal1');" />
-				</div>
-				<div class="value_box ">
-					<span class="value_type"><span id="currencyCode6"></span>欠款</span>
-					<span type="text" class="value"><span id="value2"></span></span> <input
-						type="button" class="check_dt" id="check_dt2"
-						onclick="getBillingDetail('ALLT','currencyCodeReal2');" />
-				</div>
-			</div>
-		</div>
-
+			<span id="currencyCodeReal1" style='display: none'></span> 
+			<span id="currencyCodeReal2" style='display: none'></span>
 
 		<!--还款形式和信息-->
 		<div class="pay_box">
@@ -99,12 +85,18 @@
 				<div class="doubleState1" id="doubleState6">
 					<span id="currencyCode3" class="currencyCode"></span><span
 						id="minPaymentAmount1"></span>
+						<input type="button" class="check_dt" id="check_dt1"
+						onclick="getBillingDetail('ALLT','currencyCodeReal1');" />
 				</div>
 				<div class="doubleState" id="doubleState4">
 					<span id="currencyCode4" class="currencyCode"></span><span
 						id="minPaymentAmount2"></span>
+						<input
+						type="button" class="check_dt" id="check_dt2"
+						onclick="getBillingDetail('ALLT','currencyCodeReal2');" />
 				</div>
 			</div>
+			
 		</div>
 		<!--未出账单-->
 		<a href="#" class="noBill" onclick="getBillingDetail('UNSM','');">未出账单</a>

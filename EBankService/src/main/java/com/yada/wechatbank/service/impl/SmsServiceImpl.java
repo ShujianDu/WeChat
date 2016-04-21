@@ -94,6 +94,17 @@ public class SmsServiceImpl extends BaseService implements SmsService {
         return assemblySMS(identityNo, mobileNo, channelCode, installmentContent, bcspSmsCardApplyBsnType);
     }
 
+    /**
+     * 发送绑定短信验证码
+     * @param identityNo 证件号
+     * @param mobileNo 手机号
+     * @param bizCode 业务英文编号
+     * @return true-成功，false-失败
+     */
+    @Override
+    public boolean sendBinDingSMS(String identityNo, String mobileNo, String bizCode) {
+        return  assemblySMS(identityNo, mobileNo, bizCode,bindingContent,bcspSmsCardApplyBsnType);
+    }
 
     /**
      *

@@ -1,16 +1,13 @@
 package com.yada.wechatbank.model;
 
-import java.io.Serializable;
-
 /**
  * 积分余额
  * 
  * @author zm
  * 
  */
-public class JifenBlance implements Serializable{
+public class PointsBalance {
 
-	private static final long serialVersionUID = -8003016463991081793L;
 	private String totalPoint;// 积分余额
 	private String availPoint;// 有效积分余额
 	private String custLevel;// 客户层级

@@ -1,5 +1,6 @@
 package com.yada.wechatbank.service;
 
+import com.yada.wechatbank.model.PointsBalance;
 import com.yada.wechatbank.model.PointsDetail;
 import com.yada.wechatbank.model.PointsValidates;
 
@@ -9,6 +10,12 @@ import java.util.List;
  * Created by Echo on 2016/4/12.
  */
 public interface PointsService {
+
+    /**
+     * 获取账户积分余额
+     * @return
+     */
+    PointsBalance getPointsBlance(String identityNo, String identityType);
     /**
      * 获取积分明细
      * @param identityNo 证件号

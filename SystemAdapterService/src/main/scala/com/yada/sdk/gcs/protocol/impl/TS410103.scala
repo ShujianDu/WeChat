@@ -1,11 +1,12 @@
 package com.yada.sdk.gcs.protocol.impl
 
+import com.yada.sdk.gcs.GCSClient
 import com.yada.sdk.gcs.protocol.GCSReq
 
 /**
   * 查询余额
   */
-class TS410103(tranSessionId: String, reqChannelId: String, cardNo: String, currencyCode: String) extends GCSReq {
+class TS410103(tranSessionId: String, reqChannelId: String, cardNo: String, currencyCode: String)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
   setPageProps("cardNo", cardNo)
   setPageProps("currencyCode", currencyCode)
 

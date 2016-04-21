@@ -86,7 +86,14 @@ public class BillingDetailController extends BaseController {
 			return BUSYURL;
 		}
 		model.addAttribute("billingDetailList", billingDetailList);
+		billingSummaryQuery.setPeriodStartDate(periodStartDate);
+		billingSummaryQuery.setPeriodEndDate(periodEndDate);
+		billingSummaryQuery.setCurrencyCode(currencyCode);
+		model.addAttribute("model", billingSummaryQuery);
+		// 下次查询开始条数
 		model.addAttribute("startnum", STARTNUM + 1);
+		// 一页显示条数，页面做判断是否有更多信息用
+		model.addAttribute("onepage", ONEPAGE);
 		try {
 			model.addAttribute("cardNo", Crypt.cardNoOneEncode(cardNo));
 		} catch (Exception e) {

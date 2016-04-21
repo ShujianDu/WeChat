@@ -5,7 +5,7 @@ import com.yada.wechatbank.base.BaseModel;
 /**
  * Created by Echo on 2016/4/13.
  */
-public class PointsDetail{
+public class PointsDetail {
 
     //积分ID
     private String id;
