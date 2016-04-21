@@ -7,6 +7,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.yada.wechatbank.base.BaseService;
@@ -24,6 +25,12 @@ import com.yada.wechatbank.util.CurrencyUtil;
 @Service
 public class BillingDetailServiceImpl extends BaseService implements BillingDetailService {
 	private final static Logger logger = LoggerFactory.getLogger(BillingDetailServiceImpl.class);
+	// 已出账单明细查询
+	@Value(value = "${url.alltBillingDetail}")
+	protected String alltBillingDetailUrl;
+	// 未出账单明细查询
+	@Value(value = "${url.unsmBillingDetail}")
+	protected String unsmBillingDetailUrl;
 	@Autowired
 	private CurrencyUtil currencyUtil;
 
