@@ -64,7 +64,7 @@ class BalanceController extends BaseController{
 	public String getCardNoBalance_Ajax(String cardNo) {
 		List<Balance> newList = balanceServiceImpl.getCardNoBalance(cardNo);
 		if (newList == null) {
-			return "exception";
+			return JSONObject.toJSONString("exception");
 		}
 		logger.debug("@WDED@通过cardNo[{}]获取到的额度集合为[{}]", cardNo, newList);
 		return JSONObject.toJSONString(newList);
