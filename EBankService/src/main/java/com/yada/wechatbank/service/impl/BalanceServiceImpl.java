@@ -31,13 +31,13 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
     private CurrencyUtil currencyUtil;
 
     @Value("${url.getBalanceMethod}")
-    private String getBalance;
+    private String getBalanceMethod;
 
     public List<Balance> getCardNoBalance(String cardNo) {
         Map<String, String> param = initGcsParam();
         param.put("cardNo", cardNo);
 
-        BalanceResp balanceResp = httpClient.send(getBalance, param, BalanceResp.class);
+        BalanceResp balanceResp = httpClient.send(getBalanceMethod, param, BalanceResp.class);
         List<Balance> balanceList=balanceResp==null ? null : balanceResp.getBizResult();
 
         logger.debug("@WDED@通过卡[{}]获取到的额度集合为[{}]", cardNo, balanceList);

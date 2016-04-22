@@ -19,7 +19,7 @@ public class BalanceResp extends BaseModel {
 		return bizResult;
 	}
 
-	public void setBalance(List<Balance> bizResult) {
+	public void setBizResult(List<Balance> bizResult) {
 		this.bizResult = bizResult;
 	}
 

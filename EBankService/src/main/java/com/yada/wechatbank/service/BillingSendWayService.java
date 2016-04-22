@@ -24,4 +24,9 @@ public interface BillingSendWayService{
 	 * @return 是否成功
 	 */
 	boolean updateBillSendType(String cardNo,String billSendType);
+	/**
+	 * 卡号加密+卡号遮掩
+     * @param billSendType  账单寄送方式实体
+	 */
+	void processShowCardNo(BillSendType billSendType);
 }

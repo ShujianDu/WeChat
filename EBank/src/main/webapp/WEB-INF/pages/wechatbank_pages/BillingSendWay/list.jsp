@@ -35,7 +35,7 @@
 						<td  align="center"><span class="black"><c:out value="${item.billSendTypeDesc}" /></span></td>
 					</tr>
 					<tr>	
-					<td><a class="allA"	href="../billingsendway/edit.do?cardNo=${fn:substringAfter(item.cardNo,',')}&item.billSendType">更改账单寄送方式</a></td>
+					<td><a class="allA"	href="../billingsendway/edit.do?cardNo=${fn:substringAfter(item.cardNo,',')}&billSendType=${item.billSendType}">更改账单寄送方式</a></td>
 					</tr>
 				</table>
 			</div>

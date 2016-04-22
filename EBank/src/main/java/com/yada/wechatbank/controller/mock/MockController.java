@@ -108,13 +108,10 @@ public class MockController {
     @ResponseBody
     public String getBillSendType() {
         Map<String, Object> map = mockResult();
-        List<BillSendType> billSendTypeList = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            BillSendType b=new BillSendType();
-            b.setBillSendType("C");
-            b.setBillSendTypeDesc("测试");
-        }
-        map.put(key, billSendTypeList);
+        BillSendType b = new BillSendType();
+        b.setBillSendType("C");
+        b.setBillSendTypeDesc("测试");
+        map.put(key, b);
         return JSON.toJSONString(map);
     }
 
@@ -130,13 +127,13 @@ public class MockController {
     @ResponseBody
     public String getCardHolderInfo() {
         Map<String, Object> map = mockResult();
-        CardHolderInfo c=new CardHolderInfo();
+        CardHolderInfo c = new CardHolderInfo();
         c.setMobileNo("1591111111");
         c.setEMail("123123123123@qq.com");
         c.setFamilyName("李任日");
         c.setGender("Male");
         c.setPostalCode("100010");
-        c.setHomeAddressPhone("辉煌");
+        c.setHomeAddressPhone("67986543");
         c.setWorkUnitName("北京亚大通讯");
         c.setWorkUnitPhone("82971902");
         c.setBillAddressLine("上地西路8号院B座");
@@ -201,8 +198,8 @@ public class MockController {
         for (int i=0;i< 5;i++){
             PointsValidates pointsValidates = new PointsValidates();
             pointsValidates.setCardNo("111111111111111111"+i);
-            pointsValidates.setProductName("111111111111111"+i);
-            pointsValidates.setProductCode("1111111111111111"+i);
+            pointsValidates.setProductName("111111111111111" + i);
+            pointsValidates.setProductCode("1111111111111111" + i);
             pointsValidatesList.add(pointsValidates);
         }
         map.put(key, pointsValidatesList);
@@ -238,6 +235,18 @@ public class MockController {
         return JSON.toJSONString(map);
     }
 
-
+    @RequestMapping(value = "getCurrentPeriodBillMethod")
+    @ResponseBody
+    public String getCurrentPeriodBillMethod(){
+        Map<String, Object> map = mockResult();
+        List<BillingPeriod> billingPeriods = new ArrayList<>();
+        BillingPeriod b=new BillingPeriod();
+        b.setAccountId("123123");
+        b.setStatementNo("512");
+        b.setPeriodEndDate("2016-04-20");
+        billingPeriods.add(b);
+        map.put(key, billingPeriods);
+        return JSON.toJSONString(map);
+    }
 
 }

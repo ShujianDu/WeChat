@@ -109,14 +109,24 @@ function update(){
 	if(can){
 	var billSendType=result;
 	var cardNo=$("#cardNo").val();
-	$.post('update.do',
-			{'cardNo':cardNo,'billSendType':billSendType},function(data){
-				if(data=="修改成功"){
-					location.href='success.do';
-				}else{
-					$("#alertmsg").innerHTML=data;
+
+		$.ajax({
+			url: "update.do",
+			data: {
+				cardNo: cardNo,
+				billSendType: billSendType,
+			},
+			type: "post",
+			dataType: "text",
+			async: false,
+			success: function (result) {
+				if (result == "修改成功") {
+					window.location.href = 'success.do';
+				} else {
+					$("#alertmsg").innerHTML = result;
 				}
-			},'txt');
+			}
+			});
 	}
 }
 

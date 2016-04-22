@@ -25,7 +25,7 @@ public class CardHolderInfoServiceImpl extends BaseService implements CardHolder
     private static final String DEFAULT = "未登记";
     private static final String REPLACESTRING = "****";
 
-    @Value("url.getCardHolderInfoMethod")
+    @Value("${url.getCardHolderInfoMethod}")
     private String getCardHolderInfoMethod;
 
 
