@@ -9,24 +9,26 @@
 <title>中国银行信用卡</title>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/wechatbank/index.css"/>" />
 <script type="text/javascript">
-	window.onload = function() {
+
+	$(window).load(function() {
+		alert("hello");
 		var cardSelect = $("#cardNoSelect");
 		for ( var i = 0; i < cardSelect.length; i++) {
 			if (cardSelect[i].val() == "${cardNo}") {
 				cardSelect[i].attr("selected",true);
 			}
 		}
-		var listlength=${fn:length(pageList)}
-		var isFollowUp=${isFollowUp}
-		if(listlength==10){
+		var listlength=${fn:length(pageList)};
+		var isFollowUp=${isFollowUp};
+		if(listlength == 1){
 			$("#moreButton").css("display","block");
 		}else{
-			if(isFollowUp > 0) {
+			if(isFollowUp == "true") {
 				$("#moreButton").css("display","block");
 			}
-			$("#moreButton").css("display","block");
+			$("#moreButton").css("display","none");
 		}
-	}
+	});
 </script>
 <%@include file="../../base_pages/wxReadyFunction.jsp"%>
 </head>
@@ -160,8 +162,10 @@
 	</div>
 	<div id="addViewDiv"></div>
 	<div style="margin: 20px 10px;">
-		<input type="button" value="查看更多" class="HandInHui" style="width: 100%;display: none;margin: 10px auto;border:1px solid #999" id="moreButton" onclick="getMore();" />	
-	</div>	
+		<input type="button" value="查看更多" class="HandInHui" style="width: 100%;display: none;margin: 10px auto;border:1px solid #999" id="moreButton" onclick="getMore();" />
+		<input id="isFollowUp" name="isFollowUp" value="${isFollowUp}" type="hidden"/>
+		<input id="nextGCSStartIndex" name="nextGCSStartIndex" value="${nextGCSStartIndex}" type="hidden"/>
+	</div>
 	<div id="sending"
 		style="position: absolute; position: fixed; height: 100%; background: #fff; width: 100%; top: 0; left: 0; visibility: hidden; filter: alpha(opacity =  50); opacity: 0.50;">
 		<img src="<c:url value="/images/wechatbank/5-121204193R5-50.gif"/>"
@@ -184,25 +188,36 @@
 			page++;
 			if(isClicked==false){
 				var sending = $("#sending");
+				var isFollowUp = $("#isFollowUp").val();
+				var nextGCSStartIndex = $("#nextGCSStartIndex").val();
 				sending.css("visibility", "visible");
 				isClicked = true;
 				$.ajax({
-					url: "getMore_ajax.do",
+					url: "ajax_getMore.do",
 					data: {
 						cardNo: ${cardNo},
 						currencyCodeChinese: ${currencyCodeChinese},
+						isFollowUp: isFollowUp,
+						nextGCSStartIndex: nextGCSStartIndex,
 						timestamp: new Date().getTime()
 					},
 					type: "post",
-					dataType: "text",
+					dataType: "jason",
 					async: false,
 					success: function (result) {
 						if (result == null || result == "null") {
-							$("#moreButton").css("display","block");
+							$("#moreButton").css("display","none");
+							$("#isFollowUp").val("false");
 						} else if (result == "exception") {
 							window.location.href = "../error.html";
 						} else {
 							var list = eval("(" + result + ")");
+							if(list.length>10){
+								$("#moreButton").css("display","none");
+								$("#isFollowUp").val("false");
+							}else{
+								$("#nextGCSStartIndex").val(page*10+i);
+							}
 							if (list.length > 0 && list[0].instalmentOriginalAmount != "") {
 								for (var i = 0; i < list.length; i++) {
 									var cardNo = list[i].cardNo;
@@ -268,7 +283,6 @@
 											"<div class='topOneB mar-1 bottomOneBradius'>" +
 											"<table class='topTwo'>" +
 											"<tr>" +
-											"<td><a class='allA' href='show.do?number=" + (page * 10 + i) + "&cardNo?=" + cardNo + '>查看详情</a></td>"+
 									"</tr>" +
 									"</table>" +
 									"</div>" +

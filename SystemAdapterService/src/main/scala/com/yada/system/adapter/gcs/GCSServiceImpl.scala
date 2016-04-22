@@ -182,7 +182,7 @@ class GCSServiceImpl extends GCSService {
     val list = result.pageListValues(f => {
       GCSConsumptionInstallmentsEntity(f.getOrElse("cardNo", ""), f.getOrElse("transactionDate", ""), f.getOrElse("transactionAmount", ""),
         f.getOrElse("debitCreditCode", ""), f.getOrElse("transactionDescription", ""), f.getOrElse("accountID", ""), f.getOrElse("accountedID", ""),
-        f.getOrElse("accountNoID", ""))
+        f.getOrElse("accountNoID", ""),f.getOrElse("originalCurrencyCode",""),f.getOrElse("originalTransactionAmount",""))
     })
     //isFollowUp ：1-有下一页，0-没有下一页
     ConsumptionInstallmentsResult(transactionNumber, isFollowUp == "1", list)

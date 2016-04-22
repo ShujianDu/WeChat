@@ -1,15 +1,16 @@
 package com.yada.wechatbank.base;
 
-import com.yada.wechatbank.client.HttpClient;
-import com.yada.wechatbank.client.model.CardInfoResp;
-import com.yada.wechatbank.model.CardInfo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.yada.wechatbank.client.HttpClient;
+import com.yada.wechatbank.client.model.CardInfoResp;
+import com.yada.wechatbank.model.CardInfo;
 
 /**
  * Service父类，提供共用属性和方法 Created by QinQiang on 2016/4/12.
@@ -40,18 +41,6 @@ public class BaseService {
     // 获取卡信息
     @Value("${url.getCardInfos}")
     protected String getCardInfos;
-    // 账期查询
-    @Value(value = "${url.billingPeriod}")
-    protected String billingPeriodUrl;
-    // 账单摘要查询
-    @Value(value = "${url.billingSummary}")
-    protected String billingSummaryUrl;
-    // 已出账单明细查询
-    @Value(value = "${url.alltBillingDetail}")
-    protected String alltBillingDetailUrl;
-    // 未出账单明细查询
-    @Value(value = "${url.unsmBillingDetail}")
-    protected String unsmBillingDetailUrl;
 
     /**
      * 构建直销系统参数
@@ -92,7 +81,7 @@ public class BaseService {
         map.put("idType", identityType);
         map.put("idNum", identityNo);
         CardInfoResp cardInfoResp = httpClient.send(getCardInfos, map, CardInfoResp.class);
-        return cardInfoResp.getBizResult();
+        return cardInfoResp == null ? null : cardInfoResp.getBizResult();
     }
 
     /**

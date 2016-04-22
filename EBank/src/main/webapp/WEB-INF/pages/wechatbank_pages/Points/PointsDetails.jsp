@@ -11,6 +11,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
     <link href="<c:url value="/css/PointDetails.css"/>" rel="stylesheet" type="text/css">
     <link href="<c:url value="/css/myPoint.css"/>" rel="stylesheet" type="text/css">
+    <link href="<c:url value="/css/DefaultStyle.css"/>" rel="stylesheet" type="text/css">
+    <link href="<c:url value="/css/BlackTip.css"/>" rel="stylesheet" type="text/css">
+    <link href="<c:url value="/css/fixedDetails.css"/>" rel="stylesheet" type="text/css">
     <script type="text/javascript">
         function getValidate() {
             window.location.href="../points/validate.do?numberP=${statusParent.index}&number=${status.index}";
@@ -19,7 +22,7 @@
     <title>积分详情</title>
 </head>
 
-<body>
+<body style="background-color:#eeeeee;">
 <!--BillingDetails-->
 <div class="PointDetails_content">
     <div class="PointDetails_title">积分详情</div>
@@ -53,7 +56,7 @@
             <c:if test="${fn:length(pointsDetailList) gt 1}">
                 <c:forEach items="${pointsDetailList}" var="item" varStatus="status">
                     <c:if test="${fn:length(item.parentId) gt 0}">
-                        <div class="dynamic_box">
+                        <div class="dynamic_box" style="margin-top:14px;">
                             <div class="productName">
                                 <span class="name">信用卡号：</span>
                             <span class="dynamicData">

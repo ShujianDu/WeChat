@@ -1,0 +1,29 @@
+body {
+    width: 100%;
+    background-color: #eeeeee;
+}
+
+/*menu*/
+.menu_box {
+    width: 100%;
+    height: 45px;
+    background-image: url(../images/menu_bg.png);
+    background-size: 100% 100%;
+}
+
+.menu_box a {
+    display: block;
+    font-size: 16px;
+    float: left;
+    margin-left: 2.6%;
+    margin-right: 2.6%;
+    width: 19.8%;
+    line-height: 45px;
+    text-align: center;
+    height: 44px;
+}
+
+.menu_box .current_menu {
+    border-bottom: 1px solid #f73953;
+    color: #f73953;
+}

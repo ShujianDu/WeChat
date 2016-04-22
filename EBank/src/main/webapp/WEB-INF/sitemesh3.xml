@@ -1,0 +1,7 @@
+<sitemesh>
+    <mapping path="/*" exclue="true"/>
+    <mapping path="/menu/*" decorator="/WEB-INF/pages/layout/default.jsp"/>
+    <mapping path="/billingsummary/*" decorator="/WEB-INF/pages/layout/default.jsp"/>
+    <mapping path="/balance/*" decorator="/WEB-INF/pages/layout/default.jsp"/>
+    <mapping path="/points/*" decorator="/WEB-INF/pages/layout/default.jsp"/>
+</sitemesh>

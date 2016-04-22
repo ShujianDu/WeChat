@@ -1,8 +1,10 @@
 package com.yada.wechatbank.service;
 
 
+
+import com.yada.wechatbank.model.HistoryInstallmentList;
+
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Echo on 2016/4/12.
@@ -16,7 +18,7 @@ public interface HistoryInstallmentService {
      * @param selectNumber 查询号
      * @return 分期历史信息
      */
-    Map<String, Object> queryHistoryInstallment(String cardNo, String startNumber, String selectNumber);
+    HistoryInstallmentList queryHistoryInstallment(String cardNo, String startNumber, String selectNumber);
 
     /**
      * 查询卡列表
