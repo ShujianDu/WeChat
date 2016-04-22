@@ -22,10 +22,10 @@ public class BillingSendWayServiceImpl extends BaseService implements BillingSen
             .getLogger(this.getClass());
 
     // 账单寄送方式查询
-    @Value(value = "${url.getBillSendTypeMethod}")
+    @Value("${url.getBillSendTypeMethod}")
     protected String getBillSendTypeMethod;
     // 账单寄送方式修改
-    @Value(value = "${url.updateBillSendTypeMethod}")
+    @Value("${url.updateBillSendTypeMethod}")
     protected String updateBillSendTypeMethod;
 
 

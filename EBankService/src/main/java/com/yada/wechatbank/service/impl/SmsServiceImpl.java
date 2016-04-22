@@ -40,7 +40,7 @@ public class SmsServiceImpl extends BaseService implements SmsService {
     private String bcspSmsCardApplyBsnType;
 
     // 发送短信验证码URL
-    @Value(value = "${url.sendSMS}")
+    @Value("${url.sendSMS}")
     private String sendSMS;
 
 
