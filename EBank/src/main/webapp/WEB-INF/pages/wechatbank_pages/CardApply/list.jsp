@@ -277,11 +277,13 @@
     function check() {
         var identityNo = $("#identityNo").val();
         var code = $("#code").val();
+        var mobileNo = $("#mobileNo").val();
 
         $.ajax({
             url: "checkMsgCode_ajax.do",
             data: {
                 identityNo: identityNo,
+                mobileNo: mobileNo,
                 code: code,
                 timestamp: new Date().getTime()
             },

@@ -3,6 +3,8 @@ package com.yada.wechatbank.service.impl;
 import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.BooleanResp;
 import com.yada.wechatbank.service.ReportLostService;
+import com.yada.wechatbank.service.SmsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,11 @@ import java.util.Map;
  */
 @Service
 public class ReportLostServiceImpl extends BaseService implements ReportLostService {
+
+    private static final String CHANNEL_CODE = "EBank_ReportLost";
+
+    @Autowired
+    private SmsService smsService;
 
     // 临时挂失
     @Value(value = "${url.tempCreditCardReportLost}")
@@ -72,9 +79,10 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
 
     /**
      * 调取后台接口获取姓
+     *
      * @return String
      */
-    private String getFamilyName(String cardNo){
+    private String getFamilyName(String cardNo) {
         String familyName = "";
         Map<String, String> param = initGcsParam();
         param.put("cardNo", cardNo);
@@ -82,4 +90,13 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
         return familyName;
     }
 
+    @Override
+    public boolean sendSMS(String identityNo, String mobileNo) {
+        return smsService.sendSMS(identityNo, mobileNo, CHANNEL_CODE);
+    }
+
+    @Override
+    public boolean checkSMSCode(String identityNo, String mobileNo, String code) {
+        return smsService.checkSMSCode(identityNo, mobileNo, CHANNEL_CODE, code);
+    }
 }

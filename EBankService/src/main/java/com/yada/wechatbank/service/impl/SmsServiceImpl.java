@@ -44,8 +44,6 @@ public class SmsServiceImpl extends BaseService implements SmsService {
     private String sendSMS;
 
 
-
-
     @Value("${sms.content}")
     private String smsContent; // 短信验证发送的内容
     @Value("${sms.bindingContent}")
@@ -58,27 +56,27 @@ public class SmsServiceImpl extends BaseService implements SmsService {
     /**
      * 发送短信验证码
      *
-     * @param identityNo  证件号
-     * @param mobileNo    手机号
-     * @param bizCode     业务英文编号
+     * @param identityNo 证件号
+     * @param mobileNo   手机号
+     * @param bizCode    业务英文编号
      * @return true-成功，false-失败
      */
     @Override
     public boolean sendSMS(String identityNo, String mobileNo, String bizCode) {
-        return  assemblySMS(identityNo, mobileNo, bizCode,smsContent,bcspSmsBsnType);
+        return assemblySMS(identityNo, mobileNo, bizCode, smsContent, bcspSmsBsnType);
     }
 
     /**
      * 发送预约办卡短信验证码
      *
-     * @param identityNo  证件号
-     * @param mobileNo    手机号
-     * @param bizCode     业务英文编号
+     * @param identityNo 证件号
+     * @param mobileNo   手机号
+     * @param bizCode    业务英文编号
      * @return true-成功，false-失败
      */
     @Override
     public boolean sendCardApplySMS(String identityNo, String mobileNo, String bizCode) {
-       return  assemblySMS(identityNo, mobileNo, bizCode,cardApplyContent,bcspSmsCardApplyBsnType);
+        return assemblySMS(identityNo, mobileNo, bizCode, cardApplyContent, bcspSmsCardApplyBsnType);
     }
 
     /**
@@ -96,27 +94,26 @@ public class SmsServiceImpl extends BaseService implements SmsService {
 
     /**
      * 发送绑定短信验证码
+     *
      * @param identityNo 证件号
-     * @param mobileNo 手机号
-     * @param bizCode 业务英文编号
+     * @param mobileNo   手机号
+     * @param bizCode    业务英文编号
      * @return true-成功，false-失败
      */
     @Override
     public boolean sendBinDingSMS(String identityNo, String mobileNo, String bizCode) {
-        return  assemblySMS(identityNo, mobileNo, bizCode,bindingContent,bcspSmsCardApplyBsnType);
+        return assemblySMS(identityNo, mobileNo, bizCode, bindingContent, bcspSmsCardApplyBsnType);
     }
 
     /**
-     *
-     * @param identityNo        证件号
-     * @param mobileNo          手机号
-     * @param bizCode     业务英文编号
-     * @param smsContent        短信模板
-     * @param bxnType           SMS模板类型
-     * @return                 是否发送和保存成功
+     * @param identityNo 证件号
+     * @param mobileNo   手机号
+     * @param bizCode    业务英文编号
+     * @param smsContent 短信模板
+     * @param bxnType    SMS模板类型
+     * @return 是否发送和保存成功
      */
-    private boolean assemblySMS(String identityNo, String mobileNo, String bizCode, String smsContent,String bxnType)
-    {
+    private boolean assemblySMS(String identityNo, String mobileNo, String bizCode, String smsContent, String bxnType) {
         String code = generateSMSCode();
         if (code == null || "".equals(code)) {
             logger.warn("为用户identityNo[{}]，mobile[{}]在渠道[{}]生成验证码失败", identityNo, mobileNo, bizCode);
@@ -176,16 +173,17 @@ public class SmsServiceImpl extends BaseService implements SmsService {
      * 获取短信验证码 获取同时数据会保存在ehcache中，key的组合为：证件号 + _ + 手机号  + _ + channelCode
      * （证件号+下划线+手机号+下划线+渠道编号）value为实体
      *
-     * @param identityNo  证件号
-     * @param mobile      手机号
-     * @param bizCode     业务英文编号
-     * @param code        验证码
+     * @param identityNo 证件号
+     * @param mobile     手机号
+     * @param bizCode    业务英文编号
+     * @param code       验证码
      */
     private void saveSMSCodeToCache(String identityNo, String mobile, String bizCode, String code) {
         SMSCodeManagement smsCode = new SMSCodeManagement();
         smsCode.setSmsCode(code);
         smsCode.setMobile(mobile);
         smsCode.setBizCode(bizCode);
+        smsCode.setIdentityNo(identityNo);
         //加入缓存
         sMSCacheImpl.put(identityNo + "_" + mobile + "_" + bizCode, smsCode);
         logger.debug("为用户identityNo[{}]、手机号[{}]在[{}]渠道生成的验证码[{}]", identityNo, mobile, bizCode, smsCode.getSmsCode());

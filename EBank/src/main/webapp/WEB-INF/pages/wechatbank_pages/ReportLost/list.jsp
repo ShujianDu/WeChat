@@ -35,12 +35,12 @@
                 <tr>
                     <td class="td-le">手机号：</td>
                     <td>
-                        <input type="text" name="mobilNo" id="mobilNo" maxlength="11" onchange="changeWarning();"/>
+                        <input type="text" name="mobileNo" id="mobileNo" maxlength="11" onchange="changeWarning();"/>
                     </td>
                 </tr>
             </table>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <span id="mobilNoWarning" style="color: red; font-size: 12px;"></span>
+            <span id="mobileNoWarning" style="color: red; font-size: 12px;"></span>
             <table class="topTwo" style="margin-bottom: -10px;">
                 <tr>
                     <td class="td-le" style="width:100px;">*短信验证码：</td>
@@ -96,20 +96,20 @@
     var can = false;
     var cardNoWarning = $("#cardNoWarning");
     var typeNoWarning = $("#typeNoWarning");
-    var mobilNoWarning = $("#mobilNoWarning");
+    var mobileNoWarning = $("#mobileNoWarning");
     var codeWarning = $("#codeWarning");
 
     function submitTemp() {
         cardNoWarning.text("");
         typeNoWarning.text("");
-        mobilNoWarning.text("");
+        mobileNoWarning.text("");
         codeWarning.text("");
         if ($("#cardNoSelect").val() == "") {
             cardNoWarning.text("请选择挂失卡");
             return;
         }
-        if ($("#mobilNo").val() == "") {
-            mobilNoWarning.text("请输入手机号");
+        if ($("#mobileNo").val() == "") {
+            mobileNoWarning.text("请输入手机号");
             return;
         }
         if ($("#code").val() == "") {
@@ -132,21 +132,21 @@
     //发送手机验证码
     function sendMessage() {
         cardNoWarning.text("");
-        mobilNoWarning.text("");
-        var mobilNo = $("#mobilNo").val();
+        mobileNoWarning.text("");
+        var mobileNo = $("#mobileNo").val();
         if ($("#cardNoSelect").val() == "") {
             cardNoWarning.text("请选择挂失卡");
             return;
         }
-        if (mobilNo == null || mobilNo == "") {
-            mobilNoWarning.text("*手机号不能为空，请输入！");
+        if (mobileNo == null || mobileNo == "") {
+            mobileNoWarning.text("*手机号不能为空，请输入！");
             return false;
         }
         $("#msgCodeButton").attr("disabled", true);
         $.ajax({
             url: "getMsgCode_ajax.do",
             data: {
-                mobilNo: mobilNo,
+                mobileNo: mobileNo,
                 verificationCode: encodeURI('verificationCode'),
                 timestamp: new Date().getTime()
             },
@@ -157,7 +157,7 @@
                 $("#msgCodeButton").removeAttr("disabled");
                 if (result != null && result != "") {
                     if (result == "false") {
-                        mobilNoWarning.text("短信验证码发送失败，请稍候再试！");
+                        mobileNoWarning.text("短信验证码发送失败，请稍候再试！");
                     } else {
                         buttonTimeOut();
                     }
@@ -169,9 +169,11 @@
     //验证短信验证码是否正确
     function checkMsgCode() {
         var code = $("#code").val();
+        var mobileNo = $("#mobileNo").val();
         $.ajax({
             url: "checkMsgCode_ajax.do",
             data: {
+                mobileNo: mobileNo,
                 code: code,
                 timestamp: new Date().getTime()
             },
@@ -192,7 +194,7 @@
 
     //清除错误警告
     function changeWarning() {
-        mobilNoWarning.text("");
+        mobileNoWarning.text("");
         codeWarning.text("");
     }
 

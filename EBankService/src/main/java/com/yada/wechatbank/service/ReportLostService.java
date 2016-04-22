@@ -45,10 +45,30 @@ public interface ReportLostService {
 
     /**
      * 解除临时挂失
-     * @param cardNo 卡号
+     *
+     * @param cardNo       卡号
      * @param identityType 证件类型
-     * @param identityNo 证件号
+     * @param identityNo   证件号
      * @return boolean
      */
-    boolean relieveCreditCardTempReportLost(String cardNo,String identityType, String identityNo);
+    boolean relieveCreditCardTempReportLost(String cardNo, String identityType, String identityNo);
+
+    /**
+     * 发送短信验证码
+     *
+     * @param identityNo 证件号
+     * @param mobileNo   手机号
+     * @return boolean
+     */
+    boolean sendSMS(String identityNo, String mobileNo);
+
+    /**
+     * 验证短信验证码
+     *
+     * @param identityNo
+     * @param mobileNo
+     * @param code
+     * @return boolean
+     */
+    boolean checkSMSCode(String identityNo, String mobileNo, String code);
 }

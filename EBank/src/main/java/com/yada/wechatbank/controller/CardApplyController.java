@@ -4,7 +4,6 @@ import com.yada.wechatbank.base.BaseController;
 import com.yada.wechatbank.model.CardApplyList;
 import com.yada.wechatbank.query.CardApplyQuery;
 import com.yada.wechatbank.service.CardApplyService;
-import com.yada.wechatbank.service.SmsService;
 import com.yada.wechatbank.util.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,13 +25,10 @@ public class CardApplyController extends BaseController {
 
     private static final String LIST_URL = "wechatbank_pages/CardApply/list";
     private static final String DETAIL_URL = "wechatbank_pages/CardApply/detail";
-    private static final String CHANNEL_CODE = "EBank_CardApply";
 
 
     @Autowired
     private CardApplyService cardApplyService;
-    @Autowired
-    private SmsService smsService;
 
     /**
      * 初始化申请进度查询页面
@@ -74,6 +70,7 @@ public class CardApplyController extends BaseController {
 
         model.addAttribute("model", cardApplyQuery);
         model.addAttribute("cardApplyList", cardApplyList);
+        model.addAttribute("currPage", nextPage);
 
         return DETAIL_URL;
     }
@@ -81,11 +78,16 @@ public class CardApplyController extends BaseController {
     /**
      * 获取短信验证码
      *
+     * @param request          HttpServletRequest
+     * @param identityType     证件类型
+     * @param identityNo       证件号
+     * @param mobileNo         手机号
+     * @param verificationCode 验证码
      * @return String
      */
     @RequestMapping(value = "getMsgCode_ajax")
     @ResponseBody
-    public String getMsgCode_ajax(HttpServletRequest request, String identityNo, String mobileNo, String verificationCode) {
+    public String getMsgCode_ajax(HttpServletRequest request, String identityType, String identityNo, String mobileNo, String verificationCode) {
         String result = "true";
         // Session中存储的验证码
         String randomCode = (String) request.getSession().getAttribute("jcmsrandomchar");
@@ -105,24 +107,26 @@ public class CardApplyController extends BaseController {
         // 验证成功后Remove
         TokenUtil.removeCode(request);
         // 发送短信验证码
-        boolean sendResult = smsService.sendCardApplySMS(identityNo, mobileNo, CHANNEL_CODE);
-        // 如果发送失败，则重新生成Token并返回
-        if (!sendResult) {
-            TokenUtil.addToken(request);
-            result = sendResult + "," + request.getSession().getAttribute("keyInSession");
-        }
+        String sendResult = cardApplyService.sendCardApplySMS(identityType, identityNo, mobileNo);
+        // 重新生成Token并返回
+        TokenUtil.addToken(request);
+        result = sendResult + "," + request.getSession().getAttribute("keyInSession");
         return result;
     }
 
     /**
      * 验证短信验证码
      *
+     * @param identityNo 证件号
+     * @param mobileNo   手机号
+     * @param code       验证码
      * @return String
      */
     @RequestMapping(value = "checkMsgCode_ajax")
     @ResponseBody
     public String checkMsgCode_ajax(String identityNo, String mobileNo, String code) {
-        String result = Boolean.toString(smsService.checkSMSCode(identityNo, mobileNo, CHANNEL_CODE, code)).toLowerCase();
+        String result = Boolean.toString(
+                cardApplyService.checkCardApplySMSCode(identityNo, mobileNo, code)).toLowerCase();
         return result;
     }
 
