@@ -1,7 +1,5 @@
 package com.yada.wechatbank.model;
 
-import com.yada.wechatbank.base.BaseModel;
-
 /**
  * 账单授权实体
  * @author Tx

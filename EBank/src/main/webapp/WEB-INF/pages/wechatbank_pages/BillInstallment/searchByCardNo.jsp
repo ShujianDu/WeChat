@@ -3,8 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <%@include file="../../base_pages/base.jsp"%>
-<%@include file="../../base_pages/wxjs.jsp"%>
-<%@include file="../../base_pages/wxReadyFunction.jsp"%>
 <meta name="viewport"
 	content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 <title>中国银行信用卡</title>
@@ -75,14 +73,14 @@
 		
 		var isClicked = false;
 		function validate_form(){
-			var cardNo = document.getElementById("cardNo");
-			var currencyCode = document.getElementById("currencyCode");
-			if (cardNo.value == null || cardNo.value == "") {
-				document.getElementById("cardNoWarning").innerHTML = "请选择卡号！";
+			var cardNo = $("#cardNo");
+			var currencyCode = $("#currencyCode");
+			if (cardNo.val() == null || cardNo.val() == "") {
+				$("#cardNoWarning").innerHTML = "请选择卡号！";
 				return false;
 			}
-			if (currencyCode.value == null || currencyCode.value == "") {
-				document.getElementById("currencyCodeWarning").innerHTML = "请选择币种！";
+			if (currencyCode.val() == null || currencyCode.val() == "") {
+				$("#currencyCodeWarning").innerHTML = "请选择币种！";
 				return false;
 			}
 			isClicked = true;
@@ -90,14 +88,14 @@
 		}
 		
 		function changeWarning() {
-			document.getElementById("cardNoWarning").innerHTML = "";
-			document.getElementById("currencyCodeWarning").innerHTML = "";
+			$("#cardNoWarning").innerHTML = "";
+			$("#currencyCodeWarning").innerHTML = "";
 		}
 		
 		window.onload = function() {
-			var cardSelect = document.getElementById("cardNo");
+			var cardSelect = $("#cardNo");
 			for ( var i = 0; i < cardSelect.length; i++) {
-				if (cardSelect[i].value == "${cardNo}") {
+				if (cardSelect[i].val() == "${cardNo}") {
 					cardSelect[i].selected = "selected";
 				}
 			}

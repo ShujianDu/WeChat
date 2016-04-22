@@ -1,5 +1,12 @@
 package com.yada.wechatbank.base;
 
+import com.yada.wechatbank.client.HttpClient;
+import com.yada.wechatbank.client.model.CardInfoResp;
+import com.yada.wechatbank.client.model.StringResp;
+import com.yada.wechatbank.model.CardInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +49,12 @@ public class BaseService {
     @Value("${url.getCardInfos}")
     protected String getCardInfos;
 
+
+    // 获取用户在发卡的手机号
+    @Value("${url.getCustMobileMethod}")
+    protected String getCustMobileMethod;
+
+
     /**
      * 构建直销系统参数
      *
@@ -64,8 +77,8 @@ public class BaseService {
      */
     public Map<String, String> initGcsParam() {
         Map<String, String> param = new HashMap<>();
-        param.put("sessionId", gcsSessionId);
-        param.put("channelId", gcsChannelId);
+        param.put("tranSessionID", gcsSessionId);
+        param.put("reqChannelID", gcsChannelId);
         return param;
     }
 
@@ -105,5 +118,21 @@ public class BaseService {
         }
         return cardNoList;
     }
+
+
+        /**
+         * 根据证件号和证件类型查询卡号列表
+         *
+         * @param identityType 证件类型
+         * @param identityNo   证件号
+         * @return             手机号
+         */
+        public String getCustMobileNo(String identityType, String identityNo) {
+            Map<String, String> map = initGcsParam();
+            map.put("idType", identityType);
+            map.put("idNum", identityNo);
+            StringResp stringResp= httpClient.send(getCustMobileMethod, map, StringResp.class);
+            return stringResp == null ? null : stringResp.getBizResult();
+        }
 
 }

@@ -1,13 +1,10 @@
 package com.yada.wechatbank.model;
 
-
-import com.yada.wechatbank.base.BaseModel;
-
 /**
- * 个人资料实体
+ * 客户信息
  * @author Tx
  */
-public class CardHolderInfo  {
+public class CardHolderInfo {
 	
 	//手机号码
 	private String mobileNo;
@@ -25,11 +22,47 @@ public class CardHolderInfo  {
 	private String eMail;
 	//单位名称
 	private String workUnitName;
+	
+	// 2015年6月4日因绑定流程由EOM更改为GCS故需要客户信息增加几个字段的获取
+	// 客户姓
+	private String familyName;
+	// 客户名
+	private String firstName;
+	// 性别
+	private String gender;
+
+	public String getFamilyName() {
+		return familyName;
+	}
+	public void setFamilyName(String familyName) {
+		this.familyName = familyName;
+	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 	public String getMobileNo() {
 		return mobileNo;
 	}
 	public void setMobileNo(String mobileNo) {
 		this.mobileNo = mobileNo;
+	}
+	@Override
+	public String toString() {
+		return "CardHolderInfo [mobileNo=" + mobileNo + ", homeAddressPhone="
+				+ homeAddressPhone + ", workUnitPhone=" + workUnitPhone
+				+ ", billAddressLine=" + billAddressLine + ", postalCode="
+				+ postalCode + ", eMail=" + eMail + ", workUnitName="
+				+ workUnitName + ",familyName=" + familyName + ",firstName="
+				+ firstName + ",gender=" + gender+ "]";
 	}
 	public String getWorkUnitPhone() {
 		return workUnitPhone;

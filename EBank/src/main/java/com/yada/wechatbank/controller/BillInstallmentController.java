@@ -24,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.yada.wechatbank.base.BaseController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 账单分期
@@ -113,11 +114,11 @@ public class BillInstallmentController extends BaseController {
             return SEARCH;
         }
 
-        logger.info("@ZDFQ@计算账单分期金额上下限，参数：cardNo[{}]currencyCode[{}]" ,cardNo, currencyCode);
+        logger.info("@ZDFQ@计算账单分期金额上下限，参数：cardNo[{}]currencyCode[{}]", cardNo, currencyCode);
 
         AmountLimit amountLimit = billInstallmentServiceImpl.getAmountLimit(cardNo, currencyCode);
         if (amountLimit == null) {
-            logger.info("@ZDFQ@根据cardNo[{}],currencyCode[{}]获取账单分期金额上下限,获取账单分期金额上下限为null",cardNo,currencyCode);
+            logger.info("@ZDFQ@根据cardNo[{}],currencyCode[{}]获取账单分期金额上下限,获取账单分期金额上下限为null", cardNo, currencyCode);
             return BUSYURL;
         } else {
             if ("+ES10403".equals(amountLimit.getRespCode())) {
@@ -232,8 +233,8 @@ public class BillInstallmentController extends BaseController {
                 billLowerAmount, billActualAmount, installmentsNumber,
                 feeInstallmentsFlag);
         logger.debug("@ZDFQ@根据cardNo[{}],currencyCode[{}],billLowerAmount[{}],billActualAmount[{}],installmentsNumber["
-        +"{}],feeInstallmentsFlag[{}]对账单分期进行分期,账单分期结果res[{}]",cardNo,currencyCode,billLowerAmount,billActualAmount,installmentsNumber,
-                feeInstallmentsFlag,res );
+                        + "{}],feeInstallmentsFlag[{}]对账单分期进行分期,账单分期结果res[{}]", cardNo, currencyCode, billLowerAmount, billActualAmount, installmentsNumber,
+                feeInstallmentsFlag, res);
         if (res) {
             return "wechatbank_pages/BillInstallment/success";
         } else {
@@ -242,38 +243,43 @@ public class BillInstallmentController extends BaseController {
     }
 
     @RequestMapping(value = "getMsgCode_ajax")
-    public void getMsgCode_ajax(HttpServletRequest request,
-                                HttpServletResponse response) throws IOException {
+    @ResponseBody
+    public String getMsgCode_ajax(HttpServletRequest request) throws IOException {
         request.setCharacterEncoding("utf-8");
-        boolean result = false;
+        String result;
         // Session中存储的验证码
         String Randomcode_yz = (String) request.getSession().getAttribute(
                 "jcmsrandomchar");
+
         String verificationCode = request.getParameter("verificationCode");
-        String mobilNo = request.getParameter("mobilNo");
-        String identityNo=getIdentityNo(request);
+        String mobileNo = request.getParameter("mobileNo");
+        String identityNo = getIdentityNo(request);
+        String identityType = getIdentityType(request);
+       result= billInstallmentServiceImpl.verificationMobileNo(identityType,identityNo,mobileNo);
+        if(!"".equals(result)){
+            return result;
+        }
         if (verificationCode != null
                 && verificationCode.equalsIgnoreCase(Randomcode_yz)) {
-            result = smsService.sendInstallmentSMS(identityNo, mobilNo, "BillInstallment");
+            result = Boolean.toString(smsService.sendInstallmentSMS(identityNo, mobileNo, "BillInstallment")).toLowerCase();
             logger.debug("@ZDFQ@根据identityNo[{}],手机号[{}]发送账单分期验证短信验证码,"
-                    + "发送结果sendResult[{}]",identityNo,mobilNo,result);
+                    + "发送结果sendResult[{}]",identityNo,mobileNo,result);
+        }else{
+            result="errorCode";
         }
-        response.getWriter().print(result);
-        response.getWriter().flush();
+        return result;
     }
 
     @RequestMapping(value = "checkMagCode_ajax")
-    public void checkMagCode_ajax(HttpServletRequest request,
-                                  HttpServletResponse response) throws IOException {
-
+    @ResponseBody
+    public String checkMagCode_ajax(HttpServletRequest request) throws IOException {
         String identityNo=getIdentityNo(request);
         String mobile = request.getParameter("mobile");
         String code = request.getParameter("code");
-        boolean sendResult = smsService.checkSMSCode(identityNo,mobile,"BillInstallment", code);
+        String sendResult = Boolean.toString(smsService.checkSMSCode(identityNo, mobile, "BillInstallment", code)).toLowerCase();
         logger.debug("@ZDFQ@identityNo[{}],手机号[{}],code[{}"
-                + "]验证账单分期短信验证码,验证结果sendResult[{}]",identityNo,mobile,code);
-        response.getWriter().print(sendResult);
-        response.getWriter().flush();
+                + "]验证账单分期短信验证码,验证结果sendResult[{}]", identityNo, mobile, code);
+        return sendResult;
     }
 
     public String getDate() {

@@ -1,6 +1,7 @@
 package com.yada.wechatbank.service.impl;
 
 import com.yada.wechatbank.base.BaseService;
+import com.yada.wechatbank.client.model.CardHolderInfoResp;
 import com.yada.wechatbank.model.CardHolderInfo;
 import com.yada.wechatbank.model.CardInfo;
 import com.yada.wechatbank.service.CardHolderInfoService;
@@ -24,7 +25,7 @@ public class CardHolderInfoServiceImpl extends BaseService implements CardHolder
     private static final String DEFAULT = "未登记";
     private static final String REPLACESTRING = "****";
 
-    @Value(value="url.getCardHolderInfoMethod")
+    @Value(value = "url.getCardHolderInfoMethod")
     private String getCardHolderInfoMethod;
 
 
@@ -40,10 +41,11 @@ public class CardHolderInfoServiceImpl extends BaseService implements CardHolder
         List<CardInfo> cardInfos = selectCardNos(identityType, identityNo);
         CardHolderInfo cardHolderInfo;
         if (cardInfos != null && cardInfos.size() != 0) {
-            Map<String,String> map=initGcsParam();
+            Map<String, String> map = initGcsParam();
             //任意有效卡
-            map.put("cardNo",cardInfos.get(0).getCardNo());
-            cardHolderInfo = httpClient.send("getCardHolderInfoMethod",map , CardHolderInfo.class);
+            map.put("cardNo", cardInfos.get(0).getCardNo());
+            CardHolderInfoResp cardHolderInfoResp = httpClient.send("getCardHolderInfoMethod", map, CardHolderInfoResp.class);
+            cardHolderInfo = cardHolderInfoResp == null ? null : cardHolderInfoResp.getBizResult();
         } else {
             logger.warn("@WDZL@根据用户的证件类型[{}]，证件号[{}]获取用户卡列表为空", identityType, identityNo);
             return null;
@@ -138,8 +140,7 @@ public class CardHolderInfoServiceImpl extends BaseService implements CardHolder
      * @return 替换后结果
      */
     private String replaceStartToEnd(int start, int end, String oldString, String newString) {
-        String resultString = oldString.substring(0, start) + newString + oldString.substring(end, oldString.length());
-        return resultString;
+        return oldString.substring(0, start) + newString + oldString.substring(end, oldString.length());
     }
 
 }

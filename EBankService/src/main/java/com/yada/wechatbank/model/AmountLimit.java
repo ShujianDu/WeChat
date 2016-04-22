@@ -1,15 +1,11 @@
 package com.yada.wechatbank.model;
 
-import com.yada.wechatbank.base.BaseModel;
-
-import java.io.Serializable;
-
 /**
  * 账单金额上下限实体
  * @author tx
  *
  */
-public class AmountLimit extends BaseModel{
+public class AmountLimit {
 
 	/* 账户ID */
 	public String accountId;
