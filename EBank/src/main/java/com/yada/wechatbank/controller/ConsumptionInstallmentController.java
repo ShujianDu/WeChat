@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.yada.wechatbank.base.BaseController;
+import com.yada.wechatbank.model.ConsumptionInstallmentAuthorization;
+import com.yada.wechatbank.model.ConsumptionInstallmentCost;
 import com.yada.wechatbank.model.ConsumptionInstallments;
 import com.yada.wechatbank.service.ConsumptionInstallmentService;
 import com.yada.wechatbank.util.Crypt;
@@ -157,6 +159,65 @@ public class ConsumptionInstallmentController extends BaseController {
 		}
 		model.addAttribute("ciinfo", consumptionInstallments);
 		return SHOWURL;
+	}
+
+	/**
+	 * 消费分期试算
+	 * 
+	 * @param consumptionInstallmentAuthorization
+	 *            参数实体
+	 * @param model
+	 *            model
+	 * @return 跳转地址
+	 */
+	@RequestMapping(value = "cost")
+	public String cost(@ModelAttribute("formBean") ConsumptionInstallmentAuthorization consumptionInstallmentAuthorization, Model model) {
+		String cryptCardNo = consumptionInstallmentAuthorization.getCardNo();
+		try {
+			consumptionInstallmentAuthorization.setCardNo(Crypt.decode(cryptCardNo));
+		} catch (Exception e) {
+			logger.info("@XFFQ@解密卡号出现异常" + e);
+			return BUSYURL;
+		}
+		// 调用行内service查询消费分期（费用试算）
+		ConsumptionInstallmentCost cost = consumptionInstallmentServiceImpl.costConsumptionInstallment(consumptionInstallmentAuthorization);
+		logger.info("@XFFQ@调用核心根据consumptionInstallmentAuthorization[" + consumptionInstallmentAuthorization + "]进行消费分期试算，试算结果cost[" + cost.toString() + "]");
+		model.addAttribute("cost", cost);
+		String cardNo = consumptionInstallmentAuthorization.getCardNo();
+		try {
+			consumptionInstallmentAuthorization.setCardNo(Crypt.encode(cardNo));
+		} catch (Exception e) {
+			logger.info("@XFFQ@加密卡号出现异常" + e);
+			return BUSYURL;
+		}
+		model.addAttribute("ciinfo", consumptionInstallmentAuthorization);
+		return COSTURL;
+	}
+
+	/**
+	 * 消费分期授权
+	 * 
+	 * @param consumptionInstallmentAuthorization
+	 *            参数实体
+	 * @param model
+	 *            model
+	 * @return 跳转地址
+	 */
+	@RequestMapping(value = "confirm")
+	public String confirm(@ModelAttribute("formBean") ConsumptionInstallmentAuthorization consumptionInstallmentAuthorization, Model model) {
+		try {
+			consumptionInstallmentAuthorization.setCardNo(Crypt.decode(consumptionInstallmentAuthorization.getCardNo()));
+		} catch (Exception e) {
+			logger.info("@XFFQ@解密卡号出现异常" + e);
+			return BUSYURL;
+		}
+		// 调用行内service消费分期授权
+		String result = consumptionInstallmentServiceImpl.authorizationConsumptionInstallment(consumptionInstallmentAuthorization);
+		logger.info("@XFFQ@调用核心根据consumptionInstallmentAuthorization[" + consumptionInstallmentAuthorization + "]进行消费分期授权，授权结果result[" + result + "]");
+		if ("1".equals(result)) {
+			return SUCCESS;
+		}
+		return FAIL;
 	}
 
 	/**
