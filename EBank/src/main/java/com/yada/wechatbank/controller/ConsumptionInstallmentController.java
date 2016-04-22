@@ -115,18 +115,18 @@ public class ConsumptionInstallmentController extends BaseController {
 			return BUSYURL;
 		}
 		String isFollowUp = (String) map.get("isFollowUp");
-		// 页面判断是否有下一页
 		@SuppressWarnings("unchecked")
 		List<ConsumptionInstallments> consumptionInstallmentsList = (List<ConsumptionInstallments>) map.get("consumptionInstallmentsList");
-		// 获取更多查询开始条数
 		try {
 			cardNo = Crypt.encode(cardNo);
 		} catch (Exception e) {
 			logger.info("@XFFQ@加密卡号出现异常" + e);
 			return BUSYURL;
 		}
+		// 页面判断是否有下一页
 		model.addAttribute("isFollowUp", isFollowUp);
 		model.addAttribute("pageList", consumptionInstallmentsList);
+		// 获取更多查询开始条数
 		model.addAttribute("startnum", Integer.parseInt(SELECTNUM) + 1);
 		model.addAttribute("cardNo", cardNo);
 		model.addAttribute("onepage", ONEPAGE);
