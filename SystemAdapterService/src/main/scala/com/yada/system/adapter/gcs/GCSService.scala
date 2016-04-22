@@ -267,19 +267,19 @@ trait GCSBase
 /**
   * 公用的卡号参数
   *
-  * @param sessionID GCSsessionID
-  * @param channelID GCS渠道号
+  * @param tranSessionID GCStranSessionID
+  * @param reqChannelID GCS渠道号
   * @param cardNo    卡号
   */
-case class CardNoParams(sessionID: String, channelID: String, cardNo: String)
+case class CardNoParams(tranSessionID: String, reqChannelID: String, cardNo: String)
 
 object CardNoParams {
   implicit val cardNoParamsReads: Reads[CardNoParams] = (
-    (__ \ "sessionID").read[String] ~ (__ \ "channelID").read[String] ~ (__ \ "cardNo").read[String]
+    (__ \ "tranSessionID").read[String] ~ (__ \ "reqChannelID").read[String] ~ (__ \ "cardNo").read[String]
     ) (CardNoParams.apply _)
 
   implicit val cardNoParamsWrites: Writes[CardNoParams] = (
-    (__ \ "sessionID").write[String] ~ (__ \ "channelID").write[String] ~ (__ \ "cardNo").write[String]
+    (__ \ "tranSessionID").write[String] ~ (__ \ "reqChannelID").write[String] ~ (__ \ "cardNo").write[String]
     ) (unlift(CardNoParams.unapply))
 }
 
@@ -470,7 +470,7 @@ case class GCSConsumptionInstallmentResult(installmentAmount: String, installmen
 /**
   * 消费分期参数
   *
-  * @param sessionID          gcsSessionId
+  * @param tranSessionID          gcsSessionId
   * @param reqChannelID       交易请求渠道标识
   * @param accountKeyOne      帐户键值1--原消费中账户ID。请使用TS011007查询后的“accountID”域值
   * @param accountKeyTwo      帐户键值2--原消费中入账账户ID。请使用TS011007查询后的“accountedID”域值
@@ -483,7 +483,7 @@ case class GCSConsumptionInstallmentResult(installmentAmount: String, installmen
   * @param isfeeFlag          是否分期收取手续费
   *
   */
-case class GCSConsumptionInstallmentParams(sessionID: String,
+case class GCSConsumptionInstallmentParams(tranSessionID: String,
                                            reqChannelID: String,
                                            accountKeyOne: String,
                                            accountKeyTwo: String,
@@ -495,7 +495,7 @@ case class GCSConsumptionInstallmentParams(sessionID: String,
                                            accountNoID: String,
                                            installmentPeriods: String,
                                            isfeeFlag: String,
-                                           channelID: String)
+                                           channelId: String)
 
 /**
   * 账单分期上下限结果
@@ -513,7 +513,7 @@ case class GCSAmountLimit(currencyCode: String, minAmount: String, maxAmount: St
   * 账单分期参数
   * 用于账单分期试算和账单分期授权2个接口中
   *
-  * @param tranSessionID       gcsSessionId
+  * @param tranSessionID          tranSessionID
   * @param reqChannelID        渠道编号
   * @param accountId           账户ID
   * @param accountNumber       帐户号码(使用TS011006查询后的“accountNo”域值)
@@ -522,11 +522,11 @@ case class GCSAmountLimit(currencyCode: String, minAmount: String, maxAmount: St
   * @param billActualAmount    账单分期实际金额
   * @param installmentsNumber  分期期数
   * @param feeInstallmentsFlag 手续费分期标识(1---标识手续费分期收取，0---标识手续费一次性收取)
-  * @param channelID           渠道ID（目前渠道标识为1位长的字符，存放在channelId 的第一位，渠道标识的具体含义待业务提供）
+  * @param channelId             渠道ID（目前渠道标识为1位长的字符，存放在reqChannelId 的第一位，渠道标识的具体含义待业务提供）
   */
 case class GCSBillInstallmentParams(tranSessionID: String, reqChannelID: String, accountId: String, accountNumber: String, currencyCode: String, billLowerAmount: String,
                                     billActualAmount: String, installmentsNumber: String, feeInstallmentsFlag: String,
-                                    channelID: String)
+                                    channelId: String)
 
 /**
   * 账单分期费用试算结果
@@ -545,8 +545,8 @@ case class GCSBillInstallmentResult(currentBillMinimum: String, installmentsfee:
 /**
   * 临时提额授权参数
   *
-  * @param sessionId         GCSSessionId
-  * @param channelId         GCS渠道号
+  * @param tranSessionID         GCSSessionId
+  * @param reqChannelID         GCS渠道号
   * @param eosCustomerName   客户姓名
   * @param eosCustomerIdType 客户证件类型
   * @param certNum           客户证件号码
@@ -560,32 +560,32 @@ case class GCSBillInstallmentResult(currentBillMinimum: String, installmentsfee:
   * @param issuingBranchId   发卡行号 - 评测接口的返回结果
   * @param pmtCreditLimit    当前卡的永久额度 -评测接口的返回结果
   */
-case class GCSTemporaryUpCommitParams(sessionId: String, channelId: String, eosCustomerName: String, eosCustomerIdType: String,
+case class GCSTemporaryUpCommitParams(tranSessionID: String, reqChannelID: String, eosCustomerName: String, eosCustomerIdType: String,
                                       certNum: String, phoneNumber: String, cardNo: String, eosCurrency: String, eosPreAddLimit: String, eosStarLimitDate: String,
                                       eosEndLimitDate: String, cardStyle: String, issuingBranchId: String, pmtCreditLimit: String)
 
 /**
   *
-  * @param sessionId   gcsSessionId
-  * @param channelId   渠道编号
+  * @param tranSessionID   gcsSessionId
+  * @param reqChannelID   渠道编号
   * @param statementNo 账期号
   * @param accountId   账户ID
   */
-case class BillingSummaryParams(sessionId: String, channelId: String, statementNo: String, accountId: String)
+case class BillingSummaryParams(tranSessionID: String, reqChannelID: String, statementNo: String, accountId: String)
 
 
 object BillingSummaryParams {
   implicit val billingSummaryReads: Reads[BillingSummaryParams] = (
-    (__ \ "sessionID").read[String] ~ (__ \ "channelID").read[String] ~ (__ \ "statementNo").read[String] ~ (__ \ "accountId").read[String]) (BillingSummaryParams.apply _)
+    (__ \ "tranSessionID").read[String] ~ (__ \ "reqChannelID").read[String] ~ (__ \ "statementNo").read[String] ~ (__ \ "accountId").read[String]) (BillingSummaryParams.apply _)
 
   implicit val billingSummaryWrites: Writes[BillingSummaryParams] = (
-    (__ \ "sessionID").write[String] ~ (__ \ "channelID").write[String] ~ (__ \ "statementNo").write[String] ~ (__ \ "accountId").write[String]) (unlift(BillingSummaryParams.unapply))
+    (__ \ "tranSessionID").write[String] ~ (__ \ "reqChannelID").write[String] ~ (__ \ "statementNo").write[String] ~ (__ \ "accountId").write[String]) (unlift(BillingSummaryParams.unapply))
 }
 
 /**
   *
-  * @param sessionId    gcsSessionId
-  * @param channelId    渠道编号
+  * @param tranSessionID    gcsSessionId
+  * @param reqChannelID    渠道编号
   * @param cardNo       卡号
   * @param currencyCode 交易币种
   * @param queryType    查询类型
@@ -594,7 +594,7 @@ object BillingSummaryParams {
   * @param startDate    交易开始日期
   * @param endDate      交易结束日期
   */
-case class BillingDetailsParams(sessionId: String, channelId: String, cardNo: String, currencyCode: String, queryType: String, startNum: String,
+case class BillingDetailsParams(tranSessionID: String, reqChannelID: String, cardNo: String, currencyCode: String, queryType: String, startNum: String,
                                 totalNum: String, startDate: String, endDate: String)
 
 /**
@@ -612,9 +612,10 @@ case class CardCurrencyCodeAndStyleResult(currencyCodes: List[CurrencyCodeResult
 
 /**
   *
-  * @param billSendType 账单寄送方式
+  * @param billSendType      账单寄送方式
+  * @param billSendTypeDesc 账单寄送方式描述
   */
-case class BillSendTypeResult(billSendType: String)
+case class BillSendTypeResult(billSendType: String,billSendTypeDesc:String)
 
 /**
   * 公用的boolean结果
@@ -625,20 +626,20 @@ case class BooleanResult(isSuccess: Boolean)
 
 /**
   *
-  * @param sessionId  gcsSessionId
-  * @param channelId  渠道编号
+  * @param tranSessionID  gcsSessionId
+  * @param reqChannelID  渠道编号
   * @param cardNo     卡号
   * @param idType     证件类型
   * @param idNum      证件号
   * @param familyName 姓-海外的只有性，国内是姓名
   * @param lossReason 挂失原因
   */
-case class CreditCardReportLostParams(sessionId: String, channelId: String, cardNo: String, idType: String, idNum: String, familyName: String, lossReason: String)
+case class CreditCardReportLostParams(tranSessionID: String, reqChannelID: String, cardNo: String, idType: String, idNum: String, familyName: String, lossReason: String)
 
 /**
   *
-  * @param sessionId  gcsSessionId
-  * @param channelId  渠道编号
+  * @param tranSessionID  gcsSessionId
+  * @param reqChannelID  渠道编号
   * @param cardNo     卡号
   * @param entyMethod 卡号录入方式 01-手工  07-接触 98-非接
   * @param idNum      证件号
@@ -646,27 +647,27 @@ case class CreditCardReportLostParams(sessionId: String, channelId: String, card
   * @param familyName 姓-海外的只有性，国内是姓名
   * @param lostReason 挂失原因
   */
-case class TempCreditCardReportLostParams(sessionId: String, channelId: String, cardNo: String, entyMethod: String, idNum: String, idType: String, familyName: String, lostReason: String)
+case class TempCreditCardReportLostParams(tranSessionID: String, reqChannelID: String, cardNo: String, entyMethod: String, idNum: String, idType: String, familyName: String, lostReason: String)
 
 /**
   *
-  * @param sessionId  gcsSessionId
-  * @param channelId  渠道编号
+  * @param tranSessionID  gcsSessionId
+  * @param reqChannelID  渠道编号
   * @param cardNo     卡号
   * @param idNum      证件号
   * @param familyName 姓-海外的只有性，国内是姓名
   * @param idType     证件类型
   */
-case class RelieveCreditCardTempReportLostParams(sessionId: String, channelId: String, cardNo: String, idNum: String, familyName: String, idType: String)
+case class RelieveCreditCardTempReportLostParams(tranSessionID: String, reqChannelID: String, cardNo: String, idNum: String, familyName: String, idType: String)
 
 /**
   *
-  * @param sessionId gcsSessionId
-  * @param channelId 渠道编号
+  * @param tranSessionID gcsSessionId
+  * @param reqChannelID 渠道编号
   * @param idType    证件类型
   * @param idNo      证件号
   */
-case class MobilePhoneParams(sessionId: String, channelId: String, idType: String, idNo: String)
+case class MobilePhoneParams(tranSessionID: String, reqChannelID: String, idType: String, idNo: String)
 
 /**
   * 公用的手机号结果
@@ -677,13 +678,13 @@ case class MobilePhoneResult(mobilePhoneNo: String)
 
 /**
   *
-  * @param sessionId   gcsSessionId
-  * @param channelId   渠道编号
+  * @param tranSessionID   gcsSessionId
+  * @param reqChannelID   渠道编号
   * @param idNum       证件号
   * @param idType      证件类型
   * @param productCode 产品代码
   */
-case class WbicCardInfoParams(sessionId: String, channelId: String, idNum: String, idType: String, productCode: String = "WBIC")
+case class WbicCardInfoParams(tranSessionID: String, reqChannelID: String, idNum: String, idType: String, productCode: String = "WBIC")
 
 /**
   *
@@ -693,46 +694,46 @@ case class WbicCardInfoResult(wbicCardNo: Option[String])
 
 /**
   *
-  * @param sessionId gcsSessionId
-  * @param channelId 渠道编号
+  * @param tranSessionID gcsSessionId
+  * @param reqChannelID 渠道编号
   * @param idType    证件类型
   * @param idNum     证件号
   */
-case class CustMobileParams(sessionId: String, channelId: String, idType: String, idNum: String)
+case class CustMobileParams(tranSessionID: String, reqChannelID: String, idType: String, idNum: String)
 
 /**
   *
-  * @param sessionId   gcsSessionId
-  * @param channelId   渠道编号
+  * @param tranSessionID   gcsSessionId
+  * @param reqChannelID   渠道编号
   * @param certType    客户证件类型
   * @param certNum     客户证件号码
   * @param phoneNumber 手机号
   * @param cardNo      卡号
   * @param currencyNo  币种
   */
-case class CreditLimitTemporaryUpReviewParams(sessionId: String, channelId: String, certType: String, certNum: String,
+case class CreditLimitTemporaryUpReviewParams(tranSessionID: String, reqChannelID: String, certType: String, certNum: String,
                                               phoneNumber: String, cardNo: String, currencyNo: String)
 
 /**
   *
-  * @param sessionId gcsSessionId
-  * @param channelId 渠道编号
+  * @param tranSessionID gcsSessionId
+  * @param reqChannelID 渠道编号
   * @param cardNo    卡号
   */
-case class TemporaryUpCommitStatusParams(sessionId: String,
-                                         channelId: String,
+case class TemporaryUpCommitStatusParams(tranSessionID: String,
+                                         reqChannelID: String,
                                          cardNo: String)
 
 /**
   *
-  * @param sessionId    gcsSessionId
-  * @param channelId    渠道编号
+  * @param tranSessionID    gcsSessionId
+  * @param reqChannelID    渠道编号
   * @param cardNo       卡号
   * @param currencyCode 币种
   * @param startNumber  起始条数
   * @param selectNumber 显示条数
   */
-case class ConsumptionInstallmentsParams(sessionId: String, channelId: String, cardNo: String, currencyCode: String, startNumber: String, selectNumber: String)
+case class ConsumptionInstallmentsParams(tranSessionID: String, reqChannelID: String, cardNo: String, currencyCode: String, startNumber: String, selectNumber: String)
 
 /**
   *
@@ -751,21 +752,21 @@ case class GCSReturnCodeResult(returnCode: String)
 
 /**
   *
-  * @param sessionId    gcsSessionId
-  * @param channelId    渠道编号
+  * @param tranSessionID    gcsSessionId
+  * @param reqChannelID    渠道编号
   * @param cardNo       卡号
   * @param currencyCode 币种
   */
-case class AmountLimitParams(sessionId: String, channelId: String, cardNo: String, currencyCode: String)
+case class AmountLimitParams(tranSessionID: String, reqChannelID: String, cardNo: String, currencyCode: String)
 
 /**
   *
-  * @param sessionId gcsSessionId
-  * @param channelId 渠道编号
+  * @param tranSessionID gcsSessionId
+  * @param reqChannelID 渠道编号
   * @param idType    证件类型
   * @param idNum     证件号码
   */
-case class CardInfosParams(sessionId: String, channelId: String, idType: String, idNum: String)
+case class CardInfosParams(tranSessionID: String, reqChannelID: String, idType: String, idNum: String)
 
 /**
   *
@@ -776,12 +777,12 @@ case class CardInfosResult(cardNo: String, mianFlag: String)
 
 /**
   *
-  * @param sessionId    gcsSessionId
-  * @param channelId    渠道编号
+  * @param tranSessionID    gcsSessionId
+  * @param reqChannelID    渠道编号
   * @param cardNo       卡号
   * @param billSendType 账单寄送方式
   */
-case class UpdateBillSendTypeParams(sessionId: String, channelId: String, cardNo: String, billSendType: String)
+case class UpdateBillSendTypeParams(tranSessionID: String, reqChannelID: String, cardNo: String, billSendType: String)
 
 /**
   * 历史分期查询参数
@@ -790,7 +791,7 @@ case class UpdateBillSendTypeParams(sessionId: String, channelId: String, cardNo
   * @param startNumber  开始数量
   * @param selectNumber 查询数量
   */
-case class HistoryInstallmentParams(sessionId: String, channelId: String, cardNo: String, startNumber: String, selectNumber: String)
+case class HistoryInstallmentParams(tranSessionID: String, reqChannelID: String, cardNo: String, startNumber: String, selectNumber: String)
 
 /**
   * 历史分期查询结果
