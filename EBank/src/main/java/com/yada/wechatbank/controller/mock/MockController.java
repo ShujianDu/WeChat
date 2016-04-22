@@ -160,7 +160,7 @@ public class MockController {
         map.put(key, historyInstallmentList);
         return JSON.toJSONString(map);
     }
-    @RequestMapping(value = "getBalance")
+    @RequestMapping(value = "getPointsBalance")
     @ResponseBody
     public String getPointsBlance(){
         Map<String, Object> map = mockResult();
@@ -246,6 +246,59 @@ public class MockController {
         b.setPeriodEndDate("2016-04-20");
         billingPeriods.add(b);
         map.put(key, billingPeriods);
+        return JSON.toJSONString(map);
+    }
+
+
+    @RequestMapping(value = "getWbicCards")
+    @ResponseBody
+    public String getWbicCards() {
+        Map<String, Object> map = mockResult();
+        List<String> list = new ArrayList<>();
+        String cardNo = "111111222222333333";
+        list.add(cardNo);
+        map.put(key, list);
+        return JSON.toJSONString(map);
+    }
+
+    @RequestMapping(value = "wbicCardInfoSendSms")
+    @ResponseBody
+    public String wbicCardInfoSendSms() {
+        Map<String, Object> map = mockResult();
+        map.put(key, true);
+        return JSON.toJSONString(map);
+    }
+
+    @RequestMapping(value = "getBalance")
+    @ResponseBody
+    public String getBalance() {
+        Map<String, Object> map = mockResult();
+        List<Balance> list = new ArrayList<>();
+
+        Balance balance = new Balance();
+        balance.setCardNo("11111111111111111");
+        balance.setCurrencyCode("CNY");
+        balance.setPreCashAdvanceCreditLimit("31");
+        balance.setWholeCreditLimit("101");
+        balance.setPeriodAvailableCreditLimit("100");
+
+        Balance balance1 = new Balance();
+        balance1.setCardNo("11111111111112222");
+        balance1.setCurrencyCode("HKD");
+        balance1.setPreCashAdvanceCreditLimit("32");
+        balance1.setWholeCreditLimit("160");
+        balance1.setPeriodAvailableCreditLimit("101");
+
+        Balance balance2 = new Balance();
+        balance2.setCardNo("11111111111112223");
+        balance2.setCurrencyCode("USD");
+        balance2.setPreCashAdvanceCreditLimit("33");
+        balance2.setWholeCreditLimit("130");
+        balance2.setPeriodAvailableCreditLimit("102");
+        list.add(balance);
+        list.add(balance1);
+        list.add(balance2);
+        map.put(key, list);
         return JSON.toJSONString(map);
     }
 

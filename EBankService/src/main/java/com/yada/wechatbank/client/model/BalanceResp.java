@@ -2,7 +2,6 @@ package com.yada.wechatbank.client.model;
 
 import com.yada.wechatbank.base.BaseModel;
 import com.yada.wechatbank.model.Balance;
-import com.yada.wechatbank.model.BillingDetail;
 
 import java.util.List;
 
