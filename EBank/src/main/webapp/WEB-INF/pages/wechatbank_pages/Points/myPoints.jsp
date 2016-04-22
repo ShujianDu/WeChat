@@ -15,9 +15,15 @@
     <title>我的积分</title>
 </head>
 <script type="text/javascript">
-    function pointsDetail() {
+    $(function(){
+        var height=parseInt(document.documentElement.clientHeight)-191;
+        if($(".IntegrationContainer").height()<height){
+            $(".IntegrationContainer").height(parseInt(document.documentElement.clientHeight)-191);
+        }});
+  /*  function pointsDetail() {
         window.location.href = "../points/pointsDetail.do";
-    }
+    }*/
+
 </script>
 
 <body>
@@ -41,9 +47,9 @@
                     <!--显示积分-->
                     <span class="help_box"><img src="../images/points/help2.png" class="help"></span>
                     <div class="pointValueBox"><span class="pointValue">${pointsBalance.totalPoint}</span>分</div>
-                    <input type="button" class="check_dt" id="check_dt1" onclick="pointsDetail();"/>
+                    <input type="button" class="check_dt" id="check_dt1" onclick="window.location.href = '../points/pointsDetail.do'"/>
                 </div>
-                <input class="IntegrateDate" type="button" value="积分兑换" onclick="">
+                <input class="IntegrateDate" type="button" value="积分兑换" onclick="window.location.href = '../points/pointsExchange.do'">
             </div>
             <!--black_box-->
             <div class="black_box">

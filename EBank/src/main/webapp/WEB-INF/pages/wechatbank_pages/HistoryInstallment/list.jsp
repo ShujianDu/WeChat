@@ -9,18 +9,20 @@
 <title>中国银行信用卡</title>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/wechatbank/index.css"/>" />
 <script type="text/javascript">
-
+	function show(index) {
+		$("#"+index).css("display","block");
+		$("#show"+index).css("display","none");
+	}
 	$(window).load(function() {
-		alert("hello");
 		var cardSelect = $("#cardNoSelect");
 		for ( var i = 0; i < cardSelect.length; i++) {
-			if (cardSelect[i].val() == "${cardNo}") {
+			if (cardSelect[i].val == "${cardNo}") {
 				cardSelect[i].attr("selected",true);
 			}
 		}
 		var listlength=${fn:length(pageList)};
 		var isFollowUp=${isFollowUp};
-		if(listlength == 1){
+		if(listlength == 10){
 			$("#moreButton").css("display","block");
 		}else{
 			if(isFollowUp == "true") {
@@ -48,7 +50,7 @@
 						<td>
 						<select name="cardNo" id="cardNoSelect">
 							<c:forEach items="${cardList}" var="item" varStatus="status">
-								<option value="${fn:substringAfter(item, ',')}" name="cardNo">
+								<option value="${fn:substringAfter(item, ',')}">
 									<c:out value="${fn:substring(item,0,16)}" />
 								</option>
 							</c:forEach>
@@ -146,70 +148,78 @@
 							</tr>
 						</table>
 					</div>
-					<div class="topOneB mar-1">
-						<table class="topTwo" style="margin-bottom: 10px;">
-							<tr>
-								<td>分期手续费收取方式：</td>
-								<td align="right"><c:if test="${item.instFeeFlag=='1'}">分期收取</c:if>
-									<c:if test="${item.instFeeFlag=='0'}">一次性收取</c:if></td>
-							</tr>
+					<!--修改-->
+					<div class="topOneB mar-1 showHide_BOXhide" id="show${status.index}">
+						<table class="topTwo">
+							<input class="showHide_BOX"  TYPE="BUTTON" VALUE="查看详细" onclick="show(${status.index});"/>
 						</table>
 					</div>
-					<div class="topOneB mar-1">
-						<table class="topTwo" style="margin-bottom: 10px;">
-							<tr>
-								<td>首次入帐金额：</td>
-								<td align="right"><c:out value="${item.instalmentFirstPostingAmount}"/></td>
-							</tr>
-						</table>
-					</div>
-					<div class="topOneB mar-1">
-						<table class="topTwo" style="margin-bottom: 10px;">
-							<tr>
-								<td>下次入帐金额：</td>
-								<td align="right"><c:out value="${item.instalmentNextPostingAmount}"/></td>
-							</tr>
-						</table>
-					</div>
-					<div class="topOneB mar-1">
-						<table class="topTwo" style="margin-bottom: 10px;">
-							<tr>
-								<td>已入账期数：</td>
-								<td align="right"><c:out value="${item.instalmentPostedNumber}"/></td>
-							</tr>
-						</table>
-					</div>
-					<div class="topOneB mar-1">
-						<table class="topTwo" style="margin-bottom: 10px;">
-							<tr>
-								<td>已入账金额：</td>
-								<td align="right"><c:out value="${item.instalmentReversalAmount}"/></td>
-							</tr>
-						</table>
-					</div>
-					<div class="topOneB mar-1">
-						<table class="topTwo" style="margin-bottom: 10px;">
-							<tr>
-								<td>剩余未入账期数：</td>
-								<td align="right"><c:out value="${item.instalmentOutstandingNumber}"/></td>
-							</tr>
-						</table>
-					</div>
-					<div class="topOneB mar-1">
-						<table class="topTwo" style="margin-bottom: 10px;">
-							<tr>
-								<td>剩余未入账金额：</td>
-								<td align="right"><c:out value="${item.instalmentOutstandingAmount}"/></td>
-							</tr>
-						</table>
-					</div>
-					<div class="topOneB mar-1 bottomOneBradius">
-						<table class="topTwo" style="margin-bottom: 10px;">
-							<tr>
-								<td>下次入帐日期：</td>
-								<td align="right"><c:out value="${model.instalmentNextPostingDate}"/></td>
-							</tr>
-						</table>
+					<div id="${status.index}" style="display: none">
+						<div class="topOneB mar-1">
+							<table class="topTwo" style="margin-bottom: 10px;">
+								<tr>
+									<td>分期手续费收取方式：</td>
+									<td align="right"><c:if test="${item.instFeeFlag=='1'}">分期收取</c:if>
+										<c:if test="${item.instFeeFlag=='0'}">一次性收取</c:if></td>
+								</tr>
+							</table>
+						</div>
+						<div class="topOneB mar-1">
+							<table class="topTwo" style="margin-bottom: 10px;">
+								<tr>
+									<td>首次入帐金额：</td>
+									<td align="right"><c:out value="${item.instalmentFirstPostingAmount}"/></td>
+								</tr>
+							</table>
+						</div>
+						<div class="topOneB mar-1">
+							<table class="topTwo" style="margin-bottom: 10px;">
+								<tr>
+									<td>下次入帐金额：</td>
+									<td align="right"><c:out value="${item.instalmentNextPostingAmount}"/></td>
+								</tr>
+							</table>
+						</div>
+						<div class="topOneB mar-1">
+							<table class="topTwo" style="margin-bottom: 10px;">
+								<tr>
+									<td>已入账期数：</td>
+									<td align="right"><c:out value="${item.instalmentPostedNumber}"/></td>
+								</tr>
+							</table>
+						</div>
+						<div class="topOneB mar-1">
+							<table class="topTwo" style="margin-bottom: 10px;">
+								<tr>
+									<td>已入账金额：</td>
+									<td align="right"><c:out value="${item.instalmentReversalAmount}"/></td>
+								</tr>
+							</table>
+						</div>
+						<div class="topOneB mar-1">
+							<table class="topTwo" style="margin-bottom: 10px;">
+								<tr>
+									<td>剩余未入账期数：</td>
+									<td align="right"><c:out value="${item.instalmentOutstandingNumber}"/></td>
+								</tr>
+							</table>
+						</div>
+						<div class="topOneB mar-1">
+							<table class="topTwo" style="margin-bottom: 10px;">
+								<tr>
+									<td>剩余未入账金额：</td>
+									<td align="right"><c:out value="${item.instalmentOutstandingAmount}"/></td>
+								</tr>
+							</table>
+						</div>
+						<div class="topOneB mar-1 bottomOneBradius">
+							<table class="topTwo" style="margin-bottom: 10px;">
+								<tr>
+									<td>下次入帐日期：</td>
+									<td align="right"><c:out value="${model.instalmentNextPostingDate}"/></td>
+								</tr>
+							</table>
+						</div>
 					</div>
 					<div style="margin-top: 10px;">
 					</div>
@@ -253,13 +263,12 @@
 					url: "ajax_getMore.do",
 					data: {
 						cardNo: ${cardNo},
-						currencyCodeChinese: ${currencyCodeChinese},
 						isFollowUp: isFollowUp,
 						nextGCSStartIndex: nextGCSStartIndex,
 						timestamp: new Date().getTime()
 					},
 					type: "post",
-					dataType: "jason",
+					dataType: "text",
 					async: false,
 					success: function (result) {
 						if (result == null || result == "null") {
@@ -273,7 +282,7 @@
 								$("#moreButton").css("display","none");
 								$("#isFollowUp").val("false");
 							}else{
-								$("#nextGCSStartIndex").val(page*10+i);
+								$("#nextGCSStartIndex").val(nextGCSStartIndex+10);
 							}
 							if (list.length > 0 && list[0].instalmentOriginalAmount != "") {
 								for (var i = 0; i < list.length; i++) {
@@ -337,14 +346,81 @@
 											"</tr>" +
 											"</table>" +
 											"</div>" +
-											"<div class='topOneB mar-1 bottomOneBradius'>" +
+											"<div class='topOneB mar-1 showHide_BOXhide' id='show"+(page*10+i)+"'>"+
+											"<table class='topTwo'>"+
+											"<input class='showHide_BOX'  TYPE='BUTTON' VALUE='查看详细' onclick='show("+(page*10+i)+");'/>"+
+											"</table>"+
+											"</div>"+
+											"<div id='"+(page*10+i)+"' style='display: none'>"+
+											"<div class='topOneB mar-1'>" +
 											"<table class='topTwo'>" +
 											"<tr>" +
-									"</tr>" +
-									"</table>" +
-									"</div>" +
+											"<td class='td-le'>分期手续费收取方式：</td>" +
+											"<td align='right'><c:if test='${list[i].instFeeFlag==1}'>分期收取</c:if>"+
+											"<c:if test='${list[i].instFeeFlag==0}'>一次性收取</c:if></td>"+
+											"</tr>" +
+											"</table>" +
+											"</div>" +
+											"<div class='topOneB mar-1'>" +
+											"<table class='topTwo'>" +
+											"<tr>" +
+											"<td class='td-le'>首次入帐金额：</td>" +
+											"<td align='right'>" + list[i].instalmentFirstPostingAmount + "</td>" +
+											"</tr>" +
+											"</table>" +
+											"</div>" +
+											"<div class='topOneB mar-1'>" +
+											"<table class='topTwo'>" +
+											"<tr>" +
+											"<td class='td-le'>下次入帐金额：</td>" +
+											"<td align='right'>" + list[i].instalmentNextPostingAmount + "</td>" +
+											"</tr>" +
+											"</table>" +
+											"</div>" +
+											"<div class='topOneB mar-1'>" +
+											"<table class='topTwo'>" +
+											"<tr>" +
+											"<td class='td-le'>已入账期数：</td>" +
+											"<td align='right'>" + list[i].instalmentPostedNumber + "</td>" +
+											"</tr>" +
+											"</table>" +
+											"</div>" +
+											"<div class='topOneB mar-1'>" +
+											"<table class='topTwo'>" +
+											"<tr>" +
+											"<td class='td-le'>已入账金额：</td>" +
+											"<td align='right'>" + list[i].instalmentReversalAmount + "</td>" +
+											"</tr>" +
+											"</table>" +
+											"</div>" +
+											"<div class='topOneB mar-1'>" +
+											"<table class='topTwo'>" +
+											"<tr>" +
+											"<td class='td-le'>剩余未入账期数：</td>" +
+											"<td align='right'>" + list[i].instalmentOutstandingNumber + "</td>" +
+											"</tr>" +
+											"</table>" +
+											"</div>" +
+											"<div class='topOneB mar-1'>" +
+											"<table class='topTwo'>" +
+											"<tr>" +
+											"<td class='td-le'>剩余未入账金额：</td>" +
+											"<td align='right'>" + list[i].instalmentOutstandingAmount + "</td>" +
+											"</tr>" +
+											"</table>" +
+											"</div>" +
+											"<div class='topOneB mar-1'>" +
+											"<table class='topTwo'>" +
+											"<tr>" +
+											"<td class='td-le'>下次入帐日期：</td>" +
+											"<td align='right'>" + list[i].instalmentNextPostingDate + "</td>" +
+											"</tr>" +
+											"</table>" +
+											"</div>" +
+											"</div>"+
 									"<div style='margin-top: 10px;'></div>";
-									$("#addViewDiv").insertAdjacentHTML(
+									//$("#addViewDiv").insertAdjacentHTML("beforeEnd",newDiv);
+									document.getElementById("addViewDiv").insertAdjacentHTML(
 											"beforeEnd", newDiv);
 								}
 								if (list.length == 10) {

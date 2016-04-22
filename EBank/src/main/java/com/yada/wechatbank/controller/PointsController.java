@@ -43,6 +43,7 @@ public class PointsController extends BaseController {
 
     @RequestMapping(value = "list")
     public String list(@ModelAttribute("formBean") PointsQuery pointsQuery, HttpServletRequest request, Model model) {
+        request.getSession().setAttribute("menuId","3");
         // 页面分享js需要的参数
 		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
 				"jifen/list.do","中国银行信用卡积分查询");
@@ -135,6 +136,7 @@ public class PointsController extends BaseController {
      * @param model
      * @return
      */
+    @RequestMapping(value = "pointsExchange")
     public String pointsExchange(HttpServletRequest request,Model model){
         String cardNo =  pointsServiceImpl.getCardN0(getIdentityNo(request),getIdentityType(request));
         if (cardNo == null){
