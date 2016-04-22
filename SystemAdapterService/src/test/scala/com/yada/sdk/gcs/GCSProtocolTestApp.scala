@@ -71,6 +71,11 @@ object GCSProtocolTestApp extends App {
   // 卡户分期项目账单分期（授权）
   //  testTS011171()
 
+  // 卡户分期项目消费分期（费用试算）
+  //  testTS011172()
+
+  // 卡户分期项目消费分期（授权）
+  //  testTS011173()
 
   /**
     * 账单寄送方式查询
@@ -281,5 +286,19 @@ object GCSProtocolTestApp extends App {
     */
   def testTS011171(): Unit = {
     //TODO 卡户分期项目账单分期（授权） 无法测试
+  }
+
+  /**
+    * 卡户分期项目消费分期（费用试算）
+    */
+  def testTS011172(): Unit = {
+    // TODO 卡户分期项目消费分期（费用试算） 无法测试
+  }
+
+  /**
+    * 卡户分期项目消费分期（授权）
+    */
+  def testTS011173(): Unit = {
+    // TODO 卡户分期项目消费分期（授权） 无法测试
   }
 }

@@ -317,16 +317,14 @@ class GCSServiceImpl extends GCSService {
 
   /**
     * 查询消费分期试算结果
-    * transactionNo - 3110( POS消费还原)
-    * mcc -“5311”
-    * installmentPlan - “EP01”
-    * merchantID - “0000000”
     *
-    * @param params 参数实体
+    * @param p 参数实体
     * @return 消费分期试算结果
     */
-  override def costConsumptionInstallment(params: GCSConsumptionInstallmentParams): GCSConsumptionInstallmentResult = {
-    val ts011172 = new TS011172(params)()
+  override def costConsumptionInstallment(p: GCSConsumptionInstallmentParams): GCSConsumptionInstallmentResult = {
+    val ts011172 = new TS011172(p.sessionID, p.reqChannelID, p.accountKeyOne, p.accountKeyTwo,
+      p.currencyCode, p.billDateNo, p.transactionNo, p.transactionAmount, p.cardNo,
+      p.accountNoID, p.installmentPeriods: String, p.isfeeFlag: String)
     val result = ts011172.send
     GCSConsumptionInstallmentResult(result.pageValue("instalAmount"), result.pageValue("instalmentFee"), result.pageValue("installmentsAlsoAmountFirst"),
       result.pageValue("installmentsAlsoAmountEach"), result.pageValue("billFeeMeans"), result.pageValue("installmentsNumber"))
@@ -382,17 +380,13 @@ class GCSServiceImpl extends GCSService {
   /**
     * 消费分期授权
     *
-    * 报文默认值:
-    * transactionNo - “3110”( POS消费还原)
-    * mcc -“5311”
-    * installmentPlan - “EP01”
-    * merchantID - “0000000”
-    *
-    * @param params 参数实体
+    * @param p 参数实体
     * @return GCS返回码
     */
-  override def authorizationConsumptionInstallment(params: GCSConsumptionInstallmentParams): GCSReturnCodeResult = {
-    val ts011173 = new TS011173(params)()
+  override def authorizationConsumptionInstallment(p: GCSConsumptionInstallmentParams): GCSReturnCodeResult = {
+    val ts011173 = new TS011173(p.sessionID, p.reqChannelID, p.accountKeyOne, p.accountKeyTwo,
+      p.currencyCode, p.billDateNo, p.transactionNo, p.transactionAmount, p.cardNo,
+      p.accountNoID, p.installmentPeriods: String, p.isfeeFlag: String)
     GCSReturnCodeResult(ts011173.send.pageValue("authReturnCode"))
   }
 
@@ -447,7 +441,7 @@ class GCSServiceImpl extends GCSService {
 
     val listBuffer = ListBuffer.empty[CardInfosResult]
 
-    //循环查询所有的数据
+    // 循环查询所有的数据
     def query(startNum: String): List[CardInfosResult] = {
       val ts011005 = new TS011005(cardInfosParams.sessionId, cardInfosParams.channelId, None, Some(cardInfosParams.idType), Some(cardInfosParams.idNum), startNum, "10")()
       val result = ts011005.send
