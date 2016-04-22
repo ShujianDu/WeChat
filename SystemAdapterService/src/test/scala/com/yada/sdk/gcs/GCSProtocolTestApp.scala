@@ -83,6 +83,9 @@ object GCSProtocolTestApp extends App {
   // 信用卡额度调整状态查询
   //  testTS140031()
 
+  // 额度评测交易
+  testTS190024()
+
   /**
     * 账单寄送方式查询
     */
@@ -328,5 +331,22 @@ object GCSProtocolTestApp extends App {
     //    val req = new TS140031(sessionID, channelID, None, None, Some(cardNo), None)
     //    val resp = req.send
     //    println(resp)
+  }
+
+  /**
+    * 额度评测交易
+    */
+  def testTS190024(): Unit = {
+    // TODO 额度评测交易。无法测试，功能没上
+    val certType = "SSNO"
+    val certNum = "AAP0191"
+    val phoneNumber = "13910150191"
+    val cardNo = "5149580068840943"
+    val currencyNo = "CNY"
+    val at5605 = "02"
+    val at5602 = "06"
+    val req = new TS190024(sessionID, channelID, certType, certNum, phoneNumber, cardNo, currencyNo, at5605, at5602)
+    val resp = req.send
+    println(resp)
   }
 }
