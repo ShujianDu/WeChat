@@ -1,6 +1,8 @@
 package com.yada.wechatbank.service.impl;
 
 import com.yada.wechatbank.base.BaseService;
+import com.yada.wechatbank.cache.ICountSMSCache;
+import com.yada.wechatbank.cache.ILockCache;
 import com.yada.wechatbank.client.HttpClient;
 import com.yada.wechatbank.client.model.BooleanResp;
 import com.yada.wechatbank.client.model.CustMobileResp;
@@ -39,6 +41,10 @@ public class BindingServiceImpl extends BaseService implements BindingService {
     private String verificationPWD;
     @Value("${url.getCustMobile}")
     private String getCustMobile;
+    @Autowired
+    private ICountSMSCache countSMSCacheImpl;
+    @Autowired
+    private ILockCache LockCacheImpl;
 
     /**
      * 验证是否已经绑定，返回 成功/失败
@@ -48,8 +54,8 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      */
     @Override
     public boolean validateIsBinding(String openId) {
-        CustomerInfo customerInfo = customerInfoDao.findByOpenId(openId);
-        return customerInfo != null;
+//        CustomerInfo customerInfo = customerInfoDao.findByOpenId(openId);
+        return false;
     }
 
     /**
@@ -62,6 +68,9 @@ public class BindingServiceImpl extends BaseService implements BindingService {
     @Override
     public boolean isLocked(String openId, String idNum) {
 
+        if(LockCacheImpl.get(openId) != null || LockCacheImpl.get(idNum) != null){
+            return true;
+        }
         return false;
     }
 
@@ -70,6 +79,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      */
     @Override
     public void addCountCache(String openId, String idNum) {
+        countSMSCacheImpl.put(openId,idNum);
     }
 
     /**
@@ -88,7 +98,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
         if (cardInfoList != null && cardInfoList.size() != 0) {
             cardNo = cardInfoList.get(0).getCardNo();
         } else {
-            //TODO 统计错误次数
+            countSMSCacheImpl.put(openId,idCardNo);
             return noCard;
         }
         Map<String, String> map = initGcsParam();
@@ -97,10 +107,10 @@ public class BindingServiceImpl extends BaseService implements BindingService {
         //使用卡号密码验密
         BooleanResp booleanResp = httpClient.send(verificationPWD, map, BooleanResp.class);
         if (!booleanResp.getBizResult()) {
-            //TODO 统计错误次数
+            countSMSCacheImpl.put(openId,idCardNo);
             return pwdFiled;
         } else {
-            //TODO 统计错误次数移除
+            countSMSCacheImpl.remove(openId);
         }
         Map<String, String> mobileMap = initGcsParam();
         mobileMap.put("idType", idType);
@@ -199,7 +209,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
     }
 
     /**
-     * 绑定时获取短信验证码
+     * 验证手机号码
      *
      * @param identityType 证件类型
      * @param identityNo   证件号
@@ -207,8 +217,11 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      * @return String
      */
     @Override
-    public String vaidateMobilNo(String identityNo, String identityType, String mobilNo) {
-        //TODO 判断账户是否锁定
+    public String vaidateMobilNo(String openId,String identityNo, String identityType, String mobilNo) {
+        //判断账户是否锁定
+        if(LockCacheImpl.get(openId) != null || LockCacheImpl.get(identityNo) != null){
+            return "locked";
+        }
         Map<String, String> map = initGcsParam();
         map.put("idType", identityType);
         map.put("idNum", identityNo);
@@ -218,20 +231,20 @@ public class BindingServiceImpl extends BaseService implements BindingService {
             mobile = custMobileResp.getBizResult();
         }
         if (mobile == null) {
-            //TODO 证件号手机号操作次数记录限制
+            countSMSCacheImpl.put(openId,identityNo);
             //countSMSCodeCache.put(openId, identityNo);
             return "exception";
         }
         if ("".equals(mobile.trim())) {
-            //TODO countSMSCodeCache.put(openId, identityNo);
+            countSMSCacheImpl.put(openId,identityNo);
             return "noMobileNumber";
         }
         if (!mobile.equals(mobilNo)) {
-            //TODO countSMSCodeCache.put(openId, identityNo);
+            countSMSCacheImpl.put(openId,identityNo);
             return "wrongMobilNo";
         }
-        //TODO 证件号手机号输入正确，次数清零
-        //countSMSCodeCache.remove(openId);
+        //证件号手机号输入正确，次数清零
+        countSMSCacheImpl.remove(openId);
         return "true";
     }
 

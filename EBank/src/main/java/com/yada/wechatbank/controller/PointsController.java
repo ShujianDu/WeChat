@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.yada.wechatbank.base.BaseController;
-import com.yada.wechatbank.shiro.ValidateTime;
 import com.yada.wechatbank.util.JsMapUtil;
 
 /**
@@ -35,26 +34,24 @@ public class PointsController extends BaseController {
     private static final String EXCHANGE = "wechatbank_pages/Points/pointsExchange";
     @Autowired
     private PointsService pointsServiceImpl;
-    @Autowired
-    private ValidateTime validateTime;
     @Value("${jf.ExchangeUrl}")
     private String exchangeUrl;
 
 
     @RequestMapping(value = "list")
     public String list(@ModelAttribute("formBean") PointsQuery pointsQuery, HttpServletRequest request, Model model) {
-        request.getSession().setAttribute("menuId","3");
+        request.getSession().setAttribute("menuId", "3");
         // 页面分享js需要的参数
-		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-				"jifen/list.do","中国银行信用卡积分查询");
-		if (jsMap == null) {
-		    return ERROR;
-		}
-		for (String key : jsMap.keySet()) {
-			model.addAttribute(key, jsMap.get(key));
-		}
+        Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
+                "jifen/list.do", "中国银行信用卡积分查询");
+        if (jsMap == null) {
+            return ERROR;
+        }
+        for (String key : jsMap.keySet()) {
+            model.addAttribute(key, jsMap.get(key));
+        }
         //调用后台获取积分余额
-        PointsBalance pointsBalance =  pointsServiceImpl.getPointsBlance(getIdentityNo(request),getIdentityType(request));
+        PointsBalance pointsBalance = pointsServiceImpl.getPointsBlance(getIdentityNo(request), getIdentityType(request));
         model.addAttribute("pointsBalance", pointsBalance);
         return LISTURL;
     }
@@ -69,23 +66,23 @@ public class PointsController extends BaseController {
     @RequestMapping(value = "pointsDetail")
     public String pointsDetail(@ModelAttribute("formBean") PointsQuery pointsQuery, HttpServletRequest request, Model model) {
         // 页面分享js需要的参数
-		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-				"jifen/list.do","中国银行信用卡积分查询");
-		if (jsMap == null) {
-			return ERROR;
-		}
-		for (String key : jsMap.keySet()) {
-			model.addAttribute(key, jsMap.get(key));
-		}
+        Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
+                "jifen/list.do", "中国银行信用卡积分查询");
+        if (jsMap == null) {
+            return ERROR;
+        }
+        for (String key : jsMap.keySet()) {
+            model.addAttribute(key, jsMap.get(key));
+        }
         // 调用RMI 获取积分明细列表
-        List<PointsDetail> pointsDetailList = pointsServiceImpl.getPointsDetail(getIdentityNo(request),getIdentityType(request));
+        List<PointsDetail> pointsDetailList = pointsServiceImpl.getPointsDetail(getIdentityNo(request), getIdentityType(request));
         List<List<PointsDetail>> newList = new ArrayList<>();
         // RMI返回值为空或没有数据
-		if (pointsDetailList == null || pointsDetailList.size()==0) {
-			return BUSYURL;
-		} else if (pointsDetailList.size() > 0 && pointsDetailList.get(0).getCardNo() != null && pointsDetailList.get(0).getId() != null) {
-			newList = pointsServiceImpl.getList(pointsDetailList);
-		}
+        if (pointsDetailList == null || pointsDetailList.size() == 0) {
+            return BUSYURL;
+        } else if (pointsDetailList.size() > 0 && pointsDetailList.get(0).getCardNo() != null && pointsDetailList.get(0).getId() != null) {
+            newList = pointsServiceImpl.getList(pointsDetailList);
+        }
         model.addAttribute("newList", newList);
         model.addAttribute("model", pointsQuery);
         return DETAIL;
@@ -133,18 +130,19 @@ public class PointsController extends BaseController {
 
     /**
      * 积分兑换
+     *
      * @param model
      * @return
      */
     @RequestMapping(value = "pointsExchange")
-    public String pointsExchange(HttpServletRequest request,Model model){
-        String cardNo =  pointsServiceImpl.getCardN0(getIdentityNo(request),getIdentityType(request));
-        if (cardNo == null){
-            cardNo="1111111111111111";
+    public String pointsExchange(HttpServletRequest request, Model model) {
+        String cardNo = pointsServiceImpl.getCardN0(getIdentityNo(request), getIdentityType(request));
+        if (cardNo == null) {
+            cardNo = "1111111111111111";
         }
         VerificationCardNoResult verificationCardNoResult = pointsServiceImpl.verificationCardNo(cardNo);
-        if (verificationCardNoResult !=null){
-            model.addAttribute("sign",verificationCardNoResult.getSign());
+        if (verificationCardNoResult != null) {
+            model.addAttribute("sign", verificationCardNoResult.getSign());
             model.addAttribute("cardNo", verificationCardNoResult.getEncryptCardNo());
             model.addAttribute("exchangeUrl", exchangeUrl);
             return EXCHANGE;

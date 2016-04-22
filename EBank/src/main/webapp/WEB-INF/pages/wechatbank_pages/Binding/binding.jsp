@@ -1,14 +1,16 @@
-<%@ page import="com.yada.wechatbank.model.*" %>
+<%@ page import="com.yada.wechatbank.model.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
+         pageEncoding="UTF-8"%>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <%@include file="../../base_pages/base.jsp" %>
+    <%@include file="../../base_pages/base.jsp"%>
     <%@include file="../../base_pages/wxjs.jsp"%>
     <meta name="viewport"
           content="initial-scale=1, maximum-scale=1, user-scalable=no" />
     <title>中国银行信用卡</title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap.min.css"/>" />
     <link rel="stylesheet" type="text/css" href="<c:url value="/css/wechatbank/index.css"/>" />
+    <%@include file="../../base_pages/wxReadyFunction.jsp"%>
 </head>
 <body>
 <div class="logo">
@@ -137,8 +139,7 @@
             <input class="btn btn-sm btn-default btn-block btn-shadow"
                    type="submit" value="提&nbsp;&nbsp;交" onclick="return validate_form();"/>
             <input type="hidden"
-                   id="openId" name="openId" value="${model.openId}"> <input
-                type="hidden" id="toUser" name="toUser" value="${model.toUser}">
+                   id="openId" name="openId" value="${model.openId}">
         </div>
         <input type="hidden" id="keycode" value="${keycode}">
 

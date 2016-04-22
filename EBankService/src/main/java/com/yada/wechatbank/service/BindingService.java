@@ -83,7 +83,7 @@ public interface BindingService {
      * @param identityType 证件类型
      * @return 手机号码
      */
-    String vaidateMobilNo(String identityNo, String identityType, String mobilNo);
+    String vaidateMobilNo(String openId,String identityNo, String identityType, String mobilNo);
 
 
     /**

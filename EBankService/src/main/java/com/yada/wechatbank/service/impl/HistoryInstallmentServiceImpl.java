@@ -25,22 +25,23 @@ public class HistoryInstallmentServiceImpl extends BaseService implements Histor
     private HttpClient httpClient;
     @Value("${url.getHistoryInstallment}")
     private String getHistoryInstallment;
+
     @Override
     public HistoryInstallmentList queryHistoryInstallment(String cardNo, String startNumber, String selectNumber) {
         //TODO 调用后台查询分期历史
         Map<String, String> map = initGcsParam();
-        map.put("cardNo",cardNo);
-        map.put("startNumber",startNumber);
+        map.put("cardNo", cardNo);
+        map.put("startNumber", startNumber);
         map.put("selectNumber", selectNumber);
-        HistoryInstallmentResp historyInstallmentResp = httpClient.send(getHistoryInstallment,map,HistoryInstallmentResp.class);
+        HistoryInstallmentResp historyInstallmentResp = httpClient.send(getHistoryInstallment, map, HistoryInstallmentResp.class);
         return historyInstallmentResp.getBizResult();
     }
 
     @Override
-    public List<String> selectCardNOs(String identityNo,String identityType) {
-        List<CardInfo> cardInfoList = selectCardNos(identityNo,identityType);
+    public List<String> selectCardNOs(String identityNo, String identityType) {
+        List<CardInfo> cardInfoList = selectCardNos(identityNo, identityType);
         List<String> cardList = new ArrayList<>();
-        for (int i=0;i< cardInfoList.size();i++){
+        for (int i = 0; i < cardInfoList.size(); i++) {
             cardList.add(cardInfoList.get(i).getCardNo());
         }
         return cardList;

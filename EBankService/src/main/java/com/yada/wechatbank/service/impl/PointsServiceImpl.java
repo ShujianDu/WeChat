@@ -13,6 +13,7 @@ import com.yada.wx.db.service.model.CustomerInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,21 +26,20 @@ import java.util.Map;
 public class PointsServiceImpl extends BaseService implements PointsService {
 
     @Autowired
-    private CustomerInfoDao customerInfoDao;
-    @Autowired
     private HttpClient httpClient;
     @Value("${url.getPointsDetails}")
     private String getPointsDetails;
     @Value("${url.getPointsValidates}")
     private String getPointsValidates;
-    @Value("${url.getBalance}")
+    @Value("${url.getPointsBalance}")
     private String getBalance;
     @Value("${url.verificationCardNo}")
     private String verificationCardNo;
 
     /**
      * 获取账户积分余额
-     * @param identityNo 证件号
+     *
+     * @param identityNo   证件号
      * @param identityType 证件类型
      * @return
      */
@@ -47,36 +47,37 @@ public class PointsServiceImpl extends BaseService implements PointsService {
     public PointsBalance getPointsBlance(String identityNo, String identityType) {
         String cardNo = "";
         //通过证件号和证件类型去后台查询卡号
-        List<CardInfo> cardInfoList = selectCardNos(identityNo,identityType);
-        if (cardInfoList!=null && cardInfoList.size()!=0){
-            cardNo=cardInfoList.get(0).getCardNo();
+        List<CardInfo> cardInfoList = selectCardNos(identityNo, identityType);
+        if (cardInfoList != null && cardInfoList.size() != 0) {
+            cardNo = cardInfoList.get(0).getCardNo();
         }
-        Map<String,String> map = new HashMap<>();
-        map.put("cardNo",cardNo);
-        PointsBalanceResp pointsBlanceResp = httpClient.send(getBalance,map,PointsBalanceResp.class);
+        Map<String, String> map = new HashMap<>();
+        map.put("cardNo", cardNo);
+        PointsBalanceResp pointsBlanceResp = httpClient.send(getBalance, map, PointsBalanceResp.class);
         return pointsBlanceResp.getBizResult();
     }
 
     /**
      * 获取积分明细
-     * @param identityNo 证件号
+     *
+     * @param identityNo   证件号
      * @param identityType 证件类型
      * @return
      */
     @Override
-    public List<PointsDetail> getPointsDetail(String identityNo,String identityType) {
-        String cardNo ="";
+    public List<PointsDetail> getPointsDetail(String identityNo, String identityType) {
+        String cardNo = "";
         //通过证件号和证件类型去后台查询卡号
-        List<CardInfo> cardInfoList = selectCardNos(identityNo,identityType);
-        if (cardInfoList!=null && cardInfoList.size()!=0){
-            cardNo=cardInfoList.get(0).getCardNo();
+        List<CardInfo> cardInfoList = selectCardNos(identityNo, identityType);
+        if (cardInfoList != null && cardInfoList.size() != 0) {
+            cardNo = cardInfoList.get(0).getCardNo();
         }
         //查询积分明细
-        Map<String,String> map = new HashMap<>();
-        map.put("cardNo",cardNo);
-        PointsDetailResp pointsDetailResp = httpClient.send(getPointsDetails,map,PointsDetailResp.class);
+        Map<String, String> map = new HashMap<>();
+        map.put("cardNo", cardNo);
+        PointsDetailResp pointsDetailResp = httpClient.send(getPointsDetails, map, PointsDetailResp.class);
         List<PointsDetail> pointsList = null;
-        if(pointsDetailResp!=null){
+        if (pointsDetailResp != null) {
             pointsList = pointsDetailResp.getBizResult();
         }
         return pointsList;
@@ -119,40 +120,40 @@ public class PointsServiceImpl extends BaseService implements PointsService {
 
     /**
      * 获取积分有效期
+     *
      * @param cardNo 卡号
      * @return
      */
     @Override
     public List<PointsValidates> getPointsValidates(String cardNo) {
-        Map<String,String> map = new HashMap<>();
-        map.put("cardNo",cardNo);
+        Map<String, String> map = new HashMap<>();
+        map.put("cardNo", cardNo);
         //调用后台获取积分到期日
-        PointsValidatesResp pointsValidatesResp = httpClient.send(getPointsValidates,map,PointsValidatesResp.class);
+        PointsValidatesResp pointsValidatesResp = httpClient.send(getPointsValidates, map, PointsValidatesResp.class);
         return pointsValidatesResp.getBizResult();
     }
 
     /**
-     *
      * @param identityNo
      * @param identityType
      * @return
      */
     @Override
     public String getCardN0(String identityNo, String identityType) {
-        String cardNo =null;
+        String cardNo = null;
         //通过证件号和证件类型去后台查询卡号
-        List<CardInfo> cardInfoList = selectCardNos(identityNo,identityType);
-        if (cardInfoList!=null && cardInfoList.size()!=0){
-            cardNo=cardInfoList.get(0).getCardNo();
+        List<CardInfo> cardInfoList = selectCardNos(identityNo, identityType);
+        if (cardInfoList != null && cardInfoList.size() != 0) {
+            cardNo = cardInfoList.get(0).getCardNo();
         }
         return cardNo;
     }
 
     @Override
     public VerificationCardNoResult verificationCardNo(String cardNo) {
-        Map<String,String> map = new HashMap<>();
-        map.put("cardNo",cardNo);
-        VerificationCardNoResultResp verificationCardNoResultResp = httpClient.send(verificationCardNo,map,VerificationCardNoResultResp.class);
+        Map<String, String> map = new HashMap<>();
+        map.put("cardNo", cardNo);
+        VerificationCardNoResultResp verificationCardNoResultResp = httpClient.send(verificationCardNo, map, VerificationCardNoResultResp.class);
         return verificationCardNoResultResp.getBizResult();
     }
 
