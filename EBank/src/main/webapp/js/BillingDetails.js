@@ -6,6 +6,8 @@
 		var periodStartDate=$("#periodStartDate").val();
 		var periodEndDate=$("#periodEndDateAjax").val();
 		var currencyCodeReal=$("#currencyCodeReal").val();
+		var noBillingWarning = $("#noBillingWarning");
+		noBillingWarning.text("");
 		 $.ajax({
 	            url: "getMore_ajax.do",
 	            data: {

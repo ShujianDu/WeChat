@@ -10,9 +10,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yada.wechatbank.base.BaseController;
 import com.yada.wechatbank.model.ConsumptionInstallments;
 import com.yada.wechatbank.service.ConsumptionInstallmentService;
@@ -137,7 +139,34 @@ public class ConsumptionInstallmentController extends BaseController {
 
 	@RequestMapping(value = "getMore_ajax.do")
 	@ResponseBody
-	public String getMore_ajax() {
-		return null;
+	public String getMore_ajax(@ModelAttribute("formBean") ConsumptionInstallments consumptionInstallments) {
+		String cardNo = consumptionInstallments.getCardNo();
+		String currencyCode = consumptionInstallments.getCurrencyChinaCode();
+		String startnum = consumptionInstallments.getStartnum();
+		try {
+			cardNo = Crypt.decode(cardNo);
+		} catch (Exception e) {
+			logger.info("@XFFQ@解密卡号出现异常" + e);
+			return JSONObject.toJSONString(null);
+		}
+		// 获取可分期消费信息集合
+		Map<String, Object> map = consumptionInstallmentServiceImpl.queryConsumptionInstallments(cardNo, currencyCode, startnum, SELECTNUM);
+		logger.info("@XFFQ@调用核心根据cardNo[" + cardNo + "],currencyCode[" + currencyCode + ",STARTNUM[" + startnum + "]SELECTNUM[" + SELECTNUM
+				+ "]获取可分期交易，获取到的交易列表map[" + map + "]");
+		if (map == null || map.get("isFollowUp") == null || map.get("consumptionInstallmentsList") == null) {
+			return JSONObject.toJSONString("");
+		}
+		String isFollowUp = (String) map.get("isFollowUp");
+		@SuppressWarnings("unchecked")
+		List<ConsumptionInstallments> consumptionInstallmentsList = (List<ConsumptionInstallments>) map.get("consumptionInstallmentsList");
+		// 第一个对象赋值
+		if (consumptionInstallmentsList.size() != 0) {
+			consumptionInstallmentsList.get(0).setIsFollowUp(isFollowUp);
+			consumptionInstallmentsList.get(0).setStartnum((Integer.parseInt(startnum) + 1) + "");
+			consumptionInstallmentsList.get(0).setOnepage(ONEPAGE);
+		} else {
+			return JSONObject.toJSONString("");
+		}
+		return JSONObject.toJSONString(consumptionInstallmentsList);
 	}
 }

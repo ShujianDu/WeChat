@@ -29,6 +29,36 @@ public class ConsumptionInstallments {
 	private String originalTransactionAmount;
 	// 币种中文描述
 	private String currencyChinaCode;
+	// 查询开始条数
+	private String startnum;
+	// 每页显示条数
+	private int onepage;
+	// 是否有下一页
+	private String isFollowUp;
+
+	public String getStartnum() {
+		return startnum;
+	}
+
+	public void setStartnum(String startnum) {
+		this.startnum = startnum;
+	}
+
+	public int getOnepage() {
+		return onepage;
+	}
+
+	public void setOnepage(int onepage) {
+		this.onepage = onepage;
+	}
+
+	public String getIsFollowUp() {
+		return isFollowUp;
+	}
+
+	public void setIsFollowUp(String isFollowUp) {
+		this.isFollowUp = isFollowUp;
+	}
 
 	public String getCurrencyChinaCode() {
 		return currencyChinaCode;

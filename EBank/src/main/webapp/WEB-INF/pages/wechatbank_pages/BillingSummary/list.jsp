@@ -57,8 +57,8 @@
 				</div>
 			</div>
 			<input type="hidden" id="date" value="${dateList[0]}" />
-			<div id="noBillingWarning"
-				style="color: #999999; font-size: 13px; line-height: 40px; margin-left: 16px;"></div>
+			<span id="noBillingWarning"
+				style="color: #999999; font-size: 13px; line-height: 40px; margin-left: 16px;"></span>
 			<!--实际币种,其余为页面展示的中文币种  -->
 			<span id="currencyCodeReal1" style='display: none'></span> 
 			<span id="currencyCodeReal2" style='display: none'></span>

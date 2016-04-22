@@ -43,6 +43,8 @@
 			</c:forEach>
 		</ul>
 		<div class="readMore" id="readMore" onclick="getMore();">查看更多</div>
+		<span id="noBillingWarning"
+				style="color: #999999; font-size: 13px; line-height: 40px; margin-left: 16px;"></span>
 	</div>
 	<!--ajax查询用到的参数  -->
 	<input value="${fn:substringAfter(cardNo, ',')}" id="cardNo" type="hidden"/>
