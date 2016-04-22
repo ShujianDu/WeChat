@@ -161,7 +161,6 @@ public class SmsServiceImpl extends BaseService implements SmsService {
                 sMSCacheImpl.remove(key);
             } else {
                 c.setCount(c.getCount() + 1);
-                sMSCacheImpl.put(key, c);
             }
             if (c.getCount() >= 3) {
                 logger.warn("用户identityNo[{}]通过[{}]渠道验证短信验证码超次", identityNo, bizCode);

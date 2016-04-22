@@ -18,7 +18,7 @@
     <a id="1" href="${ctx}\billingsummary\list.do?menuId=1" class="current_menu">我的账单</a>
     <a id="2" href="${ctx}\balance\list.do?menuId=2">我的额度</a>
     <a id="3" href="${ctx}\points\list.do?menuId=3">我的积分</a>
-    <a id="4" href="${ctx}\menu\moreMenu.do">更多功能</a>
+    <a id="4" href="${ctx}\menu\moreMenu.do?menuId=4">更多功能</a>
 </div>
 <div id="myMenuContent"></div>
 <script type=text/javascript>

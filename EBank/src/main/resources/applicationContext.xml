@@ -26,4 +26,7 @@
     <!-- Beans注入 -->
     <import resource="classpath:applicationContext-beans.xml"/>
 
+    <!-- EhCache -->
+    <import resource="classpath:/applicationContext-cache.xml" />
+
 </beans>
