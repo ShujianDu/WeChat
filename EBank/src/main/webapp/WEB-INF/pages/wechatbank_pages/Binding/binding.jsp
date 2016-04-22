@@ -240,6 +240,7 @@
             data: {
                 idType: idType,
                 identityNo: identityNo,
+                mobilNo: mobilNo,
                 verificationCode: encodeURI(verificationCode),
                 keycode: keycode,
                 timestamp: new Date().getTime()

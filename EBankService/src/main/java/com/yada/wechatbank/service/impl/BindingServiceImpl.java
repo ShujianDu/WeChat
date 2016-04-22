@@ -68,7 +68,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
     @Override
     public boolean isLocked(String openId, String idNum) {
 
-        if(LockCacheImpl.get(openId) != null || LockCacheImpl.get(idNum) != null){
+        if (LockCacheImpl.get(openId) != null || LockCacheImpl.get(idNum) != null) {
             return true;
         }
         return false;
@@ -79,7 +79,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      */
     @Override
     public void addCountCache(String openId, String idNum) {
-        countSMSCacheImpl.put(openId,idNum);
+        countSMSCacheImpl.put(openId, idNum);
     }
 
     /**
@@ -98,7 +98,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
         if (cardInfoList != null && cardInfoList.size() != 0) {
             cardNo = cardInfoList.get(0).getCardNo();
         } else {
-            countSMSCacheImpl.put(openId,idCardNo);
+            countSMSCacheImpl.put(openId, idCardNo);
             return noCard;
         }
         Map<String, String> map = initGcsParam();
@@ -107,7 +107,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
         //使用卡号密码验密
         BooleanResp booleanResp = httpClient.send(verificationPWD, map, BooleanResp.class);
         if (!booleanResp.getBizResult()) {
-            countSMSCacheImpl.put(openId,idCardNo);
+            countSMSCacheImpl.put(openId, idCardNo);
             return pwdFiled;
         } else {
             countSMSCacheImpl.remove(openId);
@@ -217,9 +217,9 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      * @return String
      */
     @Override
-    public String vaidateMobilNo(String openId,String identityNo, String identityType, String mobilNo) {
+    public String vaidateMobilNo(String openId, String identityNo, String identityType, String mobilNo) {
         //判断账户是否锁定
-        if(LockCacheImpl.get(openId) != null || LockCacheImpl.get(identityNo) != null){
+        if (LockCacheImpl.get(openId) != null || LockCacheImpl.get(identityNo) != null) {
             return "locked";
         }
         Map<String, String> map = initGcsParam();
@@ -231,16 +231,16 @@ public class BindingServiceImpl extends BaseService implements BindingService {
             mobile = custMobileResp.getBizResult();
         }
         if (mobile == null) {
-            countSMSCacheImpl.put(openId,identityNo);
+            countSMSCacheImpl.put(openId, identityNo);
             //countSMSCodeCache.put(openId, identityNo);
             return "exception";
         }
         if ("".equals(mobile.trim())) {
-            countSMSCacheImpl.put(openId,identityNo);
+            countSMSCacheImpl.put(openId, identityNo);
             return "noMobileNumber";
         }
         if (!mobile.equals(mobilNo)) {
-            countSMSCacheImpl.put(openId,identityNo);
+            countSMSCacheImpl.put(openId, identityNo);
             return "wrongMobilNo";
         }
         //证件号手机号输入正确，次数清零
