@@ -706,12 +706,11 @@ case class CreditLimitTemporaryUpReviewParams(sessionId: String, channelId: Stri
   *
   * @param sessionId gcsSessionId
   * @param channelId 渠道编号
-  * @param eosIDType 证件类型
-  * @param idNumber  证件号码
   * @param cardNo    卡号
-  * @param eosId     工作单ID
   */
-case class TemporaryUpCommitStatusParams(sessionId: String, channelId: String, eosIDType: String, idNumber: String, cardNo: String, eosId: String)
+case class TemporaryUpCommitStatusParams(sessionId: String,
+                                         channelId: String,
+                                         cardNo: String)
 
 /**
   *

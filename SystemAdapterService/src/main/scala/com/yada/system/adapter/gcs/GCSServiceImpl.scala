@@ -302,12 +302,11 @@ class GCSServiceImpl extends GCSService {
   /**
     * 信用卡额度临时提额调整状态查询
     *
-    * @param temporaryUpCommitStatusParams TemporaryUpCommitStatusParams
+    * @param p TemporaryUpCommitStatusParams
     * @return 信用卡额度临时提额调整状态列表
     */
-  override def getTemporaryUpCommitStatus(temporaryUpCommitStatusParams: TemporaryUpCommitStatusParams): List[GCSCreditLimitTemporaryUpStatus] = {
-    val ts140031 = new TS140031(temporaryUpCommitStatusParams.sessionId, temporaryUpCommitStatusParams.channelId, temporaryUpCommitStatusParams.eosIDType, temporaryUpCommitStatusParams.idNumber,
-      temporaryUpCommitStatusParams.cardNo, temporaryUpCommitStatusParams.eosId)()
+  override def getTemporaryUpCommitStatus(p: TemporaryUpCommitStatusParams): List[GCSCreditLimitTemporaryUpStatus] = {
+    val ts140031 = new TS140031(p.sessionId, p.channelId, None, None, Some(p.cardNo), None)
     ts140031.send.pageListValues(m =>
       GCSCreditLimitTemporaryUpStatus(m.getOrElse("eosId", ""), m.getOrElse("eosState", ""),
         m.getOrElse("eosImpTime", ""), m.getOrElse("eosLimit", ""), m.getOrElse("eosStarLimitDate", ""),

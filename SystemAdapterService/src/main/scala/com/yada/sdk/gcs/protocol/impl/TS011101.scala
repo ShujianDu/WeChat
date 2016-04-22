@@ -10,6 +10,7 @@ import com.yada.sdk.gcs.protocol.GCSReq
   * 注：这是从发卡系统查询的信息
   *
   * @see com.yada.sdk.gcs.protocol.impl.TS011005
+  * @see com.yada.sdk.gcs.protocol.impl.TS010201 按卡号查询持卡人客户信息交易--“BOC”客户号（响应字段超多）
   * @see com.yada.sdk.gcs.protocol.impl.TS140028 （从NUW系统查询客户预留手机号）
   * @param sessionId 交易会话标识，用来表示客户访问身份
   * @param channelId 交易请求渠道标识

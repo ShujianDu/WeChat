@@ -80,6 +80,9 @@ object GCSProtocolTestApp extends App {
   // 查询客户手机预留号码
   //  testTS140028()
 
+  // 信用卡额度调整状态查询
+  //  testTS140031()
+
   /**
     * 账单寄送方式查询
     */
@@ -314,5 +317,16 @@ object GCSProtocolTestApp extends App {
     val req = new TS140028(sessionID, channelID, idType, idNum)
     val resp = req.send
     println(resp)
+  }
+
+  /**
+    * 信用卡额度调整状态查询
+    */
+  def testTS140031(): Unit = {
+    // TODO 信用卡额度调整状态查询 无法测试
+    //    val cardNo = "5149580068840943"
+    //    val req = new TS140031(sessionID, channelID, None, None, Some(cardNo), None)
+    //    val resp = req.send
+    //    println(resp)
   }
 }
