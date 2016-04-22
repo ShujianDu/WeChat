@@ -382,22 +382,33 @@ object BillingDetailResult {
 }
 
 /**
+  *
   * 持卡人信息
   *
   * @param familyName 客户姓
   * @param firstName  客户名
   * @param gender     性别
   * @param mobileNo   手机号码
+  * @param postalCode 邮政编码
+  * @param workUnitName 单位名称
+  * @param workUnitPhone 单位电话
+  * @param mailBox 电子邮箱
+  * @param homeAddressPhone 住宅电话
+  * @param billAddressLine 账单地址由账单地址1,账单地址2,账单地址3拼接完成
   */
-case class CardHolderInfoResult(familyName: String, firstName: String, gender: String, mobileNo: String)
+case class CardHolderInfoResult(familyName: String, firstName: String, gender: String, mobileNo: String,postalCode:String,workUnitName:String,
+                                workUnitPhone:String,mailBox:String,homeAddressPhone:String,billAddressLine:String)
 
 object CardHolderInfoResult {
   implicit val cardHolderInfoResultReads: Reads[CardHolderInfoResult] = (
     (__ \ "familyName").read[String] ~ (__ \ "firstName").read[String] ~ (__ \ "gender").read[String] ~ (__ \ "mobileNo").read[String]
+      ~ (__ \ "postalCode").read[String]~ (__ \ "workUnitName").read[String]~ (__ \ "workUnitPhone").read[String]~ (__ \ "mailBox").read[String]~ (__ \ "homeAddressPhone").read[String]
+      ~ (__ \ "billAddressLine").read[String]
     ) (CardHolderInfoResult.apply _)
 
   implicit val cardHolderInfoResultWrites: Writes[CardHolderInfoResult] = (
-    (__ \ "familyName").write[String] ~ (__ \ "firstName").write[String] ~ (__ \ "gender").write[String] ~ (__ \ "mobileNo").write[String]
+    (__ \ "familyName").write[String] ~ (__ \ "firstName").write[String] ~ (__ \ "gender").write[String] ~ (__ \ "mobileNo").write[String]~ (__ \ "postalCode").write[String]
+      ~ (__ \ "workUnitName").write[String]~ (__ \ "workUnitPhone").write[String]~ (__ \ "mailBox").write[String]~ (__ \ "homeAddressPhone").write[String]~ (__ \ "billAddressLine").write[String]
     ) (unlift(CardHolderInfoResult.unapply))
 }
 
