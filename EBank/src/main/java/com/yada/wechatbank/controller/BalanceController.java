@@ -36,6 +36,7 @@ public class BalanceController extends BaseController{
 	 */
 	@RequestMapping(value = "list")
 	public String list(HttpServletRequest request,@ModelAttribute("formBean") BalanceQuery balanceQuery, Model model) {
+		request.getSession().setAttribute("menuId", "2");
 		String identityNo = getIdentityNo(request);
 		String identityType = getIdentityType(request);
 		List<CardInfo> cardList = balanceServiceImpl.getProessCardNoList(identityType, identityNo);
