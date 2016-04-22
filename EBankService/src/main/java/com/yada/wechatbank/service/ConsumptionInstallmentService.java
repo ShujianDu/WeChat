@@ -5,6 +5,9 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.yada.wechatbank.model.ConsumptionInstallmentAuthorization;
+import com.yada.wechatbank.model.ConsumptionInstallmentCost;
+
 /**
  * 消费分期业务接口
  * 
@@ -38,4 +41,22 @@ public interface ConsumptionInstallmentService {
 	 * @return 可以办理消费分期的信息
 	 */
 	Map<String, Object> queryConsumptionInstallments(String cardNo, String currencyCode, String startNumber, String selectNumber);
+
+	/**
+	 * 消费分期试算查询
+	 * 
+	 * @param consumptionInstallmentAuthorization
+	 *            消费分期（费用试算）(TS011009)及消费分期授权(TS011011)上送报文实体
+	 * @return 试算结果
+	 */
+	ConsumptionInstallmentCost costConsumptionInstallment(ConsumptionInstallmentAuthorization consumptionInstallmentAuthorization);
+
+	/**
+	 * 消费分期授权
+	 * 
+	 * @param consumptionInstallmentAuthorization
+	 *            消费分期（费用试算）(TS011009)及消费分期授权(TS011011)上送报文实体
+	 * @return 分期授权结果
+	 */
+	String authorizationConsumptionInstallment(ConsumptionInstallmentAuthorization consumptionInstallmentAuthorization);
 }

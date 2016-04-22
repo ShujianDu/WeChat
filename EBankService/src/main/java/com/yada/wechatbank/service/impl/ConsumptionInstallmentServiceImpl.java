@@ -10,7 +10,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.yada.wechatbank.base.BaseService;
+import com.yada.wechatbank.client.model.ConsumerAuthorizationResultResp;
+import com.yada.wechatbank.client.model.ConsumptionInstallmentCostResp;
 import com.yada.wechatbank.client.model.ConsumptionInstallmentsResp;
+import com.yada.wechatbank.model.ConsumptionInstallmentAuthorization;
+import com.yada.wechatbank.model.ConsumptionInstallmentCost;
 import com.yada.wechatbank.model.ConsumptionInstallments;
 import com.yada.wechatbank.model.ConsumptionInstallmentsesReceive;
 import com.yada.wechatbank.service.ConsumptionInstallmentService;
@@ -30,6 +34,12 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 	// 从配置文件读取消费分期交易金额下限
 	@Value("${consumptionInstallmentMinAmount}")
 	private String consumptionInstallmentMinAmount;
+	// 消费分期试算
+	@Value("${url.costConsumptionInstallment}")
+	private String costConsumptionInstallmentUrl;
+	// 消费分期授权
+	@Value("${url.authorizationConsumptionInstallment}")
+	private String authorizationConsumptionInstallmentUrl;
 	@Autowired
 	private CurrencyUtil currencyUtil;
 
@@ -70,4 +80,45 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		map.put("consumptionInstallmentsList", consumptionInstallmentsList);
 		return map;
 	}
+
+	@Override
+	public ConsumptionInstallmentCost costConsumptionInstallment(ConsumptionInstallmentAuthorization consumptionInstallmentAuthorization) {
+		Map<String, String> param = initGcsParam();
+		param.put("accountKeyOne", consumptionInstallmentAuthorization.getAccountKeyOne());
+		param.put("accountKeyTwo", consumptionInstallmentAuthorization.getAccountKeyTwo());
+		param.put("currencyCode", consumptionInstallmentAuthorization.getCurrencyCode());
+		param.put("billDateNo", consumptionInstallmentAuthorization.getBillDateNo());
+		param.put("transactionAmount", consumptionInstallmentAuthorization.getTransactionAmount());
+		param.put("cardNo", consumptionInstallmentAuthorization.getCardNo());
+		param.put("accountNoID", consumptionInstallmentAuthorization.getAccountNoID());
+		param.put("installmentPeriods", consumptionInstallmentAuthorization.getInstallmentPeriods());
+		param.put("isfeeFlag", consumptionInstallmentAuthorization.getIsfeeFlag());
+		ConsumptionInstallmentCostResp consumptionInstallmentCostResp = httpClient.send(costConsumptionInstallmentUrl, param,
+				ConsumptionInstallmentCostResp.class);
+		if (consumptionInstallmentCostResp == null || consumptionInstallmentCostResp.getBizResult() == null) {
+			return null;
+		}
+		return consumptionInstallmentCostResp.getBizResult();
+	}
+
+	@Override
+	public String authorizationConsumptionInstallment(ConsumptionInstallmentAuthorization consumptionInstallmentAuthorization) {
+		Map<String, String> param = initGcsParam();
+		param.put("accountKeyOne", consumptionInstallmentAuthorization.getAccountKeyOne());
+		param.put("accountKeyTwo", consumptionInstallmentAuthorization.getAccountKeyTwo());
+		param.put("currencyCode", consumptionInstallmentAuthorization.getCurrencyCode());
+		param.put("billDateNo", consumptionInstallmentAuthorization.getBillDateNo());
+		param.put("transactionAmount", consumptionInstallmentAuthorization.getTransactionAmount());
+		param.put("cardNo", consumptionInstallmentAuthorization.getCardNo());
+		param.put("accountNoID", consumptionInstallmentAuthorization.getAccountNoID());
+		param.put("installmentPeriods", consumptionInstallmentAuthorization.getInstallmentPeriods());
+		param.put("isfeeFlag", consumptionInstallmentAuthorization.getIsfeeFlag());
+		ConsumerAuthorizationResultResp consumerAuthorizationResultResp = httpClient.send(authorizationConsumptionInstallmentUrl, param,
+				ConsumerAuthorizationResultResp.class);
+		if (consumerAuthorizationResultResp == null || consumerAuthorizationResultResp.getBizResult() == null) {
+			return null;
+		}
+		return consumerAuthorizationResultResp.getBizResult().getReturnCode();
+	}
+
 }
