@@ -53,7 +53,7 @@ public class PointsServiceImpl extends BaseService implements PointsService {
         }
         Map<String,String> map = new HashMap<>();
         map.put("cardNo",cardNo);
-        PointsBalanceResp pointsBlanceResp = httpClient.send("getBalance",map,PointsBalanceResp.class);
+        PointsBalanceResp pointsBlanceResp = httpClient.send(getBalance,map,PointsBalanceResp.class);
         return pointsBlanceResp.getBizResult();
     }
 
@@ -152,7 +152,7 @@ public class PointsServiceImpl extends BaseService implements PointsService {
     public VerificationCardNoResult verificationCardNo(String cardNo) {
         Map<String,String> map = new HashMap<>();
         map.put("cardNo",cardNo);
-        VerificationCardNoResultResp verificationCardNoResultResp = httpClient.send("verificationCardNo",map,VerificationCardNoResultResp.class);
+        VerificationCardNoResultResp verificationCardNoResultResp = httpClient.send(verificationCardNo,map,VerificationCardNoResultResp.class);
         return verificationCardNoResultResp.getBizResult();
     }
 

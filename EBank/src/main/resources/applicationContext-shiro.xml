@@ -53,7 +53,7 @@
 	
 	<!-- EhCacheManager是shiro官方实现并推荐的缓存管理 -->
 	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager" >
-	
+		<property name="cacheManager" ref="cacheManagerFactory"/>
 	</bean>
 	
 	<bean id="validateTime" class="com.yada.wechatbank.shiro.ValidateTime" >

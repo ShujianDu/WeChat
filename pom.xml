@@ -39,6 +39,7 @@
         <junit.version>4.12</junit.version>
         <h2database.version>1.4.191</h2database.version>
         <sitemesh.version>3.0.1</sitemesh.version>
+        <ehcache.version>2.10.2</ehcache.version>
     </properties>
 
     <dependencyManagement>
@@ -215,6 +216,11 @@
                 <groupId>org.sitemesh</groupId>
                 <artifactId>sitemesh</artifactId>
                 <version>${sitemesh.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.ehcache</groupId>
+                <artifactId>ehcache</artifactId>
+                <version>${ehcache.version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>

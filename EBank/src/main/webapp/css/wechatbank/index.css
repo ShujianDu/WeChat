@@ -1082,3 +1082,5 @@ select:FOCUS {
 	text-decoration: underline;
 	font-size:3em;
 }
+.showhide_boxhide{border-radius: 0 0 10px 10px;}
+.showHide_BOX{  width:100%;line-height:40px;line-height:40px;color:#666666;font-size:14px;text-align: center;background-color:white;border-radius: 0 0 10px 10px;}

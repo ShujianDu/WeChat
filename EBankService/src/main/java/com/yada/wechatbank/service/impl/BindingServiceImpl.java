@@ -35,8 +35,6 @@ public class BindingServiceImpl extends BaseService implements BindingService {
     private CustomerInfoDao customerInfoDao;
     @Autowired
     private HttpClient httpClient;
-    @Value("${url.getCardInfos}")
-    private String getCardInfos;
     @Value("${url.verificationPWD}")
     private String verificationPWD;
     @Value("${url.getCustMobile}")

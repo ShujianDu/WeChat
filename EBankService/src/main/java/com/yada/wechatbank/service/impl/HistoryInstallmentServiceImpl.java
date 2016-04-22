@@ -40,7 +40,7 @@ public class HistoryInstallmentServiceImpl extends BaseService implements Histor
     public List<String> selectCardNOs(String identityNo,String identityType) {
         List<CardInfo> cardInfoList = selectCardNos(identityNo,identityType);
         List<String> cardList = new ArrayList<>();
-        for (int i=0;i<=cardInfoList.size();i++){
+        for (int i=0;i< cardInfoList.size();i++){
             cardList.add(cardInfoList.get(i).getCardNo());
         }
         return cardList;

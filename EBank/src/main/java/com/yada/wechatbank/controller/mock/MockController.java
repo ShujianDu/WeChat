@@ -143,4 +143,101 @@ public class MockController {
         map.put(key, c);
         return JSON.toJSONString(map);
     }
+    @RequestMapping(value = "getHistoryInstallment")
+    @ResponseBody
+    public String queryHistoryInstallment(){
+        Map<String, Object> map = mockResult();
+        HistoryInstallmentList historyInstallmentList = new HistoryInstallmentList();
+        List<HistoryInstallment> historyInstallments = new ArrayList<>();
+        for (int i=0;i<10; i++){
+            HistoryInstallment historyInstallment = new HistoryInstallment();
+            historyInstallment.setCardNo("11111111111111111"+i);
+            historyInstallment.setInstalmentCompleteDate("1111"+i);
+            historyInstallment.setInstalmentNextPostingAmount("1111"+i);
+            historyInstallment.setInstalmentOriginalAmount("1111"+i);
+            historyInstallments.add(historyInstallment);
+        }
+        historyInstallmentList.setHistoryInstallmentList(historyInstallments);
+        historyInstallmentList.setFollowUp(true);
+        historyInstallmentList.setTransactionNumber("10");
+        map.put(key, historyInstallmentList);
+        return JSON.toJSONString(map);
+    }
+    @RequestMapping(value = "getBalance")
+    @ResponseBody
+    public String getPointsBlance(){
+        Map<String, Object> map = mockResult();
+        PointsBalance pointsBalance = new PointsBalance();
+        pointsBalance.setTotalPoint("1212");
+        map.put(key, pointsBalance);
+        return JSON.toJSONString(map);
+    }
+
+    @RequestMapping(value = "getPointsDetails")
+    @ResponseBody
+    public String getPointsDetail(){
+        Map<String, Object> map = mockResult();
+        List<PointsDetail> pointsDetailList = new ArrayList<>();
+        for (int i=0;i< 5;i++){
+            PointsDetail pointsDetail = new PointsDetail();
+            pointsDetail.setId(String.valueOf(i));
+            pointsDetail.setCardNo("1111111111111111"+i);
+            if(i==2) {
+                pointsDetail.setParentId("1");
+            }
+            pointsDetail.setPointuseFlg("正常");
+            pointsDetail.setProductName("1111"+i);
+            pointsDetailList.add(pointsDetail);
+        }
+        map.put(key, pointsDetailList);
+        return JSON.toJSONString(map);
+    }
+
+    @RequestMapping(value = "getPointsValidates")
+    @ResponseBody
+    public String getPointsValidates(){
+        Map<String, Object> map = mockResult();
+        List<PointsValidates> pointsValidatesList = new ArrayList<>();
+        for (int i=0;i< 5;i++){
+            PointsValidates pointsValidates = new PointsValidates();
+            pointsValidates.setCardNo("111111111111111111"+i);
+            pointsValidates.setProductName("111111111111111"+i);
+            pointsValidates.setProductCode("1111111111111111"+i);
+            pointsValidatesList.add(pointsValidates);
+        }
+        map.put(key, pointsValidatesList);
+        return JSON.toJSONString(map);
+    }
+
+    @RequestMapping(value = "verificationCardNo")
+    @ResponseBody
+    public String verificationCardNo(){
+        Map<String, Object> map = mockResult();
+        VerificationCardNoResult verificationCardNoResult = new VerificationCardNoResult();
+        verificationCardNoResult.setEncryptCardNo("11111111111111111111111");
+        verificationCardNoResult.setSign("2222222222222222222");
+        map.put(key, verificationCardNoResult);
+        return JSON.toJSONString(map);
+    }
+
+    @RequestMapping(value = "verificationPWD")
+    @ResponseBody
+    public String verificationPWD(){
+        Map<String, Object> map = mockResult();
+        String res = "true";
+        map.put(key, res);
+        return JSON.toJSONString(map);
+    }
+
+    @RequestMapping(value = "getCustMobile")
+    @ResponseBody
+    public String getCustMobile(){
+        Map<String, Object> map = mockResult();
+        String mobileNo = "111111111111111111";
+        map.put(key, mobileNo);
+        return JSON.toJSONString(map);
+    }
+
+
+
 }
