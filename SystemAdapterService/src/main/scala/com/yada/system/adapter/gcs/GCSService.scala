@@ -30,13 +30,20 @@ trait GCSService {
   def getBillingSummary(billingSummaryParams: BillingSummaryParams): BillingSummaryResult
 
   /**
-    * 查询账单明细
+    * 查询账单明细-已出
     *
-    * @param billingDetailsParams BillingDetailsParams
-    * @return
+    * @param billingDetailsParams BillingDetailsSettlementParams
+    * @return BillingDetailResult列表
     */
-  def getBillingDetails(billingDetailsParams: BillingDetailsParams): List[BillingDetailResult]
+  def getBillingDetailsSettlement(billingDetailsParams: BillingDetailsSettlementParams): List[BillingDetailResult]
 
+  /**
+    * 查询账单明细-未出
+    *
+    * @param billingDetailsParams BillingDetailsUnSettlementParams
+    * @return BillingDetailResult列表
+    */
+  def getBillingDetailsUnSettlement(billingDetailsParams: BillingDetailsUnSettlementParams): List[BillingDetailResult]
   /**
     * 币种查询
     *
@@ -478,21 +485,27 @@ object GCSCreditLimitTemporaryUpStatus {
   * @param accountNoID               账户ID -供消费分期费用试算上送用
   * @param originalCurrencyCode      清算币种
   * @param originalTransactionAmount 清算金额
+  * @param transactionCurrencyCode   交易币种
+  * @param cycleNumber               周期号
+  * @param transactionNo             交易序号
   */
 case class GCSConsumptionInstallmentsEntity(cardNo: String, transactionDate: String, transactionAmount: String, debitCreditCode: String, transactionDescription: String,
-                                            accountID: String, accountedID: String, accountNoID: String, originalCurrencyCode: String, originalTransactionAmount: String)
+                                            accountID: String, accountedID: String, accountNoID: String, originalCurrencyCode: String, originalTransactionAmount: String,
+                                            transactionCurrencyCode: String, cycleNumber: String, transactionNo: String)
 
 object GCSConsumptionInstallmentsEntity {
   implicit val gcsConsumptionInstallmentsEntityReads: Reads[GCSConsumptionInstallmentsEntity] = (
     (__ \ "cardNo").read[String] ~ (__ \ "transactionDate").read[String] ~ (__ \ "transactionAmount").read[String] ~ (__ \ "debitCreditCode").read[String]
       ~ (__ \ "transactionDescription").read[String] ~ (__ \ "accountID").read[String] ~ (__ \ "accountedID").read[String] ~ (__ \ "accountNoID").read[String]
-      ~ (__ \ "originalCurrencyCode").read[String] ~ (__ \ "originalTransactionAmount").read[String]
+      ~ (__ \ "originalCurrencyCode").read[String] ~ (__ \ "originalTransactionAmount").read[String] ~ (__ \ "transactionCurrencyCode").read[String]
+      ~ (__ \ "cycleNumber").read[String]~ (__ \ "transactionNo").read[String]
     ) (GCSConsumptionInstallmentsEntity.apply _)
 
   implicit val gcsConsumptionInstallmentsEntityWrites: Writes[GCSConsumptionInstallmentsEntity] = (
     (__ \ "cardNo").write[String] ~ (__ \ "transactionDate").write[String] ~ (__ \ "transactionAmount").write[String] ~ (__ \ "debitCreditCode").write[String]
       ~ (__ \ "transactionDescription").write[String] ~ (__ \ "accountID").write[String] ~ (__ \ "accountedID").write[String] ~ (__ \ "accountNoID").write[String]
-      ~ (__ \ "originalCurrencyCode").write[String] ~ (__ \ "originalTransactionAmount").write[String]
+      ~ (__ \ "originalCurrencyCode").write[String] ~ (__ \ "originalTransactionAmount").write[String] ~ (__ \ "transactionCurrencyCode").write[String]
+      ~ (__ \ "cycleNumber").write[String] ~ (__ \ "transactionNo").write[String]
     ) (unlift(GCSConsumptionInstallmentsEntity.unapply))
 }
 
@@ -530,11 +543,13 @@ object GCSConsumptionInstallmentResult {
   * @param accountKeyTwo      帐户键值2--原消费中入账账户ID。请使用TS011007查询后的“accountedID”域值
   * @param currencyCode       币种--原消费币种
   * @param billDateNo         帐期号--原消费帐期号
+  * @param transactionNo      交易序号
   * @param transactionAmount  交易金额
   * @param cardNo             卡号
   * @param accountNoID        账号id。请使用TS011007查询后的“accountNoID”域值
   * @param installmentPeriods 分期付款期数。“3”、“6”、“9”、“12”、“18”、“24”、“36”
   * @param isfeeFlag          是否分期收取手续费
+  * @param channelId          渠道标识
   *
   */
 case class GCSConsumptionInstallmentParams(tranSessionID: String,
@@ -716,21 +731,45 @@ object BillingSummaryParams {
   * @param startDate     交易开始日期
   * @param endDate       交易结束日期
   */
-case class BillingDetailsParams(tranSessionID: String, reqChannelID: String, cardNo: String, currencyCode: String, queryType: String, startNum: String,
-                                totalNum: String, startDate: String, endDate: String)
+case class BillingDetailsSettlementParams(tranSessionID: String, reqChannelID: String, cardNo: String, currencyCode: String, queryType: String, startNum: String,
+                                          totalNum: String, startDate: String, endDate: String)
 
-object BillingDetailsParams {
-  implicit val billingDetailsParamsReads: Reads[BillingDetailsParams] = (
+object BillingDetailsSettlementParams {
+  implicit val billingDetailsSettlementParamsReads: Reads[BillingDetailsSettlementParams] = (
     (__ \ "tranSessionID").read[String] ~ (__ \ "reqChannelID").read[String] ~ (__ \ "cardNo").read[String] ~ (__ \ "currencyCode").read[String]
       ~ (__ \ "queryType").read[String] ~ (__ \ "startNum").read[String] ~ (__ \ "totalNum").read[String] ~ (__ \ "startDate").read[String]
       ~ (__ \ "endDate").read[String]
-    ) (BillingDetailsParams.apply _)
+    ) (BillingDetailsSettlementParams.apply _)
 
-  implicit val billingDetailsParamsWrites: Writes[BillingDetailsParams] = (
+  implicit val billingDetailsSettlementParamsWrites: Writes[BillingDetailsSettlementParams] = (
     (__ \ "tranSessionID").write[String] ~ (__ \ "reqChannelID").write[String] ~ (__ \ "cardNo").write[String] ~ (__ \ "currencyCode").write[String]
       ~ (__ \ "queryType").write[String] ~ (__ \ "startNum").write[String] ~ (__ \ "totalNum").write[String] ~ (__ \ "startDate").write[String]
       ~ (__ \ "endDate").write[String]
-    ) (unlift(BillingDetailsParams.unapply))
+    ) (unlift(BillingDetailsSettlementParams.unapply))
+}
+
+/**
+  *
+  * @param tranSessionID gcsSessionId
+  * @param reqChannelID  渠道编号
+  * @param cardNo        卡号
+  * @param queryType     查询类型
+  * @param startNum      起始条数
+  * @param totalNum      显示条数
+  */
+case class BillingDetailsUnSettlementParams(tranSessionID: String, reqChannelID: String, cardNo: String, queryType: String, startNum: String,
+                                          totalNum: String)
+
+object BillingDetailsUnSettlementParams {
+  implicit val billingDetailsSettlementParamsReads: Reads[BillingDetailsUnSettlementParams] = (
+    (__ \ "tranSessionID").read[String] ~ (__ \ "reqChannelID").read[String] ~ (__ \ "cardNo").read[String]
+      ~ (__ \ "queryType").read[String] ~ (__ \ "startNum").read[String] ~ (__ \ "totalNum").read[String]
+    ) (BillingDetailsUnSettlementParams.apply _)
+
+  implicit val billingDetailsSettlementParamsWrites: Writes[BillingDetailsUnSettlementParams] = (
+    (__ \ "tranSessionID").write[String] ~ (__ \ "reqChannelID").write[String] ~ (__ \ "cardNo").write[String]
+      ~ (__ \ "queryType").write[String] ~ (__ \ "startNum").write[String] ~ (__ \ "totalNum").write[String]
+    ) (unlift(BillingDetailsUnSettlementParams.unapply))
 }
 
 /**
@@ -751,11 +790,11 @@ object CurrencyCodeResult {
 case class CardCurrencyCodeAndStyleResult(currencyCodes: List[CurrencyCodeResult], productType: String)
 
 object CardCurrencyCodeAndStyleResult {
-//  implicit val cardCurrencyCodeAndStyleResultReads: Reads[CardCurrencyCodeAndStyleResult] = (
-//    (__ \ "currencyCodes").read[List[CurrencyCodeResult]] ~ (__ \ "productType").read[String]
-//    ) (CardCurrencyCodeAndStyleResult.apply _)
+  //  implicit val cardCurrencyCodeAndStyleResultReads: Reads[CardCurrencyCodeAndStyleResult] = (
+  //    (__ \ "currencyCodes").read[List[CurrencyCodeResult]] ~ (__ \ "productType").read[String]
+  //    ) (CardCurrencyCodeAndStyleResult.apply _)
 
-//  implicit val currencyCodeResultListWrites: Writes[List[CurrencyCodeResult]] = Writes(currencyCodeResults => Json.toJson(JsArray(currencyCodeResults.map(k=>Json.toJson(k)))))
+  //  implicit val currencyCodeResultListWrites: Writes[List[CurrencyCodeResult]] = Writes(currencyCodeResults => Json.toJson(JsArray(currencyCodeResults.map(k=>Json.toJson(k)))))
 
   implicit val cardCurrencyCodeAndStyleResultWrites: Writes[CardCurrencyCodeAndStyleResult] = (
     (__ \ "currencyCodes").write[List[CurrencyCodeResult]] ~ (__ \ "productType").write[String]

@@ -74,16 +74,30 @@ class GCSServiceImpl extends GCSService {
   }
 
   /**
-    * 查询账单明细
+    * 查询账单明细-已出
     *
     * @param billingDetailsParams BillingDetailsParams
     * @return
     */
-  override def getBillingDetails(billingDetailsParams: BillingDetailsParams): List[BillingDetailResult] = {
+  override def getBillingDetailsSettlement(billingDetailsParams: BillingDetailsSettlementParams): List[BillingDetailResult] = {
     val ts010310 = new TS010310(billingDetailsParams.tranSessionID, billingDetailsParams.reqChannelID, billingDetailsParams.cardNo, billingDetailsParams.currencyCode,
       billingDetailsParams.queryType, billingDetailsParams.startNum, billingDetailsParams.totalNum, billingDetailsParams.startDate, billingDetailsParams.endDate)()
     ts010310.send.pageListValues(v =>
       BillingDetailResult(billingDetailsParams.cardNo, billingDetailsParams.currencyCode, v("transactionDate"), v("transactionAmount"), v("transactionDescription"), v("debitCreditCode"))
+    )
+  }
+
+  /**
+    * 查询账单明细-未出
+    *
+    * @param billingDetailsParams BillingDetailsParams
+    * @return
+    */
+  override def getBillingDetailsUnSettlement(billingDetailsParams: BillingDetailsUnSettlementParams): List[BillingDetailResult] = {
+    val ts010310 = new TS010310(billingDetailsParams.tranSessionID, billingDetailsParams.reqChannelID, billingDetailsParams.cardNo, "",
+      billingDetailsParams.queryType, billingDetailsParams.startNum, billingDetailsParams.totalNum, "", "")()
+    ts010310.send.pageListValues(v =>
+      BillingDetailResult(billingDetailsParams.cardNo, v("transactionCurrencyCode"), v("transactionDate"), v("transactionAmount"), v("transactionDescription"), v("debitCreditCode"))
     )
   }
 
@@ -183,7 +197,7 @@ class GCSServiceImpl extends GCSService {
     val list = result.pageListValues(f => {
       GCSConsumptionInstallmentsEntity(f.getOrElse("cardNo", ""), f.getOrElse("transactionDate", ""), f.getOrElse("transactionAmount", ""),
         f.getOrElse("debitCreditCode", ""), f.getOrElse("transactionDescription", ""), f.getOrElse("accountID", ""), f.getOrElse("accountedID", ""),
-        f.getOrElse("accountNoID", ""), f.getOrElse("originalCurrencyCode", ""), f.getOrElse("originalTransactionAmount", ""))
+        f.getOrElse("accountNoID", ""), f.getOrElse("originalCurrencyCode", ""), f.getOrElse("originalTransactionAmount", ""),f.getOrElse("transactionCurrencyCode",""),f.getOrElse("cycleNumber",""),f.getOrElse("transactionNo",""))
     })
     //isFollowUp ：1-有下一页，0-没有下一页
     ConsumptionInstallmentsResult(transactionNumber, isFollowUp == "1", list)
@@ -500,6 +514,7 @@ class GCSServiceImpl extends GCSService {
       )
     ))
   }
+
 }
 
 object GCSServiceImpl extends GCSServiceImpl
