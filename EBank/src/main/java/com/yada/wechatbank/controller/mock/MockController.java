@@ -1,9 +1,7 @@
 package com.yada.wechatbank.controller.mock;
 
 import com.alibaba.fastjson.JSON;
-import com.yada.wechatbank.model.CardApply;
-import com.yada.wechatbank.model.CardApplyList;
-import com.yada.wechatbank.model.CardInfo;
+import com.yada.wechatbank.model.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -102,6 +100,47 @@ public class MockController {
             cardInfoList.add(cardInfo);
         }
         map.put(key, cardInfoList);
+        return JSON.toJSONString(map);
+    }
+
+
+    @RequestMapping(value = "getBillSendType")
+    @ResponseBody
+    public String getBillSendType() {
+        Map<String, Object> map = mockResult();
+        List<BillSendType> billSendTypeList = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            BillSendType b=new BillSendType();
+            b.setBillSendType("C");
+            b.setBillSendTypeDesc("测试");
+        }
+        map.put(key, billSendTypeList);
+        return JSON.toJSONString(map);
+    }
+
+    @RequestMapping(value = "updateBillSendType")
+    @ResponseBody
+    public String updateBillSendType() {
+        Map<String, Object> map = mockResult();
+        map.put(key, true);
+        return JSON.toJSONString(map);
+    }
+
+    @RequestMapping(value = "getCardHolderInfo")
+    @ResponseBody
+    public String getCardHolderInfo() {
+        Map<String, Object> map = mockResult();
+        CardHolderInfo c=new CardHolderInfo();
+        c.setMobileNo("1591111111");
+        c.setEMail("123123123123@qq.com");
+        c.setFamilyName("李任日");
+        c.setGender("Male");
+        c.setPostalCode("100010");
+        c.setHomeAddressPhone("辉煌");
+        c.setWorkUnitName("北京亚大通讯");
+        c.setWorkUnitPhone("82971902");
+        c.setBillAddressLine("上地西路8号院B座");
+        map.put(key, c);
         return JSON.toJSONString(map);
     }
 }

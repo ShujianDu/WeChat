@@ -28,17 +28,17 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
     private final Logger logger = LoggerFactory
             .getLogger(this.getClass());
 
-    @Value(value = "${url.getCurrentPeriodBillMethod}")
+    @Value("${url.getCurrentPeriodBillMethod}")
     private String getCurrentPeriodBillMethod;
-    @Value(value = "${url.getBillingPeriodMethod}")
+    @Value("${url.getBillingPeriodMethod}")
     private String getBillingPeriodMethod;
-    @Value(value = "${url.getAmountLimitMethod}")
+    @Value("${url.getAmountLimitMethod}")
     private String getAmountLimitMethod;
-    @Value(value = "${url.queryBillCostMethod}")
+    @Value("${url.queryBillCostMethod}")
     private String queryBillCostMethod;
-    @Value(value = "${url.billInstallmentMethod}")
+    @Value("${url.billInstallmentMethod}")
     private String billInstallmentMethod;
-    @Value(value = "${url.billingSummary}")
+    @Value("${url.billingSummary}")
     protected String billingSummaryUrl;
 
     @Autowired

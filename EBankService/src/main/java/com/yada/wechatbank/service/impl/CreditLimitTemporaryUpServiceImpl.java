@@ -31,13 +31,13 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
 
     // 信用卡提额的尝试次数
     private AtomicInteger creditLimitUpTimes = new AtomicInteger(0);
-    @Value(value = "url.getCardHolderInfoMethod")
+    @Value("url.getCardHolderInfoMethod")
     private String getCardHolderInfoMethod;
-    @Value(value = "${url.temporaryUpCommitMethod}")
+    @Value("${url.temporaryUpCommitMethod}")
     private String temporaryUpCommitMethod;
-    @Value(value = "${url.creditLimitTemporaryUpReviewMethod}")
+    @Value("${url.creditLimitTemporaryUpReviewMethod}")
     private String creditLimitTemporaryUpReviewMethod;
-    @Value(value = "${url.getTemporaryUpCommitStatusMethod}")
+    @Value("${url.getTemporaryUpCommitStatusMethod}")
     private String getTemporaryUpCommitStatusMethod;
 
     @Override

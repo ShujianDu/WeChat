@@ -30,7 +30,7 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
     @Autowired
     private CurrencyUtil currencyUtil;
 
-    @Value(value = "${url.getBalanceMethod}")
+    @Value("${url.getBalanceMethod}")
     private String getBalance;
 
     public List<Balance> getCardNoBalance(String cardNo) {

@@ -24,7 +24,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value = "balance")
-class BalanceController extends BaseController{
+public class BalanceController extends BaseController{
 	private final Logger logger = LoggerFactory
 			.getLogger(this.getClass());
 

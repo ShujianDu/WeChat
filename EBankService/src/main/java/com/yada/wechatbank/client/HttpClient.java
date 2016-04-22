@@ -69,6 +69,7 @@ public class HttpClient {
 
         try {
             URL url = new URL(hostAddr + method);
+            System.out.print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+hostAddr + method);
             conn = (HttpURLConnection) url.openConnection();
             // 发送Post强求，开启其读写的功能
             conn.setDoOutput(true);
