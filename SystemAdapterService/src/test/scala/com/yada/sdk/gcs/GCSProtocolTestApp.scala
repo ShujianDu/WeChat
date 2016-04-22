@@ -77,6 +77,9 @@ object GCSProtocolTestApp extends App {
   // 卡户分期项目消费分期（授权）
   //  testTS011173()
 
+  // 查询客户手机预留号码
+  //  testTS140028()
+
   /**
     * 账单寄送方式查询
     */
@@ -251,7 +254,7 @@ object GCSProtocolTestApp extends App {
   def testTS011101(): Unit = {
     val idNum = "AAP0191"
     val idType = "SSNO"
-    val req = new TS011101(sessionID, channelID, None, Some(idType), Some(idNum))()
+    val req = new TS011101(sessionID, channelID, None, Some(idType), Some(idNum))
     //    val cardNo = "5149580068840943"
     //    val req = new TS011101(sessionID, channelID, Some(cardNo), None, None)()
     val resp = req.send
@@ -300,5 +303,16 @@ object GCSProtocolTestApp extends App {
     */
   def testTS011173(): Unit = {
     // TODO 卡户分期项目消费分期（授权） 无法测试
+  }
+
+  /**
+    * 查询客户手机预留号码
+    */
+  def testTS140028(): Unit = {
+    val idNum = "AAP0191"
+    val idType = "SSNO"
+    val req = new TS140028(sessionID, channelID, idType, idNum)
+    val resp = req.send
+    println(resp)
   }
 }

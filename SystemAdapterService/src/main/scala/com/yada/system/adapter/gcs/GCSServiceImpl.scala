@@ -147,7 +147,7 @@ class GCSServiceImpl extends GCSService {
     * @return 返回手机号
     */
   override def getMobilePhone(mobilePhoneParams: MobilePhoneParams): MobilePhoneResult = {
-    val ts140028 = new TS140028(mobilePhoneParams.sessionId, mobilePhoneParams.channelId, mobilePhoneParams.idType, mobilePhoneParams.idNo)()
+    val ts140028 = new TS140028(mobilePhoneParams.sessionId, mobilePhoneParams.channelId, mobilePhoneParams.idType, mobilePhoneParams.idNo)
     MobilePhoneResult(ts140028.send.pageValue("appiMcMPhone"))
   }
 
@@ -182,7 +182,7 @@ class GCSServiceImpl extends GCSService {
     val list = result.pageListValues(f => {
       GCSConsumptionInstallmentsEntity(f.getOrElse("cardNo", ""), f.getOrElse("transactionDate", ""), f.getOrElse("transactionAmount", ""),
         f.getOrElse("debitCreditCode", ""), f.getOrElse("transactionDescription", ""), f.getOrElse("accountID", ""), f.getOrElse("accountedID", ""),
-        f.getOrElse("accountNoID", ""),f.getOrElse("originalCurrencyCode",""),f.getOrElse("originalTransactionAmount",""))
+        f.getOrElse("accountNoID", ""), f.getOrElse("originalCurrencyCode", ""), f.getOrElse("originalTransactionAmount", ""))
     })
     //isFollowUp ：1-有下一页，0-没有下一页
     ConsumptionInstallmentsResult(transactionNumber, isFollowUp == "1", list)
