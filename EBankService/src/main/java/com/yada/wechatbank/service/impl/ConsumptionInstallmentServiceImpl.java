@@ -121,4 +121,16 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		return consumerAuthorizationResultResp.getBizResult().getReturnCode();
 	}
 
+	@Override
+	public String verificationMobileNo(String identityType, String identityNo, String mobileNo) {
+		String mobile = getCustMobileNo(identityType, identityNo);
+		if (mobile == null) {
+			return "exception";
+		} else if ("".equals(mobile.trim())) {
+			return "noMobileNumber";
+		} else if (!mobile.equals(mobileNo)) {
+			return "wrongMobilNo";
+		}
+		return "";
+	}
 }

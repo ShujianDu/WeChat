@@ -118,8 +118,8 @@
 						<table class="topTwo">
 							<tr>
 								<td colspan='2'>
-									<a class="allA"	href="show.do?accountKeyOne=${item.accountID}&accountKeyTwo=${item.accountedID}
-									&transactionCurrencyCode=${item.transactionCurrencyCode}&billDateNo=${item.cycleNumber}
+									<a class="allA"	href="show.do?accountID=${item.accountID}&accountedID=${item.accountedID}
+									&transactionCurrencyCode=${item.transactionCurrencyCode}&cycleNumber=${item.cycleNumber}
 									&transactionAmount=${item.transactionAmount}&cardNo=${cardNo}&accountNoID=${item.accountNoID}
 									&transactionNo=${item.transactionNo}&transactionDescription=${item.transactionDescription}
 									&originalCurrencyCode=${item.originalCurrencyCode}&originalTransactionAmount=${item.originalTransactionAmount}">办理消费分期</a>
@@ -220,9 +220,9 @@
 					             "<div class='topOneB mar-1 bottomOneBradius'>"+
 					             "<table class='topTwo'>"+
 								 "<tr>"+
-								 "<td colspan='2'><a class='allA' href='show.do?accountKeyOne="+json[i].accountID+
-								"&accountKeyTwo="+json[i].accountedID+"+&transactionCurrencyCode="+json[i].transactionCurrencyCode+
-								"&billDateNo="+json[i].cycleNumber+"&transactionAmount="+json[i].transactionAmount+
+								 "<td colspan='2'><a class='allA' href='show.do?accountID="+json[i].accountID+
+								"&accountedID="+json[i].accountedID+"+&transactionCurrencyCode="+json[i].transactionCurrencyCode+
+								"&cycleNumber="+json[i].cycleNumber+"&transactionAmount="+json[i].transactionAmount+
 								"&cardNo="+cardNo+"&accountNoID="+json[i].accountNoID+"&transactionNo="+json[i].transactionNo+
 								"&transactionDescription="+json[i].transactionDescription+"&originalCurrencyCode="+json[i].originalCurrencyCode+
 								"&originalTransactionAmount="+json[i].originalTransactionAmount+"'>办理消费分期</a></td>"+

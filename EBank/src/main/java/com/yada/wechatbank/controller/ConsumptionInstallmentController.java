@@ -1,5 +1,6 @@
 package com.yada.wechatbank.controller;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import com.yada.wechatbank.model.ConsumptionInstallmentAuthorization;
 import com.yada.wechatbank.model.ConsumptionInstallmentCost;
 import com.yada.wechatbank.model.ConsumptionInstallments;
 import com.yada.wechatbank.service.ConsumptionInstallmentService;
+import com.yada.wechatbank.service.SmsService;
 import com.yada.wechatbank.util.Crypt;
 
 /**
@@ -32,6 +34,8 @@ import com.yada.wechatbank.util.Crypt;
 public class ConsumptionInstallmentController extends BaseController {
 	@Autowired
 	private ConsumptionInstallmentService consumptionInstallmentServiceImpl;
+	@Autowired
+	private SmsService smsService;
 	private final Logger logger = LoggerFactory.getLogger(ConsumptionInstallmentController.class);
 	private static final String LISTURL = "wechatbank_pages/ConsumptionInstallment/list";
 	private static final String SHOWURL = "wechatbank_pages/ConsumptionInstallment/show";
@@ -258,5 +262,59 @@ public class ConsumptionInstallmentController extends BaseController {
 			return JSONObject.toJSONString("");
 		}
 		return JSONObject.toJSONString(consumptionInstallmentsList);
+	}
+
+	/**
+	 * 获取手机验证码
+	 * 
+	 * @param request
+	 *            request
+	 * @return 获取结果
+	 * @throws IOException
+	 *             IOException
+	 */
+	@RequestMapping(value = "getMsgCode_ajax")
+	@ResponseBody
+	public String getMsgCode_ajax(HttpServletRequest request) throws IOException {
+		request.setCharacterEncoding("utf-8");
+		String result;
+		// Session中存储的验证码
+		String Randomcode_yz = (String) request.getSession().getAttribute("jcmsrandomchar");
+
+		String verificationCode = request.getParameter("verificationCode");
+		String mobileNo = request.getParameter("mobileNo");
+		String identityNo = getIdentityNo(request);
+		String identityType = getIdentityType(request);
+		result = consumptionInstallmentServiceImpl.verificationMobileNo(identityType, identityNo, mobileNo);
+		if (!"".equals(result)) {
+			return result;
+		}
+		if (verificationCode != null && verificationCode.equalsIgnoreCase(Randomcode_yz)) {
+			result = Boolean.toString(smsService.sendInstallmentSMS(identityNo, mobileNo, "BillInstallment")).toLowerCase();
+			logger.debug("@ZDFQ@根据identityNo[{}],手机号[{}]发送账单分期验证短信验证码," + "发送结果sendResult[{}]", identityNo, mobileNo, result);
+		} else {
+			result = "errorCode";
+		}
+		return result;
+	}
+
+	/**
+	 * 验证手机验证码
+	 * 
+	 * @param request
+	 *            request
+	 * @return 验证结果
+	 * @throws IOException
+	 *             IOException
+	 */
+	@RequestMapping(value = "checkMagCode_ajax")
+	@ResponseBody
+	public String checkMagCode_ajax(HttpServletRequest request) throws IOException {
+		String identityNo = getIdentityNo(request);
+		String mobile = request.getParameter("mobile");
+		String code = request.getParameter("code");
+		String sendResult = Boolean.toString(smsService.checkSMSCode(identityNo, mobile, "BillInstallment", code)).toLowerCase();
+		logger.debug("@ZDFQ@identityNo[{}],手机号[{}],code[{}" + "]验证账单分期短信验证码,验证结果sendResult[{}]", identityNo, mobile, code);
+		return sendResult;
 	}
 }

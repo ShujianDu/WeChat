@@ -117,34 +117,24 @@
 
 	<script type="text/javascript">
 		var isClicked = false;
-		var installmentPeriodsWarning = document.getElementById("installmentPeriodsWarning");
-		var isfeeFlagWarning = document.getElementById("isfeeFlagWarning");
-		
+		var installmentPeriodsWarning = $("#installmentPeriodsWarning");
 		function validate_form() {
+			
 			if (isClicked == false) {
-				var installmentPeriods = document.getElementById("installmentPeriods");
-				var isfeeFlag = document.getElementById("isfeeFlag");
-				
-				if (installmentPeriods.value == null || installmentPeriods.value == "") {
-					installmentPeriodsWarning.innerHTML = "请选择拟分期期数！";
+				var installmentPeriods = $("#installmentPeriods option:selected");
+				if (installmentPeriods.val()==null || installmentPeriods.val() == "") {
+					installmentPeriodsWarning.text("请选择拟分期期数！");
 					return false;
 				}
-				
-				if (isfeeFlag.value == null || isfeeFlag.value == "") {
-					isfeeFlagWarning.innerHTML = "分期手续费收取方式！";
-					return false;
-				}
-								
-				var form = document.getElementById("submitForm");
-				form.action="cost.do?openId=${openId}";
+				var form = $("#submitForm");
+				form.attr("action","cost.do");
 				isClicked = true;
 				return true;
 			}
 		}
 
 		function changeWarning() {
-			installmentPeriodsWarning.innerHTML = "";
-			isfeeFlagWarning.innerHTML = "";
+			installmentPeriodsWarning.text("");
 		}
 	</script>
 </body>

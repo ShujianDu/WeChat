@@ -21,10 +21,20 @@ public class ConsumptionInstallmentAuthorization {
 	private String cardNo;
 	// 账号id。请使用TS011007查询后的“accountNoID”域值
 	private String accountNoID;
+	// 交易序号
+	private String transactionNo;
 	// 分期付款期数。“3”、“6”、“9”、“12”、“18”、“24”、“36”
 	private String installmentPeriods;
 	// 是否分期收取手续费 1---标识手续费分期收取，0---标识手续费不分
 	private String isfeeFlag;
+
+	public String getTransactionNo() {
+		return transactionNo;
+	}
+
+	public void setTransactionNo(String transactionNo) {
+		this.transactionNo = transactionNo;
+	}
 
 	public String getAccountKeyOne() {
 		return accountKeyOne;

@@ -59,4 +59,17 @@ public interface ConsumptionInstallmentService {
 	 * @return 分期授权结果
 	 */
 	String authorizationConsumptionInstallment(ConsumptionInstallmentAuthorization consumptionInstallmentAuthorization);
+
+	/**
+	 * 验证手机号是否为用户注册的手机号
+	 * 
+	 * @param identityType
+	 *            证件类型
+	 * @param identityNo
+	 *            证件号
+	 * @param mobileNo
+	 *            手机号
+	 * @return 正确返回双引/错误返回信息
+	 */
+	String verificationMobileNo(String identityType, String identityNo, String mobileNo);
 }

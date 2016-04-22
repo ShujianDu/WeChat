@@ -20,8 +20,6 @@
 	</header>
 	
 	<form action="confirm.do" method="post" id="submitForm" name="submitForm">
-		<input type="hidden" id="openId" name="openId" value="${openId}">
-		
 		<input type="hidden" id="accountKeyOne" name="accountKeyOne" value="${ciinfo.accountKeyOne}">	
 		<input type="hidden" id="accountKeyTwo" name="accountKeyTwo" value="${ciinfo.accountKeyTwo}">
 		<input type="hidden" id="currencyCode" name="currencyCode" value="${ciinfo.currencyCode}">
