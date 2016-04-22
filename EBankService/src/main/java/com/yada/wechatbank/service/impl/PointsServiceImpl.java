@@ -4,11 +4,9 @@ import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.HttpClient;
 import com.yada.wechatbank.client.model.PointsBalanceResp;
 import com.yada.wechatbank.client.model.PointsValidatesResp;
-import com.yada.wechatbank.model.PointsBalance;
-import com.yada.wechatbank.model.PointsDetail;
+import com.yada.wechatbank.client.model.VerificationCardNoResultResp;
+import com.yada.wechatbank.model.*;
 import com.yada.wechatbank.client.model.PointsDetailResp;
-import com.yada.wechatbank.model.CardInfo;
-import com.yada.wechatbank.model.PointsValidates;
 import com.yada.wechatbank.service.PointsService;
 import com.yada.wx.db.service.dao.CustomerInfoDao;
 import com.yada.wx.db.service.model.CustomerInfo;
@@ -36,6 +34,8 @@ public class PointsServiceImpl extends BaseService implements PointsService {
     private String getPointsValidates;
     @Value("${url.getBalance}")
     private String getBalance;
+    @Value("${url.verificationCardNo}")
+    private String verificationCardNo;
 
     /**
      * 获取账户积分余额
@@ -130,5 +130,31 @@ public class PointsServiceImpl extends BaseService implements PointsService {
         PointsValidatesResp pointsValidatesResp = httpClient.send(getPointsValidates,map,PointsValidatesResp.class);
         return pointsValidatesResp.getBizResult();
     }
+
+    /**
+     *
+     * @param identityNo
+     * @param identityType
+     * @return
+     */
+    @Override
+    public String getCardN0(String identityNo, String identityType) {
+        String cardNo =null;
+        //通过证件号和证件类型去后台查询卡号
+        List<CardInfo> cardInfoList = selectCardNos(identityNo,identityType);
+        if (cardInfoList!=null && cardInfoList.size()!=0){
+            cardNo=cardInfoList.get(0).getCardNo();
+        }
+        return cardNo;
+    }
+
+    @Override
+    public VerificationCardNoResult verificationCardNo(String cardNo) {
+        Map<String,String> map = new HashMap<>();
+        map.put("cardNo",cardNo);
+        VerificationCardNoResultResp verificationCardNoResultResp = httpClient.send("verificationCardNo",map,VerificationCardNoResultResp.class);
+        return verificationCardNoResultResp.getBizResult();
+    }
+
 
 }

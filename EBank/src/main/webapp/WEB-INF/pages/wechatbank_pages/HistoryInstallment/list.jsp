@@ -92,19 +92,20 @@
 					<div class="topOneB mar-1 topOneBradius">
 						<table class="topTwo">
 							<tr>
-								<td class="td-le">分期日期：</td>
-								<td align="right"><c:out value="${item.instalmentOriginalTransactionDate}" /></td>
+								<td class="td-le">卡号：</td>
+								<td align="right"><c:out value="${fn:substring(item.cardNo,0,4)}" />********<c:out value="${fn:substring(item.cardNo,fn:length(item.cardNo)-4,fn:length(item.cardNo))}" /></td>
 							</tr>
 						</table>
 					</div>
 					<div class="topOneB mar-1">
 						<table class="topTwo">
 							<tr>
-								<td class="td-le">卡号：</td>
-								<td align="right"><c:out value="${fn:substring(item.cardNo,0,4)}" />********<c:out value="${fn:substring(item.cardNo,fn:length(item.cardNo)-4,fn:length(item.cardNo))}" /></td>
+								<td class="td-le">分期日期：</td>
+								<td align="right"><c:out value="${item.instalmentOriginalTransactionDate}" /></td>
 							</tr>
 						</table>
 					</div>
+
 					<div class="topOneB mar-1">
 						<table class="topTwo">
 							<tr>
@@ -145,12 +146,68 @@
 							</tr>
 						</table>
 					</div>
-					<div class="topOneB mar-1 bottomOneBradius">
-						<table class="topTwo">
+					<div class="topOneB mar-1">
+						<table class="topTwo" style="margin-bottom: 10px;">
 							<tr>
-								<td>
-									<a class="allA"	href="show.do?number=${status.index}&cardNo?=${item.cardNo}">查看详情</a>
-								</td>
+								<td>分期手续费收取方式：</td>
+								<td align="right"><c:if test="${item.instFeeFlag=='1'}">分期收取</c:if>
+									<c:if test="${item.instFeeFlag=='0'}">一次性收取</c:if></td>
+							</tr>
+						</table>
+					</div>
+					<div class="topOneB mar-1">
+						<table class="topTwo" style="margin-bottom: 10px;">
+							<tr>
+								<td>首次入帐金额：</td>
+								<td align="right"><c:out value="${item.instalmentFirstPostingAmount}"/></td>
+							</tr>
+						</table>
+					</div>
+					<div class="topOneB mar-1">
+						<table class="topTwo" style="margin-bottom: 10px;">
+							<tr>
+								<td>下次入帐金额：</td>
+								<td align="right"><c:out value="${item.instalmentNextPostingAmount}"/></td>
+							</tr>
+						</table>
+					</div>
+					<div class="topOneB mar-1">
+						<table class="topTwo" style="margin-bottom: 10px;">
+							<tr>
+								<td>已入账期数：</td>
+								<td align="right"><c:out value="${item.instalmentPostedNumber}"/></td>
+							</tr>
+						</table>
+					</div>
+					<div class="topOneB mar-1">
+						<table class="topTwo" style="margin-bottom: 10px;">
+							<tr>
+								<td>已入账金额：</td>
+								<td align="right"><c:out value="${item.instalmentReversalAmount}"/></td>
+							</tr>
+						</table>
+					</div>
+					<div class="topOneB mar-1">
+						<table class="topTwo" style="margin-bottom: 10px;">
+							<tr>
+								<td>剩余未入账期数：</td>
+								<td align="right"><c:out value="${item.instalmentOutstandingNumber}"/></td>
+							</tr>
+						</table>
+					</div>
+					<div class="topOneB mar-1">
+						<table class="topTwo" style="margin-bottom: 10px;">
+							<tr>
+								<td>剩余未入账金额：</td>
+								<td align="right"><c:out value="${item.instalmentOutstandingAmount}"/></td>
+							</tr>
+						</table>
+					</div>
+					<div class="topOneB mar-1 bottomOneBradius">
+						<table class="topTwo" style="margin-bottom: 10px;">
+							<tr>
+								<td>下次入帐日期：</td>
+								<td align="right"><c:out value="${model.instalmentNextPostingDate}"/></td>
 							</tr>
 						</table>
 					</div>
