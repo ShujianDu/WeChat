@@ -20,7 +20,6 @@ import java.util.Map;
 
 /**
  * 我的额度
- *
  * @author tx
  */
 @Service
@@ -31,7 +30,6 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
     @Autowired
     private CurrencyUtil currencyUtil;
 
-
     @Value(value = "${url.getBalanceMethod}")
     private String getBalance;
 
@@ -39,7 +37,8 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
         Map<String, String> param = initGcsParam();
         param.put("cardNo", cardNo);
 
-        List<Balance> balanceList = httpClient.send(getBalance, param, BalanceResp.class).getBizResult();
+        BalanceResp balanceResp = httpClient.send(getBalance, param, BalanceResp.class);
+        List<Balance> balanceList=balanceResp==null ? null : balanceResp.getBizResult();
 
         logger.debug("@WDED@通过卡[{}]获取到的额度集合为[{}]", cardNo, balanceList);
         //判断是否获取到额度数据
@@ -70,7 +69,7 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
     @Override
     public List<CardInfo> getProessCardNoList(String identityType, String identityNo) {
         List<CardInfo> cardList = selectCardNos(identityType, identityNo);
-        if (cardList != null || cardList.size() != 0) {
+        if (cardList != null && cardList.size() != 0) {
             try {
                 for(CardInfo c:cardList)
                 {

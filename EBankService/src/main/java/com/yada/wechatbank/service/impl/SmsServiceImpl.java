@@ -52,6 +52,8 @@ public class SmsServiceImpl extends BaseService implements SmsService {
     private String installmentContent; // 分期交易验证码发送
     @Value("${sms.cardApplyContent}")
     private String cardApplyContent; // 预约办卡进度查询验证码发送
+    @Value("${sms.creditLimitTemporaryUpContent}")
+    private String creditLimitTemporaryUpContent; // 临增额度验证码发送
 
     /**
      * 发送短信验证码
@@ -80,16 +82,29 @@ public class SmsServiceImpl extends BaseService implements SmsService {
     }
 
     /**
-     * 发送预约办卡短信验证码
+     * 发送分期短信验证码
      *
      * @param identityNo  证件号
      * @param mobileNo    手机号
-     * @param channelCode 渠道号
+     * @param bizCode     渠道号
      * @return true-成功，false-失败
      */
     @Override
-    public boolean sendInstallmentSMS(String identityNo, String mobileNo, String channelCode) {
-        return assemblySMS(identityNo, mobileNo, channelCode, installmentContent, bcspSmsCardApplyBsnType);
+    public boolean sendInstallmentSMS(String identityNo, String mobileNo, String bizCode) {
+        return assemblySMS(identityNo, mobileNo, bizCode, installmentContent, bcspSmsBsnType);
+    }
+
+    /**
+     * 发送提额短信验证码
+     *
+     * @param identityNo  证件号
+     * @param mobileNo    手机号
+     * @param bizCode 渠道号
+     * @return true-成功，false-失败
+     */
+    @Override
+    public boolean sendCreditLimitTemporaryUpSMS(String identityNo, String mobileNo, String bizCode) {
+        return assemblySMS(identityNo, mobileNo, bizCode, creditLimitTemporaryUpContent, bcspSmsBsnType);
     }
 
     /**

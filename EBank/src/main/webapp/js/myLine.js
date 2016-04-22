@@ -83,14 +83,14 @@ function messageReveal() {
 }
 function showInfo(idx) {
     /*概率*/
-    if (json[idx].limitCount - json[idx].avaliableCount >= 0) {
+    if (json[idx].wholeCreditLimit - json[idx].periodAvailableCreditLimit >= 0) {
         var doughnutData = [
             {
-                value: json[idx].limitCount - json[idx].avaliableCount,
+                value: json[idx].wholeCreditLimit - json[idx].periodAvailableCreditLimit,
                 color: "#ed6139"
             },
             {
-                value: json[idx].avaliableCount,
+                value: json[idx].periodAvailableCreditLimit,
                 color: "#0ca8f5"
             },
         ];
@@ -111,11 +111,11 @@ function showInfo(idx) {
         window.myDoughnut = new Chart(ctx).Doughnut(doughnutData, {responsive: true});
     }
     $("#state").text(json[idx].currencyChinaCode + "账户");
-    $("#credit_value").text(json[idx].limitCount);
-    $("#no_value").text(json[idx].avaliableCount);
-    $("#credit0").text(json[idx].limitCount);
+    $("#credit_value").text(json[idx].wholeCreditLimit);
+    $("#no_value").text(json[idx].periodAvailableCreditLimit);
+    $("#credit0").text(json[idx].wholeCreditLimit);
     $("#credit1").text(json[idx].preCashAdvanceCreditLimit);
-    $("#credit2").text(json[idx].avaliableCount);
+    $("#credit2").text(json[idx].periodAvailableCreditLimit);
 }
 
 

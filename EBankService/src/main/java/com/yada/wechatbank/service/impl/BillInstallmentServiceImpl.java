@@ -1,7 +1,7 @@
 package com.yada.wechatbank.service.impl;
 
 import com.yada.wechatbank.base.BaseService;
-import com.yada.wechatbank.client.model.BillingPeriodResp;
+import com.yada.wechatbank.client.model.*;
 import com.yada.wechatbank.model.*;
 import com.yada.wechatbank.service.BillInstallmentService;
 import com.yada.wechatbank.util.Crypt;
@@ -12,12 +12,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.RuntimeErrorException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * è´¦å•åˆ†æœŸserviceå®ç°
+ * @author Tx
+ */
 @Service
 public class BillInstallmentServiceImpl extends BaseService implements BillInstallmentService {
     private final Logger logger = LoggerFactory
@@ -33,22 +38,23 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
     private String queryBillCostMethod;
     @Value(value = "${url.billInstallmentMethod}")
     private String billInstallmentMethod;
+    @Value(value = "${url.billingSummary}")
+    protected String billingSummaryUrl;
 
     @Autowired
     private InstallmentInfoDao installmentInfoDao;
 
     @Override
     public List<CardInfo> getProessCardNoList(String identityType, String identityNo) {
-        List<CardInfo> cardList = selectCardNos(identityType,identityNo);
-        if (cardList != null || cardList.size() != 0) {
+        List<CardInfo> cardList = selectCardNos(identityType, identityNo);
+        if (cardList != null && cardList.size() != 0) {
             try {
-                for(CardInfo c:cardList)
-                {
+                for (CardInfo c : cardList) {
                     c.setCardNo(Crypt.cardNoOneEncode(c.getCardNo()));
                 }
                 return cardList;
             } catch (Exception e) {
-                logger.error("@WDZD@½«¿¨ºÅ½øĞĞÕ¹Ê¾´¦ÀíÊ±³öÏÖ´íÎó[" + cardList
+                logger.error("@ZDFQ@å°†å¡å·è¿›è¡Œå±•ç¤ºå¤„ç†æ—¶å‡ºç°é”™è¯¯[" + cardList
                         + "]", e);
             }
         }
@@ -59,10 +65,15 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
     public BillingSummary getCurrentPeriodBill(String cardNo) {
         List<BillingPeriod> usableBillPeriods = new ArrayList<>();
         BillingSummary billingSummary = null;
-        // ²éÑ¯¿¨Æ¬ÕËÆÚ
-        List<BillingPeriod> billingPeriods = httpClient.send(getCurrentPeriodBillMethod, cardNo, List.class);
-
-        // Ñ­»·±éÀú²éÕÒ¿ÉÓÃÕËÆÚ
+        Map<String,String> map=initGcsParam();
+        map.put("cardNo",cardNo);
+        // æŸ¥è¯¢å¡ç‰‡è´¦æœŸ
+        BillingPeriodResp billingPeriodResp = httpClient.send(getCurrentPeriodBillMethod, map, BillingPeriodResp.class);
+        List<BillingPeriod> billingPeriods = billingPeriodResp == null ? null : billingPeriodResp.getBizResult();
+        if (billingPeriods == null) {
+            return null;
+        }
+        // å¾ªç¯éå†æŸ¥æ‰¾å¯ç”¨è´¦æœŸ
         for (BillingPeriod temp : billingPeriods) {
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             Calendar calendar = Calendar.getInstance();
@@ -71,30 +82,33 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
             try {
                 Date endDate = df.parse(temp.getPeriodEndDate());
                 if (calendar.getTime().getTime() > endDate.getTime()) {
-                    throw new RuntimeErrorException(null, "ÕËµ¥ÈÕÆÚ²»ÔÚÔÂÖÜÆÚÄÚ£¡");
+                    throw new RuntimeErrorException(null, "è´¦å•æ—¥æœŸä¸åœ¨æœˆå‘¨æœŸå†…ï¼");
                 }
             } catch (Exception e) {
-                logger.error("ÕËµ¥ÈÕÆÚ²»´æÔÚ»ò¸ñÊ½´íÎó£¡", e);
-                throw new RuntimeErrorException(null, "ÕËµ¥ÈÕÆÚ²»´æÔÚ»ò¸ñÊ½´íÎó£¡");
+                logger.error("è´¦å•æ—¥æœŸä¸å­˜åœ¨æˆ–æ ¼å¼é”™è¯¯ï¼", e);
+                throw new RuntimeErrorException(null, "è´¦å•æ—¥æœŸä¸å­˜åœ¨æˆ–æ ¼å¼é”™è¯¯ï¼");
             }
 
-            if (temp.getCurrencyCode().equalsIgnoreCase("ÈËÃñ±Ò")) {
+            if (temp.getCurrencyCode().equalsIgnoreCase("CNY")) {
                 usableBillPeriods.add(temp);
                 break;
             }
         }
-        // ¸ù¾İÕËÆÚ²éÑ¯
-        for (BillingPeriod temp: usableBillPeriods) {
+        // æ ¹æ®è´¦æœŸæŸ¥è¯¢
+        for (BillingPeriod temp : usableBillPeriods) {
             try {
-                Map<String, String> map = initGcsParam();
-                map.put("statementNo", temp.getStatementNo());
-                map.put("accountId", temp.getAccountId());
-                billingSummary = httpClient.send(getCurrentPeriodBillMethod, map, BillingSummary.class);
+                Map<String, String> mapSummary = initGcsParam();
+                mapSummary.put("statementNo", temp.getStatementNo());
+                mapSummary.put("accountId", temp.getAccountId());
+                BillingSummaryResp billingSummaryResp = httpClient.send(billingSummaryUrl, mapSummary, BillingSummaryResp.class);
+                if (billingSummaryResp == null || billingSummaryResp.getBizResult() == null) {
+                    return null;
+                }
+                billingSummary=billingSummaryResp.getBizResult();
                 billingSummary.setCardNo(cardNo);
-                logger.debug("@ZDFQ@µ÷ÓÃĞĞÄÚ·şÎñ¸ù¾İcardNo[" + cardNo
-                        + "]»ñÈ¡µ±ÆÚÕËµ¥,»ñÈ¡µ½µÄµ±ÆÚÕËµ¥billingSummary[" + billingSummary + "]");
+                logger.debug("@ZDFQ@è°ƒç”¨è¡Œå†…æœåŠ¡æ ¹æ®cardNo[{}]è·å–å½“æœŸè´¦å•,è·å–åˆ°çš„å½“æœŸè´¦å•billingSummary[{}]",cardNo,billingSummary);
             } catch (Exception e) {
-                logger.warn("²éÑ¯ÕËµ¥´íÎó£º" + e.getMessage());
+                logger.warn("æŸ¥è¯¢è´¦å•é”™è¯¯ï¼š" + e.getMessage());
                 return null;
             }
         }
@@ -102,31 +116,32 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
     }
 
     public AmountLimit getAmountLimit(String cardNo, String currencyCode) {
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> map = initDirectSaleParam();
         map.put("cardNo", cardNo);
         map.put("currencyCode", currencyCode);
-        AmountLimit amountLimit = httpClient.send(getAmountLimitMethod, map, AmountLimit.class);
+        AmountLimitResp amountLimitResp = httpClient.send(getAmountLimitMethod, map, AmountLimitResp.class);
+        AmountLimit amountLimit = amountLimitResp == null ? null : amountLimitResp.getBizResult();
         if (amountLimit != null && amountLimit.getRespCode() != null && "".equals(amountLimit.getRespCode())) {
             amountLimit.setMaxAmount(parseString(amountLimit.getMaxAmount()));
             amountLimit.setShowMinAmount(parseString(amountLimit.getShowMinAmount()));
         }
-
         return amountLimit;
-
     }
 
     public BillCost getBillCost(String accountId, String accountNo, String currencyCode, String billLowerAmount, String billActualAmount, String installmentsNumber, String feeInstallmentsFlag) {
         Map<String, String> map = initDirectSaleParam();
         map.put("accountId", accountId);
-        map.put("accountNo", accountNo);
+        map.put("accountNumber", accountNo);
         map.put("currencyCode", currencyCode);
         map.put("billLowerAmount", billLowerAmount);
         map.put("billActualAmount", billActualAmount);
         map.put("installmentsNumber", installmentsNumber);
         map.put("feeInstallmentsFlag", feeInstallmentsFlag);
-        return httpClient.send(queryBillCostMethod, map, BillCost.class);
+        BillCostResp billCostResp = httpClient.send(queryBillCostMethod, map, BillCostResp.class);
+        return billCostResp == null ? null : billCostResp.getBizResult();
     }
 
+    @Transactional
     public boolean billInstallment(String accountId, String accountNo, String cardNo, String currencyCode, String billLowerAmount, String billActualAmount, String installmentsNumber, String feeInstallmentsFlag) {
         boolean returnRes;
         Map<String, String> map = initDirectSaleParam();
@@ -137,14 +152,16 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
         map.put("billActualAmount", billActualAmount);
         map.put("installmentsNumber", installmentsNumber);
         map.put("feeInstallmentsFlag", feeInstallmentsFlag);
-        map.put("installmentPlanID", "BI01");
         String tDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        InstallmentInfo bi = new InstallmentInfo(cardNo, "ÕËµ¥·ÖÆÚ", currencyCode, billActualAmount, installmentsNumber, feeInstallmentsFlag, tDate);
-        String resultCode = httpClient.send(billInstallmentMethod, bi, String.class);
+        InstallmentInfo bi = new InstallmentInfo(cardNo, "è´¦å•åˆ†æœŸ", currencyCode, billActualAmount, installmentsNumber, feeInstallmentsFlag, tDate);
+        StringResp stringResp = httpClient.send(billInstallmentMethod, bi, StringResp.class);
+        String resultCode = stringResp == null ? null : stringResp.getBizResult();
+
         if (resultCode != null) {
             bi.setGcsCode(resultCode);
+        } else {
+            return false;
         }
-
         if ("+GC00000".equals(resultCode)) {
             bi.setStatus("1");
             returnRes = true;
@@ -155,17 +172,30 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
         try {
             installmentInfoDao.save(bi);
         } catch (Exception e) {
-            logger.error("",e);
+            logger.error("", e);
         }
         return returnRes;
     }
 
+    @Override
+    public String verificationMobileNo(String identityType, String identityNo, String mobileNo) {
+        String mobile = getCustMobileNo(identityType, identityNo);
+        if (mobile == null) {
+            return "exception";
+        } else if ("".equals(mobile.trim())) {
+            return "noMobileNumber";
+        } else if (!mobile.equals(mobileNo)) {
+            return "wrongMobilNo";
+        }
+        return "";
+    }
 
-        /**
-         * ×ª»»×Ö·û´®£¬½«½ğ¶îÉÏÏÂÏŞĞ¡ÊıµãºóÁ½Î»È«²¿×ª»¯Îª00
-         * @param amt  ½ğ¶î
-         * @return ·µ»Ø×ª»»ºóµÄ½ğ¶î
-         */
+
+    /**
+     * è½¬æ¢å­—ç¬¦ä¸²ï¼Œå°†é‡‘é¢ä¸Šä¸‹é™å°æ•°ç‚¹åä¸¤ä½å…¨éƒ¨è½¬åŒ–ä¸º00
+     * @param amt é‡‘é¢
+     * @return è¿”å›è½¬æ¢åçš„é‡‘é¢
+     */
 
     private String parseString(String amt) {
         StringBuffer oldAmt = new StringBuffer(amt);

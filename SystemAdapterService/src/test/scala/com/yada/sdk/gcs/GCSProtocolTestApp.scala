@@ -84,7 +84,10 @@ object GCSProtocolTestApp extends App {
   //  testTS140031()
 
   // 额度评测交易
-  testTS190024()
+  //  testTS190024()
+
+  // 个人信用卡额度调整申请交易
+  //  testTS220001()
 
   /**
     * 账单寄送方式查询
@@ -348,5 +351,12 @@ object GCSProtocolTestApp extends App {
     val req = new TS190024(sessionID, channelID, certType, certNum, phoneNumber, cardNo, currencyNo, at5605, at5602)
     val resp = req.send
     println(resp)
+  }
+
+  /**
+    * 个人信用卡额度调整申请交易
+    */
+  def testTS220001(): Unit = {
+    // TODO 个人信用卡额度调整申请交易。无法测试，功能没上
   }
 }

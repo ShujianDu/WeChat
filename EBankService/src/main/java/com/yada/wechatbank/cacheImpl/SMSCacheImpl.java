@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class SMSCacheImpl implements ISMSCache {
 	
 	private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
-	//TODO ����ehcache
+	//TODO 实现ehcache
 //	@Autowired
 //	private EhCacheCacheManager cacheManager;
 //	@Value("${cacheName.SMS}")

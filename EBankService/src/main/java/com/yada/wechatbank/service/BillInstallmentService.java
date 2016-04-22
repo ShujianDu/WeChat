@@ -9,56 +9,65 @@ import com.yada.wechatbank.model.CardInfo;
 import java.util.List;
 
 /**
- * ÕËµ¥·ÖÆÚservice½Ó¿Ú
- * @author tx
+ * è´¦å•åˆ†æœŸserviceæ¥å£
+ * @author Tx
  */
 public interface BillInstallmentService {
 
     /**
-     * »ñÈ¡Ô¤´¦ÀíºóµÄ¿¨ÁĞ±í
-     * @return ·µ»Ø¿¨ÁĞ±í£¨Õ¹Ê¾¿¨£¬¼ÓÃÜ¿¨ĞÅÏ¢£©
+     * è·å–é¢„å¤„ç†åçš„å¡åˆ—è¡¨
+     * @return è¿”å›å¡åˆ—è¡¨ï¼ˆå±•ç¤ºå¡ï¼ŒåŠ å¯†å¡ä¿¡æ¯ï¼‰
      */
     List<CardInfo> getProessCardNoList(String identityType,String identityNo);
 
     /**
-     * Í¨¹ı¿¨ºÅ»ñÈ¡µµÆÚÕËµ¥
-     * @param cardNo  ¿¨ºÅ
-     * @return        µ±ÆÚÕËµ¥
+     * é€šè¿‡å¡å·è·å–æ¡£æœŸè´¦å•
+     * @param cardNo  å¡å·
+     * @return        å½“æœŸè´¦å•
      */
     BillingSummary getCurrentPeriodBill(String cardNo);
 
 
     /**
-     * ÕËµ¥·ÖÆÚÉÏÏÂÏß²éÑ¯
-     * @param cardNo        ¿¨ºÅ
-     * @param currencyCode  ±ÒÖÖ
-     * @return              ÕËµ¥·ÖÆÚÉÏÏÂÏß½á¹û
+     * è´¦å•åˆ†æœŸä¸Šä¸‹çº¿æŸ¥è¯¢
+     * @param cardNo        å¡å·
+     * @param currencyCode  å¸ç§
+     * @return              è´¦å•åˆ†æœŸä¸Šä¸‹çº¿ç»“æœ
      */
     AmountLimit getAmountLimit(String cardNo,String currencyCode);
 
     /**
-     * ÕËµ¥·ÖÆÚÊÔËã
-     * @param accountId                ÕË»§ID
-     * @param accountNo                ÕË»§ºÅ
-     * @param currencyCode             ±ÒÖÖ
-     * @param billLowerAmount          ÕËµ¥·ÖÆÚÏÂÏŞ½ğ¶î
-     * @param billActualAmount         ÕËµ¥·ÖÆÚÊµ¼Ê½ğ¶î
-     * @param installmentsNumber       ·ÖÆÚÆÚÊı
-     * @param feeInstallmentsFlag      ÊÖĞø·Ñ·ÖÆÚ±êÊ¶
-     * @return                         ·µ»ØÊÔËã½á¹û
+     * è´¦å•åˆ†æœŸè¯•ç®—
+     * @param accountId                è´¦æˆ·ID
+     * @param accountNo                è´¦æˆ·å·
+     * @param currencyCode             å¸ç§
+     * @param billLowerAmount          è´¦å•åˆ†æœŸä¸‹é™é‡‘é¢
+     * @param billActualAmount         è´¦å•åˆ†æœŸå®é™…é‡‘é¢
+     * @param installmentsNumber       åˆ†æœŸæœŸæ•°
+     * @param feeInstallmentsFlag      æ‰‹ç»­è´¹åˆ†æœŸæ ‡è¯†
+     * @return                         è¿”å›è¯•ç®—ç»“æœ
      */
     BillCost getBillCost(String accountId,String accountNo,String currencyCode,String billLowerAmount,String billActualAmount, String installmentsNumber,String feeInstallmentsFlag);
 
     /**
-     * ÕËµ¥·ÖÆÚÊÚÈ¨
-     * @param accountId                ÕË»§ID
-     * @param accountNo                ÕË»§ºÅ
-     * @param cardNo                   ¿¨ºÅ
-     * @param billLowerAmount          ÕËµ¥·ÖÆÚÏÂÏŞ½ğ¶î
-     * @param billActualAmount         ÕËµ¥·ÖÆÚÊµ¼Ê½ğ¶î
-     * @param installmentsNumber       ·ÖÆÚÆÚÊı
-     * @param feeInstallmentsFlag      ÊÖĞø·Ñ·ÖÆÚ±êÊ¶
-     * @return                         ÊÇ·ñ°ìÀí³É¹¦
+     * è´¦å•åˆ†æœŸæˆæƒ
+     * @param accountId                è´¦æˆ·ID
+     * @param accountNo                è´¦æˆ·å·
+     * @param cardNo                   å¡å·
+     * @param billLowerAmount          è´¦å•åˆ†æœŸä¸‹é™é‡‘é¢
+     * @param billActualAmount         è´¦å•åˆ†æœŸå®é™…é‡‘é¢
+     * @param installmentsNumber       åˆ†æœŸæœŸæ•°
+     * @param feeInstallmentsFlag      æ‰‹ç»­è´¹åˆ†æœŸæ ‡è¯†
+     * @return                         æ˜¯å¦åŠç†æˆåŠŸ
      */
     boolean billInstallment(String accountId,String accountNo,String cardNo,String currencyCode,String billLowerAmount,String billActualAmount, String installmentsNumber,String feeInstallmentsFlag);
+
+    /**
+     * éªŒè¯æ‰‹æœºå·æ˜¯å¦ä¸ºç”¨æˆ·æ³¨å†Œçš„æ‰‹æœºå·
+     * @param identityType    è¯ä»¶ç±»å‹
+     * @param identityNo      è¯ä»¶å·
+     * @param mobileNo        æ‰‹æœºå·
+     * @return               æ­£ç¡®è¿”å›åŒå¼•/é”™è¯¯è¿”å›ä¿¡æ¯
+     */
+    String verificationMobileNo(String identityType,String identityNo,String mobileNo);
 }

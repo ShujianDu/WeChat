@@ -33,10 +33,6 @@ class BalanceController extends BaseController{
 
 	/**
 	 * 额度查询
-	 * 
-	 * @param balanceQuery 页面调用传值实体
-	 * @param model        页面model
-	 * @return 额度页面/错误页面
 	 */
 	@RequestMapping(value = "list")
 	public String list(HttpServletRequest request,@ModelAttribute("formBean") BalanceQuery balanceQuery, Model model) {

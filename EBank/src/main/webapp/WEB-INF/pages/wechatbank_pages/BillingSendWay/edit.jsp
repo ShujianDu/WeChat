@@ -3,13 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <%@include file="../../base_pages/base.jsp"%>
-<%@include file="../../base_pages/wxjs.jsp"%>
-<script src="<c:url value="/js/jquery-1.4.1.js"/>" type="text/javascript"></script>
 <meta name="viewport"
 	content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 <title>中国银行信用卡</title>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/wechatbank/index.css"/>" />
-<%@include file="../../base_pages/wxReadyFunction.jsp"%>
 </head>
 <body onload="init();">
 <header>
@@ -111,13 +108,13 @@ function update(){
 	confirm();
 	if(can){
 	var billSendType=result;
-	var cardNo=document.getElementById("cardNo").value;
+	var cardNo=$("#cardNo").val();
 	$.post('update.do',
 			{'cardNo':cardNo,'billSendType':billSendType},function(data){
 				if(data=="修改成功"){
 					location.href='success.do';
 				}else{
-					document.getElementById("alertmsg").innerHTML=data;
+					$("#alertmsg").innerHTML=data;
 				}
 			},'txt');
 	}
@@ -125,13 +122,13 @@ function update(){
 
 //展示账单寄送方式
 function init(){
-	var items = document.getElementsByName("items");
-	var bst=document.getElementById("billSendType").value;
+	var items = $("input[name=items]");
+	var bst=$("#billSendType").val();
 	from(bst);
 	for(var i=0;i<begin.length;i++){
 	var n=begin.charAt(i);
 	if(begin.indexOf("1") < 0){//如果不包含1，则代表无纸质账单，则不显示纸质账单行，20150319日肖宇要求修改
-		document.getElementById("paper").style.display="none";
+		$("#paper").css("display","none");
 	}
 	for(var j=0;j<items.length;j++){
 		if(n==items[j].value){
@@ -167,7 +164,7 @@ function from(value){
 function confirm(){
 	value="";
 	result="";
-	var items = document.getElementsByName("items");
+	var items = $("input[name=items]");
 	if(items.length!=0){
 	for(var i=0;i<items.length;i++){
 	if(items[i].checked){ //判断复选框是否选中    
@@ -175,19 +172,13 @@ function confirm(){
 		}  
 	  }
 	}
-/*	if(value==""){
-		document.getElementById("alertmsg").innerHTML="请选择寄送方式";
-		return;
-	}
-	*/
 	to(value);
 	if(result!=""){
-	//document.getElementById("confirmDiv").style.display="inline";
-	document.getElementById("alertmsg").innerHTML="";
+		$("#alertmsg").innerHTML="";
 	can=true;
 	return true;
 	}else{
-	document.getElementById("alertmsg").innerHTML="不支持该种寄送方式";
+		$("#alertmsg").innerHTML="不支持该种寄送方式";
 	can=false;
 	return false;
 	}
@@ -195,13 +186,7 @@ function confirm(){
 
 //去除提示信息
 function changeWarning() {
-	document.getElementById("codeWarning").innerHTML = "";
+	$("#codeWarning").innerHTML = "";
 }
-
-//确认按钮取消
-/*function cancel(){
-	document.getElementById("confirmDiv").style.display="none";
-}
-*/
 </script>
 

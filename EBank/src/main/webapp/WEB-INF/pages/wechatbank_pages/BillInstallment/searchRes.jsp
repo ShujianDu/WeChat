@@ -3,13 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <%@include file="../../base_pages/base.jsp"%>
-<%@include file="../../base_pages/wxjs.jsp"%>
 <meta name="viewport"
 	content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 <title>中国银行信用卡</title>
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/css/wechatbank/index.css"/>" />
-<%@include file="../../base_pages/wxReadyFunction.jsp"%>
 </head>
 <body>
 	<header id="top">
@@ -127,35 +125,35 @@
 	<script type="text/javascript">
 		var isClicked = false;
 		var can = false;
-		var amountWarning = document.getElementById("amountWarning");
-		var countWarning = document.getElementById("countWarning");
+		var amountWarning = $("#amountWarning");
+		var countWarning = $("#countWarning");
 		function validate_form() {
 			if (isClicked == false) {
-				var billActualAmount = document.getElementById("billActualAmount");
-				var installmentsNumber = document.getElementById("installmentsNumber");
+				var billActualAmount = $("#billActualAmount");
+				var installmentsNumber = $("#installmentsNumber");
 				var billLowerAmount = ${amountLimit.showMinAmount};
 				var billCeilingAmount = ${amountLimit.maxAmount};
-				if (billActualAmount.value == null || billActualAmount.value == "") {
-					document.getElementById("amountWarning").innerHTML = "请填写分期金额！";
+				if (billActualAmount.val() == null || billActualAmount.val() == "") {
+					$("#amountWarning").innerHTML = "请填写分期金额！";
 					return false;
 				}
 				
-				if (billActualAmount.value < billLowerAmount || billActualAmount.value > billCeilingAmount) {
-					document.getElementById("amountWarning").innerHTML = "请正确填写分期金额！";
+				if (billActualAmount.val() < billLowerAmount || billActualAmount.val() > billCeilingAmount) {
+					$("#amountWarning").innerHTML = "请正确填写分期金额！";
 					return false;
 				}
 				
 				var amountVal =/^([0-9]+)$/;
-				if (amountVal.test(billActualAmount.value) == false) {
-					document.getElementById("amountWarning").innerHTML = "请填写正确分期金额！";
+				if (amountVal.test(billActualAmount.val()) == false) {
+					$("#amountWarning").innerHTML = "请填写正确分期金额！";
 					return false;
 				}
-				if (installmentsNumber.value == null || installmentsNumber.value == "") {
-					document.getElementById("countWarning").innerHTML = "请选择分期期数！";
+				if (installmentsNumber.val() == null || installmentsNumber.val() == "") {
+					$("#countWarning").innerHTML = "请选择分期期数！";
 					return false;
 				}
 				
-				var sending = document.getElementById("sending");
+				var sending =$("#sending");
 				sending.style.visibility = "visible";
 				isClicked = true;
 				return true;
@@ -163,8 +161,8 @@
 		}
 
 		function changeWarning() {
-			document.getElementById("amountWarning").innerHTML = "";
-			document.getElementById("countWarning").innerHTML = "";
+			$("#amountWarning").innerHTML = "";
+			$("#countWarning").innerHTML = "";
 		}
 		
 	</script>
