@@ -34,7 +34,7 @@
 	<!-- shiro安全核心 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<!-- 配置缓存管理 -->
-		<property name="cacheManager" ref="cacheManager" />
+		<property name="cacheManager" ref="shiroEhCacheManager" />
 		<property name="rememberMeManager" ref="cookieRememberMeManager" />
 		<!--
 		 <property name="sessionMode" value="native"/>
@@ -52,7 +52,7 @@
 	</bean>
 	
 	<!-- EhCacheManager是shiro官方实现并推荐的缓存管理 -->
-	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager" >
+	<bean id="shiroEhCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager" >
 		<property name="cacheManager" ref="cacheManagerFactory"/>
 	</bean>
 
