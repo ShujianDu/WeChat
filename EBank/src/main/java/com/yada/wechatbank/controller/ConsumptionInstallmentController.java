@@ -137,11 +137,18 @@ public class ConsumptionInstallmentController extends BaseController {
 		return LISTURL;
 	}
 
+	/**
+	 * 获取更多消费信息
+	 * 
+	 * @param consumptionInstallments
+	 *            查询实体
+	 * @return 消费信息
+	 */
 	@RequestMapping(value = "getMore_ajax.do")
 	@ResponseBody
 	public String getMore_ajax(@ModelAttribute("formBean") ConsumptionInstallments consumptionInstallments) {
 		String cardNo = consumptionInstallments.getCardNo();
-		String currencyCode = consumptionInstallments.getCurrencyChinaCode();
+		String currencyCode = consumptionInstallments.getOriginalCurrencyCode();
 		String startnum = consumptionInstallments.getStartnum();
 		try {
 			cardNo = Crypt.decode(cardNo);
