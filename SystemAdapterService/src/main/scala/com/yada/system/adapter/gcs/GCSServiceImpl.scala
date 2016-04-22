@@ -138,7 +138,7 @@ class GCSServiceImpl extends GCSService {
   override def getBillSendType(cardNoParams: CardNoParams): BillSendTypeResult = {
     val ts010002 = new TS010002(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo)()
     val result = ts010002.send
-    BillSendTypeResult(result.pageValue("billSendType"),result.pageValue("billSendTypeDesc"))
+    BillSendTypeResult(result.pageValue("billSendType"), result.pageValue("billSendTypeDesc"))
   }
 
   /**
@@ -246,19 +246,13 @@ class GCSServiceImpl extends GCSService {
   /**
     * 临时提额提交
     *
-    * 报文默认值:
-    * eosID - 工单ID - 固定规则生成
-    * eosType - 工单类型  - "02临增"
-    * eosReason - 增额原因 - "01客户主动"
-    * eosEmergencyDegree - 紧急程度 - "2：中（紧急）"
-    * eosCustomerType - 客户预设额度类型 - "1-增额类"
-    * eosRequestPath - 工单渠道标示 - "06微信"
-    *
-    * @param gcsTemporaryUpCommitParams 临时提额授权参数
+    * @param p 临时提额授权参数
     * @return 临时提额授权结果
     */
-  override def temporaryUpCommit(gcsTemporaryUpCommitParams: GCSTemporaryUpCommitParams): BooleanResult = {
-    val ts220001 = new TS220001(gcsTemporaryUpCommitParams.tranSessionID, gcsTemporaryUpCommitParams.reqChannelID, gcsTemporaryUpCommitParams)()
+  override def temporaryUpCommit(p: GCSTemporaryUpCommitParams): BooleanResult = {
+    val ts220001 = new TS220001(p.tranSessionID, p.reqChannelID, p.eosCustomerName, p.eosCustomerIdType,
+      p.certNum, p.phoneNumber, p.cardNo, p.eosCurrency, p.eosPreAddLimit, p.eosStarLimitDate, p.eosEndLimitDate, p.cardStyle,
+      p.issuingBranchId, p.pmtCreditLimit)
     try {
       ts220001.send
       BooleanResult(true)
@@ -356,8 +350,8 @@ class GCSServiceImpl extends GCSService {
     val result = ts010201.send
 
     CardHolderInfoResult(result.pageValue("familyName"), result.pageValue("firstName"), result.pageValue("gender"), result.pageValue("mobileNo"),
-      result.pageValue("postalCode"),result.pageValue("workUnitName"),result.pageValue("workUnitPhone"),result.pageValue("mailBox"),
-      result.pageValue("homeAddressPhone"),result.pageValue("billAddressLine1")+result.pageValue("billAddressLine2")+result.pageValue("billAddressLine3"))
+      result.pageValue("postalCode"), result.pageValue("workUnitName"), result.pageValue("workUnitPhone"), result.pageValue("mailBox"),
+      result.pageValue("homeAddressPhone"), result.pageValue("billAddressLine1") + result.pageValue("billAddressLine2") + result.pageValue("billAddressLine3"))
   }
 
   /**
