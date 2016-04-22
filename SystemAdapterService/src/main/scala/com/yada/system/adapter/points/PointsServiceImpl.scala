@@ -73,3 +73,5 @@ class PointsServiceImpl extends PointsService {
     getECIF.send.respBodyValue("EcifNo")
   }
 }
+
+object PointsServiceImpl extends PointsServiceImpl

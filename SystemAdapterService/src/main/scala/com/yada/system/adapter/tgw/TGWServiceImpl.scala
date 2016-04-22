@@ -24,3 +24,5 @@ class TGWServiceImpl extends TGWService {
     }
   }
 }
+
+object TGWServiceImpl extends TGWServiceImpl

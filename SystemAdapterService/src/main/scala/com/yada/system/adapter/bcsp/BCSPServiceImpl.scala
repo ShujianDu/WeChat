@@ -29,3 +29,5 @@ class BCSPServiceImpl extends BCSPService {
     }
   }
 }
+
+object BCSPServiceImpl extends BCSPServiceImpl

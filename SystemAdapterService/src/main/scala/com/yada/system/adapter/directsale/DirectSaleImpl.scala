@@ -22,3 +22,5 @@ class DirectSaleImpl extends DirectSale {
     ScheduleOfCrdCardApplyResult(hasNextPage, vs)
   }
 }
+
+object DirectSaleImpl extends DirectSaleImpl

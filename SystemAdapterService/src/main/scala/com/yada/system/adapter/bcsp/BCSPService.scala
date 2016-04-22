@@ -1,5 +1,8 @@
 package com.yada.system.adapter.bcsp
 
+import play.api.libs.functional.syntax._
+import play.api.libs.json.{Writes, _}
+
 /**
   * BCSPService
   */
@@ -22,4 +25,18 @@ trait BCSPService {
   */
 case class BCSPSendSMSParams(bsnType: String, content: String, handsetNo: String, sysId: String)
 
+object BCSPSendSMSParams {
+  implicit val bcspSendSMSParamsReads: Reads[BCSPSendSMSParams] = (
+    (__ \ "bsnType").read[String] ~ (__ \ "content").read[String] ~ (__ \ "handsetNo").read[String] ~ (__ \ "sysId").read[String]
+    ) (BCSPSendSMSParams.apply _)
+
+  implicit val bcspSendSMSParamsWrites: Writes[BCSPSendSMSParams] = (
+    (__ \ "bsnType").write[String] ~ (__ \ "content").write[String] ~ (__ \ "handsetNo").write[String] ~ (__ \ "sysId").write[String]
+    ) (unlift(BCSPSendSMSParams.unapply))
+}
+
 case class BCSPBooleanResult(isSuccess: Boolean)
+
+object BCSPBooleanResult {
+  implicit val bcspBooleanResultWrites: Writes[BCSPBooleanResult] = Writes(bcspBooleanResult => Json.toJson(JsObject(Map("isSuccess" -> JsBoolean(bcspBooleanResult.isSuccess)))))
+}
