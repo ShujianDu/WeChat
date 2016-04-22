@@ -3,13 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <%@include file="../../base_pages/base.jsp"%>
-<%@include file="../../base_pages/wxjs.jsp"%>
 <meta name="viewport"
 	content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 <title>中国银行信用卡</title>
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/css/wechatbank/index.css"/>" />
-<%@include file="../../base_pages/wxReadyFunction.jsp"%>
 </head>
 <body>
 	<header id="top">
@@ -18,13 +16,13 @@
 		<span></span>
 	</header>
 		<div class="HandIn" style="margin-top: 10px; margin-bottom: 10px;">
-			<input type="submit" name="button" value="申请消费分期" onclick="window.location='../consumptionInstallment/list.do?openId=${openId}'"/>
+			<input type="submit" name="button" value="申请消费分期" onclick="window.location='../consumptionInstallment/list.do'"/>
 		</div>
 		<div class="HandIn" style="margin-top: 10px; margin-bottom: 10px;">
-			<input type="submit" name="button" value="申请账单分期" onclick="window.location='search.do?openId=${openId}'"/>
+			<input type="submit" name="button" value="申请账单分期" onclick="window.location='search.do'"/>
 		</div>
 		<div class="HandIn" style="margin-top: 10px; margin-bottom: 10px;">
-			<input type="submit" name="button" value="分期历史查询" onclick="window.location='../historyInstalment/list.do?openId=${openId}'"/>
+			<input type="submit" name="button" value="分期历史查询" onclick="window.location='../historyInstalment/list.do?'"/>
 		</div>
 		<div class="topOneB mar-1 allOneBradius" style="margin-bottom: 10px">
 			<table class="topTwo" style="margin-bottom: 10px;">

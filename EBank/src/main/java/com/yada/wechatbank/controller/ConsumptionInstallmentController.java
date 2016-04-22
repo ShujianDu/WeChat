@@ -137,11 +137,40 @@ public class ConsumptionInstallmentController extends BaseController {
 		return LISTURL;
 	}
 
+	/**
+	 * 跳转到展示页面，展示消费信息
+	 * 
+	 * @param consumptionInstallments
+	 *            消费实体信息
+	 * @param model
+	 *            model
+	 * @return 跳转页面地址
+	 */
+	@RequestMapping(value = "show")
+	public String show(@ModelAttribute("formBean") ConsumptionInstallments consumptionInstallments, Model model) {
+		try {
+			String cardNo = Crypt.decode(consumptionInstallments.getCardNo());
+			consumptionInstallments.setCardNo(Crypt.cardNoOneEncode(cardNo));
+		} catch (Exception e) {
+			logger.info("@XFFQ@加密/解密卡号出现异常" + e);
+			return BUSYURL;
+		}
+		model.addAttribute("ciinfo", consumptionInstallments);
+		return SHOWURL;
+	}
+
+	/**
+	 * 获取更多消费信息
+	 * 
+	 * @param consumptionInstallments
+	 *            查询实体
+	 * @return 消费信息
+	 */
 	@RequestMapping(value = "getMore_ajax.do")
 	@ResponseBody
 	public String getMore_ajax(@ModelAttribute("formBean") ConsumptionInstallments consumptionInstallments) {
 		String cardNo = consumptionInstallments.getCardNo();
-		String currencyCode = consumptionInstallments.getCurrencyChinaCode();
+		String currencyCode = consumptionInstallments.getOriginalCurrencyCode();
 		String startnum = consumptionInstallments.getStartnum();
 		try {
 			cardNo = Crypt.decode(cardNo);

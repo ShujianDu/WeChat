@@ -11,6 +11,8 @@ public class ConsumptionInstallments {
 	private String cardNo;
 	// 交易日期
 	private String transactionDate;
+	// 交易币种
+	private String transactionCurrencyCode;
 	// 交易金额
 	private String transactionAmount;
 	// 借方、贷方(交易类型)
@@ -35,9 +37,37 @@ public class ConsumptionInstallments {
 	private int onepage;
 	// 是否有下一页
 	private String isFollowUp;
+	// 账期号
+	private String cycleNumber;
+	// 交易序号
+	private String transactionNo;
+
+	public String getTransactionNo() {
+		return transactionNo;
+	}
+
+	public void setTransactionNo(String transactionNo) {
+		this.transactionNo = transactionNo;
+	}
+
+	public String getCycleNumber() {
+		return cycleNumber;
+	}
+
+	public void setCycleNumber(String cycleNumber) {
+		this.cycleNumber = cycleNumber;
+	}
 
 	public String getStartnum() {
 		return startnum;
+	}
+
+	public String getTransactionCurrencyCode() {
+		return transactionCurrencyCode;
+	}
+
+	public void setTransactionCurrencyCode(String transactionCurrencyCode) {
+		this.transactionCurrencyCode = transactionCurrencyCode;
 	}
 
 	public void setStartnum(String startnum) {

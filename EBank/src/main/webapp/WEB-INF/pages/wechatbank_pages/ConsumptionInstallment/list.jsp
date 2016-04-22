@@ -10,18 +10,14 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/wechatbank/index.css"/>" />
 <script type="text/javascript">
 	window.onload = function() {
-		var cardSelect = $("#cardNoSelect");
-		for ( var i = 0; i < cardSelect.length; i++) {
-			if (cardSelect[i].value == '${cardNo}') {
-				cardSelect[i].attr("selected",true);
-			}
-		}
 		//消费信息集合长度
 		var listlength=${fn:length(pageList)};
 		//一页显示条数,页面传值,可配
-		var onepage = ${onepage};
+		var onepage = '${onepage}';
 		//再次查询是否有下一页，0:没有，1：有
-		var isFollowUp=${isFollowUp};
+		var isFollowUp='${isFollowUp}';
+		//记录日志
+		console.log('--listlength:'+listlength+'--onepage:'+onepage+"--isFollowUp:"+isFollowUp);
 		if(listlength==onepage&&isFollowUp==1){
 			$("#moreButton").css('display','block');
 		}else{
@@ -47,9 +43,16 @@
 						<td>
 						<select name="cardNo" id="cardNoSelect">
 							<c:forEach items="${cardList}" var="item" varStatus="status">
-								<option value="${fn:substringAfter(item, ',')}" name="cardNo">
+							<c:if test="${cardNo== fn:substringAfter(item, ',')}">
+							<option selected="selected"value="${fn:substringAfter(item, ',')}" name="cardNo">
 									${fn:substring(item, 0, 16)}
 								</option>
+							</c:if>
+							<c:if test="${cardNo!= fn:substringAfter(item, ',')}">
+							<option value="${fn:substringAfter(item, ',')}" name="cardNo">
+									${fn:substring(item, 0, 16)}
+								</option>
+							</c:if>
 							</c:forEach>
 						</select>
 						</td>
@@ -115,7 +118,11 @@
 						<table class="topTwo">
 							<tr>
 								<td colspan='2'>
-									<a class="allA"	href="show.do?number=${status.index}">办理消费分期</a>
+									<a class="allA"	href="show.do?accountKeyOne=${item.accountID}&accountKeyTwo=${item.accountedID}
+									&transactionCurrencyCode=${item.transactionCurrencyCode}&billDateNo=${item.cycleNumber}
+									&transactionAmount=${item.transactionAmount}&cardNo=${cardNo}&accountNoID=${item.accountNoID}
+									&transactionNo=${item.transactionNo}&transactionDescription=${item.transactionDescription}
+									&originalCurrencyCode=${item.originalCurrencyCode}&originalTransactionAmount=${item.originalTransactionAmount}">办理消费分期</a>
 								</td>
 							</tr>
 						</table>
@@ -134,7 +141,7 @@
 				style="color: #999999; font-size: 13px; line-height: 40px; margin-left: 16px;"></span>
 	<input type="hidden" id="startnum" value="${startnum }"/>
 	<input type="hidden" id="cardNo" value="${cardNo }"/>
-	<input type="hidden" id="currencyCode" value="${currencyCode }"/>
+	<input type="hidden" id="originalCurrencyCode" value="${currencyCode }"/>
 	<div id="sending"
 		style="position: absolute; position: fixed; height: 100%; background: #fff; width: 100%; top: 0; left: 0; visibility: hidden; filter: alpha(opacity =  50); opacity: 0.50;">
 		<img src="<c:url value="/images/wechatbank/5-121204193R5-50.gif"/>"
@@ -159,7 +166,8 @@
 				isClicked = true;
 				var cardNo = $("#cardNo").val();
 				var startnum = $("#startnum").val();
-				var currencyCode = $("#currencyCode").val();
+				var originalCurrencyCode = $("#originalCurrencyCode").val();
+				console.log("hidden value cardNo:"+cardNo+"--startnum:"+startnum+"--originalCurrencyCode:"+originalCurrencyCode);
 				var noBillingWarning = $("#noBillingWarning");
 				noBillingWarning.text("");
 				$.ajax({
@@ -167,7 +175,7 @@
 		            data: {
 		            	cardNo: cardNo,
 		            	startnum: startnum,
-		            	currencyCode:currencyCode
+		            	originalCurrencyCode:originalCurrencyCode
 		            },
 		            type: "post",
 		            dataType: "json",
@@ -178,10 +186,12 @@
 				    		$("#moreButton").css('display','none');
 				    		sending.css({visibility:"hidden"});
 							isClicked=false;
-						}else if(json=="null"){
+							return;
+						}else if(json==null){
 							window.location.href="../error.html";
 							sending.css({visibility:"hidden"});
 							isClicked=false;
+							return;
 						}else{
 							for(var i=0;i<json.length;i++){
 								var newDiv = "<div class='topOneB mar-1 topOneBradius'>"+
@@ -210,7 +220,12 @@
 					             "<div class='topOneB mar-1 bottomOneBradius'>"+
 					             "<table class='topTwo'>"+
 								 "<tr>"+
-								 "<td colspan='2'><a class='allA' href='show.do?'>办理消费分期</a></td>"+
+								 "<td colspan='2'><a class='allA' href='show.do?accountKeyOne="+json[i].accountID+
+								"&accountKeyTwo="+json[i].accountedID+"+&transactionCurrencyCode="+json[i].transactionCurrencyCode+
+								"&billDateNo="+json[i].cycleNumber+"&transactionAmount="+json[i].transactionAmount+
+								"&cardNo="+cardNo+"&accountNoID="+json[i].accountNoID+"&transactionNo="+json[i].transactionNo+
+								"&transactionDescription="+json[i].transactionDescription+"&originalCurrencyCode="+json[i].originalCurrencyCode+
+								"&originalTransactionAmount="+json[i].originalTransactionAmount+"'>办理消费分期</a></td>"+
 								 "</tr>"+
 					             "</table>"+
 							     "</div>"+

@@ -67,8 +67,7 @@ public class HistoryInstallmentController extends BaseController {
 	}
 
 	@RequestMapping(value = "listP")
-	public String listP(HttpServletRequest request, String openId,
-			String cardNo, Model model) {
+	public String listP(HttpServletRequest request, Model model) {
 		// 页面分享js需要的参数
 		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
 				"billinstallment/list.do","中国银行信用卡分期业务");
@@ -79,6 +78,7 @@ public class HistoryInstallmentController extends BaseController {
 			model.addAttribute(key, jsMap.get(key));
 		}
 		//调用后台获取卡列表
+		String cardNo = request.getParameter("cardNo");
 		List<String> cardList  = historyInstallmentServiceImpl.selectCardNOs(getIdentityNo(request),getIdentityType(request));
 		model.addAttribute("cardList", cardList);
 		HistoryInstallmentList historyInstallmentList = null;
@@ -97,7 +97,8 @@ public class HistoryInstallmentController extends BaseController {
 			return BUSYURL;
 		}
 		model.addAttribute("pageList", list);
-		model.addAttribute("cardNo", cardNo);
+		//TODO 修改卡号
+		model.addAttribute("cardNo", "1111");
 		model.addAttribute("isFollowUp", historyInstallmentList.isFollowUp());
 		model.addAttribute("nextGCSStartIndex",Integer.parseInt(SELECTNUM) + 1);
 		return LISTURL;
@@ -106,7 +107,7 @@ public class HistoryInstallmentController extends BaseController {
 
 	@RequestMapping(value = "ajax_getMore")
 	@ResponseBody
-	public String ajax_getMore(HttpServletRequest request,HttpServletResponse response) throws IOException {
+	public String ajax_getMore(HttpServletRequest request) throws IOException {
 		//返回结果
 		String result;
 		String isFollowUp = request.getParameter("isFollowUp");
@@ -128,10 +129,6 @@ public class HistoryInstallmentController extends BaseController {
 				result = "exception";
 			}else {
 				list = historyInstallmentList.getHistoryInstallmentList();
-				Map<String,Object> map = new HashMap<>();
-				map.put("isFollowUp",historyInstallmentList.isFollowUp());
-				map.put("nextGCSStartIndex",Integer.parseInt(nextGCSStartIndex)+SELECTNUM);
-				map.put("list",list);
 				result =  JSONArray.fromObject(list).toString();
 			}
 		}

@@ -5,6 +5,8 @@ import com.yada.wechatbank.model.CardApplyList;
 import com.yada.wechatbank.query.CardApplyQuery;
 import com.yada.wechatbank.service.CardApplyService;
 import com.yada.wechatbank.util.TokenUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping(value = "cardapply")
 public class CardApplyController extends BaseController {
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     private static final String LIST_URL = "wechatbank_pages/CardApply/list";
     private static final String DETAIL_URL = "wechatbank_pages/CardApply/detail";
@@ -67,7 +71,8 @@ public class CardApplyController extends BaseController {
 
         // 预约办卡进度查询
         CardApplyList cardApplyList = cardApplyService.getCrdCardSchedule(name, identityType, identityNo, nextPage);
-
+        logger.info("@BKJD@调用核心根据name[" + name + "],identityType[" + identityType + "]," +
+                "identityNo[" + identityNo + "],currentPage[" + nextPage + "]");
         model.addAttribute("model", cardApplyQuery);
         model.addAttribute("cardApplyList", cardApplyList);
         model.addAttribute("currPage", nextPage);
@@ -108,6 +113,8 @@ public class CardApplyController extends BaseController {
         TokenUtil.removeCode(request);
         // 发送短信验证码
         String sendResult = cardApplyService.sendCardApplySMS(identityType, identityNo, mobileNo);
+        logger.info("@BKJD@调用核心根据identityType[" + identityType + "],identityNo[" + identityNo + "],mobileNo["
+                + mobileNo + "]发送短信验证码,发送结果sendResult[" + sendResult + "]");
         // 重新生成Token并返回
         TokenUtil.addToken(request);
         result = sendResult + "," + request.getSession().getAttribute("keyInSession");
@@ -125,9 +132,11 @@ public class CardApplyController extends BaseController {
     @RequestMapping(value = "checkMsgCode_ajax")
     @ResponseBody
     public String checkMsgCode_ajax(String identityNo, String mobileNo, String code) {
-        String result = Boolean.toString(
+        String sendResult = Boolean.toString(
                 cardApplyService.checkCardApplySMSCode(identityNo, mobileNo, code)).toLowerCase();
-        return result;
+        logger.info("@BKJD@调用核心根据identityNo[" + identityNo + "],mobileNo["+mobileNo+"],code["
+                + code + "]验证短信验证码,发送结果sendResult[" + sendResult + "]");
+        return sendResult;
     }
 
 }

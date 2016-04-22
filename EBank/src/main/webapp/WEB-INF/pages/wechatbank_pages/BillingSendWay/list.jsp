@@ -3,13 +3,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <%@include file="../../base_pages/base.jsp"%>
-<%@include file="../../base_pages/wxjs.jsp"%>
 <meta name="viewport"
 	content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 <title>中国银行信用卡</title>
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/css/wechatbank/index.css"/>" />
-<%@include file="../../base_pages/wxReadyFunction.jsp"%>
 </head>
 <body>
 <header>
@@ -37,7 +35,7 @@
 						<td  align="center"><span class="black"><c:out value="${item.billSendTypeDesc}" /></span></td>
 					</tr>
 					<tr>	
-					<td><a class="allA"	href="../billingsendway/edit.do?cardNo=${fn:substringAfter(item.cardNo,',')}&item.billSendType">更改账单寄送方式</a></td>
+					<td><a class="allA"	href="../billingsendway/edit.do?cardNo=${fn:substringAfter(item.cardNo,',')}&billSendType=${item.billSendType}">更改账单寄送方式</a></td>
 					</tr>
 				</table>
 			</div>

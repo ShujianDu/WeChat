@@ -1,8 +1,5 @@
 package com.yada.wechatbank.model;
 
-
-import com.yada.wechatbank.base.BaseModel;
-
 /**
  * 额度实体
  * @author Tx
@@ -15,26 +12,26 @@ public class Balance  {
 	// 金额中文描述(币种)
 	private String currencyChinaCode;
 	// 总授信额度
-	private String limitCount;
+	private String wholeCreditLimit;
 	// 总可用额
-	private String avaliableCount;
+	private String periodAvailableCreditLimit;
 	// 取现可用额度
 	private String preCashAdvanceCreditLimit;
 
-	public String getLimitCount() {
-		return limitCount;
+	public String getWholeCreditLimit() {
+		return wholeCreditLimit;
 	}
 
-	public void setLimitCount(String limitCount) {
-		this.limitCount = limitCount;
+	public void setWholeCreditLimit(String wholeCreditLimit) {
+		this.wholeCreditLimit = wholeCreditLimit;
 	}
 
-	public String getAvaliableCount() {
-		return avaliableCount;
+	public String getPeriodAvailableCreditLimit() {
+		return periodAvailableCreditLimit;
 	}
 
-	public void setAvaliableCount(String avaliableCount) {
-		this.avaliableCount = avaliableCount;
+	public void setPeriodAvailableCreditLimit(String periodAvailableCreditLimit) {
+		this.periodAvailableCreditLimit = periodAvailableCreditLimit;
 	}
 
 	public String getCurrencyCode() {

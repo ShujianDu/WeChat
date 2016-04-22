@@ -76,7 +76,7 @@
                                     <span class="name">积分账户状态</span>
                                     <span class="dynamicData"><c:out value="${item.pointuseFlg}" /></span>
                                 </div>
-                                <input type="button" value="积分到期日" class="IntegrateDate" onclick="getValidate()"/>
+                                <input type="button" value="积分到期日" class="IntegrateDate" onclick="window.location.href ='../points/validate.do?numberP=${statusParent.index}&number=${status.index}'"/>
                             </c:if>
                             <c:if test="${item.pointuseFlg eq '冻结'}">
                                 <div class="productName">

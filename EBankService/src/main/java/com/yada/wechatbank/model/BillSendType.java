@@ -1,12 +1,9 @@
 package com.yada.wechatbank.model;
 
-import com.yada.wechatbank.base.BaseModel;
-
-import java.io.Serializable;
 
 /**
  * 账单寄送方式实体
- * @author tx
+ * @author Tx
  */
 public class BillSendType  {
 	/**

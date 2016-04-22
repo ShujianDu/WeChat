@@ -1,10 +1,12 @@
 package com.yada.wechatbank.model;
 
-import java.io.Serializable;
 
-public class BillCost implements Serializable {
+/**
+ * 账单分期试算结果
+ * @author Tx
+ */
+public class BillCost  {
 
-	private static final long serialVersionUID = 3649680086352326093L;
 	/**
 	 * 本期账单最小还款额
 	 */
