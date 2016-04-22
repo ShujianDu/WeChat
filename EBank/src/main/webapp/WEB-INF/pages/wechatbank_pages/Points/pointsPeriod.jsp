@@ -11,6 +11,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
     <link href="<c:url value="/css/PointFinitePeriod.css"/>" rel="stylesheet" type="text/css">
     <link href="<c:url value="/css/myPoint.css"/>" rel="stylesheet" type="text/css">
+    <link href="<c:url value="/css/DefaultStyle.css"/>" rel="stylesheet" type="text/css">
+    <link href="<c:url value="/css/BlackTip.css"/>" rel="stylesheet" type="text/css">
+    <link href="<c:url value="/css/fixedDetails.css"/>" rel="stylesheet" type="text/css">
     <title>积分详情</title>
 </head>
 <body>

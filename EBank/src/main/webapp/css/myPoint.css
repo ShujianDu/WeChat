@@ -1,124 +1,13 @@
-	@charset "utf-8";
-	/* CSS Document */
-	/*@import "menu.css";*/
-	/** 清除内外边距  */
-	body, h1, h2, h3, h4, h5, h6, hr, p,
-	blockquote, /* structural elements 结构元素 */
-	dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
-	pre, /* text formatting elements 文本格式元素 */
-	form, fieldset, legend, button, input, textarea, /* form elements 表单元素 */
-	th, td, /* table elements 表格元素 */
-	img/* img elements 图片元素 */{
-	border:medium none;
-	margin: 0;
-	padding: 0;font-family:"微软雅黑";
-	}
-	/** 设置默认字体 **/
-	body,button, input, select, textarea {
-	font: 12px/1.5 '微软雅黑',tahoma, Srial, helvetica, sans-serif; }
-	h1, h2, h3, h4, h5, h6 { font-size: 100%; }
-	em{font-style:normal;}
-	/** 重置列表元素 **/
-	ul, ol { list-style: none;}
-	/** 重置超链接元素 **/
-	a { text-decoration: none; color:#000;}
-	/** 重置图片元素 **/
-	/** 重置表格元素 **/
-	table { border-collapse: collapse; border-spacing: 0; }
-	*{padding:0;margin:0;font-size:12px;}
-	button, input, select, textarea { font-size: 100%; margin: 0; vertical-align: baseline; *vertical-align: middle; }
-	img/* img elements 图片元素 */,select,option{
-	border:medium none;
-	margin: 0;
-	padding: 0;font-family:"微软雅黑";
-	list-style:none;border:none;
-	border:none;
-	background-color:none;
-	
-	overflow: hidden; /*隐藏了小三角，因为宽度为110px,而select宽度为130px*/border-width:0px;border-top-style: none; border-right-style: none; 
-border-left-style: none; 
-border-bottom-style: none;
-	}
-	button, input[type="button"], input[type="reset"], input[type="submit"] { cursor: pointer; -webkit-appearance: button; }
-	input[type="checkbox"], input[type="radio"] { box-sizing: border-box; }
-	input[type="search"] { -webkit-appearance: textfield; -moz-box-sizing: content-box; -webkit-box-sizing: content-box; box-sizing: content-box; }
-	input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
-	button::-moz-focus-inner, input::-moz-focus-inner { border: 0; padding: 0; }
-	textarea { overflow: auto; vertical-align: top; resize: vertical; }
-	select {
-  /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
-
-  /*很关键：将默认的select选择框样式清除*/
-  appearance:none;
-  -moz-appearance:none;
-  -webkit-appearance:none;
-
-  /*在选择框的最右侧中间显示小箭头图片*/
-  background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
-
-
-  /*为下拉小箭头留出一点位置，避免被文字覆盖*/
-  padding-right: 14px;
-	}
-	
-	
-	/*清除ie的默认选择框样式清除，隐藏下拉箭头*/
-	select::-ms-expand { display: none; }
-	
-	body{width:100%;background-color:#eeeeee;}
-	/*header*/
-	.header{width:100%;height:45px;background-color:#efefef;}
-	.header_logo{float:left;margin-left:16px;width:102px;margin-top:13px;}
-	.header_menu{float:right;margin-right:16px;width:18px;height:15px;margin-top:15px;background-image:url(../images/header_menu.png);background-size:100% 100%;}
-	/*menu*/
-	.menu_box{width:100%;height:45px;background-image:url(../images/menu_bg.png);background-size:100% 100%;}
-	.menu_box a{display:block;font-size:16px;float:left;margin-left:2.6%;margin-right:2.6%;width:19.8%;line-height:45px;text-align:center;height:44px;}
-	.menu_box .current_menu{border-bottom:1px solid #f73953;color:#f73953;}
-	/*select*/
-	#control_card{font-size:13px;line-height:39px;color:#333333;width:95%;height:39px;list-style:none;background-color:#fafafa;border-bottom:1px solid #eeeeee;padding-left:5%;}
-	
-	/*查询不到 积分显示*/
-	
-		.myPointNull{color:#999999;width:70%;font-size:13px;margin-top:10px;margin-left:15%;display:block;text-align:center;}
-	.myPointImg{width:60px;display:block;position:relative;left:50%;margin-left:-30px;margin-top:40px;}
-	
+	body{width:100%;background-color:white;}
+	.IntegrationContainer{background-color:white;}
 	/* 积分显示*/
    	.myPoint_box .myPoint_view .help{width:22px;height:22px;padding-top:6px;}
 	.myPoint_box{width:100%;}
-	.myPoint_box .myPoint_view{width:100%;position:relative;overflow:hidden;background-color:white;border-bottom:1px solid #dddddd;margin-bottom:20px;padding-bottom:50px;}
+	.myPoint_box .myPoint_view{width:100%;position:relative;overflow:hidden;background-color:white;border-bottom:1px solid #fafafa;margin-bottom:20px;padding-bottom:50px;}
 	.myPoint_box .myPoint_view .pointTitle{margin-left:18px;font-size:16px;margin-top:18px;float:left;color:#666666;}
 	.myPoint_box .myPoint_view .help_box{position:relative;float:right;color:#ed6139;font-size:14px;margin-right:16px;line-height:36px;margin-top:12px;}
 	.myPoint_box .myPoint_view .pointValueBox{clear:both;color:#ed6139;font-size:14px;width:100%;text-align:center;padding-top:10px;}
 	.myPoint_box .myPoint_view .pointValueBox .pointValue{font-size:36px;}
 	.myPoint_box .myPoint_view .check_dt{background-image:url(../images/checkJifen_dt.png);width:89px;height:28px;background-size:100% 100%;position:absolute;right:16px;top:120px;}
-	/*积分广告*/
-	.myPoint_box .myPointAd_box{position:relative;padding-top:20px;background-color:white;width:100%;overflow:hidden;}
-   	.myPoint_box .myPointAd_box .myPointAd_title{margin-left:18px;font-size:16px;margin-top:18px;color:#666666;margin-bottom:20px;float:left;}
-	.myPoint_box .myPointAd_box .imageAd{clear:both;width:90%;border:2px solid #dddddd;display:block;margin-left:5%;margin-bottom:20px;overflow:hidden;}
-	.myPoint_box .myPointAd_box .imageAd img{width:100%;}
-	
-	/*black*/
-	.black_box{width:100%;height:100%;position:fixed;background-image:url(../images/black.png);left:0;top:0;display:none;}
-	.black_box .tip_box{width:72%;position:relative;left:14%;top:50%;margin-top:-100px;background-color:white;border-radius:12px;-webkit-border-radius:12px;-moz-border-radius:12px;}
-	.black_box .tip_box .tip_title{display:block;width:100%;text-align:center;line-height:40px;margin-top:10px;font-size:16px;color:#333333;}
-	.black_box .tip_box .tip_content{display:block;width:80%;margin-left:10%;font-size:12px;color:#666666;line-height:30px;}
-	.black_box .tip_box .tip_close{display:block;width:24px;height:24px;background-image:url(../images/close.png);position:absolute;right:10px;top:10px;background-size:100% 100%;}
-	.black_box .tip_box .tip_close2{display:block;width:100%;font-size:16px;color:#e05d4f;line-height:40px;border-top:2px solid #e05d4f;text-align:center;}
-	
-	/*wait*/
-	.wait_box{width:100%;height:100%;position:fixed;background-image:url(../images/black.png);left:0;top:0;display:none;}
-	.wait_box .tip_box{width:72%;position:relative;left:14%;top:50%;margin-top:-100px;}
-	.wait_box .tip_box img{width:40px;height:40px;margin-left:auto;margin-right:auto;display:block;
-	}
-	/*@-webkit-keyframes rotate {
-		 from {
-		 -webkit-transform: rotate(0deg);
-		 }
-		 to { 
-		 -webkit-transform: rotate(360deg);
-		 }
-	}*/
-	.wait_box .tip_box .wait_text{margin-left:auto;text-align:center;display:block;font-size:16px;color:#eeeeee;font-weight:bold;}
-	
-	
-	
+
+	.IntegrateDate{width:80%;height:42px;text-align:center;line-height:42px;font-size:16px;background-color:#e05d4f;margin-left:10%;color:white;border-radius:8px;margin-top:80px;border:1px solid #eeeeee;margin-bottom:16px;}

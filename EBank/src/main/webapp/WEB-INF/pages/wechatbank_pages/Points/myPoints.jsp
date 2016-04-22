@@ -9,6 +9,8 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
     <link href="<c:url value="/css/myPoint.css"/>" rel="stylesheet" type="text/css">
+    <link href="<c:url value="/css/DefaultStyle.css"/>" rel="stylesheet" type="text/css">
+    <link href="<c:url value="/css/BlackTip.css"/>" rel="stylesheet" type="text/css">
     <script type="text/javascript" src="<c:url value="/js/myPoint.js"/>"></script>
     <title>我的积分</title>
 </head>

@@ -204,7 +204,7 @@
 					timestamp: new Date().getTime()
 				},
 				type: "post",
-				dataType: "text",
+				dataType: "jason",
 				async: false,
 				success: function (result) {
 					if (result != null&&result!="") {
