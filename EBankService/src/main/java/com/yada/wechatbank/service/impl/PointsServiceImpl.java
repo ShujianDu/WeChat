@@ -54,7 +54,7 @@ public class PointsServiceImpl extends BaseService implements PointsService {
         Map<String,String> map = new HashMap<>();
         map.put("cardNo",cardNo);
         PointsBalanceResp pointsBlanceResp = httpClient.send("getBalance",map,PointsBalanceResp.class);
-        return pointsBlanceResp.getPointsBlance();
+        return pointsBlanceResp.getBizResult();
     }
 
     /**

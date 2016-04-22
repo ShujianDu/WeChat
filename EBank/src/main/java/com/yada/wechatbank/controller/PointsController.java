@@ -129,4 +129,15 @@ public class PointsController extends BaseController {
         return VALIDATEURL;
     }
 
+    /**
+     * 积分兑换
+     * @param model
+     * @return
+     */
+    public String pointsExchange(Model model){
+        Map<String, String> encryptCardNo = null;
+        String cardNo=null;
+        
+        return "";
+    }
 }

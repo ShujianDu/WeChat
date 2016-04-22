@@ -6,30 +6,64 @@ import com.yada.system.adapter.gcs.GCSConsumptionInstallmentParams
 
 /**
   * 卡户分期项目消费分期（授权）
+  *
+  * @param tranSessionID       交易会话标识，用来表示客户访问身份
+  * @param reqChannelID        交易请求渠道标识
+  * @param accountKeyOne       帐户键值1。请使用TS011007查询后的“accountID”域值
+  * @param accountKeyTwo       帐户键值2。请使用TS011007查询后的“accountedID”域值
+  * @param currencyCode        币种
+  * @param billDateNo          帐期号
+  * @param transactionNo       交易序号
+  * @param transactionAmount   交易金额
+  * @param cardNo              卡号
+  * @param accountNoID         账号id。请使用TS011007查询后的“accountNoID”域值
+  * @param installmentPeriods  分期付款期数。“3”、“6”、“9”、“12”、“18”、“24”、“36”
+  * @param isfeeFlag           是否分期收取手续费。1---标识手续费分期收取，0---标识手续费不分
+  * @param channelId           渠道标识。目前渠道标识为1位长的字符，存放在channelId的第一位，渠道标识的具体含义待业务提供
+  * @param pageTransactionCode 交易代码。“3110”- POS消费还原
+  * @param installmentPlan     分期付款计划。“EP01” - 灵活分期计划1
+  * @param merchantID          “0000000”特约商户代码
+  * @param mcc                 “5311”- 商户类别
   */
-class TS011173(params: GCSConsumptionInstallmentParams)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+class TS011173(tranSessionID: String,
+               reqChannelID: String,
+               accountKeyOne: String,
+               accountKeyTwo: String,
+               currencyCode: String,
+               billDateNo: String,
+               transactionNo: String,
+               transactionAmount: String,
+               cardNo: String,
+               accountNoID: String,
+               installmentPeriods: String,
+               isfeeFlag: String,
+               channelId: String = "A",
+               pageTransactionCode: String = "3110",
+               installmentPlan: String = "EPO1",
+               merchantID: String = "0000000",
+               mcc: String = "5311")(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
-  setPageProps("accountKeyOne", params.accountKeyOne)
-  setPageProps("accountKeyTwo", params.accountKeyTwo)
-  setPageProps("currencyCode", params.currencyCode)
-  setPageProps("billDateNo", params.billDateNo)
-  setPageProps("transactionNo", params.transactionNo)
-  setPageProps("transactionAmount", params.transactionAmount)
-  setPageProps("cardNo", params.cardNo)
-  setPageProps("accountNoID", params.accountNoId)
-  setPageProps("installmentPeriods", params.installmentPeriods)
-  setPageProps("isfeeFlag", params.isfeeFlag)
-  setPageProps("channelId", params.channelId.head.toString)
-  setPageProps("transactionCode", "3110")
-  setPageProps("mcc", "5311")
-  setPageProps("installmentPlan", "EP01")
-  setPageProps("merchantID", "0000000")
+  setPageProps("accountKeyOne", accountKeyOne)
+  setPageProps("accountKeyTwo", accountKeyTwo)
+  setPageProps("currencyCode", currencyCode)
+  setPageProps("billDateNo", billDateNo)
+  setPageProps("transactionNo", transactionNo)
+  setPageProps("transactionAmount", transactionAmount)
+  setPageProps("cardNo", cardNo)
+  setPageProps("accountNoID", accountNoID)
+  setPageProps("installmentPeriods", installmentPeriods)
+  setPageProps("isfeeFlag", isfeeFlag)
+  setPageProps("channelId", channelId)
+  setPageProps("transactionCode", pageTransactionCode)
+  setPageProps("mcc", mcc)
+  setPageProps("installmentPlan", installmentPlan)
+  setPageProps("merchantID", merchantID)
 
   override def transactionID: String = "011173"
 
-  override def requestChannelId: String = params.channelId
+  override def requestChannelId: String = reqChannelID
 
-  override def transactionSessionId: String = params.sessionId
+  override def transactionSessionId: String = tranSessionID
 
   override def pageKey: String = "RQ011173"
 
