@@ -459,21 +459,32 @@ case class GCSConsumptionInstallmentResult(installmentAmount: String, installmen
 /**
   * 消费分期参数
   *
-  * @param sessionId          gcsSessionId
-  * @param channelId          渠道编号
-  * @param accountKeyOne      帐户键值1--原消费中账户ID
-  * @param accountKeyTwo      帐户键值2--原消费中入账账户ID
+  * @param sessionID          gcsSessionId
+  * @param reqChannelID       交易请求渠道标识
+  * @param accountKeyOne      帐户键值1--原消费中账户ID。请使用TS011007查询后的“accountID”域值
+  * @param accountKeyTwo      帐户键值2--原消费中入账账户ID。请使用TS011007查询后的“accountedID”域值
   * @param currencyCode       币种--原消费币种
   * @param billDateNo         帐期号--原消费帐期号
   * @param transactionAmount  交易金额
   * @param cardNo             卡号
-  * @param accountNoId        账号id
-  * @param installmentPeriods 分期付款期数
+  * @param accountNoID        账号id。请使用TS011007查询后的“accountNoID”域值
+  * @param installmentPeriods 分期付款期数。“3”、“6”、“9”、“12”、“18”、“24”、“36”
   * @param isfeeFlag          是否分期收取手续费
+  *
   */
-case class GCSConsumptionInstallmentParams(sessionId: String, channelId: String, accountKeyOne: String, accountKeyTwo: String, currencyCode: String,
-                                           billDateNo: String, transactionNo: String, transactionAmount: String, cardNo: String, accountNoId: String,
-                                           installmentPeriods: String, isfeeFlag: String)
+case class GCSConsumptionInstallmentParams(sessionID: String,
+                                           reqChannelID: String,
+                                           accountKeyOne: String,
+                                           accountKeyTwo: String,
+                                           currencyCode: String,
+                                           billDateNo: String,
+                                           transactionNo: String,
+                                           transactionAmount: String,
+                                           cardNo: String,
+                                           accountNoID: String,
+                                           installmentPeriods: String,
+                                           isfeeFlag: String,
+                                           channelID: String)
 
 /**
   * 账单分期上下限结果
