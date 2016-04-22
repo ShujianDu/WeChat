@@ -12,12 +12,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.RuntimeErrorException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * 账单分期service实现
+ * @author Tx
+ */
 @Service
 public class BillInstallmentServiceImpl extends BaseService implements BillInstallmentService {
     private final Logger logger = LoggerFactory
@@ -136,6 +141,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
         return billCostResp == null ? null : billCostResp.getBizResult();
     }
 
+    @Transactional
     public boolean billInstallment(String accountId, String accountNo, String cardNo, String currencyCode, String billLowerAmount, String billActualAmount, String installmentsNumber, String feeInstallmentsFlag) {
         boolean returnRes;
         Map<String, String> map = initDirectSaleParam();

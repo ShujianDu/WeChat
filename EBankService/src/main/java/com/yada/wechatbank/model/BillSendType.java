@@ -3,7 +3,7 @@ package com.yada.wechatbank.model;
 
 /**
  * 账单寄送方式实体
- * @author tx
+ * @author Tx
  */
 public class BillSendType  {
 	/**

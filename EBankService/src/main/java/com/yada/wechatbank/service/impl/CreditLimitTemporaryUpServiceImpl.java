@@ -20,6 +20,10 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * 临时提升额度service实现
+ * @author Tx
+ */
 @Service
 public class CreditLimitTemporaryUpServiceImpl extends BaseService implements CreditLimitTemporaryUpService {
     private final Logger logger = LoggerFactory

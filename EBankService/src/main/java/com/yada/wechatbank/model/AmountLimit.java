@@ -2,7 +2,7 @@ package com.yada.wechatbank.model;
 
 /**
  * 账单金额上下限实体
- * @author tx
+ * @author Tx
  *
  */
 public class AmountLimit {
