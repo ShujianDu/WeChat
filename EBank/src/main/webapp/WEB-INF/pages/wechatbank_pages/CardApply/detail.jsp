@@ -84,6 +84,7 @@
             <input type="hidden" id="name" name="name" value="${model.name}">
             <input type="hidden" id="identityType" name="identityType" value="${model.identityType}">
             <input type="hidden" id="identityNo" name="identityNo" value="${model.identityNo}">
+            <input type="hidden" id="currPage" name="currPage" value="${currPage}">
         </form>
     </c:if>
 </div>

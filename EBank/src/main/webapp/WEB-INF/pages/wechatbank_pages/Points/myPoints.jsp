@@ -43,6 +43,7 @@
                     <div class="pointValueBox"><span class="pointValue">${pointsBalance.totalPoint}</span>分</div>
                     <input type="button" class="check_dt" id="check_dt1" onclick="pointsDetail();"/>
                 </div>
+                <input class="IntegrateDate" type="button" value="积分兑换" onclick="">
             </div>
             <!--black_box-->
             <div class="black_box">

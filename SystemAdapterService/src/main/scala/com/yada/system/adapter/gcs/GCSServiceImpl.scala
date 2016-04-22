@@ -354,7 +354,9 @@ class GCSServiceImpl extends GCSService {
     val ts010201 = new TS010201(cardNoParams.sessionID, cardNoParams.channelID, cardNoParams.cardNo)()
     val result = ts010201.send
 
-    CardHolderInfoResult(result.pageValue("familyName"), result.pageValue("firstName"), result.pageValue("gender"), result.pageValue("mobileNo"))
+    CardHolderInfoResult(result.pageValue("familyName"), result.pageValue("firstName"), result.pageValue("gender"), result.pageValue("mobileNo"),
+      result.pageValue("postalCode"),result.pageValue("workUnitName"),result.pageValue("workUnitPhone"),result.pageValue("mailBox"),
+      result.pageValue("homeAddressPhone"),result.pageValue("billAddressLine1")+result.pageValue("billAddressLine2")+result.pageValue("billAddressLine3"))
   }
 
   /**

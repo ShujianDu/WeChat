@@ -5,15 +5,13 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
-import com.yada.wechatbank.model.CardInfo;
-import com.yada.wechatbank.model.PointsBalance;
-import com.yada.wechatbank.model.PointsDetail;
-import com.yada.wechatbank.model.PointsValidates;
+import com.yada.wechatbank.model.*;
 import com.yada.wechatbank.query.PointsQuery;
 import com.yada.wechatbank.service.PointsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,10 +32,13 @@ public class PointsController extends BaseController {
     private static final String LISTURL = "wechatbank_pages/Points/myPoints";
     private static final String DETAIL = "wechatbank_pages/Points/pointsDetails";
     private static final String VALIDATEURL = "wechatbank_pages/Points/pointsPeriod";
+    private static final String EXCHANGE = "wechatbank_pages/Points/pointsExchange";
     @Autowired
     private PointsService pointsServiceImpl;
     @Autowired
     private ValidateTime validateTime;
+    @Value("${jf.ExchangeUrl}")
+    private String exchangeUrl;
 
 
     @RequestMapping(value = "list")
@@ -134,10 +135,18 @@ public class PointsController extends BaseController {
      * @param model
      * @return
      */
-    public String pointsExchange(Model model){
-        Map<String, String> encryptCardNo = null;
-        String cardNo=null;
-        
-        return "";
+    public String pointsExchange(HttpServletRequest request,Model model){
+        String cardNo =  pointsServiceImpl.getCardN0(getIdentityNo(request),getIdentityType(request));
+        if (cardNo == null){
+            cardNo="1111111111111111";
+        }
+        VerificationCardNoResult verificationCardNoResult = pointsServiceImpl.verificationCardNo(cardNo);
+        if (verificationCardNoResult !=null){
+            model.addAttribute("sign",verificationCardNoResult.getSign());
+            model.addAttribute("cardNo", verificationCardNoResult.getEncryptCardNo());
+            model.addAttribute("exchangeUrl", exchangeUrl);
+            return EXCHANGE;
+        }
+        return ERROR;
     }
 }

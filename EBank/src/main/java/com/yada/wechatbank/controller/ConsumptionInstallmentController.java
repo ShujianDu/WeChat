@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yada.wechatbank.base.BaseController;
 import com.yada.wechatbank.model.ConsumptionInstallments;
@@ -129,7 +130,14 @@ public class ConsumptionInstallmentController extends BaseController {
 		// 获取更多查询开始条数
 		model.addAttribute("startnum", Integer.parseInt(SELECTNUM) + 1);
 		model.addAttribute("cardNo", cardNo);
+		model.addAttribute("currencyCode", currencyCode);
 		model.addAttribute("onepage", ONEPAGE);
 		return LISTURL;
+	}
+
+	@RequestMapping(value = "getMore_ajax.do")
+	@ResponseBody
+	public String getMore_ajax() {
+		return null;
 	}
 }

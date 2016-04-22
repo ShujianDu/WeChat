@@ -1,9 +1,13 @@
 package com.yada.wechatbank.service.impl;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.CardApplyResp;
+import com.yada.wechatbank.client.model.StringValueResp;
 import com.yada.wechatbank.model.CardApplyList;
 import com.yada.wechatbank.service.CardApplyService;
+import com.yada.wechatbank.service.SmsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +20,15 @@ import java.util.Map;
 @Service
 public class CardApplyServiceImpl extends BaseService implements CardApplyService {
 
-    // 预约办卡进度查询
+    private static final String CHANNEL_CODE = "EBank_CardApply";
+
+    @Autowired
+    private SmsService smsService;
+
     @Value(value = "${url.cardApply}")
-    protected String cardApplyUrl;
+    protected String cardApplyUrl; // 预约办卡进度查询
+    @Value(value = "${url.getMobilePhone}")
+    protected String getMobilePhone; // 获取预约办卡手机号
 
     @Override
     public CardApplyList getCrdCardSchedule(String name, String identityType, String identityNo, int currentPage) {
@@ -34,4 +44,28 @@ public class CardApplyServiceImpl extends BaseService implements CardApplyServic
         return cardApplyResp == null ? null : cardApplyResp.getBizResult();
     }
 
+    @Override
+    public String sendCardApplySMS(String identityType, String identityNo, String mobileNo) {
+        // 通过证件类型、证件号获取手机号
+        Map<String, String> param = initGcsParam();
+        param.put("idType", identityType);
+        param.put("idNo", identityNo);
+        StringValueResp resp = httpClient.send(getMobilePhone, param, StringValueResp.class);
+        if (resp == null) {
+            return "exception";
+        }
+        // 验证手机号的正确性
+        if (resp.getBizResult() == null || resp.getBizResult().isEmpty()
+                || !resp.getBizResult().equals(mobileNo)) {
+            return "wrongMobilNo";
+        }
+        // 发送短信验证码
+        boolean sendResult = smsService.sendCardApplySMS(identityNo, mobileNo, CHANNEL_CODE);
+        return Boolean.toString(sendResult).toLowerCase();
+    }
+
+    @Override
+    public boolean checkCardApplySMSCode(String identityNo, String mobileNo, String code) {
+        return smsService.checkSMSCode(identityNo, mobileNo, CHANNEL_CODE, code);
+    }
 }

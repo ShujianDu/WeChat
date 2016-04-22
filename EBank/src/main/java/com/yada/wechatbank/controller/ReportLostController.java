@@ -27,12 +27,9 @@ public class ReportLostController extends BaseController {
 
     private static final String entyMethod = "01"; // 录入方式
     private static final String lossReason = "02";// 挂失原因
-    private static final String CHANNEL_CODE = "EBank_ReportLost";
 
     @Autowired
     private ReportLostService reportLostService;
-    @Autowired
-    private SmsService smsService;
 
     /**
      * 进入挂失页面
@@ -147,7 +144,7 @@ public class ReportLostController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "getMsgCode_ajax")
     public String getMsgCode_ajax(HttpServletRequest request, String mobileNo) {
-        boolean sendResult = smsService.sendSMS(getIdentityNo(request), mobileNo, CHANNEL_CODE);
+        boolean sendResult = reportLostService.sendSMS(getIdentityNo(request), mobileNo);
         return Boolean.toString(sendResult).toLowerCase();
     }
 
@@ -163,7 +160,7 @@ public class ReportLostController extends BaseController {
     @RequestMapping(value = "checkMsgCode_ajax")
     public String checkMsgCode_ajax(HttpServletRequest request, String mobileNo, String code) {
         String result = Boolean.toString(
-                smsService.checkSMSCode(getIdentityNo(request), mobileNo, CHANNEL_CODE, code)).toLowerCase();
+                reportLostService.checkSMSCode(getIdentityNo(request), mobileNo, code)).toLowerCase();
         return result;
     }
 

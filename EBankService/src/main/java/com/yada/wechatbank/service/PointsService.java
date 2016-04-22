@@ -3,6 +3,7 @@ package com.yada.wechatbank.service;
 import com.yada.wechatbank.model.PointsBalance;
 import com.yada.wechatbank.model.PointsDetail;
 import com.yada.wechatbank.model.PointsValidates;
+import com.yada.wechatbank.model.VerificationCardNoResult;
 
 import java.util.List;
 
@@ -37,4 +38,19 @@ public interface PointsService {
      * @return List<PointsValidates>
      */
     List<PointsValidates> getPointsValidates(String cardNo);
+
+    /**
+     * 获取客户卡号
+     * @param identityNo
+     * @param identityType
+     * @return
+     */
+    String getCardN0(String identityNo, String identityType);
+
+    /**
+     * 通过卡号获取加密后的卡号和sign
+     * @param cardNo
+     * @return
+     */
+    VerificationCardNoResult verificationCardNo(String cardNo);
 }

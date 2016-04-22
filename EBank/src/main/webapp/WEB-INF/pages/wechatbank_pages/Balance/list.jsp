@@ -7,6 +7,8 @@
 	<%@include file="../../base_pages/base.jsp"%>
 	<title>中国银行信用卡</title>
 	<link rel="stylesheet" type="text/css" href="<c:url value="/css/myLine.css"/>" />
+	<link rel="stylesheet" type="text/css" href="<c:url value="/css/DefaultStyle.css"/>" />
+	<link rel="stylesheet" type="text/css" href="<c:url value="/css/BlackTip.css"/>" />
 	<script src="<c:url value="/js/chart.js"/>" type="text/javascript"></script>
 	<script src="<c:url value="/js/myLine.js"/>" type="text/javascript"></script>
 	<script>
