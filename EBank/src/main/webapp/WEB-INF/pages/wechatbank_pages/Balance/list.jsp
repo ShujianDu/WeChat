@@ -15,11 +15,11 @@
 		$(function(){
 			var doughnutData = [
 				{
-					value: 0,
+					value: 1,
 					color:"#ed6139",
 				},
 				{
-					value: 1,
+					value: 1000000,
 					color: "#0ca8f5",
 				},
 			];

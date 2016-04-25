@@ -20,11 +20,11 @@ function clearAndInit() {
     $("#currencyChinaCode div").remove();
     var doughnutData = [
         {
-            value: 0,
-            color: "#ed6139",
+            value: 1,
+            color:"#ed6139",
         },
         {
-            value: 1,
+            value: 1000000,
             color: "#0ca8f5",
         },
     ];
@@ -99,12 +99,12 @@ function showInfo(idx) {
     } else {
         var doughnutData = [
             {
-                value: 0,
-                color: "#ed6139"
+                value: 1,
+                color:"#ed6139",
             },
             {
-                value: 1,
-                color: "#0ca8f5"
+                value: 1000000,
+                color: "#0ca8f5",
             },
         ];
         var ctx = $("#chart-area").get(0).getContext("2d");

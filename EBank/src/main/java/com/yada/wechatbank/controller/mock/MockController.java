@@ -280,13 +280,6 @@ public class MockController {
         balance.setWholeCreditLimit("101");
         balance.setPeriodAvailableCreditLimit("100");
 
-        Balance balance1 = new Balance();
-        balance1.setCardNo("11111111111112222");
-        balance1.setCurrencyCode("HKD");
-        balance1.setPreCashAdvanceCreditLimit("32");
-        balance1.setWholeCreditLimit("160");
-        balance1.setPeriodAvailableCreditLimit("101");
-
         Balance balance2 = new Balance();
         balance2.setCardNo("11111111111112223");
         balance2.setCurrencyCode("USD");
@@ -294,7 +287,6 @@ public class MockController {
         balance2.setWholeCreditLimit("130");
         balance2.setPeriodAvailableCreditLimit("102");
         list.add(balance);
-        list.add(balance1);
         list.add(balance2);
         map.put(key, list);
         return JSON.toJSONString(map);
