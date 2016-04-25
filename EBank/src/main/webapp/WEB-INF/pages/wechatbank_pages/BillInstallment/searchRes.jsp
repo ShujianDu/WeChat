@@ -153,8 +153,7 @@
 					return false;
 				}
 				
-				var sending =$("#sending");
-				sending.style.visibility = "visible";
+				var sending =$("#sending").css("visibility","visible");
 				isClicked = true;
 				return true;
 			}

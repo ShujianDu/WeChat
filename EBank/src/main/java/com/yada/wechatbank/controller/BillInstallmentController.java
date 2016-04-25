@@ -8,8 +8,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.yada.wechatbank.model.AmountLimit;
 import com.yada.wechatbank.model.BillCost;
 import com.yada.wechatbank.model.BillingSummary;

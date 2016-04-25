@@ -25,10 +25,8 @@ public class CardHolderInfoServiceImpl extends BaseService implements CardHolder
     private static final String DEFAULT = "未登记";
     private static final String REPLACESTRING = "****";
 
-    @Value("${url.getCardHolderInfoMethod}")
-    private String getCardHolderInfoMethod;
-
-
+    @Value("${url.getCardHolderInfo}")
+    private String getCardHolderInfo;
     /**
      * 查询客户信息
      *
@@ -44,7 +42,7 @@ public class CardHolderInfoServiceImpl extends BaseService implements CardHolder
             Map<String, String> map = initGcsParam();
             //任意有效卡
             map.put("cardNo", cardInfos.get(0).getCardNo());
-            CardHolderInfoResp cardHolderInfoResp = httpClient.send(getCardHolderInfoMethod, map, CardHolderInfoResp.class);
+            CardHolderInfoResp cardHolderInfoResp = httpClient.send(getCardHolderInfo, map, CardHolderInfoResp.class);
             cardHolderInfo = cardHolderInfoResp == null ? null : cardHolderInfoResp.getBizResult();
         } else {
             logger.warn("@WDZL@根据用户的证件类型[{}]，证件号[{}]获取用户卡列表为空", identityType, identityNo);

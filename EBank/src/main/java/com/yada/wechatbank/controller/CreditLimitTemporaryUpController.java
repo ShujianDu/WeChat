@@ -157,7 +157,7 @@ public class CreditLimitTemporaryUpController extends BaseController {
                 identityType, identityNo, decodeCardNo);
         if (creditLimitTemporaryUpStatusList == null || creditLimitTemporaryUpStatusList.size() == 0) {
             logger.info("@LSTE@未查询到cardNo[{}]的历史额度提升信息，返回为null", cardNo);
-            model.addAttribute("failMsg", "未查询到您的申请记录！");
+            model.addAttribute("failMsg", "未查询到您近期的申请记录！");
             return FAILURL;
         }
         model.addAttribute("cardNo", cardNo);

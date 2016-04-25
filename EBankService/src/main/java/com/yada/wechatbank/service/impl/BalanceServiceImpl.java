@@ -26,14 +26,14 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
     private final Logger logger = LoggerFactory
             .getLogger(this.getClass());
 
-    @Value("${url.getBalanceMethod}")
-    private String getBalanceMethod;
+    @Value("${url.getCardBalance}")
+    private String getCardBalance;
 
     public List<Balance> getCardNoBalance(String cardNo) {
         Map<String, String> param = initGcsParam();
         param.put("cardNo", cardNo);
 
-        BalanceResp balanceResp = httpClient.send(getBalanceMethod, param, BalanceResp.class);
+        BalanceResp balanceResp = httpClient.send(getCardBalance, param, BalanceResp.class);
         List<Balance> balanceList=balanceResp==null ? null : balanceResp.getBizResult();
 
         logger.debug("@WDED@通过卡[{}]获取到的额度集合为[{}]", cardNo, balanceList);

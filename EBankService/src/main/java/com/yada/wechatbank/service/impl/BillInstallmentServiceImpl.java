@@ -29,18 +29,16 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
     private final Logger logger = LoggerFactory
             .getLogger(this.getClass());
 
-    @Value("${url.getCurrentPeriodBillMethod}")
-    private String getCurrentPeriodBillMethod;
-    @Value("${url.getBillingPeriodMethod}")
-    private String getBillingPeriodMethod;
-    @Value("${url.getAmountLimitMethod}")
-    private String getAmountLimitMethod;
-    @Value("${url.queryBillCostMethod}")
-    private String queryBillCostMethod;
-    @Value("${url.billInstallmentMethod}")
-    private String billInstallmentMethod;
+    @Value("${url.getBillingPeriod}")
+    private String getBillingPeriod;
+    @Value("${url.getAmountLimit}")
+    private String getAmountLimit;
+    @Value("${url.queryBillCost}")
+    private String queryBillCost;
+    @Value("${url.billInstallment}")
+    private String billInstallment;
     @Value("${url.billingSummary}")
-    protected String billingSummaryMethod;
+    protected String billingSummary;
 
     @Autowired
     private InstallmentInfoDao installmentInfoDao;
@@ -69,7 +67,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
         Map<String,String> map=initGcsParam();
         map.put("cardNo",cardNo);
         // 查询卡片账期
-        BillingPeriodResp billingPeriodResp = httpClient.send(getCurrentPeriodBillMethod, map, BillingPeriodResp.class);
+        BillingPeriodResp billingPeriodResp = httpClient.send(getBillingPeriod, map, BillingPeriodResp.class);
         List<BillingPeriod> billingPeriods = billingPeriodResp == null ? null : billingPeriodResp.getBizResult();
         if (billingPeriods == null) {
             return null;
@@ -101,7 +99,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
                 Map<String, String> mapSummary = initGcsParam();
                 mapSummary.put("statementNo", temp.getStatementNo());
                 mapSummary.put("accountId", temp.getAccountId());
-                BillingSummaryResp billingSummaryResp = httpClient.send(billingSummaryMethod, mapSummary, BillingSummaryResp.class);
+                BillingSummaryResp billingSummaryResp = httpClient.send(this.billingSummary, mapSummary, BillingSummaryResp.class);
                 if (billingSummaryResp == null || billingSummaryResp.getBizResult() == null) {
                     return null;
                 }
@@ -120,7 +118,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
         Map<String, String> map = initDirectSaleParam();
         map.put("cardNo", cardNo);
         map.put("currencyCode", currencyCode);
-        AmountLimitResp amountLimitResp = httpClient.send(getAmountLimitMethod, map, AmountLimitResp.class);
+        AmountLimitResp amountLimitResp = httpClient.send(getAmountLimit, map, AmountLimitResp.class);
         AmountLimit amountLimit = amountLimitResp == null ? null : amountLimitResp.getBizResult();
         if (amountLimit != null && amountLimit.getRespCode() != null && "".equals(amountLimit.getRespCode())) {
             amountLimit.setMaxAmount(parseString(amountLimit.getMaxAmount()));
@@ -138,7 +136,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
         map.put("billActualAmount", billActualAmount);
         map.put("installmentsNumber", installmentsNumber);
         map.put("feeInstallmentsFlag", feeInstallmentsFlag);
-        BillCostResp billCostResp = httpClient.send(queryBillCostMethod, map, BillCostResp.class);
+        BillCostResp billCostResp = httpClient.send(queryBillCost, map, BillCostResp.class);
         return billCostResp == null ? null : billCostResp.getBizResult();
     }
 
@@ -155,7 +153,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
         map.put("feeInstallmentsFlag", feeInstallmentsFlag);
         String tDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         InstallmentInfo bi = new InstallmentInfo(cardNo, "账单分期", currencyCode, billActualAmount, installmentsNumber, feeInstallmentsFlag, tDate);
-        StringResp stringResp = httpClient.send(billInstallmentMethod, bi, StringResp.class);
+        StringResp stringResp = httpClient.send(billInstallment, bi, StringResp.class);
         String resultCode = stringResp == null ? null : stringResp.getBizResult();
 
         if (resultCode != null) {
@@ -199,10 +197,10 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
      */
 
     private String parseString(String amt) {
-        StringBuffer oldAmt = new StringBuffer(amt);
-        StringBuffer newAmt = oldAmt.delete(oldAmt.length() - 2,
+        StringBuilder oldAmt = new StringBuilder(amt);
+        StringBuilder newAmt = oldAmt.delete(oldAmt.length() - 2,
                 oldAmt.length());
-        StringBuffer resultAmt = newAmt.append("00");
+        StringBuilder resultAmt = newAmt.append("00");
         return resultAmt.toString();
     }
 

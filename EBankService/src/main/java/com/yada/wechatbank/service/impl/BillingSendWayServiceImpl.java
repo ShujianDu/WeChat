@@ -22,11 +22,11 @@ public class BillingSendWayServiceImpl extends BaseService implements BillingSen
             .getLogger(this.getClass());
 
     // 账单寄送方式查询
-    @Value("${url.getBillSendTypeMethod}")
-    protected String getBillSendTypeMethod;
+    @Value("${url.getBillSendType}")
+    protected String getBillSendType;
     // 账单寄送方式修改
-    @Value("${url.updateBillSendTypeMethod}")
-    protected String updateBillSendTypeMethod;
+    @Value("${url.updateBillSendType}")
+    protected String updateBillSendType;
 
 
     @Override
@@ -44,7 +44,7 @@ public class BillingSendWayServiceImpl extends BaseService implements BillingSen
         Map<String, String> map = initGcsParam();
         for (CardInfo cardBean : cardNos) {
             map.put("cardNo", cardBean.getCardNo());
-            BillSendTypeResp br = httpClient.send(getBillSendTypeMethod, map, BillSendTypeResp.class);
+            BillSendTypeResp br = httpClient.send(getBillSendType, map, BillSendTypeResp.class);
             BillSendType b = br == null ? null : br.getBizResult();
             if (b != null) {
                 b.setCardNo(cardBean.getCardNo());
@@ -72,7 +72,7 @@ public class BillingSendWayServiceImpl extends BaseService implements BillingSen
         Map<String, String> map = initGcsParam();
         map.put("cardNo", cardNo);
         map.put("billSendType", billSendType);
-        BooleanResp booleanResp = httpClient.send(updateBillSendTypeMethod, map, BooleanResp.class);
+        BooleanResp booleanResp = httpClient.send(updateBillSendType, map, BooleanResp.class);
         Boolean b = booleanResp == null ? null : booleanResp.getBizResult();
         return b == null ? false : b;
     }

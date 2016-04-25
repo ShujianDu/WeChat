@@ -37,8 +37,8 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
     @Value(value = "${url.getCustMobile}")
     protected String getCustMobile;
     // 获取持卡人信息
-    @Value("${url.getCardHolderInfoMethod}")
-    private String getCardHolderInfoMethod;
+    @Value("${url.getCardHolderInfo}")
+    private String getCardHolderInfo;
 
     @Override
     public List<String> selectCardNoList(String identityType, String identityNo) {
@@ -97,7 +97,7 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
         Map<String, String> param = initGcsParam();
         param.put("cardNo", cardNo);
         // 调用HttpClient完成持卡人信息查询
-        CardHolderInfoResp resp = httpClient.send(getCardHolderInfoMethod, param, CardHolderInfoResp.class);
+        CardHolderInfoResp resp = httpClient.send(getCardHolderInfo, param, CardHolderInfoResp.class);
         if (resp != null && resp.getBizResult() == null) {
             name = resp.getBizResult().getFamilyName() + resp.getBizResult().getFirstName();
         }

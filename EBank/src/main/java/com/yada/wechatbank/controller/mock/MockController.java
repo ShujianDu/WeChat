@@ -33,14 +33,20 @@ import com.yada.wechatbank.model.VerificationCardNoResult;
 @RequestMapping(value = "mock")
 public class MockController {
 
-	private static final String key = "bizResult";
+    private static final String key = "bizResult";
 
-	private Map<String, Object> mockResult() {
-		Map<String, Object> param = new HashMap<>();
-		param.put("returnCode", "00");
-		param.put("returnMsg", "成功");
-		return param;
-	}
+    private final String accountId="TX01";
+
+    private final String accountNo="TX0101";
+
+    private final String mobileNo="13800138000";
+
+    private Map<String, Object> mockResult() {
+        Map<String, Object> param = new HashMap<>();
+        param.put("returnCode", "00");
+        param.put("returnMsg", "成功");
+        return param;
+    }
 
 	@RequestMapping(value = "getMobilePhone")
 	@ResponseBody
@@ -49,12 +55,28 @@ public class MockController {
 		map.put(key, "18888888888");
 		return JSON.toJSONString(map);
 	}
+	
+	@RequestMapping(value = "tempCreditCardReportLost")
+	@ResponseBody
+	public String tempCreditCardReportLost() {
+		Map<String, Object> map = mockResult();
+		map.put(key, true);
+		return JSON.toJSONString(map);
+	}
 
 	@RequestMapping(value = "sendSMS")
 	@ResponseBody
 	public String sendSMS() {
 		Map<String, Object> map = mockResult();
 		map.put(key, "true");
+		return JSON.toJSONString(map);
+	}
+	
+	@RequestMapping(value = "creditCardReportLost")
+	@ResponseBody
+	public String creditCardReportLost() {
+		Map<String, Object> map = mockResult();
+		map.put(key, true);
 		return JSON.toJSONString(map);
 	}
 
@@ -77,23 +99,7 @@ public class MockController {
 		map.put(key, list);
 		return JSON.toJSONString(map);
 	}
-
-	@RequestMapping(value = "tempCreditCardReportLost")
-	@ResponseBody
-	public String tempCreditCardReportLost() {
-		Map<String, Object> map = mockResult();
-		map.put(key, true);
-		return JSON.toJSONString(map);
-	}
-
-	@RequestMapping(value = "creditCardReportLost")
-	@ResponseBody
-	public String creditCardReportLost() {
-		Map<String, Object> map = mockResult();
-		map.put(key, true);
-		return JSON.toJSONString(map);
-	}
-
+	
 	@RequestMapping(value = "relieveCreditCardTempReportLost")
 	@ResponseBody
 	public String relieveCreditCardTempReportLost() {
@@ -140,9 +146,9 @@ public class MockController {
 	public String getCardHolderInfo() {
 		Map<String, Object> map = mockResult();
 		CardHolderInfo c = new CardHolderInfo();
-		c.setMobileNo("1591111111");
+		c.setMobileNo(mobileNo);
 		c.setMailBox("123123123123@qq.com");
-		c.setFamilyName("李任日");
+		c.setFamilyName("李天一");
 		c.setGender("Male");
 		c.setPostalCode("100010");
 		c.setHomeAddressPhone("67986543");
@@ -244,22 +250,7 @@ public class MockController {
 	@ResponseBody
 	public String getCustMobile() {
 		Map<String, Object> map = mockResult();
-		String mobileNo = "11111111111";
 		map.put(key, mobileNo);
-		return JSON.toJSONString(map);
-	}
-
-	@RequestMapping(value = "getCurrentPeriodBillMethod")
-	@ResponseBody
-	public String getCurrentPeriodBillMethod() {
-		Map<String, Object> map = mockResult();
-		List<BillingPeriod> billingPeriods = new ArrayList<>();
-		BillingPeriod b = new BillingPeriod();
-		b.setAccountId("123123");
-		b.setStatementNo("512");
-		b.setPeriodEndDate("2016-04-20");
-		billingPeriods.add(b);
-		map.put(key, billingPeriods);
 		return JSON.toJSONString(map);
 	}
 
@@ -467,4 +458,106 @@ public class MockController {
 		map.put(key, billingDetailList);
 		return JSON.toJSONString(map);
 	}
+
+    @RequestMapping(value = "getBillingPeriod")
+    @ResponseBody
+    public String getBillingPeriod(){
+        Map<String, Object> map = mockResult();
+        List<BillingPeriod> billingPeriods = new ArrayList<>();
+        for (int i=0;i< 5;i++){
+            BillingPeriod billingPeriod = new BillingPeriod();
+            billingPeriod.setAccountId(accountId);
+            billingPeriod.setStatementNo(""+i);
+            billingPeriod.setCurrencyCode("CNY");
+            billingPeriod.setPeriodStartDate("2016-03-20");
+            billingPeriod.setPeriodEndDate("2016-04-20");
+            billingPeriods.add(billingPeriod);
+        }
+        map.put(key, billingPeriods);
+        return JSON.toJSONString(map);
+    }
+    @RequestMapping(value = "getAmountLimit")
+    @ResponseBody
+    public String getAmountLimit(){
+        Map<String, Object> map = mockResult();
+        AmountLimit amountLimit = new AmountLimit();
+        amountLimit.setAccountId(accountId);
+        amountLimit.setAccountNo(accountNo);
+        amountLimit.setCurrencyCode("CNY");
+        amountLimit.setMaxAmount("10000");
+        amountLimit.setMinAmount("1000");
+        amountLimit.setRespCode("");
+        map.put(key, amountLimit);
+        return JSON.toJSONString(map);
+    }
+
+    @RequestMapping(value = "billingSummary")
+    @ResponseBody
+    public String billingSummary(){
+        Map<String, Object> map = mockResult();
+        BillingSummary billingSummary=new BillingSummary();
+        billingSummary.setClosingBalance("10000");
+        billingSummary.setCurrencyCode("CNY");
+        billingSummary.setMinPaymentAmount("1000");
+        billingSummary.setPaymentDueDate("2016-04-30");
+        billingSummary.setPeriodEndDate("2016-04-20");
+        billingSummary.setPeriodStartDate("2016-03-20");
+        map.put(key, billingSummary);
+        return JSON.toJSONString(map);
+    }
+    @RequestMapping(value = "temporaryUpCommit")
+    @ResponseBody
+    public String temporaryUpCommit(){
+        Map<String, Object> map = mockResult();
+        map.put(key, true);
+        return JSON.toJSONString(map);
+    }
+
+    @RequestMapping(value = "creditLimitTemporaryUpReview")
+    @ResponseBody
+    public String creditLimitTemporaryUpReview(){
+        Map<String, Object> map = mockResult();
+        CreditLimitTemporaryUpReview cltur =new CreditLimitTemporaryUpReview();
+        cltur.setAmount("30000");
+        cltur.setCardStyle("1");
+        cltur.setCreditLimit("10000");
+        cltur.setIssuingBranchId("0000000111");
+        cltur.setPmtCreditLimit("10000");
+        cltur.setPrincipalResultID("A");
+        map.put(key, cltur);
+        return JSON.toJSONString(map);
+    }
+    @RequestMapping(value = "getTemporaryUpCommitStatus")
+    @ResponseBody
+    public String getTemporaryUpCommitStatus(){
+        Map<String, Object> map = mockResult();
+        List<CreditLimitTemporaryUpStatus> list=new ArrayList<>();
+        CreditLimitTemporaryUpStatus cltur1 =new CreditLimitTemporaryUpStatus();
+        cltur1.setEosEndLimitDate("2016-11-30");
+        cltur1.setEosId("060220160425123456");
+        cltur1.setEosImpTime("2016-04-24");
+        cltur1.setEosLimit("30000");
+        cltur1.setEosStarLimitDate("2016-04-25");
+        cltur1.setEosState("50");
+        list.add(cltur1);
+        CreditLimitTemporaryUpStatus cltur2 =new CreditLimitTemporaryUpStatus();
+        cltur2.setEosEndLimitDate("2016-11-30");
+        cltur2.setEosId("060220160425123456");
+        cltur2.setEosImpTime("2016-04-24");
+        cltur2.setEosLimit("22000");
+        cltur2.setEosStarLimitDate("2016-04-25");
+        cltur2.setEosState("60");
+        list.add(cltur2);
+        CreditLimitTemporaryUpStatus cltur3 =new CreditLimitTemporaryUpStatus();
+        cltur3.setEosEndLimitDate("2015-09-30");
+        cltur3.setEosId("060220150325123422");
+        cltur3.setEosImpTime("2015-04-24");
+        cltur3.setEosLimit("12000");
+        cltur3.setEosStarLimitDate("2015-03-25");
+        cltur3.setEosState("50");
+        list.add(cltur3);
+        map.put(key, list);
+        return JSON.toJSONString(map);
+    }
+
 }
