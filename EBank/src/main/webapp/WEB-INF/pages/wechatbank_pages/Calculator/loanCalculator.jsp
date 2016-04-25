@@ -6,7 +6,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>贷款计算器</title>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/wechatbank/index.css"/>" />
-<script src="<c:url value="/js/jquery-1.4.1.js"/>" type="text/javascript"></script>
 </head>
 <body>
 <header>

@@ -1,9 +1,8 @@
 package com.yada.wechatbank.service.impl;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.CardApplyResp;
-import com.yada.wechatbank.client.model.StringValueResp;
+import com.yada.wechatbank.client.model.StringResp;
 import com.yada.wechatbank.model.CardApplyList;
 import com.yada.wechatbank.service.CardApplyService;
 import com.yada.wechatbank.service.SmsService;
@@ -50,7 +49,7 @@ public class CardApplyServiceImpl extends BaseService implements CardApplyServic
         Map<String, String> param = initGcsParam();
         param.put("idType", identityType);
         param.put("idNo", identityNo);
-        StringValueResp resp = httpClient.send(getMobilePhone, param, StringValueResp.class);
+        StringResp resp = httpClient.send(getMobilePhone, param, StringResp.class);
         if (resp == null) {
             return "exception";
         }
