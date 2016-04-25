@@ -136,16 +136,7 @@ public class BindingController extends BaseController {
                 model.addAttribute("cardListCrypt", cardListCrypt);
                 model.addAttribute("model", bindingQuery);
             }
-            // 页面分享js需要的参数
-//            jsMap = JsMapUtil.getJsMapConfig(request,
-//                    "binding/bindDefCard.do", "中国银行信用卡绑定业务");
-//            if (jsMap == null) {
-//                return ERROR;
-//            }
-//            for (String key : jsMap.keySet()) {
-//                model.addAttribute(key, jsMap.get(key));
-//            }
-//            return BINDCARDURL;
+            return BINDCARDURL;
         } else {
             return ERRORURL;
         }

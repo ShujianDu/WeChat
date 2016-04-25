@@ -53,7 +53,10 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      */
     @Override
     public boolean validateIsBinding(String openId) {
-//        CustomerInfo customerInfo = customerInfoDao.findByOpenId(openId);
+        CustomerInfo customerInfo = customerInfoDao.findByOpenId(openId);
+        if(customerInfo!=null){
+            return true;
+        }
         return false;
     }
 

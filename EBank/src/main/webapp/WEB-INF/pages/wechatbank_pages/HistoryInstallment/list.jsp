@@ -50,7 +50,7 @@
 						<td>
 						<select name="cardNo" id="cardNoSelect">
 							<c:forEach items="${cardList}" var="item" varStatus="status">
-								<option value="${fn:substringAfter(item, ',')}">
+								<option value="item">
 									<c:out value="${fn:substring(item,0,16)}" />
 								</option>
 							</c:forEach>
