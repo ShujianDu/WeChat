@@ -5,26 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.yada.wechatbank.model.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
-import com.yada.wechatbank.model.Balance;
-import com.yada.wechatbank.model.BillSendType;
-import com.yada.wechatbank.model.BillingDetail;
-import com.yada.wechatbank.model.BillingPeriod;
-import com.yada.wechatbank.model.BillingSummary;
-import com.yada.wechatbank.model.CardApply;
-import com.yada.wechatbank.model.CardApplyList;
-import com.yada.wechatbank.model.CardHolderInfo;
-import com.yada.wechatbank.model.CardInfo;
-import com.yada.wechatbank.model.HistoryInstallment;
-import com.yada.wechatbank.model.HistoryInstallmentList;
-import com.yada.wechatbank.model.PointsBalance;
-import com.yada.wechatbank.model.PointsDetail;
-import com.yada.wechatbank.model.PointsValidates;
-import com.yada.wechatbank.model.VerificationCardNoResult;
 
 /**
  * 模拟行内返回 Created by QinQiang on 2016/4/11.
@@ -307,17 +293,17 @@ public class MockController {
 		Map<String, Object> map = mockResult();
 		List<BillingPeriod> list = new ArrayList<>();
 		BillingPeriod b = new BillingPeriod();
-		b.setAccountId("1");
+		b.setAccountId("BP01");
 		b.setCurrencyCode("CNY");
-		b.setPeriodStartDate("2016-04-01");
-		b.setPeriodEndDate("2016-04-30");
+		b.setPeriodStartDate("2016-03-24");
+		b.setPeriodEndDate("2016-04-24");
 		b.setStatementNo("1");
 		BillingPeriod b1 = new BillingPeriod();
-		b1.setAccountId("1");
-		b1.setCurrencyCode("CNY");
-		b1.setPeriodStartDate("2016-04-01");
-		b1.setPeriodEndDate("2016-04-30");
-		b1.setStatementNo("1");
+		b1.setAccountId("BP02");
+		b1.setCurrencyCode("USB");
+		b.setPeriodStartDate("2016-03-24");
+		b.setPeriodEndDate("2016-04-24");
+		b1.setStatementNo("2");
 		list.add(b);
 		list.add(b1);
 		map.put(key, list);
@@ -338,21 +324,19 @@ public class MockController {
 		Map<String, Object> map = mockResult();
 		BillingSummary b = new BillingSummary();
 		if (i % 2 != 0) {
-			b.setCardNo("1111111111111111");
-			b.setClosingBalance("4444");
+			b.setClosingBalance("3000");
 			b.setCurrencyCode("CNY");
-			b.setMinPaymentAmount("333");
-			b.setPaymentDueDate("444");
-			b.setPeriodEndDate("20160417");
-			b.setPeriodStartDate("20160416");
+			b.setMinPaymentAmount("800");
+			b.setPaymentDueDate("2016-05-09");
+			b.setPeriodEndDate("2016-04-24");
+			b.setPeriodStartDate("2016-03-24");
 		} else {
-			b.setCardNo("1111111111111111");
-			b.setClosingBalance("66666");
+			b.setClosingBalance("900");
 			b.setCurrencyCode("USD");
-			b.setMinPaymentAmount("666");
-			b.setPaymentDueDate("666");
-			b.setPeriodEndDate("20160417");
-			b.setPeriodStartDate("20160416");
+			b.setMinPaymentAmount("100");
+			b.setPaymentDueDate("2016-05-09");
+			b.setPeriodEndDate("2016-04-24");
+			b.setPeriodStartDate("2016-03-24");
 		}
 		i++;
 		map.put(key, b);
@@ -491,20 +475,6 @@ public class MockController {
         return JSON.toJSONString(map);
     }
 
-    @RequestMapping(value = "billingSummary")
-    @ResponseBody
-    public String billingSummary(){
-        Map<String, Object> map = mockResult();
-        BillingSummary billingSummary=new BillingSummary();
-        billingSummary.setClosingBalance("10000");
-        billingSummary.setCurrencyCode("CNY");
-        billingSummary.setMinPaymentAmount("1000");
-        billingSummary.setPaymentDueDate("2016-04-30");
-        billingSummary.setPeriodEndDate("2016-04-20");
-        billingSummary.setPeriodStartDate("2016-03-20");
-        map.put(key, billingSummary);
-        return JSON.toJSONString(map);
-    }
     @RequestMapping(value = "temporaryUpCommit")
     @ResponseBody
     public String temporaryUpCommit(){
