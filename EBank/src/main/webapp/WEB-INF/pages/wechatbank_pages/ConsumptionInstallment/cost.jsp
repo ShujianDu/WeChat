@@ -270,8 +270,10 @@
 	            	if (result != null && result != "") {
 	                    if (result == "exception" || result == "false") {
 	                        window.location.href = "../error.html";
-	                    } else if (result == "errorCode" || result == "wrongMobilNo") {
-	                        $("#verificationCodeWarning").text("您填写的验证码有误，请重新输入!");
+	                    } else if (result == "wrongMobilNo") {
+	                        $("#mobileNoWarning").text("您填写的手机号有误，请重新输入!");
+	                    } else if(result == "errorCode"){
+	                    	 $("#verificationCodeWarning").text("您填写的验证码有误，请重新输入!");
 	                    } else {
 	                        buttonTimeOut();
 	                    }
