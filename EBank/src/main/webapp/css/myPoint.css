@@ -10,4 +10,4 @@
 	.myPoint_box .myPoint_view .pointValueBox .pointValue{font-size:36px;}
 	.myPoint_box .myPoint_view .check_dt{background-image:url(../images/checkJifen_dt.png);width:89px;height:28px;background-size:100% 100%;position:absolute;right:16px;top:120px;}
 
-	.IntegrateDate{width:80%;height:42px;text-align:center;line-height:42px;font-size:16px;background-color:#e05d4f;margin-left:10%;color:white;border-radius:8px;margin-top:80px;border:1px solid #eeeeee;margin-bottom:16px;}
+	.IntegrateDate{width:80%;height:42px;text-align:center;line-height:42px;font-size:16px;background-color:#e05d4f;color:white;border-radius:8px;border:1px solid #eeeeee;position:fixed;left:10%;bottom:120px;}

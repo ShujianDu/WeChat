@@ -14,12 +14,8 @@
     <script type="text/javascript" src="<c:url value="/js/myPoint.js"/>"></script>
     <title>我的积分</title>
 </head>
-<script type="text/javascript">
-    $(function(){
-        var height=parseInt(document.documentElement.clientHeight)-191;
-        if($(".IntegrationContainer").height()<height){
-            $(".IntegrationContainer").height(parseInt(document.documentElement.clientHeight)-191);
-        }});
+<script >
+
   /*  function pointsDetail() {
         window.location.href = "../points/pointsDetail.do";
     }*/
@@ -27,7 +23,7 @@
 </script>
 
 <body>
-<div class="IntegrationContainer">
+<div class="IntegrationContainer" >
     <c:if test="${pointsBalance eq null}">
         <div id="Integration_box">
             <div class="myPoint_box">

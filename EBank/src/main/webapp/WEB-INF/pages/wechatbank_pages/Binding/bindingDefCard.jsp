@@ -7,7 +7,6 @@
 <title>中国银行信用卡</title>
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap.min.css"/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/wechatbank/index.css"/>" />
-<script src="../js/jquery-2.1.1.min.js"></script>
 
 <script type="text/javascript">
 	window.onload = function() {

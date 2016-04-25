@@ -41,15 +41,6 @@ public class PointsController extends BaseController {
     @RequestMapping(value = "list")
     public String list(@ModelAttribute("formBean") PointsQuery pointsQuery, HttpServletRequest request, Model model) {
         request.getSession().setAttribute("menuId", "3");
-        // 页面分享js需要的参数
-        Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-                "jifen/list.do", "中国银行信用卡积分查询");
-        if (jsMap == null) {
-            return ERROR;
-        }
-        for (String key : jsMap.keySet()) {
-            model.addAttribute(key, jsMap.get(key));
-        }
         //调用后台获取积分余额
         PointsBalance pointsBalance = pointsServiceImpl.getPointsBlance(getIdentityNo(request), getIdentityType(request));
         model.addAttribute("pointsBalance", pointsBalance);
@@ -65,15 +56,6 @@ public class PointsController extends BaseController {
      */
     @RequestMapping(value = "pointsDetail")
     public String pointsDetail(@ModelAttribute("formBean") PointsQuery pointsQuery, HttpServletRequest request, Model model) {
-        // 页面分享js需要的参数
-        Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-                "jifen/list.do", "中国银行信用卡积分查询");
-        if (jsMap == null) {
-            return ERROR;
-        }
-        for (String key : jsMap.keySet()) {
-            model.addAttribute(key, jsMap.get(key));
-        }
         // 调用RMI 获取积分明细列表
         List<PointsDetail> pointsDetailList = pointsServiceImpl.getPointsDetail(getIdentityNo(request), getIdentityType(request));
         List<List<PointsDetail>> newList = new ArrayList<>();
@@ -97,15 +79,6 @@ public class PointsController extends BaseController {
      */
     @RequestMapping(value = "validate")
     public String validate(@ModelAttribute("formBean") PointsQuery pointsQuery, HttpServletRequest request, Model model) {
-        // 页面分享js需要的参数
-        Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-                "jifen/list.do", "中国银行信用卡积分查询");
-        if (jsMap == null) {
-            return ERROR;
-        }
-        for (String key : jsMap.keySet()) {
-            model.addAttribute(key, jsMap.get(key));
-        }
         Integer numberP = Integer.parseInt(request.getParameter("numberP"));
         Integer number = Integer.parseInt(request.getParameter("number"));
         // 调用RMI 获取积分明细列表

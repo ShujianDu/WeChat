@@ -35,6 +35,7 @@
     <!-- 存在积分 -->
     <c:if test="${fn:length(pointsValidatesList) gt 0}">
         <c:forEach items="${pointsValidatesList}" var="item" varStatus="status">
+            <div class="dynamic_box">
             <div class="productName">
                 <span class="name">信用卡号：</span>
                 <span class="dynamicData">
@@ -48,6 +49,7 @@
             <div class="productName">
                 <span class="name">积分到期日：</span>
                 <span class="dynamicData" ><c:out value='${item.pointExpireDate}' /></span>
+            </div>
             </div>
         </c:forEach>
     </c:if>
