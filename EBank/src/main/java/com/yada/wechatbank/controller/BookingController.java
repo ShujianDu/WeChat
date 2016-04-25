@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.yada.wechatbank.base.BaseController;
 import com.yada.wechatbank.service.BookingService;
 import com.yada.wx.db.service.model.Booking;
@@ -117,8 +118,7 @@ public class BookingController extends BaseController {
     @RequestMapping(value = "addressP")
     public String addressP(
             @ModelAttribute("formBean") BookingQuery bookingQuery,
-            HttpServletRequest request, Model model) {
-        String openId = (String) request.getSession().getAttribute("openId");
+            Model model) {
         StringBuilder areaStr = new StringBuilder();
         areaStr.append(
                 bookingQuery.getProvId().substring(
@@ -140,8 +140,7 @@ public class BookingController extends BaseController {
      */
     @RequestMapping(value = "getOrg_ajax")
     @ResponseBody
-    public String getOrg_ajax(HttpServletRequest request,
-                              HttpServletResponse response) throws IOException {
+    public String getOrg_ajax(HttpServletRequest request) throws IOException {
         String result = "";
         String pOrgIdstr = request.getParameter("pOrgId");
         String pOrgId = pOrgIdstr.substring(0, pOrgIdstr.indexOf("^"));
@@ -159,8 +158,7 @@ public class BookingController extends BaseController {
      */
     @RequestMapping(value = "isBooking_ajax")
     @ResponseBody
-    public String isBooking_ajax(HttpServletRequest request,
-                                 HttpServletResponse response) throws IOException {
+    public String isBooking_ajax(HttpServletRequest request) throws IOException {
         String result = "";
         String bookingResult = bookingServiceImpl.isHaveBooking(request.getParameter("clientName"), request.getParameter("mobilePhone"));
         if (bookingResult == null) {

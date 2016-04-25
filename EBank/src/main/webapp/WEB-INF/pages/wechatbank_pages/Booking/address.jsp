@@ -157,42 +157,46 @@
 		}
 
 		function changeProv() {
-			removeSelectedItem(citySelect);
-			if (provSelect.val() != null && provSelect.val() != "") {
+			removeCityOptions();
+			if (provSelect.val != null && provSelect.val != "") {
 				getOrgList(provSelect,citySelect);
-				citySelect.attr("disabled","");
+				citySelect.attr("disabled",false);
 			} else {
-				removeSelectedItem(citySelect);
-				removeSelectedItem(areaSelect);
-				citySelect.attr("disabled","disabled");
-				areaSelect.attr("disabled","disabled");
+				removeCityOptions();
+				removeAreaOptions();
+				citySelect.attr("disabled",true);
+				areaSelect.attr("disabled",true);
 			}
 			$("#provWarning").text("");
 		}
 
+		function removeCityOptions() {
+			var citySize = $("#citySelect option").size();
+			for ( var i = citySize-1; i > 0; i--) {
+				$("#citySelect option[index=i]").remove();
+			}
+		}
+
 		function changeCity() {
-			removeSelectedItem(areaSelect);
-			if (citySelect.value != null && citySelect.value != "") {
+			removeAreaOptions();
+			if (citySelect.val != null && citySelect.val != "") {
 				getOrgList(citySelect,areaSelect);
-				document.getElementById("areaSelect").disabled = "";
-				$("#areaSelect").attr("disabled","");
+				$("#areaSelect").attr("disabled",false);
 			} else {
-				removeSelectedItem(areaSelect);
-				areaSelect.disabled = "disabled";
-				areaSelect.attr("disabled","disabled");
+				removeAreaOptions();
+				areaSelect.attr("disabled",true);
 			}
 			$("#cityWarning").text("");
 		}
-
-		function changeArea() {
-			document.getElementById("areaWarning").innerHTML = "";
-			$("#areaWarning").text("");
+		function removeAreaOptions() {
+			var areaSize = $("#areaSelect option").size();
+			for ( var i = areaSize-1; i > 0; i--) {
+				$("#areaSelect option[index=i]").remove();
+			}
 		}
 
-		function removeSelectedItem(objSelect) {
-			for ( var i = objSelect.options.length - 1; i > 0; i--) {
-				objSelect.options.remove(i);
-			}
+		function changeArea() {
+			$("#areaWarning").text("");
 		}
 
 		function getOrgList(pOrgSelect,orgSelect) {
@@ -204,7 +208,7 @@
 					timestamp: new Date().getTime()
 				},
 				type: "post",
-				dataType: "jason",
+				dataType: "text",
 				async: false,
 				success: function (result) {
 					if (result != null&&result!="") {
@@ -213,8 +217,7 @@
 						}else{
 							var list = eval("("+result+")");
 							for ( var i = 0; i < list.length; i++) {
-								orgSelect.add(new Option(list[i].orgName,
-										list[i].orgId + "^" + list[i].orgName));
+								orgSelect.append("<option value='"+list[i].orgId + "^" + list[i].orgName+"'>"+list[i].orgName+"</option>");
 							}
 						}
 					}

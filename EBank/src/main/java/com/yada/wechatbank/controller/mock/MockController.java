@@ -230,7 +230,7 @@ public class MockController {
     @ResponseBody
     public String getCustMobile(){
         Map<String, Object> map = mockResult();
-        String mobileNo = "111111111111111111";
+        String mobileNo = "11111111111";
         map.put(key, mobileNo);
         return JSON.toJSONString(map);
     }

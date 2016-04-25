@@ -62,8 +62,13 @@ public class BookingServiceImpl implements BookingService {
      */
     @Override
     public List<NuwOrg> selectNumOrgList(String pOrgId) {
-        List<NuwOrg> noList = nuwOrgDao.findByPOrgId(pOrgId);
-        return noList;
+        List<NuwOrg> nuwOrgList = null;
+        if("".equals(pOrgId)){
+            nuwOrgList = nuwOrgDao.findProvinceList();
+        }else{
+            nuwOrgList = nuwOrgDao.findByPOrgId(pOrgId);
+        }
+        return nuwOrgList;
     }
 
     /**

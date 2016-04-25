@@ -38,7 +38,6 @@ public class HistoryInstallmentController extends BaseController {
 	private static final String SHOWURL = "wechatbank_pages/HistoryInstallment/show";
 	private static final String STARTNUM = "1";
 	private static final String SELECTNUM = "10";
-	private static final int ONEPAGE = 10;
 
 	@Autowired
 	private HistoryInstallmentService historyInstallmentServiceImpl;
