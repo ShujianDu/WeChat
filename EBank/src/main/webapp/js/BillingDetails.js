@@ -9,7 +9,7 @@
 		var noBillingWarning = $("#noBillingWarning");
 		noBillingWarning.text("");
 		 $.ajax({
-	            url: "getMore_ajax.do",
+	            url: "getMoreBillingDetail.do",
 	            data: {
 	            	cardNo: cardNo,
 	            	queryType: queryType,
