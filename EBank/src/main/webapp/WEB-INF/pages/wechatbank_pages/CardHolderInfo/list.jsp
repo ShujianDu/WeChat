@@ -47,7 +47,7 @@
 			<table class="topTwo">
 				<tr>
 					<td class="td-le">电子邮箱:</td>
-					<td align="right"><c:out value="${cardHolderInfo.EMail}" /></td>
+					<td align="right"><c:out value="${cardHolderInfo.mailBox}" /></td>
 				</tr>
 			</table>
 		</div>

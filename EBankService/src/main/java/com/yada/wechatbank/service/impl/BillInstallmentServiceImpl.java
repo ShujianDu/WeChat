@@ -4,6 +4,7 @@ import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.*;
 import com.yada.wechatbank.model.*;
 import com.yada.wechatbank.service.BillInstallmentService;
+import com.yada.wechatbank.util.AmtUtil;
 import com.yada.wechatbank.util.Crypt;
 import com.yada.wx.db.service.dao.InstallmentInfoDao;
 import com.yada.wx.db.service.model.InstallmentInfo;
@@ -39,7 +40,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
     @Value("${url.billInstallmentMethod}")
     private String billInstallmentMethod;
     @Value("${url.billingSummary}")
-    protected String billingSummaryUrl;
+    protected String billingSummaryMethod;
 
     @Autowired
     private InstallmentInfoDao installmentInfoDao;
@@ -100,7 +101,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
                 Map<String, String> mapSummary = initGcsParam();
                 mapSummary.put("statementNo", temp.getStatementNo());
                 mapSummary.put("accountId", temp.getAccountId());
-                BillingSummaryResp billingSummaryResp = httpClient.send(billingSummaryUrl, mapSummary, BillingSummaryResp.class);
+                BillingSummaryResp billingSummaryResp = httpClient.send(billingSummaryMethod, mapSummary, BillingSummaryResp.class);
                 if (billingSummaryResp == null || billingSummaryResp.getBizResult() == null) {
                     return null;
                 }
@@ -123,7 +124,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
         AmountLimit amountLimit = amountLimitResp == null ? null : amountLimitResp.getBizResult();
         if (amountLimit != null && amountLimit.getRespCode() != null && "".equals(amountLimit.getRespCode())) {
             amountLimit.setMaxAmount(parseString(amountLimit.getMaxAmount()));
-            amountLimit.setShowMinAmount(parseString(amountLimit.getShowMinAmount()));
+            amountLimit.setShowMinAmount(parseString(AmtUtil.procString(amountLimit.getMinAmount())));
         }
         return amountLimit;
     }

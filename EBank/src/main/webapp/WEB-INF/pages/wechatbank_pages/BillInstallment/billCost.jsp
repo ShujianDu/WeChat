@@ -201,21 +201,21 @@
         if (isClicked == false) {
             var code = $("#code");
             if (code.val()== null || code.val() == "") {
-                $("#codeWarning").innerHTML = "请填写短信验证码！";
+                $("#codeWarning").text ("请填写短信验证码！");
                 return false;
             }
             var msgCode = /(^\d{6}$)/;
-            if (msgCode.test(code.()) == false) {
-                codeWarning.innerHTML = "短信验证码格式不正确，请重新输入！";
+            if (msgCode.test(code.val()) == false) {
+                codeWarning.text ("短信验证码格式不正确，请重新输入！");
                 return false;
             }
-            var sending = document.getElementById("sending");
+            var sending = $("#sending");
             sending.style.visibility = "visible";
             isClicked = true;
             //验证短信码是否正确
             check();
             if (!can) {
-                codeWarning.innerHTML = "短信验证码错误，请您重新输入！";
+                codeWarning.text ("短信验证码错误，请您重新输入！");
                 sending.style.visibility = "hidden";
                 isClicked = false;
                 return false;
@@ -225,7 +225,7 @@
     }
 
     function changeWarning() {
-        $("#codeWarning").innerHTML = "";
+        $("#codeWarning").text ("");;
     }
     var i = 60;
     function buttonTimeOut() {
@@ -243,16 +243,16 @@
     }
 
     function sendMessage() {
-        $("#verificationCodeWarning").innerHTML = "";
-        $("#mobileNoWarning").innerHTML = "";
+        $("#verificationCodeWarning").text ("");
+        $("#mobileNoWarning").text ("");
         var mobileNo = $("#mobileNo").val();
         var verificationCode = $("#verificationCode").val();
         if (mobileNo == null || mobileNo == "") {
-            mobileNoWarning.innerHTML = "*手机号不能为空，请输入！";
+            mobileNoWarning.text ("*手机号不能为空，请输入！");
             return false;
         }
         if (verificationCode == null || verificationCode == "") {
-            verificationCodeWarning.innerHTML = "*验证码不能为空，请输入！";
+            verificationCodeWarning.text("*验证码不能为空，请输入！");
             return false;
         }
         $.ajax({
@@ -270,7 +270,7 @@
                     if (result == "exception" || result == "false") {
                         window.location.href = "../error.html";
                     } else if (result == "errorCode" || result == "wrongMobilNo") {
-                        $("#verificationCodeWarning").innerHTML = "您填写的验证码有误，请重新输入!";
+                        $("#verificationCodeWarning").text ("您填写的验证码有误，请重新输入!");
                     } else {
                         buttonTimeOut();
                     }
@@ -278,6 +278,7 @@
             }
 
         });
+    }
 
         function check() {
             var code = $("#code").val();

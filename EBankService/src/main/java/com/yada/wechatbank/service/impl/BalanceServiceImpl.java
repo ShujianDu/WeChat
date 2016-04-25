@@ -9,7 +9,6 @@ import com.yada.wechatbank.util.Crypt;
 import com.yada.wechatbank.util.CurrencyUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +25,6 @@ import java.util.Map;
 public class BalanceServiceImpl extends BaseService implements BalanceService {
     private final Logger logger = LoggerFactory
             .getLogger(this.getClass());
-
-    @Autowired
-    private CurrencyUtil currencyUtil;
 
     @Value("${url.getBalanceMethod}")
     private String getBalanceMethod;
@@ -49,17 +45,17 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
         }
 
         List<Balance> newList = new LinkedList<>();
-        for (int i = 1; i < balanceList.size(); i++) {
+        for (Balance aBalanceList : balanceList) {
             // 人民币放在第一
-            if ("CNY".equals(balanceList.get(i).getCurrencyCode())) {
-                newList.add(0, balanceList.get(i));
+            if ("CNY".equals(aBalanceList.getCurrencyCode())) {
+                newList.add(0, aBalanceList);
             } else {
-                newList.add(balanceList.get(i));
+                newList.add(aBalanceList);
             }
         }
         //替换币种显示
         for(Balance b:newList) {
-            b.setCurrencyChinaCode(currencyUtil.translateChinese(b.getCurrencyCode()));
+            b.setCurrencyChinaCode(CurrencyUtil.translateChinese(b.getCurrencyCode()));
         }
         return newList;
     }

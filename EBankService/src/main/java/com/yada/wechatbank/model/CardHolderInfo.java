@@ -19,7 +19,7 @@ public class CardHolderInfo {
 	//邮政编码
 	private String postalCode;
 	//电子邮箱
-	private String eMail;
+	private String mailBox;
 	//单位名称
 	private String workUnitName;
 	
@@ -60,7 +60,7 @@ public class CardHolderInfo {
 		return "CardHolderInfo [mobileNo=" + mobileNo + ", homeAddressPhone="
 				+ homeAddressPhone + ", workUnitPhone=" + workUnitPhone
 				+ ", billAddressLine=" + billAddressLine + ", postalCode="
-				+ postalCode + ", eMail=" + eMail + ", workUnitName="
+				+ postalCode + ", mailBox=" + mailBox + ", workUnitName="
 				+ workUnitName + ",familyName=" + familyName + ",firstName="
 				+ firstName + ",gender=" + gender+ "]";
 	}
@@ -88,11 +88,11 @@ public class CardHolderInfo {
 	public void setPostalCode(String postalCode) {
 		this.postalCode = postalCode;
 	}
-	public String getEMail() {
-		return eMail;
+	public String getMailBox() {
+		return mailBox;
 	}
-	public void setEMail(String EMail) {
-		this.eMail = EMail;
+	public void setMailBox(String mailBox) {
+		this.mailBox = mailBox;
 	}
 	public String getWorkUnitName() {
 		return workUnitName;

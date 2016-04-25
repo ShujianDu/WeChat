@@ -134,22 +134,22 @@
 				var billLowerAmount = ${amountLimit.showMinAmount};
 				var billCeilingAmount = ${amountLimit.maxAmount};
 				if (billActualAmount.val() == null || billActualAmount.val() == "") {
-					$("#amountWarning").innerHTML = "请填写分期金额！";
+					$("#amountWarning").text ("请填写分期金额！");
 					return false;
 				}
 				
 				if (billActualAmount.val() < billLowerAmount || billActualAmount.val() > billCeilingAmount) {
-					$("#amountWarning").innerHTML = "请正确填写分期金额！";
+					$("#amountWarning").text ("请正确填写分期金额！");
 					return false;
 				}
 				
 				var amountVal =/^([0-9]+)$/;
 				if (amountVal.test(billActualAmount.val()) == false) {
-					$("#amountWarning").innerHTML = "请填写正确分期金额！";
+					$("#amountWarning").text ("请填写正确分期金额！");
 					return false;
 				}
 				if (installmentsNumber.val() == null || installmentsNumber.val() == "") {
-					$("#countWarning").innerHTML = "请选择分期期数！";
+					$("#countWarning").text ("请选择分期期数！");
 					return false;
 				}
 				
@@ -161,8 +161,8 @@
 		}
 
 		function changeWarning() {
-			$("#amountWarning").innerHTML = "";
-			$("#countWarning").innerHTML = "";
+			$("#amountWarning").text ("");
+			$("#countWarning").text ("");
 		}
 		
 	</script>

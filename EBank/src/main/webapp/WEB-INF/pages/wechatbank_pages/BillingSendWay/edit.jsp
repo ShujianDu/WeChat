@@ -123,7 +123,7 @@ function update(){
 				if (result == "修改成功") {
 					window.location.href = 'success.do';
 				} else {
-					$("#alertmsg").innerHTML = result;
+					$("#alertmsg").text (result);
 				}
 			}
 			});
@@ -184,11 +184,11 @@ function confirm(){
 	}
 	to(value);
 	if(result!=""){
-		$("#alertmsg").innerHTML="";
+		$("#alertmsg").text ("");
 	can=true;
 	return true;
 	}else{
-		$("#alertmsg").innerHTML="不支持该种寄送方式";
+		$("#alertmsg").text ("不支持该种寄送方式");
 	can=false;
 	return false;
 	}
@@ -196,7 +196,7 @@ function confirm(){
 
 //去除提示信息
 function changeWarning() {
-	$("#codeWarning").innerHTML = "";
+	$("#codeWarning").text ("");
 }
 </script>
 

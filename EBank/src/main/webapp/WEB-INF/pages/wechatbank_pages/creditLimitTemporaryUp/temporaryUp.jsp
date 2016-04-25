@@ -118,23 +118,23 @@
     var can = false;
     var form = $("#submitForm");
     function submitTemp() {
-        $("#amountWarning").innerHTML = "";
-        $("#datetimeEndWarning").innerHTML = "";
+        $("#amountWarning").text ("");
+        $("#datetimeEndWarning").text ("");
         checkMsgCode();
         if ($("#ex6").val() == "0") {
-            $("#amountWarning").innerHTML = "请选择提升额度";
+            $("#amountWarning").text ("请选择提升额度");
             return;
         }
         if ($("#datetimeEnd").val() == "") {
-            $("#datetimeEndWarning").innerHTML = "请选择失效日期";
+            $("#datetimeEndWarning").text ("请选择失效日期");
             return;
         }
         if ($("#msgCode").val() == "") {
-            $("#codeWarning").innerHTML = "请输入手机验证码";
+            $("#codeWarning").text ("请输入手机验证码");
             return;
         }
         if (!can) {
-            $("#codeWarning").innerHTML = "验证码错误，请重新输入！";
+            $("#codeWarning").text ("验证码错误，请重新输入！");
             return;
         }
         form.action = "temporaryUp.do";
@@ -143,7 +143,7 @@
 
     //发送手机验证码
     function sendMessage() {
-        $("#codeWarning").innerHTML = "";
+        $("#codeWarning").text ("");
         $.ajax({
             url: "getMsgCode_ajax.do",
             data: {
@@ -187,7 +187,7 @@
     }
     //清除错误警告
     function changeWarning() {
-        $("#codeWarning").innerHTML = "";
+        $("#codeWarning").text ("");
     }
     //获取验证码时间限制
     var i = 60;

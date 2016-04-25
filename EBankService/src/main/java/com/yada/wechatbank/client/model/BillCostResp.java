@@ -16,7 +16,7 @@ public class BillCostResp extends BaseModel {
         return bizResult;
     }
 
-    public void setBalance(BillCost bizResult) {
+    public void setBizResult(BillCost bizResult) {
         this.bizResult = bizResult;
     }
 }
