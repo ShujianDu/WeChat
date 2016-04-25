@@ -42,7 +42,7 @@
 			<table class="topTwo" style="margin-bottom: 10px;">
 				<tr>
 					<td>入账币种：</td>
-					<td align="right"><c:out value="${cost.currencyCode}"/></td>
+					<td align="right"><c:out value="${cost.currencyChinaCode}"/></td>
 				</tr>
 			</table>
 		</div>

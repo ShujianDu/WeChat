@@ -122,7 +122,8 @@
 									&transactionCurrencyCode=${item.transactionCurrencyCode}&cycleNumber=${item.cycleNumber}
 									&transactionAmount=${item.transactionAmount}&cardNo=${cardNo}&accountNoID=${item.accountNoID}
 									&transactionNo=${item.transactionNo}&transactionDescription=${item.transactionDescription}
-									&originalCurrencyCode=${item.originalCurrencyCode}&originalTransactionAmount=${item.originalTransactionAmount}">办理消费分期</a>
+									&originalCurrencyCode=${item.originalCurrencyCode}&originalTransactionAmount=${item.originalTransactionAmount}
+									&currencyChinaCode=${item.currencyChinaCode}">办理消费分期</a>
 								</td>
 							</tr>
 						</table>
@@ -225,7 +226,7 @@
 								"&cycleNumber="+json[i].cycleNumber+"&transactionAmount="+json[i].transactionAmount+
 								"&cardNo="+cardNo+"&accountNoID="+json[i].accountNoID+"&transactionNo="+json[i].transactionNo+
 								"&transactionDescription="+json[i].transactionDescription+"&originalCurrencyCode="+json[i].originalCurrencyCode+
-								"&originalTransactionAmount="+json[i].originalTransactionAmount+"'>办理消费分期</a></td>"+
+								"&originalTransactionAmount="+json[i].originalTransactionAmount+"&currencyChinaCode="+json[i].currencyChinaCode+"'>办理消费分期</a></td>"+
 								 "</tr>"+
 					             "</table>"+
 							     "</div>"+

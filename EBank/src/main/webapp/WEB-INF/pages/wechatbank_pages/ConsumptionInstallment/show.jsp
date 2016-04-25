@@ -50,7 +50,7 @@
 			<table class="topTwo" style="margin-bottom: 10px;">
 				<tr>
 					<td class="td-le">入账币种：</td>
-					<td align="right"><c:out value="${ciinfo.originalCurrencyCode}"/></td>
+					<td align="right"><c:out value="${ciinfo.currencyChinaCode}"/></td>
 				</tr>
 			</table>
 		</div>

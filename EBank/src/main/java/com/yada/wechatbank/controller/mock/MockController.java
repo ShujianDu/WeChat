@@ -20,6 +20,7 @@ import com.yada.wechatbank.model.CardApply;
 import com.yada.wechatbank.model.CardApplyList;
 import com.yada.wechatbank.model.CardHolderInfo;
 import com.yada.wechatbank.model.CardInfo;
+import com.yada.wechatbank.model.ConsumptionInstallmentCost;
 import com.yada.wechatbank.model.ConsumptionInstallments;
 import com.yada.wechatbank.model.ConsumptionInstallmentsesReceive;
 import com.yada.wechatbank.model.CreditLimitTemporaryUpReview;
@@ -616,6 +617,23 @@ public class MockController {
 		}
 		o++;
 		map.put(key, consumptionInstallmentsesReceive);
+		return JSON.toJSONString(map);
+	}
+
+	@RequestMapping(value = "costConsumptionInstallment")
+	@ResponseBody
+	private String costConsumptionInstallment() {
+		Map<String, Object> map = mockResult();
+		ConsumptionInstallmentCost cost = new ConsumptionInstallmentCost();
+		cost.setBillFeeMeans("1");
+		cost.setCurrencyCode("CNY");
+		cost.setInstallmentAmount("1111");
+		cost.setInstallmentFee("30");
+		cost.setInstallmentsAlsoAmountEach("180");
+		cost.setInstallmentsAlsoAmountFirst("170");
+		cost.setInstallmentsNumber("6");
+		cost.setCardNo("1111111111111111");
+		map.put(key, cost);
 		return JSON.toJSONString(map);
 	}
 }

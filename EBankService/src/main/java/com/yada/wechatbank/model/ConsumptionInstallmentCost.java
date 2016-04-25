@@ -23,6 +23,16 @@ public class ConsumptionInstallmentCost {
 	private String installmentsNumber;
 	// 币种
 	private String currencyCode;
+	// 币种中文描述
+	private String currencyChinaCode;
+
+	public String getCurrencyChinaCode() {
+		return currencyChinaCode;
+	}
+
+	public void setCurrencyChinaCode(String currencyChinaCode) {
+		this.currencyChinaCode = currencyChinaCode;
+	}
 
 	public String getCardNo() {
 		return cardNo;

@@ -95,6 +95,9 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		if (consumptionInstallmentCostResp == null || consumptionInstallmentCostResp.getBizResult() == null) {
 			return null;
 		}
+		ConsumptionInstallmentCost consumptionInstallmentCost = consumptionInstallmentCostResp.getBizResult();
+		// 设置显示币种
+		consumptionInstallmentCost.setCurrencyChinaCode(CurrencyUtil.translateChinese(consumptionInstallmentCost.getCurrencyCode()));
 		return consumptionInstallmentCostResp.getBizResult();
 	}
 
