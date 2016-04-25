@@ -11,7 +11,7 @@ trait CustomerService {
     * @param openId openID
     * @return false-未绑定，true-绑定
     */
-  def isBinded(openId: String): Boolean
+  def isBinding(openId: String): Boolean
 
   /**
     *
@@ -23,12 +23,13 @@ trait CustomerService {
 
 /**
   *
-  * @param id           主键
   * @param openid       openId
   * @param identityNo   证件号
   * @param identityType 证件类型
   * @param bindingDate  绑定日期
-  * @param defCardNo       默认卡号
+  * @param defCardNo    默认卡号
   */
-case class CustomerInfo(id: String, openid: String, identityNo: String, identityType: String, bindingDate: String, defCardNo: String)
+case class CustomerInfo(openid: String,
+                        identityNo: String, identityType: String,
+                        bindingDate: String, defCardNo: String)
 
