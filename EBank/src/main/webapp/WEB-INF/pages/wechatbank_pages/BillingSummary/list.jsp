@@ -17,9 +17,9 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
 </head>
-<body>
+<body >
 	<div id="myBill_box">
-		<form name="value_debt">
+		<form name="value_debt" style="width:100%;display:block;overflow-x:hidden;background-color:white;">
 			<select id="cardNo" name="messagePick" class="control_card">
 				<option value="">请选择下列的银行卡</option>
 				<c:forEach items="${cardList}" var="item" varStatus="status">

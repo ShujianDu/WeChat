@@ -16,7 +16,17 @@
 <meta name=" format-detection" content="telephone=no" />
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
-
+	<script type="text/javascript">
+		window.onload = function() {
+			var onepage = "${onepage}";
+			//如果数据小于一页展示的条数，获取更多按钮隐藏
+			var detailListLength =${fn:length(billingDetailList)} ;
+			console.log("onePage="+onepage+"--detailListLength="+detailListLength);
+			if(detailListLength<onepage){
+				$("#readMore").hide();
+			}
+		}
+	</script>
 </head>
 <body>
 	<div class="BillingDetails_content">
@@ -57,7 +67,9 @@
 	<input value="${onepage}" id="onepage" type="hidden"/>
 	<script type="text/javascript" src="${path }/js/BillingDetails.js"
 		charset="UTF-8"></script>
-<script>$(".BillingDetails_content").height(parseInt(document.documentElement.clientHeight)-211);</script> 
+<script> $(".BillingDetails_content").height(parseInt(document.documentElement.clientHeight)-211);
+/* $(".BillingDetails_content").height()=600; */
+</script> 
 </body>
 </html>
 
