@@ -107,12 +107,12 @@
 				<table class="topTwo" style="margin-bottom: -10px;">
 					<tr>
 						<td class="td-le">手机号：</td>
-						<td><input type="text" name="mobilNo" id="mobilNo"
+						<td><input type="text" name="mobileNo" id="mobileNo"
 							maxlength="11" onchange="changeWarning();" />
 					    </td>
 					</tr>
 				</table>
-				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="mobilNoWarning"
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="mobileNoWarning"
 					style="color: red; font-size: 12px;"></span>
 			</div>
 			<div class="topOneB mar-1">
@@ -144,7 +144,7 @@
 					<td style="padding-left: 5px; padding-right: 0;">
 						<input	type="text" name="msgCode" id="code" maxlength="6" onchange="changeWarning();" value="${model.msgCode}" />
 					</td>
-					<td style="width: 100px; padding-left: 5px;">
+					<td style="width: 160px; padding-left: 5px;">
 						<input type="button" value="获取手机交易码" class="HandInHui" id="msgCodeButton" onclick="sendMessage();" />
 					</td>
 				</tr>
@@ -181,31 +181,40 @@
 	<script type="text/javascript">
 	var isClicked = false;
 	var can = false;
-	var idNumberWarning = document.getElementById("idNumWarning");
-	var nameWarning = document.getElementById("familyNameWarning");
 	function validate_form() {
 		if (isClicked == false) {
-			var code = document.getElementById("code");
-			if (code.value == null || code.value == "") {
-				document.getElementById("codeWarning").innerHTML = "请填写短信验证码！";
+			var mobileNo = $("#mobileNo");
+			var verificationCode = $("#verificationCode");
+			var code = $("#code");
+			if (mobileNo.val() == null || mobileNo.val() == "") {
+				$("#mobileNoWarning").text("请填写手机号！");
 				return false;
 			}
+			if (verificationCode.val() == null || verificationCode.val() == "") {
+				$("#verificationCodeWarning").text("请填写图片验证码！");
+				return false;
+			}
+			if (code.val() == null || code.val() == "") {
+				$("#codeWarning").text("请填写短信验证码！");
+				return false;
+			}
+			//验证短信验证码格式
 			var msgCode = /(^\d{6}$)/;
-			if (msgCode.test(code.value) == false) {
-				codeWarning.innerHTML = "短信验证码格式不正确，请重新输入！";
+			if (msgCode.test(code.val()) == false) {
+				$("#codeWarning").text("短信验证码格式不正确，请重新输入！");
 				return false;
 			}
-			if (document.getElementById("timeoutdiv1").style.display == "block") {
+			if ($("#timeoutdiv1").css("display") == "block") {
 				return false;
 			}
-			var sending = document.getElementById("sending");
-			sending.style.visibility = "visible";
+			var sending = $("#sending");
+			sending.css("visibility","visible");
 			isClicked = true;
 			//验证短信码是否正确
 			check();
 			if (!can) {
-				codeWarning.innerHTML = "短信验证码错误，请您重新输入！";
-				sending.style.visibility = "hidden";
+				$("#codeWarning").text("短信验证码错误，请您重新输入！");
+				sending.css("visibility","hidden");
 				isClicked = false;
 				return false;
 			}
@@ -214,160 +223,88 @@
 	}
 
 	function changeWarning() {
-		document.getElementById("codeWarning").innerHTML = "";
+		$("#mobileNoWarning").text("");
+		$("#verificationCodeWarning").text("");
+		$("#codeWarning").text("");
 	}
 	var i = 60;
 	function buttonTimeOut() {
-		var msgCodeButton = document.getElementById("msgCodeButton");
+		var msgCodeButton = $("#msgCodeButton");
 		i--;
 		if (i == 0) {
 			i = 60;
-			msgCodeButton.disabled = "";
-			msgCodeButton.value = "获取验证码";
+			msgCodeButton.attr("disabled","");
+			msgCodeButton.val("获取验证码");
 		} else {
-			msgCodeButton.disabled = "disabled";
-			msgCodeButton.value = i + "秒";
+			msgCodeButton.attr("disabled","disabled");
+			msgCodeButton.val(i + "秒");
 			setTimeout("buttonTimeOut()", 1000);
 		}
 	}
 
 	function sendMessage() {
-		document.getElementById("verificationCodeWarning").innerHTML = "";
-		document.getElementById("mobilNoWarning").innerHTML = "";
-		var mobilNo = document.getElementById("mobilNo").value;
-		var verificationCode = document.getElementById("verificationCode").value;
-		if (mobilNo == null || mobilNo == "") {
-			mobilNoWarning.innerHTML = "*手机号不能为空，请输入！";
+		changeWarning();
+		var mobileNo = $("#mobileNo").val();
+		var verificationCode = $("#verificationCode").val();
+		var code = $("#code");
+		if (mobileNo == null || mobileNo == "") {
+			$("#mobileNoWarning").text("请填写手机号！");
 			return false;
 		}
 		if (verificationCode == null || verificationCode == "") {
-			verificationCodeWarning.innerHTML = "*验证码不能为空，请输入！";
+			$("#verificationCodeWarning").text("请填写图片验证码！");
 			return false;
 		}
-		
-		
-		var openId = document.getElementById("openId").value;
-		//var openId = "oFDatjpd8-RY-O__qTWgVW1fhh6w";
-		var xmlhttp;
-		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest();
-		} else {// code for IE6, IE5
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		//获得来自服务器的响应
-		var result;
-		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				result = xmlhttp.responseText;
-				if (result != null && result != "") {
-					if (result == "exception"||result=="false") {
-						window.location.href = "../error.html";
-					}else if(result=="errorCode"){
-						document.getElementById("verificationCodeWarning").innerHTML = "您填写的验证码有误，请重新输入!";
-					}else if(result=="wrongMobilNo"){
-						document.getElementById("mobilNoWarning").innerHTML = "您填写的手机号有误，请重新输入!";
-					}else{
-						buttonTimeOut();
-					}
-				}
-			}
-		}
-		xmlhttp.open("POST", "getMsgCode_ajax.do?openId=" + openId
-				+ "&date=" + new Date().getTime()+"&mobilNo=" +mobilNo+"&verificationCode="+encodeURI(verificationCode), false);
-		xmlhttp.send();
-
+		console.log("mobileNo="+mobileNo+"--verificationCode="+verificationCode+"--date"+new Date().getTime());
+		 $.ajax({
+	            url: "getMsgCode_ajax.do",
+	            data: {
+	            	mobileNo: mobileNo,
+	            	verificationCode: verificationCode,
+	            	date: new Date().getTime()
+	            },
+	            type: "post",
+	            async: false,
+	            dataType: "text",
+	            success: function (result) {
+	            	if (result != null && result != "") {
+	                    if (result == "exception" || result == "false") {
+	                        window.location.href = "../error.html";
+	                    } else if (result == "errorCode" || result == "wrongMobilNo") {
+	                        $("#verificationCodeWarning").text("您填写的验证码有误，请重新输入!");
+	                    } else {
+	                        buttonTimeOut();
+	                    }
+	                }
+	            }
+	        });
 	}
 
 	function check() {
-		var openId = document.getElementById("openId").value;
-		var code = document.getElementById("code").value;
-		var xmlhttp;
-		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest();
-		} else {// code for IE6, IE5
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		//获得来自服务器的响应
-		var result;
-		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				result = xmlhttp.responseText;
-				if (result != null && result != "") {
-					if (result == "exception") {
-						window.location.href = "../error.html";
-						can = false;
-					} else if (result == "true") {
-						can = true;
-					} else {
-						can = false;
-					}
-				}
-			}
-
-		}
-		xmlhttp.open("POST", "checkMagCode_ajax.do?openId=" + openId
-				+ "&code=" + code + "&date=" + new Date().getTime(), false);
-		xmlhttp.send();
-	}
-
-	function checkCustInfo(idOrName) {
-		var openId = document.getElementById("openId");
-		var idNumber = document.getElementById("idNum");
-		var name = document.getElementById("familyName");
-		if (idOrName == "idno") {
-			if (idNumber.value == "") {
-				return;
-			}
-		}
-		if (idOrName == "name") {
-			if (name.value == "") {
-				return;
-			}
-		}
-		var xmlhttp;
-		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-			xmlhttp = new XMLHttpRequest();
-		} else {// code for IE6, IE5
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		//获得来自服务器的响应
-		var result;
-		xmlhttp.onreadystatechange = function() {
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				result = xmlhttp.responseText;
-				if (result != null && result != "") {
-					if (result == "exception") {
-						window.location.href = "../error.html";
-					} else if (result == "refresh") {
-						location.reload();
-					} else if (result == "false") {
-						if (idOrName == "idno") {
-							idNumberWarning.innerHTML = "证件号有误，请重新输入！";
-						} else if (idOrName == "name") {
-							if (idNumber == null && idNumber == '') {
-								nameWarning.innerHTML = "请先输入证件号！";
-							} else {
-								nameWarning.innerHTML = "姓名有误，请重新输入！";
-							}
-						}
-					} else if (result == "true") {
-						if (idOrName == "idno") {
-							idNumberWarning.innerHTML = "";
-						} else if (idOrName == "name") {
-							nameWarning.innerHTML = "";
-						}
-					} else {
-						document.getElementById("timeoutdiv1").style.display = "block";
-						document.getElementById("timeoutdiv2").style.display = "block";
-					}
-				}
-			}
-		}
-		xmlhttp.open("POST", "checkCustInfo_ajax.do?openId=" + openId.value
-				+ "&idOrName=" + idOrName + "&idNumber=" + idNumber.value
-				+ "&name=" + name.value + "&date=" + new Date().getTime(),
-				false);
-		xmlhttp.send();
+		var code = $("#code").val();
+        var mobileNo = $("#mobileNo").val();
+        $.ajax({
+            url: "checkMagCode_ajax.do",
+            data: {
+                code: code,
+                mobileNo: mobileNo,
+                date: new Date().getTime()
+            },
+            type: "post",
+            async: false,
+            dataType: "text",
+            async: false,
+            success: function (result) {
+            	console.log("check msg result:"+result)
+                if (result != null && result != "") {
+                    if (result == "true") {
+                        can = true;
+                    } else {
+                        can = false;
+                    }
+                }
+            }
+        });
 	}
 	</script>
 </body>

@@ -290,7 +290,7 @@ public class ConsumptionInstallmentController extends BaseController {
 			return result;
 		}
 		if (verificationCode != null && verificationCode.equalsIgnoreCase(Randomcode_yz)) {
-			result = Boolean.toString(smsService.sendInstallmentSMS(identityNo, mobileNo, "BillInstallment")).toLowerCase();
+			result = Boolean.toString(smsService.sendInstallmentSMS(identityNo, mobileNo, "ConsumptionInstallment")).toLowerCase();
 			logger.debug("@ZDFQ@根据identityNo[{}],手机号[{}]发送账单分期验证短信验证码," + "发送结果sendResult[{}]", identityNo, mobileNo, result);
 		} else {
 			result = "errorCode";
@@ -313,7 +313,7 @@ public class ConsumptionInstallmentController extends BaseController {
 		String identityNo = getIdentityNo(request);
 		String mobile = request.getParameter("mobile");
 		String code = request.getParameter("code");
-		String sendResult = Boolean.toString(smsService.checkSMSCode(identityNo, mobile, "BillInstallment", code)).toLowerCase();
+		String sendResult = Boolean.toString(smsService.checkSMSCode(identityNo, mobile, "ConsumptionInstallment", code)).toLowerCase();
 		logger.debug("@ZDFQ@identityNo[{}],手机号[{}],code[{}" + "]验证账单分期短信验证码,验证结果sendResult[{}]", identityNo, mobile, code);
 		return sendResult;
 	}
