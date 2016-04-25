@@ -171,11 +171,12 @@ public class ReportLostController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "getMsgCode_ajax")
     public String getMsgCode_ajax(HttpServletRequest request, String mobileNo) {
+        String identityType = getIdentityType(request);
         String identityNo = getIdentityNo(request);
-        boolean sendResult = reportLostService.sendSMS(identityNo, mobileNo);
+        String sendResult = reportLostService.sendSMS(identityType, identityNo, mobileNo);
         logger.info("@YJGS@调用核心根据identityNo[" + identityNo + "],mobileNo["
                 + mobileNo + "]发送短信验证码，发送结果sendResult[" + sendResult + "]");
-        return Boolean.toString(sendResult).toLowerCase();
+        return sendResult;
     }
 
     /**

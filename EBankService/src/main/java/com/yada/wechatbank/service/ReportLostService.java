@@ -1,7 +1,5 @@
 package com.yada.wechatbank.service;
 
-import com.yada.wechatbank.model.CardInfo;
-
 import java.util.List;
 
 /**
@@ -60,7 +58,7 @@ public interface ReportLostService {
      * @param mobileNo   手机号
      * @return boolean
      */
-    boolean sendSMS(String identityNo, String mobileNo);
+    String sendSMS(String identityType, String identityNo, String mobileNo);
 
     /**
      * 验证短信验证码

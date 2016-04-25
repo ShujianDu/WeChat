@@ -2,6 +2,7 @@ package com.yada.wechatbank.service.impl;
 
 import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.BooleanResp;
+import com.yada.wechatbank.client.model.CardHolderInfoResp;
 import com.yada.wechatbank.service.ReportLostService;
 import com.yada.wechatbank.service.SmsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,12 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
     // 取消临时挂失
     @Value(value = "${url.relieveCreditCardTempReportLost}")
     protected String relieveCreditCardTempReportLost;
+    // 通过证件类型、证件号获取手机号
+    @Value(value = "${url.getCustMobile}")
+    protected String getCustMobile;
+    // 获取持卡人信息
+    @Value("${url.getCardHolderInfoMethod}")
+    private String getCardHolderInfoMethod;
 
     @Override
     public List<String> selectCardNoList(String identityType, String identityNo) {
@@ -55,6 +62,9 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
     @Override
     public boolean creditCardReportLost(String cardNo, String identityType, String identityNo, String lostReason) {
         String familyName = getFamilyName(cardNo);
+        if (familyName == null || familyName.isEmpty()) {
+            return false; // 获取姓失败
+        }
         Map<String, String> param = initGcsParam();
         param.put("cardNo", cardNo);
         param.put("idType", identityType);
@@ -83,16 +93,28 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
      * @return String
      */
     private String getFamilyName(String cardNo) {
-        String familyName = "";
+        String name = null;
         Map<String, String> param = initGcsParam();
         param.put("cardNo", cardNo);
-        // TODO QQ 调用HttpClient完成持卡人信息查询
-        return familyName;
+        // 调用HttpClient完成持卡人信息查询
+        CardHolderInfoResp resp = httpClient.send(getCardHolderInfoMethod, param, CardHolderInfoResp.class);
+        if (resp != null && resp.getBizResult() == null) {
+            name = resp.getBizResult().getFamilyName() + resp.getBizResult().getFirstName();
+        }
+        return name;
     }
 
     @Override
-    public boolean sendSMS(String identityNo, String mobileNo) {
-        return smsService.sendSMS(identityNo, mobileNo, CHANNEL_CODE);
+    public String sendSMS(String identityType, String identityNo, String mobileNo) {
+        // 通过证件类型证件号获取手机号
+        String respMobileNo = getCustMobileNo(identityType, identityNo);
+        // 验证手机号的正确性
+        if (respMobileNo == null || !respMobileNo.equals(mobileNo)) {
+            return "wrongMobilNo";
+        }
+        // 发送短信验证码
+        boolean sendResult = smsService.sendSMS(identityNo, mobileNo, CHANNEL_CODE);
+        return Boolean.toString(sendResult).toLowerCase();
     }
 
     @Override

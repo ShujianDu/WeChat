@@ -156,7 +156,11 @@
             success: function (result) {
                 $("#msgCodeButton").removeAttr("disabled");
                 if (result != null && result != "") {
-                    if (result == "false") {
+                    if (result == "exception") {
+                        window.location.href = "../error.html";
+                    } else if (result == "wrongMobilNo") {
+                        mobileNoWarning.text("您填写的手机号有误，请重新输入!");
+                    } else if (result == "false") {
                         mobileNoWarning.text("短信验证码发送失败，请稍候再试！");
                     } else {
                         buttonTimeOut();
