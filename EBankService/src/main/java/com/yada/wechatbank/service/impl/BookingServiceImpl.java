@@ -1,6 +1,5 @@
 package com.yada.wechatbank.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.yada.wechatbank.service.BookingService;
@@ -34,7 +33,6 @@ public class BookingServiceImpl implements BookingService {
      */
     @Override
     public String getSequences() {
-
         return bookingDao.getSequences();
     }
 
@@ -46,6 +44,9 @@ public class BookingServiceImpl implements BookingService {
      */
     @Override
     public boolean insertBooking(Booking booking) {
+        if (bookingDao.findByClientNameAndPhone(booking.getClientName(), booking.getPhone()) != null) {
+            bookingDao.deleteByClientNameAndPhone(booking.getClientName(), booking.getPhone());
+        }
         Booking res = bookingDao.save(booking);
         if (res == null) {
             return false;

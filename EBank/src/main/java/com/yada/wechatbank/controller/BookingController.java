@@ -4,13 +4,10 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.yada.wechatbank.base.BaseController;
 import com.yada.wechatbank.service.BookingService;
-import com.yada.wechatbank.util.JsMapUtil;
 import com.yada.wx.db.service.model.Booking;
 import com.yada.wx.db.service.model.NuwOrg;
 import net.sf.json.JSONArray;
@@ -45,19 +42,7 @@ public class BookingController extends BaseController {
      */
     @RequestMapping(value = "list")
     public String list(
-            @ModelAttribute("formBean") BookingQuery bookingQuery,
-            HttpServletRequest request, Model model) {
-        String openId = (String) request.getAttribute("openId");
-        // 页面分享js需要的参数
-        Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-                "booking/list.do", "中国银行信用卡预约申请");
-        if (jsMap == null) {
-            return ERROR;
-        }
-        for (String key : jsMap.keySet()) {
-            model.addAttribute(key, jsMap.get(key));
-        }
-        model.addAttribute("openId", openId);
+            @ModelAttribute("formBean") BookingQuery bookingQuery) {
         return LISTURL;
     }
 
@@ -104,15 +89,6 @@ public class BookingController extends BaseController {
     public String address(
             @ModelAttribute("formBean") BookingQuery bookingQuery,
             HttpServletRequest request, Model model) {
-        // 页面分享js需要的参数
-        Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-                "booking/address.do", "中国银行信用卡预约申请");
-        if (jsMap == null) {
-            return ERROR;
-        }
-        for (String key : jsMap.keySet()) {
-            model.addAttribute(key, jsMap.get(key));
-        }
         // 获取省份集合
         List<NuwOrg> provinceList = bookingServiceImpl.selectNumOrgList("");
         if (provinceList == null) {
@@ -143,16 +119,6 @@ public class BookingController extends BaseController {
             @ModelAttribute("formBean") BookingQuery bookingQuery,
             HttpServletRequest request, Model model) {
         String openId = (String) request.getSession().getAttribute("openId");
-        // 页面分享js需要的参数
-        Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-                "booking/list.do", "中国银行信用卡预约申请");
-        if (jsMap == null) {
-            return ERROR;
-        }
-        for (String key : jsMap.keySet()) {
-            model.addAttribute(key, jsMap.get(key));
-        }
-        model.addAttribute("openId", openId);
         StringBuilder areaStr = new StringBuilder();
         areaStr.append(
                 bookingQuery.getProvId().substring(

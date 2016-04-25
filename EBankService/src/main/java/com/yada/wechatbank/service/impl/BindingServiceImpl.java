@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -67,7 +66,6 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      */
     @Override
     public boolean isLocked(String openId, String idNum) {
-
         if (LockCacheImpl.get(openId) != null || LockCacheImpl.get(idNum) != null) {
             return true;
         }
@@ -156,7 +154,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      * 查询数据库中的客户信息的证件类型有无数据
      *
      * @param openId openId
-     * @return 判断是否有证件类型
+     * @return 是否有证件类型
      */
     @Override
     public Map<String, String> isExistIdType(String openId) {
@@ -232,7 +230,6 @@ public class BindingServiceImpl extends BaseService implements BindingService {
         }
         if (mobile == null) {
             countSMSCacheImpl.put(openId, identityNo);
-            //countSMSCodeCache.put(openId, identityNo);
             return "exception";
         }
         if ("".equals(mobile.trim())) {

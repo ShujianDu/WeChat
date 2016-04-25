@@ -62,15 +62,6 @@ public class BindingController extends BaseController {
         if (openId != null && !"".equals(openId)) {
             bindingQuery.setOpenId(openId);
         }
-        // 页面分享js需要的参数
-//        Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-//                "binding/list.do", "中国银行信用卡绑定业务");
-//        if (jsMap == null) {
-//            return ERROR;
-//        }
-//        for (String key : jsMap.keySet()) {
-//            model.addAttribute(key, jsMap.get(key));
-//        }
         boolean rmiReturn = bindingServiceImpl.validateIsBinding(openId);
         // 判断是否已经绑定
         if (rmiReturn) {
@@ -94,15 +85,6 @@ public class BindingController extends BaseController {
     public String bindingM(
             @ModelAttribute("formBean") BindingQuery bindingQuery, Model model,
             HttpServletRequest request) {
-        // 页面分享js需要的参数
-//        Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-//                "binding/bindDefCard.do", "中国银行信用卡绑定业务");
-//        if (jsMap == null) {
-//            return ERROR;
-//        }
-//        for (String key : jsMap.keySet()) {
-//            model.addAttribute(key, jsMap.get(key));
-//        }
         if (bindingServiceImpl.isLocked(bindingQuery.getOpenId(), bindingQuery.getIdNumber())) {
             return LOCK;
         }
@@ -186,24 +168,13 @@ public class BindingController extends BaseController {
             openId = (String) request.getAttribute("openId");
             bindingQuery.setOpenId(openId);
         }
-        // 页面分享js需要的参数
-//        Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-//                "binding/bindDefCard.do", "中国银行信用卡绑定业务");
-//        if (jsMap == null) {
-//            return ERROR;
-//        }
-//        for (String key : jsMap.keySet()) {
-//            model.addAttribute(key, jsMap.get(key));
-//        }
-
         //查询数据库中的客户信息的证件类型有无数据
         if (bindingServiceImpl.isExistIdType(openId).get("isexist").equals("false")) {
             model.addAttribute("idNum", bindingServiceImpl.isExistIdType(openId).get("idNum"));
             model.addAttribute("model", bindingQuery);
             return FILLIDTYPEURL;
         }
-
-        // 调用RMI 获取默认卡列表
+        //获取默认卡列表
         String defCardNo = bindingServiceImpl.getDefCardNo(openId);
         if (defCardNo == null) {
             defCardNo = "";
@@ -215,7 +186,7 @@ public class BindingController extends BaseController {
             return NOCARDURL;
         } else {
             //为方便页面显示加密的卡号，为卡号单独设置传递到页面的卡号列表集合
-            List<String> cardListCrypt = new ArrayList<String>();
+            List<String> cardListCrypt = new ArrayList<>();
             for (CardInfo cardInfo : cardList) {
                 String cardNo = cardInfo.getCardNo();
                 cardListCrypt.add(cardNo);
@@ -236,11 +207,10 @@ public class BindingController extends BaseController {
      * 默认卡绑定 需通过身份验证码验证
      *
      * @param bindingQuery 绑定查询实体
-     * @param request      HttpServletRequest
      */
     @RequestMapping(value = "bindDefCardP")
     public String bindDefCardP(
-            @ModelAttribute("formBean") BindingQuery bindingQuery, HttpServletRequest request) {
+            @ModelAttribute("formBean") BindingQuery bindingQuery) {
         String defCardNO = bindingQuery.getDefaultCard();
         try {
             defCardNO = Crypt.decode(defCardNO);
@@ -272,7 +242,6 @@ public class BindingController extends BaseController {
         String identityType = request.getParameter("idType");
         String identityNo = request.getParameter("identityNo");
         String openId = request.getParameter("openId");
-
         // Session中存储的验证码
         String Randomcode_yz = (String) request.getSession().getAttribute(
                 "jcmsrandomchar");
@@ -320,25 +289,15 @@ public class BindingController extends BaseController {
 
     @RequestMapping(value = "fillIdentityType")
     public String fillIdentityType(@ModelAttribute("formBean") BindingQuery bindingQuery, Model model, HttpServletRequest request) {
-//        Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-//                "binding/list.do", "中国银行信用卡绑定业务");
-//        if (jsMap == null) {
-//            return ERROR;
-//        }
-//        for (String key : jsMap.keySet()) {
-//            model.addAttribute(key, jsMap.get(key));
-//        }
         String openId = request.getParameter("openId");
         String identityNo = request.getParameter("idNumber");
         String identityType = request.getParameter("idType");
-
         if (!bindingServiceImpl.isCorrectIdentityType(identityNo, identityType)) {
             model.addAttribute("idNum", identityNo);
             model.addAttribute("model", bindingQuery);
             model.addAttribute("msg", "1");
             return FILLIDTYPEURL;
         }
-
         if (bindingServiceImpl.fillIdentityType(openId, identityType, identityNo)) {
             // 获取默认卡
             String defCardNo = bindingServiceImpl.getDefCardNo(openId);

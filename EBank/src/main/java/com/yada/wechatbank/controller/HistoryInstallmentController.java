@@ -44,19 +44,10 @@ public class HistoryInstallmentController extends BaseController {
 	private HistoryInstallmentService historyInstallmentServiceImpl;
 
 	@RequestMapping(value = "list")
-	public String list(HttpServletRequest request, String openId, Model model) {
-		// 页面分享js需要的参数
-		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-				"billinstallment/list.do","中国银行信用卡分期业务");
-		if (jsMap == null) {
-			return ERROR;
-		}
-		for (String key : jsMap.keySet()) {
-			model.addAttribute(key, jsMap.get(key));
-		}
-		// 调用RMI 获取卡片列表（OpenId）
+	public String list(HttpServletRequest request, Model model) {
+		//获取卡片列表
 		List<String> cardList = historyInstallmentServiceImpl.selectCardNOs(getIdentityNo(request),getIdentityType(request));
-		// RMI返回值为空或没有数据
+		//返回值为空或没有数据
 		if (cardList == null) {
 			return BUSYURL;
 		} else if (cardList.size() == 0) {
@@ -68,16 +59,6 @@ public class HistoryInstallmentController extends BaseController {
 
 	@RequestMapping(value = "listP")
 	public String listP(HttpServletRequest request, Model model) {
-		// 页面分享js需要的参数
-		Map<String, String> jsMap = JsMapUtil.getJsMapConfig(request,
-				"billinstallment/list.do","中国银行信用卡分期业务");
-		if (jsMap == null) {
-			return ERROR;
-		}
-		for (String key : jsMap.keySet()) {
-			model.addAttribute(key, jsMap.get(key));
-		}
-		//调用后台获取卡列表
 		String cardNo = request.getParameter("cardNo");
 		List<String> cardList  = historyInstallmentServiceImpl.selectCardNOs(getIdentityNo(request),getIdentityType(request));
 		model.addAttribute("cardList", cardList);
@@ -92,13 +73,12 @@ public class HistoryInstallmentController extends BaseController {
 			return BUSYURL;
 		}
 		List<HistoryInstallment> list = historyInstallmentList.getHistoryInstallmentList();
-		// RMI返回值为空或没有数据
+		//返回值为空或没有数据
 		if (list == null) {
 			return BUSYURL;
 		}
 		model.addAttribute("pageList", list);
-		//TODO 修改卡号
-		model.addAttribute("cardNo", "1111");
+		model.addAttribute("cardNo", cardNo);
 		model.addAttribute("isFollowUp", historyInstallmentList.isFollowUp());
 		model.addAttribute("nextGCSStartIndex",Integer.parseInt(SELECTNUM) + 1);
 		return LISTURL;

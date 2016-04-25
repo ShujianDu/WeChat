@@ -104,7 +104,6 @@
 			</div>
 			<div class="HandIn" style="margin-top: 10px; margin-bottom: 10px;">
 				<input type="submit" value="提交" onclick="return validate_form();" />
-				<input type="hidden" id="openId" name="openId" value="${openId}">
 			</div>
 		</form>
 		<div class="topOneB mar-1 allOneBradius" style="margin-bottom: 10px">
