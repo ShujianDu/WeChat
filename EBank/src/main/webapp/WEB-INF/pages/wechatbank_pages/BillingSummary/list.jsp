@@ -20,11 +20,11 @@
 <body >
 	<div id="myBill_box">
 		<form name="value_debt" style="width:100%;display:block;overflow-x:hidden;background-color:white;">
-			<select id="cardNo" name="messagePick" class="control_card">
+			<select id="cardNo" name="messagePick" class="control_card" onchange="messageRevealWait();">
 				<option value="">请选择下列的银行卡</option>
 				<c:forEach items="${cardList}" var="item" varStatus="status">
 					<option class="" value="${fn:substringAfter(item, ',')}"
-						name="cardNo" onclick="messageRevealWait();">
+						name="cardNo">
 						<c:out value="${fn:substring(item, 0, 16)}" />
 					</option>
 				</c:forEach>

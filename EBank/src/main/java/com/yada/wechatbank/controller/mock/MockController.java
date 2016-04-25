@@ -369,7 +369,7 @@ public class MockController {
 	}
 
 	/**
-	 * 账单明细查询
+	 * 已出账单明细查询
 	 * 
 	 * @return 账单明细
 	 */
@@ -414,6 +414,56 @@ public class MockController {
 			billingDetailList.add(b);
 		}
 		m++;
+		map.put(key, billingDetailList);
+		return JSON.toJSONString(map);
+	}
+
+	/**
+	 * 未出账单明细查询
+	 * 
+	 * @return 账单明细
+	 */
+	// m为1时，可以查询更多账单，大于一时不能查询
+	int n = 1;
+
+	@RequestMapping(value = "unsmBillingDetail")
+	@ResponseBody
+	public String unsmBillingDetail() {
+		Map<String, Object> map = mockResult();
+		List<BillingDetail> billingDetailList = new ArrayList<>();
+		if (n != 1) {
+			BillingDetail b1 = new BillingDetail();
+			b1.setCardNo("1111111111111111");
+			b1.setCurrencyCode("CNY");
+			b1.setDebitCreditCode("DEBT");
+			b1.setReturnMsg("成功");
+			b1.setStartnum("1");
+			b1.setTransactionAmount("1234");
+			b1.setTransactionDate("2016-04-16");
+			b1.setTransactionDescription("京东商城");
+			billingDetailList.add(b1);
+		} else {
+			BillingDetail b = new BillingDetail();
+			b.setCardNo("1111111111111111");
+			b.setCurrencyCode("CNY");
+			b.setDebitCreditCode("DEBT");
+			b.setReturnMsg("成功");
+			b.setStartnum("1");
+			b.setTransactionAmount("1234");
+			b.setTransactionDate("2016-04-16");
+			b.setTransactionDescription("京东商城");
+			billingDetailList.add(b);
+			billingDetailList.add(b);
+			billingDetailList.add(b);
+			billingDetailList.add(b);
+			billingDetailList.add(b);
+			billingDetailList.add(b);
+			billingDetailList.add(b);
+			billingDetailList.add(b);
+			billingDetailList.add(b);
+			billingDetailList.add(b);
+		}
+		n++;
 		map.put(key, billingDetailList);
 		return JSON.toJSONString(map);
 	}
