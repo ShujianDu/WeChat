@@ -5,12 +5,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.yada.wechatbank.model.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.yada.wechatbank.model.AmountLimit;
+import com.yada.wechatbank.model.Balance;
+import com.yada.wechatbank.model.BillSendType;
+import com.yada.wechatbank.model.BillingDetail;
+import com.yada.wechatbank.model.BillingPeriod;
+import com.yada.wechatbank.model.BillingSummary;
+import com.yada.wechatbank.model.CardApply;
+import com.yada.wechatbank.model.CardApplyList;
+import com.yada.wechatbank.model.CardHolderInfo;
+import com.yada.wechatbank.model.CardInfo;
+import com.yada.wechatbank.model.ConsumptionInstallments;
+import com.yada.wechatbank.model.ConsumptionInstallmentsesReceive;
+import com.yada.wechatbank.model.CreditLimitTemporaryUpReview;
+import com.yada.wechatbank.model.CreditLimitTemporaryUpStatus;
+import com.yada.wechatbank.model.HistoryInstallment;
+import com.yada.wechatbank.model.HistoryInstallmentList;
+import com.yada.wechatbank.model.PointsBalance;
+import com.yada.wechatbank.model.PointsDetail;
+import com.yada.wechatbank.model.PointsValidates;
+import com.yada.wechatbank.model.VerificationCardNoResult;
 
 /**
  * 模拟行内返回 Created by QinQiang on 2016/4/11.
@@ -19,20 +38,20 @@ import com.alibaba.fastjson.JSON;
 @RequestMapping(value = "mock")
 public class MockController {
 
-    private static final String key = "bizResult";
+	private static final String key = "bizResult";
 
-    private final String accountId="TX01";
+	private final String accountId = "TX01";
 
-    private final String accountNo="TX0101";
+	private final String accountNo = "TX0101";
 
-    private final String mobileNo="13800138000";
+	private final String mobileNo = "13800138000";
 
-    private Map<String, Object> mockResult() {
-        Map<String, Object> param = new HashMap<>();
-        param.put("returnCode", "00");
-        param.put("returnMsg", "成功");
-        return param;
-    }
+	private Map<String, Object> mockResult() {
+		Map<String, Object> param = new HashMap<>();
+		param.put("returnCode", "00");
+		param.put("returnMsg", "成功");
+		return param;
+	}
 
 	@RequestMapping(value = "getMobilePhone")
 	@ResponseBody
@@ -41,7 +60,7 @@ public class MockController {
 		map.put(key, "18888888888");
 		return JSON.toJSONString(map);
 	}
-	
+
 	@RequestMapping(value = "tempCreditCardReportLost")
 	@ResponseBody
 	public String tempCreditCardReportLost() {
@@ -57,7 +76,7 @@ public class MockController {
 		map.put(key, "true");
 		return JSON.toJSONString(map);
 	}
-	
+
 	@RequestMapping(value = "creditCardReportLost")
 	@ResponseBody
 	public String creditCardReportLost() {
@@ -85,7 +104,7 @@ public class MockController {
 		map.put(key, list);
 		return JSON.toJSONString(map);
 	}
-	
+
 	@RequestMapping(value = "relieveCreditCardTempReportLost")
 	@ResponseBody
 	public String relieveCreditCardTempReportLost() {
@@ -301,8 +320,8 @@ public class MockController {
 		BillingPeriod b1 = new BillingPeriod();
 		b1.setAccountId("BP02");
 		b1.setCurrencyCode("USB");
-		b.setPeriodStartDate("2016-03-24");
-		b.setPeriodEndDate("2016-04-24");
+		b1.setPeriodStartDate("2016-03-24");
+		b1.setPeriodEndDate("2016-04-24");
 		b1.setStatementNo("2");
 		list.add(b);
 		list.add(b1);
@@ -443,91 +462,160 @@ public class MockController {
 		return JSON.toJSONString(map);
 	}
 
-    @RequestMapping(value = "getBillingPeriod")
-    @ResponseBody
-    public String getBillingPeriod(){
-        Map<String, Object> map = mockResult();
-        List<BillingPeriod> billingPeriods = new ArrayList<>();
-        for (int i=0;i< 5;i++){
-            BillingPeriod billingPeriod = new BillingPeriod();
-            billingPeriod.setAccountId(accountId);
-            billingPeriod.setStatementNo(""+i);
-            billingPeriod.setCurrencyCode("CNY");
-            billingPeriod.setPeriodStartDate("2016-03-20");
-            billingPeriod.setPeriodEndDate("2016-04-20");
-            billingPeriods.add(billingPeriod);
-        }
-        map.put(key, billingPeriods);
-        return JSON.toJSONString(map);
-    }
-    @RequestMapping(value = "getAmountLimit")
-    @ResponseBody
-    public String getAmountLimit(){
-        Map<String, Object> map = mockResult();
-        AmountLimit amountLimit = new AmountLimit();
-        amountLimit.setAccountId(accountId);
-        amountLimit.setAccountNo(accountNo);
-        amountLimit.setCurrencyCode("CNY");
-        amountLimit.setMaxAmount("10000");
-        amountLimit.setMinAmount("1000");
-        amountLimit.setRespCode("");
-        map.put(key, amountLimit);
-        return JSON.toJSONString(map);
-    }
+	@RequestMapping(value = "getBillingPeriod")
+	@ResponseBody
+	public String getBillingPeriod() {
+		Map<String, Object> map = mockResult();
+		List<BillingPeriod> billingPeriods = new ArrayList<>();
+		for (int i = 0; i < 5; i++) {
+			BillingPeriod billingPeriod = new BillingPeriod();
+			billingPeriod.setAccountId(accountId);
+			billingPeriod.setStatementNo("" + i);
+			billingPeriod.setCurrencyCode("CNY");
+			billingPeriod.setPeriodStartDate("2016-03-20");
+			billingPeriod.setPeriodEndDate("2016-04-20");
+			billingPeriods.add(billingPeriod);
+		}
+		map.put(key, billingPeriods);
+		return JSON.toJSONString(map);
+	}
 
-    @RequestMapping(value = "temporaryUpCommit")
-    @ResponseBody
-    public String temporaryUpCommit(){
-        Map<String, Object> map = mockResult();
-        map.put(key, true);
-        return JSON.toJSONString(map);
-    }
+	@RequestMapping(value = "getAmountLimit")
+	@ResponseBody
+	public String getAmountLimit() {
+		Map<String, Object> map = mockResult();
+		AmountLimit amountLimit = new AmountLimit();
+		amountLimit.setAccountId(accountId);
+		amountLimit.setAccountNo(accountNo);
+		amountLimit.setCurrencyCode("CNY");
+		amountLimit.setMaxAmount("10000");
+		amountLimit.setMinAmount("1000");
+		amountLimit.setRespCode("");
+		map.put(key, amountLimit);
+		return JSON.toJSONString(map);
+	}
 
-    @RequestMapping(value = "creditLimitTemporaryUpReview")
-    @ResponseBody
-    public String creditLimitTemporaryUpReview(){
-        Map<String, Object> map = mockResult();
-        CreditLimitTemporaryUpReview cltur =new CreditLimitTemporaryUpReview();
-        cltur.setAmount("30000");
-        cltur.setCardStyle("1");
-        cltur.setCreditLimit("10000");
-        cltur.setIssuingBranchId("0000000111");
-        cltur.setPmtCreditLimit("10000");
-        cltur.setPrincipalResultID("A");
-        map.put(key, cltur);
-        return JSON.toJSONString(map);
-    }
-    @RequestMapping(value = "getTemporaryUpCommitStatus")
-    @ResponseBody
-    public String getTemporaryUpCommitStatus(){
-        Map<String, Object> map = mockResult();
-        List<CreditLimitTemporaryUpStatus> list=new ArrayList<>();
-        CreditLimitTemporaryUpStatus cltur1 =new CreditLimitTemporaryUpStatus();
-        cltur1.setEosEndLimitDate("2016-11-30");
-        cltur1.setEosId("060220160425123456");
-        cltur1.setEosImpTime("2016-04-24");
-        cltur1.setEosLimit("30000");
-        cltur1.setEosStarLimitDate("2016-04-25");
-        cltur1.setEosState("50");
-        list.add(cltur1);
-        CreditLimitTemporaryUpStatus cltur2 =new CreditLimitTemporaryUpStatus();
-        cltur2.setEosEndLimitDate("2016-11-30");
-        cltur2.setEosId("060220160425123456");
-        cltur2.setEosImpTime("2016-04-24");
-        cltur2.setEosLimit("22000");
-        cltur2.setEosStarLimitDate("2016-04-25");
-        cltur2.setEosState("60");
-        list.add(cltur2);
-        CreditLimitTemporaryUpStatus cltur3 =new CreditLimitTemporaryUpStatus();
-        cltur3.setEosEndLimitDate("2015-09-30");
-        cltur3.setEosId("060220150325123422");
-        cltur3.setEosImpTime("2015-04-24");
-        cltur3.setEosLimit("12000");
-        cltur3.setEosStarLimitDate("2015-03-25");
-        cltur3.setEosState("50");
-        list.add(cltur3);
-        map.put(key, list);
-        return JSON.toJSONString(map);
-    }
+	@RequestMapping(value = "temporaryUpCommit")
+	@ResponseBody
+	public String temporaryUpCommit() {
+		Map<String, Object> map = mockResult();
+		map.put(key, true);
+		return JSON.toJSONString(map);
+	}
 
+	@RequestMapping(value = "creditLimitTemporaryUpReview")
+	@ResponseBody
+	public String creditLimitTemporaryUpReview() {
+		Map<String, Object> map = mockResult();
+		CreditLimitTemporaryUpReview cltur = new CreditLimitTemporaryUpReview();
+		cltur.setAmount("30000");
+		cltur.setCardStyle("1");
+		cltur.setCreditLimit("10000");
+		cltur.setIssuingBranchId("0000000111");
+		cltur.setPmtCreditLimit("10000");
+		cltur.setPrincipalResultID("A");
+		map.put(key, cltur);
+		return JSON.toJSONString(map);
+	}
+
+	@RequestMapping(value = "getTemporaryUpCommitStatus")
+	@ResponseBody
+	public String getTemporaryUpCommitStatus() {
+		Map<String, Object> map = mockResult();
+		List<CreditLimitTemporaryUpStatus> list = new ArrayList<>();
+		CreditLimitTemporaryUpStatus cltur1 = new CreditLimitTemporaryUpStatus();
+		cltur1.setEosEndLimitDate("2016-11-30");
+		cltur1.setEosId("060220160425123456");
+		cltur1.setEosImpTime("2016-04-24");
+		cltur1.setEosLimit("30000");
+		cltur1.setEosStarLimitDate("2016-04-25");
+		cltur1.setEosState("50");
+		list.add(cltur1);
+		CreditLimitTemporaryUpStatus cltur2 = new CreditLimitTemporaryUpStatus();
+		cltur2.setEosEndLimitDate("2016-11-30");
+		cltur2.setEosId("060220160425123456");
+		cltur2.setEosImpTime("2016-04-24");
+		cltur2.setEosLimit("22000");
+		cltur2.setEosStarLimitDate("2016-04-25");
+		cltur2.setEosState("60");
+		list.add(cltur2);
+		CreditLimitTemporaryUpStatus cltur3 = new CreditLimitTemporaryUpStatus();
+		cltur3.setEosEndLimitDate("2015-09-30");
+		cltur3.setEosId("060220150325123422");
+		cltur3.setEosImpTime("2015-04-24");
+		cltur3.setEosLimit("12000");
+		cltur3.setEosStarLimitDate("2015-03-25");
+		cltur3.setEosState("50");
+		list.add(cltur3);
+		map.put(key, list);
+		return JSON.toJSONString(map);
+	}
+
+	/**
+	 * 消费分期查询
+	 * 
+	 * @return 可分期消费信息
+	 */
+	int o = 1;
+
+	@RequestMapping(value = "queryConsumptionInstallments")
+	@ResponseBody
+	public String queryConsumptionInstallments() {
+		Map<String, Object> map = mockResult();
+		ConsumptionInstallmentsesReceive consumptionInstallmentsesReceive = new ConsumptionInstallmentsesReceive();
+		List<ConsumptionInstallments> consumptionInstallmentsList = new ArrayList<ConsumptionInstallments>();
+		if (o == 1) {
+			ConsumptionInstallments c = new ConsumptionInstallments();
+			c.setAccountedID("01");
+			c.setAccountID("02");
+			c.setAccountNoID("03");
+			c.setCardNo("1111111111111111");
+			c.setCurrencyChinaCode("CNY");
+			c.setDebitCreditCode("DEBT");
+			c.setOriginalCurrencyCode("CNY");
+			c.setOriginalTransactionAmount("1111");
+			c.setTransactionAmount("1111");
+			c.setTransactionDate("2016-04-25");
+			c.setTransactionDescription("京东");
+			c.setCycleNumber("4");
+			c.setTransactionCurrencyCode("CNY");
+			c.setTransactionNo("5");
+			consumptionInstallmentsList.add(c);
+			consumptionInstallmentsList.add(c);
+			consumptionInstallmentsList.add(c);
+			consumptionInstallmentsList.add(c);
+			consumptionInstallmentsList.add(c);
+			consumptionInstallmentsList.add(c);
+			consumptionInstallmentsList.add(c);
+			consumptionInstallmentsList.add(c);
+			consumptionInstallmentsList.add(c);
+			consumptionInstallmentsList.add(c);
+			consumptionInstallmentsesReceive.setConsumptionInstallmentsList(consumptionInstallmentsList);
+			consumptionInstallmentsesReceive.setHasNext(true);
+			consumptionInstallmentsesReceive.setTransactionNumber("11");
+		} else {
+			ConsumptionInstallments c1 = new ConsumptionInstallments();
+			c1.setAccountedID("01");
+			c1.setAccountID("02");
+			c1.setAccountNoID("03");
+			c1.setCardNo("1111111111111111");
+			c1.setCurrencyChinaCode("CNY");
+			c1.setDebitCreditCode("DEBT");
+			c1.setOriginalCurrencyCode("USD");
+			c1.setOriginalTransactionAmount("1111");
+			c1.setTransactionAmount("1111");
+			c1.setTransactionDate("2016-04-25");
+			c1.setTransactionDescription("京东");
+			c1.setCycleNumber("4");
+			c1.setTransactionCurrencyCode("CNY");
+			c1.setTransactionNo("5");
+			consumptionInstallmentsList.add(c1);
+			consumptionInstallmentsesReceive.setConsumptionInstallmentsList(consumptionInstallmentsList);
+			consumptionInstallmentsesReceive.setHasNext(false);
+			consumptionInstallmentsesReceive.setTransactionNumber("11");
+		}
+		o++;
+		map.put(key, consumptionInstallmentsesReceive);
+		return JSON.toJSONString(map);
+	}
 }

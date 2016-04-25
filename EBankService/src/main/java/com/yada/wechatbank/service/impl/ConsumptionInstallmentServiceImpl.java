@@ -65,7 +65,7 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 			consumptionInstallmentsesReceive = consumptionInstallmentsResp.getBizResult();
 		}
 		// 是否还有更多信息查询，0没有，1有
-		map.put("isFollowUp", consumptionInstallmentsesReceive.isHasNext() ? "0" : "1");
+		map.put("isFollowUp", consumptionInstallmentsesReceive.isHasNext() ? "1" : "0");
 		for (ConsumptionInstallments consumptionInstallments : consumptionInstallmentsesReceive.getConsumptionInstallmentsList()) {
 			// 交易金额---过滤出大于600的数据 借方、贷方---过滤出DEBT表示借方（例如，消费）
 			if (Double.parseDouble(consumptionInstallments.getTransactionAmount()) >= Double.parseDouble(consumptionInstallmentMinAmount)
