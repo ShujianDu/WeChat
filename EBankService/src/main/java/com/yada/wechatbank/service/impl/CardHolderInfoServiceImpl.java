@@ -83,18 +83,18 @@ public class CardHolderInfoServiceImpl extends BaseService implements CardHolder
         cardHolderInfo.setWorkUnitPhone(workUnitPhone);
 
         //电子邮箱
-        String eMail = cardHolderInfo.getEMail();
-        int index = eMail.indexOf('@');
-        if (eMail == null || "".equals(eMail)) {
-            eMail = DEFAULT;
+        String mailBox = cardHolderInfo.getMailBox();
+        int index = mailBox.indexOf('@');
+        if (mailBox == null || "".equals(mailBox)) {
+            mailBox = DEFAULT;
         } else if (index >= 1) {
             if (index >= 8) {
-                eMail = this.replaceStartToEnd(index - 4, index, eMail, REPLACESTRING);
+                mailBox = this.replaceStartToEnd(index - 4, index, mailBox, REPLACESTRING);
             } else {
-                eMail = this.replaceStartToEnd((index + 1) / 2, index, eMail, REPLACESTRING);
+                mailBox = this.replaceStartToEnd((index + 1) / 2, index, mailBox, REPLACESTRING);
             }
         }
-        cardHolderInfo.setEMail(eMail);
+        cardHolderInfo.setMailBox(mailBox);
 
         //单位名称
         String workUnitName = cardHolderInfo.getWorkUnitName();

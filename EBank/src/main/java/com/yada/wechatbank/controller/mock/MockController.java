@@ -129,7 +129,7 @@ public class MockController {
         Map<String, Object> map = mockResult();
         CardHolderInfo c = new CardHolderInfo();
         c.setMobileNo("1591111111");
-        c.setEMail("123123123123@qq.com");
+        c.setMailBox("123123123123@qq.com");
         c.setFamilyName("李任日");
         c.setGender("Male");
         c.setPostalCode("100010");

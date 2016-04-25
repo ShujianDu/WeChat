@@ -11,7 +11,4 @@
         <constructor-arg name="readTimeout" value="${httpClient.readTimeout}"></constructor-arg>
     </bean>
 
-
-    <bean id="currencyUtil" class="com.yada.wechatbank.util.CurrencyUtil"></bean>
-
 </beans>

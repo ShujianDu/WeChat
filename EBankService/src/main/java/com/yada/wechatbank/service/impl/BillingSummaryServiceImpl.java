@@ -9,7 +9,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -37,8 +36,6 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 	// 账单摘要查询
 	@Value(value = "${url.billingSummary}")
 	protected String billingSummaryUrl;
-	@Autowired
-	private CurrencyUtil currencyUtil;
 
 	@Override
 	public List<BillingSummary> getBillingSummaryList(String cardNo, String date) throws Exception {
@@ -90,7 +87,7 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 				} else {
 					billingSummary = billingSummaryResp.getBizResult();
 					// 设置中文显示币种
-					billingSummary.setCurrencyChinaCode(currencyUtil.translateChinese(billingSummary.getCurrencyCode()));
+					billingSummary.setCurrencyChinaCode(CurrencyUtil.translateChinese(billingSummary.getCurrencyCode()));
 				}
 				billingSummaries.add(billingSummary);
 			}

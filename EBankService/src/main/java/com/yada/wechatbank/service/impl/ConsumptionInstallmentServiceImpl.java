@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +39,6 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 	// 消费分期授权
 	@Value("${url.authorizationConsumptionInstallment}")
 	private String authorizationConsumptionInstallmentUrl;
-	@Autowired
-	private CurrencyUtil currencyUtil;
 
 	@Override
 	public List<String> selectCardNoList(String identityType, String identityNo) {
@@ -73,7 +70,7 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 			// 交易金额---过滤出大于600的数据 借方、贷方---过滤出DEBT表示借方（例如，消费）
 			if (Double.parseDouble(consumptionInstallments.getTransactionAmount()) >= Double.parseDouble(consumptionInstallmentMinAmount)
 					&& "DEBT".equalsIgnoreCase(consumptionInstallments.getDebitCreditCode())) {
-				consumptionInstallments.setCurrencyChinaCode(currencyUtil.translateChinese(consumptionInstallments.getOriginalCurrencyCode()));
+				consumptionInstallments.setCurrencyChinaCode(CurrencyUtil.translateChinese(consumptionInstallments.getOriginalCurrencyCode()));
 				consumptionInstallmentsList.add(consumptionInstallments);
 			}
 		}

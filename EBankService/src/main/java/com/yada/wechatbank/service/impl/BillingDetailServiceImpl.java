@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +30,6 @@ public class BillingDetailServiceImpl extends BaseService implements BillingDeta
 	// 未出账单明细查询
 	@Value(value = "${url.unsmBillingDetail}")
 	protected String unsmBillingDetailUrl;
-	@Autowired
-	private CurrencyUtil currencyUtil;
 
 	@Override
 	public List<BillingDetail> getBillingDetail(String cardNo, String queryType, String STARTNUM, String TOTALNUM, String periodStartDate,
@@ -64,7 +61,7 @@ public class BillingDetailServiceImpl extends BaseService implements BillingDeta
 			billingDetailList = billingDetailResp.getBizResult();
 			// 设置中文显示币种
 			for (BillingDetail billingDetail : billingDetailList) {
-				billingDetail.setCurrencyChinaCode(currencyUtil.translateChinese(billingDetail.getCurrencyCode()));
+				billingDetail.setCurrencyChinaCode(CurrencyUtil.translateChinese(billingDetail.getCurrencyCode()));
 			}
 		}
 		return billingDetailList;

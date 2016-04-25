@@ -76,11 +76,11 @@
 			var cardNo = $("#cardNo");
 			var currencyCode = $("#currencyCode");
 			if (cardNo.val() == null || cardNo.val() == "") {
-				$("#cardNoWarning").innerHTML = "请选择卡号！";
+				$("#cardNoWarning").text ("请选择卡号！");
 				return false;
 			}
 			if (currencyCode.val() == null || currencyCode.val() == "") {
-				$("#currencyCodeWarning").innerHTML = "请选择币种！";
+				$("#currencyCodeWarning").text ("请选择币种！");
 				return false;
 			}
 			isClicked = true;
@@ -88,19 +88,18 @@
 		}
 		
 		function changeWarning() {
-			$("#cardNoWarning").innerHTML = "";
-			$("#currencyCodeWarning").innerHTML = "";
+			$("#cardNoWarning").text ("");
+			$("#currencyCodeWarning").text ("");
 		}
 		
 		window.onload = function() {
 			var cardSelect = $("#cardNo");
 			for ( var i = 0; i < cardSelect.length; i++) {
-				if (cardSelect[i].val() == "${cardNo}") {
-					cardSelect[i].selected = "selected";
+				if (cardSelect.children(i).value == "${cardNo}") {
+					cardSelect.children(i).selected = "selected";
 				}
 			}
 		}
-
 
 	</script>
 </body>
