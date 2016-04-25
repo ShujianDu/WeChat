@@ -3,6 +3,7 @@ package com.yada.wechatbank.service.impl;
 import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.BooleanResp;
 import com.yada.wechatbank.client.model.ListStringResp;
+import com.yada.wechatbank.client.model.StringResp;
 import com.yada.wechatbank.service.WbicCardInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,17 +29,17 @@ public class WbicCardInfoServiceImpl extends BaseService implements WbicCardInfo
     protected String wbicCardInfoSendSmsMethod;
 
     @Override
-    public List<String> getWbicCards(String idNum, String idType) {
+    public String getWbicCards(String idNum, String idType) {
         //获得gcs初始化map
         Map<String, String> param = initGcsParam();
         param.put("idNum", idNum);
         param.put("idType", idType);
 
         //发送请求，查询海淘卡
-        ListStringResp listStringResp = httpClient.send(getWbicCardsMethod, param, ListStringResp.class);
+        StringResp stringResp = httpClient.send(getWbicCardsMethod, param, StringResp.class);
         logger.debug("@HTCX@根据证件号证件类型查询海淘卡，传入的参数为idNum[{}],idType[{}],结果为[{}]",
-                idNum, idType, listStringResp == null ? null : listStringResp.getBizResult());
-        return listStringResp == null ? null : listStringResp.getBizResult();
+                idNum, idType, stringResp == null ? null : stringResp.getBizResult());
+        return stringResp == null ? null : stringResp.getBizResult();
     }
 
     @Override

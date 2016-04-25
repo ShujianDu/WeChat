@@ -12,9 +12,9 @@ public interface WbicCardInfoService {
      * 查询海淘卡
      * @param idNum 证件号
      * @param idType 证件类型
-     * @return 卡集合
+     * @return 卡号
      */
-    List<String> getWbicCards(String idNum, String idType);
+    String getWbicCards(String idNum, String idType);
 
     /**
      * 海淘用户发送短信

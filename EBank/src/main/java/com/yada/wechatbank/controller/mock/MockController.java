@@ -254,10 +254,8 @@ public class MockController {
     @ResponseBody
     public String getWbicCards() {
         Map<String, Object> map = mockResult();
-        List<String> list = new ArrayList<>();
         String cardNo = "111111222222333333";
-        list.add(cardNo);
-        map.put(key, list);
+        map.put(key, cardNo);
         return JSON.toJSONString(map);
     }
 

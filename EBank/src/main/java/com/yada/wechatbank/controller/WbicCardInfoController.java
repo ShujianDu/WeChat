@@ -41,18 +41,18 @@ public class WbicCardInfoController extends BaseController {
         String idNum = getIdentityNo(request);
         String idType = getIdentityType(request);
         //查询海淘卡
-        List<String> list = wbicCardInfoServiceImpl.getWbicCards(idNum, idType);
+        String wbicCardNo = wbicCardInfoServiceImpl.getWbicCards(idNum, idType);
         //发生异常，跳到错误页面
-        if (list == null) {
+        if (wbicCardNo == null) {
             return BUSYURL;
         }
         //没有申请卡片，跳到申请页面
-        if (list.size() == 0) {
+        if (wbicCardNo.isEmpty()) {
             model.addAttribute("seawashUrl", seawashUrl);
             return APPLYURL;
         }
-        //给海淘卡用户发送短信,这里选取第一张卡
-        Boolean smsFlag = wbicCardInfoServiceImpl.wbicCardInfoSendSms(list.get(0));
+        //给海淘卡用户发送短信
+        Boolean smsFlag = wbicCardInfoServiceImpl.wbicCardInfoSendSms(wbicCardNo);
         if (!smsFlag) {
             return BUSYURL;
         }
