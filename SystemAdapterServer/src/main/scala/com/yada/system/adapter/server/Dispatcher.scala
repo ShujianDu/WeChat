@@ -2,10 +2,14 @@ package com.yada.system.adapter.server
 
 import java.nio.charset.StandardCharsets
 
+import com.typesafe.config.ConfigFactory
+import com.yada.sdk.commons.SystemIOException
 import com.yada.system.adapter.route.Route
 import io.netty.handler.codec.http.FullHttpRequest
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{Writes, _}
+
+import scala.collection.JavaConverters._
 
 
 class Dispatcher {
@@ -24,18 +28,21 @@ class Dispatcher {
           val data = x.execute(json)
           Response("00", "处理成功", Some(data))
         } catch {
-          //TODO 异常处理
+          case e:SystemIOException =>
+            //TODO 发送Event
+            Response("98",e.channelName +"发生异常",None)
           case e: Exception => Response("99", "未知异常", None)
         }
-      case None => throw new RuntimeException("404")
+      case None =>
+        Response("97",f"请求地址:$path,不存在",None)
     }
     Json.toJson(rs).toString()
   }
 
   private def init(): Map[String, Route] = {
-    //TODO 扫描包反射初始化Map
-    Map.empty[String, Route]
-
+    ConfigFactory.load().getStringList("systemAdapter.server.routeClasses").asScala.map(
+      className => (className,Class.forName(className).newInstance().asInstanceOf[Route])
+    ).toMap
   }
 }
 
