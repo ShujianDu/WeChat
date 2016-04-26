@@ -278,9 +278,9 @@ public class MockController {
 		return JSON.toJSONString(map);
 	}
 
-	@RequestMapping(value = "getBalance")
+	@RequestMapping(value = "getCardBalance")
 	@ResponseBody
-	public String getBalance() {
+	public String getCardBalance() {
 		Map<String, Object> map = mockResult();
 		List<Balance> list = new ArrayList<>();
 
