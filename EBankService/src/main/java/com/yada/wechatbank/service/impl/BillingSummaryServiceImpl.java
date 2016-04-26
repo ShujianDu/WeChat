@@ -83,7 +83,6 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 				} else if (billingSummaryResp.getBizResult() == null) {
 					billingSummary = new BillingSummary();
 					billingSummary.setClosingBalance("0");
-					billingSummaries.add(billingSummary);
 				} else {
 					billingSummary = billingSummaryResp.getBizResult();
 					// 设置中文显示币种
