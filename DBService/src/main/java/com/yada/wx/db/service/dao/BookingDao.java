@@ -18,7 +18,6 @@ public interface BookingDao extends JpaRepository<Booking, Long>, JpaSpecificati
 
     List<Booking> findByClientNameAndPhone(String clientName, String phone);
 
-    @Modifying(clearAutomatically = true)
-    @Query(nativeQuery = true, value = "select SEQ_T_B_BOOKING.Nextval from dual")
+    @Query(nativeQuery = true, value = "select SEQ_T_B_BOOKING.Nextval from dual" )
     String getSequences();
 }

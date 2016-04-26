@@ -16,11 +16,7 @@ public interface CustomerInfoDao extends JpaRepository<CustomerInfo, Long>, JpaS
 
     CustomerInfo findByOpenId(String openId);
 
-    List<CustomerInfo> findByIdentityNo(String identityNo);
-
     List<CustomerInfo> findByIdentityTypeAndIdentityNo(String identityType,String identityNo);
-
-    CustomerInfo findByOpenIdAndIdentityNo(String openId,String identityNo);
 
     @Modifying(clearAutomatically = true)
     @Query(nativeQuery = true, value = "UPDATE T_B_CUSTOMER_INFO SET IDENTITY_TYPE = :identityType WHERE IDENTITY_NO = :identityNo")

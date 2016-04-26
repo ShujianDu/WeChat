@@ -58,7 +58,7 @@ public class BindingController extends BaseController {
     public String list(
             @ModelAttribute("formBean") BindingQuery bindingQuery, Model model,
             HttpServletRequest request) {
-        String openId = (String) request.getAttribute("openId");
+        String openId = request.getParameter("openId");
         if (openId != null && !"".equals(openId)) {
             bindingQuery.setOpenId(openId);
         }

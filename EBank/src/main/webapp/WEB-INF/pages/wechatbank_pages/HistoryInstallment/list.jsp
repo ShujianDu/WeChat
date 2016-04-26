@@ -49,9 +49,9 @@
 						<td width="40">卡号:</td>
 						<td>
 						<select name="cardNo" id="cardNoSelect">
-							<c:forEach items="${cardList}" var="item" varStatus="status">
-								<option value="item">
-									<c:out value="${fn:substring(item,0,16)}" />
+							<c:forEach items="${cardListCrypt}" var="item" varStatus="status">
+								<option value="${fn:substring(item,17,66)}">
+									<c:out value="${fn:substring(item, 0, 16)}" />
 								</option>
 							</c:forEach>
 						</select>

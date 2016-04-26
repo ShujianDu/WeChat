@@ -2,6 +2,7 @@ package com.yada.wechatbank.service;
 
 
 
+import com.yada.wechatbank.model.CardInfo;
 import com.yada.wechatbank.model.HistoryInstallmentList;
 
 import java.util.List;
@@ -26,6 +27,6 @@ public interface HistoryInstallmentService {
      * @param identityType 证件类型
      * @return 卡列表
      */
-    List<String> selectCardNOs(String identityNo, String identityType);
+    List<CardInfo> selectCardNOs(String identityNo, String identityType);
 
 }
