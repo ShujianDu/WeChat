@@ -1,10 +1,15 @@
 package com.yada.wechatbank.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +23,8 @@ import com.yada.wechatbank.model.ConsumptionInstallments;
 import com.yada.wechatbank.model.ConsumptionInstallmentsesReceive;
 import com.yada.wechatbank.service.ConsumptionInstallmentService;
 import com.yada.wechatbank.util.CurrencyUtil;
+import com.yada.wx.db.service.dao.InstallmentInfoDao;
+import com.yada.wx.db.service.model.InstallmentInfo;
 
 /**
  * 消费分期业务实现类
@@ -27,6 +34,7 @@ import com.yada.wechatbank.util.CurrencyUtil;
  */
 @Service
 public class ConsumptionInstallmentServiceImpl extends BaseService implements ConsumptionInstallmentService {
+	private final Logger logger = LoggerFactory.getLogger(ConsumptionInstallmentServiceImpl.class);
 	// 查询所有可分期的消费交易
 	@Value(value = "${url.queryConsumptionInstallments}")
 	protected String queryConsumptionInstallmentsUrl;
@@ -39,6 +47,8 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 	// 消费分期授权
 	@Value("${url.authorizationConsumptionInstallment}")
 	private String authorizationConsumptionInstallmentUrl;
+	@Autowired
+	private InstallmentInfoDao installmentInfoDao;
 
 	@Override
 	public List<String> selectCardNoList(String identityType, String identityNo) {
@@ -102,23 +112,41 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 	}
 
 	@Override
-	public String authorizationConsumptionInstallment(ConsumptionInstallmentAuthorization consumptionInstallmentAuthorization) {
+	public boolean authorizationConsumptionInstallment(ConsumptionInstallmentAuthorization cia) {
+		// 授权结果
+		boolean returnRes;
 		Map<String, String> param = initGcsParam();
-		param.put("accountKeyOne", consumptionInstallmentAuthorization.getAccountKeyOne());
-		param.put("accountKeyTwo", consumptionInstallmentAuthorization.getAccountKeyTwo());
-		param.put("currencyCode", consumptionInstallmentAuthorization.getCurrencyCode());
-		param.put("billDateNo", consumptionInstallmentAuthorization.getBillDateNo());
-		param.put("transactionAmount", consumptionInstallmentAuthorization.getTransactionAmount());
-		param.put("cardNo", consumptionInstallmentAuthorization.getCardNo());
-		param.put("accountNoID", consumptionInstallmentAuthorization.getAccountNoID());
-		param.put("installmentPeriods", consumptionInstallmentAuthorization.getInstallmentPeriods());
-		param.put("isfeeFlag", consumptionInstallmentAuthorization.getIsfeeFlag());
+		param.put("accountKeyOne", cia.getAccountKeyOne());
+		param.put("accountKeyTwo", cia.getAccountKeyTwo());
+		param.put("currencyCode", cia.getCurrencyCode());
+		param.put("billDateNo", cia.getBillDateNo());
+		param.put("transactionAmount", cia.getTransactionAmount());
+		param.put("cardNo", cia.getCardNo());
+		param.put("accountNoID", cia.getAccountNoID());
+		param.put("installmentPeriods", cia.getInstallmentPeriods());
+		param.put("isfeeFlag", cia.getIsfeeFlag());
+		String tDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		InstallmentInfo bi = new InstallmentInfo(cia.getCardNo(), "消费分期", cia.getCurrencyCode(), cia.getTransactionAmount(), cia.getInstallmentPeriods(),
+				cia.getIsfeeFlag(), tDate);
 		ConsumerAuthorizationResultResp consumerAuthorizationResultResp = httpClient.send(authorizationConsumptionInstallmentUrl, param,
 				ConsumerAuthorizationResultResp.class);
 		if (consumerAuthorizationResultResp == null || consumerAuthorizationResultResp.getBizResult() == null) {
-			return null;
+			return false;
 		}
-		return consumerAuthorizationResultResp.getBizResult().getReturnCode();
+		String resultCode = consumerAuthorizationResultResp.getBizResult();
+		if ("+GC00000".equals(resultCode)) {
+			bi.setStatus("1");
+			returnRes = true;
+		} else {
+			bi.setStatus("0");
+			returnRes = false;
+		}
+		try {
+			installmentInfoDao.save(bi);
+		} catch (Exception e) {
+			logger.error("@ConsumptionInstallment@db error:[", e + "]");
+		}
+		return returnRes;
 	}
 
 	@Override
