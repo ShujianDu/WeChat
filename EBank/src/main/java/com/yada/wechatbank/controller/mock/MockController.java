@@ -643,6 +643,11 @@ public class MockController {
 		return JSON.toJSONString(map);
 	}
 
+	/**
+	 * 消费分期授权
+	 * 
+	 * @return 授权结果
+	 */
 	@RequestMapping(value = "authorizationConsumptionInstallment")
 	@ResponseBody
 	private String authorizationConsumptionInstallment() {
@@ -651,5 +656,15 @@ public class MockController {
 		c.setReturnCode("1");
 		map.put(key, c);
 		return JSON.toJSONString(map);
+	}
+
+	/**
+	 * 附近网点查询
+	 * 
+	 * @return 重定向地址
+	 */
+	@RequestMapping(value = "chinabankinfo")
+	private String chinabankinfolist() {
+		return "redirect:http://localhost/ebank/chinabankinfo/baiduMap.do?longitude=116.326418&latitude=39.984683&userLongitude=116.326417&userLatitude=39.984684&name=%E5%8C%97%E4%BA%AC%E4%B8%B0%E5%8F%B0%E5%88%86%E8%A1%8C";
 	}
 }

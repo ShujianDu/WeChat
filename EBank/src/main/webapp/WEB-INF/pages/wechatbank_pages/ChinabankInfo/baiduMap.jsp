@@ -346,7 +346,7 @@ input {
 				tabs[i].attr('className','td');
 			}
 			else {
-				tabs[i].attr('className',''');
+				tabs[i].attr('className','');
 			}
 		}
 	}
