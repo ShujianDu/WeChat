@@ -40,6 +40,7 @@
         <h2database.version>1.4.191</h2database.version>
         <sitemesh.version>3.0.1</sitemesh.version>
         <ehcache.version>2.10.2</ehcache.version>
+        <tomcat.jdbc.version>8.5.0</tomcat.jdbc.version>
     </properties>
 
     <dependencyManagement>
@@ -232,13 +233,19 @@
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
                 <version>${h2database.version}</version>
-                <scope>test</scope>
+                <!--<scope>test</scope>-->
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat</groupId>
+                <artifactId>tomcat-jdbc</artifactId>
+                <version>${tomcat.jdbc.version}</version>
             </dependency>
             <dependency>
                 <groupId>WeChat</groupId>
                 <artifactId>CallbackDataService</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
     <!-- -->
