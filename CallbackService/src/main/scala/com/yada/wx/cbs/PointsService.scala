@@ -7,10 +7,10 @@ class PointsService(customerService: CustomerService) {
 
   protected val POINTSBALANCE_URL = "/pointsBalance"
 
-  def getPoints(openID:String): String ={
+  def getPoints(openID: String): String = {
     customerService.getCustomerInfo(openID) match {
       case Some(customerInfo) =>
-        HttpClient.send(Json.toJson(PointsParams(customerInfo.defCardNo)).toString,POINTSBALANCE_URL)
+        HttpClient.send(Json.toJson(PointsParams(customerInfo.defCardNo)).toString, POINTSBALANCE_URL)
       case None => ""
     }
   }
