@@ -21,7 +21,7 @@ function clearAndInit() {
     var doughnutData = [
         {
             value: 1,
-            color:"#ed6139",
+            color: "#ed6139",
         },
         {
             value: 1000000,
@@ -52,13 +52,16 @@ function messageReveal() {
         type: "get",
         dataType: "json",
         async: false,
+        error:function (){
+            $(".error_box").fadeIn(500);
+        },
         success: function (data) {
 
             if (data == "exception") {
                 $(".error_box").fadeIn(500);
                 return;
             }
-            if(data == ""){
+            if (data == "") {
                 $(".error_box").fadeIn(500);
                 return;
             }
@@ -100,7 +103,7 @@ function showInfo(idx) {
         var doughnutData = [
             {
                 value: 1,
-                color:"#ed6139",
+                color: "#ed6139",
             },
             {
                 value: 1000000,
