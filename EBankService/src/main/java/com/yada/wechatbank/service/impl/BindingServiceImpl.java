@@ -184,7 +184,10 @@ public class BindingServiceImpl extends BaseService implements BindingService {
     @Override
     public String getDefCardNo(String openId) {
         CustomerInfo customerInfo = customerInfoDao.findByOpenId(openId);
-        return customerInfo.getDefCardNo();
+        if(customerInfo!=null){
+            return customerInfo.getDefCardNo();
+        }
+        return null;
     }
 
     /**
@@ -258,20 +261,19 @@ public class BindingServiceImpl extends BaseService implements BindingService {
     @Override
     public boolean isCorrectIdentityType(String identityNo, String identityType) {
         List<CustomerInfo> customerInfoList = customerInfoDao.findByIdentityTypeAndIdentityNo(identityType, identityNo);
-        return customerInfoList != null || customerInfoList.size() == 0;
+        return customerInfoList != null && customerInfoList.size() != 0;
     }
 
     /**
      * 补充证件类型插入数据库
      *
-     * @param openId       openId
      * @param identityType 证件类型
      * @param identityNo   证件号
      * @return boolean
      */
-    public boolean fillIdentityType(String openId, String identityType, String identityNo) {
-        customerInfoDao.updateIdentityTypeByIdentityNo(identityType, identityNo);
-        return true;
+    public boolean fillIdentityType(String identityType, String identityNo) {
+        int result = customerInfoDao.updateIdentityTypeByIdentityNo(identityType, identityNo);
+        return result != 0;
     }
 
 }

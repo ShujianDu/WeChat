@@ -12,7 +12,7 @@ class BillService(customerService: CustomerService) {
   protected val BILLINGPERIODS_URL = "/billingPeriods"
   protected val BILLINGSUMMARY_URL = "/billingSummary"
 
-  def getBillingSummary(openID: String): Option[BillingSummary] = {
+  def getBillingSummary(openID: String): Option[BillingSummaryResult] = {
 
     //TODO 写法变成Map
     val billingPeriodsJson = customerService.getCustomerInfo(openID) match {
@@ -21,7 +21,7 @@ class BillService(customerService: CustomerService) {
       case None => None
     }
 
-    val billingSummaryJson =  billingPeriodsJson match {
+    val billingSummaryJson = billingPeriodsJson match {
       case Some(v) =>
         val gcsBillingPeriods = Json.parse(v).as[List[BillingPeriodsResult]]
         val temp = gcsBillingPeriods.filter(g => {
@@ -32,7 +32,7 @@ class BillService(customerService: CustomerService) {
         )
         temp.headOption match {
           case Some(h) =>
-            Some(HttpClient.send(Json.toJson(BillingSummary("sessionID", "channelID", h.accountId,h.statementNo)).toString(), BILLINGPERIODS_URL))
+            Some(HttpClient.send(Json.toJson(BillingSummaryParams("sessionID", "channelID", h.accountId, h.statementNo)).toString(), BILLINGPERIODS_URL))
           case None => None
         }
       case None => None
@@ -40,7 +40,7 @@ class BillService(customerService: CustomerService) {
 
     billingSummaryJson match {
       case Some(json) =>
-        Some(Json.parse(json).as[BillingSummary])
+        Some(Json.parse(json).as[BillingSummaryResult])
       case None => None
     }
   }
@@ -49,22 +49,30 @@ class BillService(customerService: CustomerService) {
 case class BillingPeriodsResult(accountId: String, currencyCode: String, periodStartDate: String, periodEndDate: String, statementNo: String)
 
 object BillingPeriodsResult {
-  implicit val billingPeriodsResultWrites: Writes[BillingPeriodsResult] = (
-    (__ \ "accountId").write[String] ~ (__ \ "currencyCode").write[String] ~ (__ \ "periodStartDate").write[String] ~ (__ \ "periodEndDate").write[String] ~ (__ \ "statementNo").write[String]
-    ) (unlift(BillingPeriodsResult.unapply))
+  implicit val billingPeriodsResultReads: Reads[BillingPeriodsResult] = (
+    (__ \ "accountId").read[String] ~ (__ \ "currencyCode").read[String] ~ (__ \ "periodStartDate").read[String] ~ (__ \ "periodEndDate").read[String] ~ (__ \ "statementNo").read[String]
+    ) (BillingPeriodsResult.apply _)
 }
 
 case class BillingPeriodsParams(sessionId: String, channelId: String, cardNo: String)
 
 object BillingPeriodsParams {
-  implicit val billingPeriodsReads: Reads[BillingPeriodsParams] = (
-    (__ \ "sessionID").read[String] ~ (__ \ "channelID").read[String] ~ (__ \ "cardNo").read[String]) (BillingPeriodsParams.apply _)
+  implicit val billingPeriodsWrites: Writes[BillingPeriodsParams] = (
+    (__ \ "sessionID").write[String] ~ (__ \ "channelID").write[String] ~ (__ \ "cardNo").write[String]) (unlift(BillingPeriodsParams.unapply))
 }
 
-case class BillingSummary(tranSessionID: String, reqChannelID: String, statementNo: String, accountId: String)
+case class BillingSummaryParams(tranSessionID: String, reqChannelID: String, statementNo: String, accountId: String)
 
-object BillingSummary {
-  implicit val billingSummaryReads: Reads[BillingSummary] = (
-    (__ \ "tranSessionID").read[String] ~ (__ \ "reqChannelID").read[String] ~ (__ \ "statementNo").read[String]
-      ~ (__ \ "accountId").read[String]) (BillingSummary.apply _)
+object BillingSummaryParams {
+  implicit val billingSummaryWrites: Writes[BillingSummaryParams] = (
+    (__ \ "tranSessionID").write[String] ~ (__ \ "reqChannelID").write[String] ~ (__ \ "statementNo").write[String]
+      ~ (__ \ "accountId").write[String]) (unlift(BillingSummaryParams.unapply))
+}
+
+case class BillingSummaryResult(periodStartDate: String, periodEndDate: String, paymentDueDate: String, closingBalance: String, currencyCode: String, minPaymentAmount: String)
+
+object BillingSummaryResult {
+  implicit val billingSummaryResultReads: Reads[BillingSummaryResult] = (
+    (__ \ "periodStartDate").read[String] ~ (__ \ "periodEndDate").read[String] ~ (__ \ "paymentDueDate").read[String] ~ (__ \ "closingBalance").read[String] ~ (__ \ "currencyCode").read[String] ~ (__ \ "minPaymentAmount").read[String]
+    ) (BillingSummaryResult.apply _)
 }

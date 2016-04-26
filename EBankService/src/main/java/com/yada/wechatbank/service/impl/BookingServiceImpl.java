@@ -44,8 +44,8 @@ public class BookingServiceImpl implements BookingService {
      */
     @Override
     public boolean insertBooking(Booking booking) {
-        if (bookingDao.findByClientNameAndPhone(booking.getClientName(), booking.getPhone()) != null) {
-            bookingDao.deleteByClientNameAndPhone(booking.getClientName(), booking.getPhone());
+        if (bookingDao.findByClientNameAndMobilePhone(booking.getClientName(), booking.getMobilePhone()) != null) {
+            bookingDao.deleteByClientNameAndMobilePhone(booking.getClientName(), booking.getMobilePhone());
         }
         Booking res = bookingDao.save(booking);
         if (res == null) {
@@ -62,13 +62,7 @@ public class BookingServiceImpl implements BookingService {
      */
     @Override
     public List<NuwOrg> selectNumOrgList(String pOrgId) {
-        List<NuwOrg> nuwOrgList = null;
-        if("".equals(pOrgId)){
-            nuwOrgList = nuwOrgDao.findProvinceList();
-        }else{
-            nuwOrgList = nuwOrgDao.findByPOrgId(pOrgId);
-        }
-        return nuwOrgList;
+        return nuwOrgDao.findByPOrgId(pOrgId);
     }
 
     /**
@@ -80,7 +74,7 @@ public class BookingServiceImpl implements BookingService {
      */
     @Override
     public String isHaveBooking(String clientName, String mobilePhone) {
-        List<Booking> bookingList = bookingDao.findByClientNameAndPhone(clientName, mobilePhone);
+        List<Booking> bookingList = bookingDao.findByClientNameAndMobilePhone(clientName, mobilePhone);
         if (bookingList == null || bookingList.size() == 0) {
             return null;
         }

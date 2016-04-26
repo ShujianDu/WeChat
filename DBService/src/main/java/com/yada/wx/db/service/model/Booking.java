@@ -10,10 +10,8 @@ import javax.persistence.*;
 public class Booking {
 
     @Id
-    @GeneratedValue(generator="BOOKING_SEQ")
-    @SequenceGenerator(name="BOOKING_SEQ", sequenceName="SEQ_T_B_BOOKING")
     @Column(name = "BOOKING_ID", columnDefinition = "CHAR(32)", nullable = false)
-    private Long bookingId; //ID
+    private String bookingId; //ID
 
     @Column(name = "CLIENT_ID", columnDefinition = "VARCHAR2(20)", nullable = false)
     private String clientId; //客户ID
@@ -45,11 +43,11 @@ public class Booking {
     @Column(name = "STATE", columnDefinition = "CHAR(1)")
     private String state; //状态（1 已经处理，0 未处理）
 
-    public Long getBookingId() {
+    public String getBookingId() {
         return bookingId;
     }
 
-    public void setBookingId(Long bookingId) {
+    public void setBookingId(String bookingId) {
         this.bookingId = bookingId;
     }
 

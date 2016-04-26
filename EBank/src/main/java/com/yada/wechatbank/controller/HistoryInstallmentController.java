@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.yada.wechatbank.client.model.HistoryInstallmentResp;
+import com.yada.wechatbank.model.CardInfo;
 import com.yada.wechatbank.model.HistoryInstallment;
 import com.yada.wechatbank.model.HistoryInstallmentList;
 import com.yada.wechatbank.service.HistoryInstallmentService;
@@ -45,22 +46,41 @@ public class HistoryInstallmentController extends BaseController {
 	@RequestMapping(value = "list")
 	public String list(HttpServletRequest request, Model model) {
 		//获取卡片列表
-		List<String> cardList = historyInstallmentServiceImpl.selectCardNOs(getIdentityNo(request),getIdentityType(request));
+		List<CardInfo> cardList = historyInstallmentServiceImpl.selectCardNOs(getIdentityNo(request),getIdentityType(request));
+		List<String> cardListCrypt = new ArrayList<>();
+		for (CardInfo cardInfo : cardList) {
+			String cardNo = cardInfo.getCardNo();
+			cardListCrypt.add(cardNo);
+		}
+		try {
+			Crypt.cardNoCrypt(cardListCrypt);
+		} catch (Exception e) {
+			return BUSYURL;
+		}
 		//返回值为空或没有数据
 		if (cardList == null) {
 			return BUSYURL;
 		} else if (cardList.size() == 0) {
 			return NOCARDURL;
 		}
-		model.addAttribute("cardList", cardList);
+		model.addAttribute("cardListCrypt", cardListCrypt);
 		return LISTURL;
 	}
 
 	@RequestMapping(value = "listP")
 	public String listP(HttpServletRequest request, Model model) {
 		String cardNo = request.getParameter("cardNo");
-		List<String> cardList  = historyInstallmentServiceImpl.selectCardNOs(getIdentityNo(request),getIdentityType(request));
-		model.addAttribute("cardList", cardList);
+		List<CardInfo> cardList   = historyInstallmentServiceImpl.selectCardNOs(getIdentityNo(request),getIdentityType(request));
+		List<String> cardListCrypt = new ArrayList<>();
+		for (CardInfo cardInfo : cardList) {
+			cardListCrypt.add(cardInfo.getCardNo());
+		}
+		try {
+			Crypt.cardNoCrypt(cardListCrypt);
+		} catch (Exception e) {
+			return BUSYURL;
+		}
+		model.addAttribute("cardListCrypt", cardListCrypt);
 		HistoryInstallmentList historyInstallmentList = null;
 		try {
 			historyInstallmentList = historyInstallmentServiceImpl.queryHistoryInstallment(Crypt.decode(cardNo), STARTNUM,

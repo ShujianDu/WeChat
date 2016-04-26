@@ -58,7 +58,9 @@ public class BindingController extends BaseController {
     public String list(
             @ModelAttribute("formBean") BindingQuery bindingQuery, Model model,
             HttpServletRequest request) {
-        String openId = (String) request.getAttribute("openId");
+        //TODO 获取参数方式
+//        String openId = (String) request.getAttribute("openId");
+        String openId = request.getParameter("openId");
         if (openId != null && !"".equals(openId)) {
             bindingQuery.setOpenId(openId);
         }
@@ -289,7 +291,7 @@ public class BindingController extends BaseController {
             model.addAttribute("msg", "1");
             return FILLIDTYPEURL;
         }
-        if (bindingServiceImpl.fillIdentityType(openId, identityType, identityNo)) {
+        if (bindingServiceImpl.fillIdentityType(identityType, identityNo)) {
             // 获取默认卡
             String defCardNo = bindingServiceImpl.getDefCardNo(openId);
             if (defCardNo == null) {

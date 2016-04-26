@@ -63,6 +63,7 @@ public class BookingController extends BaseController {
         }
         String numStr = String.format("%04d", Integer.parseInt(num));
         Booking booking = new Booking();
+        booking.setBookingId(num);
         booking.setClientId("WC" + timeStr + numStr);
         booking.setClientName(bookingQuery.getClientName());
         booking.setProvId(bookingQuery.getProvId().substring(0,
@@ -91,7 +92,7 @@ public class BookingController extends BaseController {
             @ModelAttribute("formBean") BookingQuery bookingQuery,
             HttpServletRequest request, Model model) {
         // 获取省份集合
-        List<NuwOrg> provinceList = bookingServiceImpl.selectNumOrgList("");
+        List<NuwOrg> provinceList = bookingServiceImpl.selectNumOrgList(null);
         if (provinceList == null) {
             return ERROR;
         }
@@ -118,7 +119,11 @@ public class BookingController extends BaseController {
     @RequestMapping(value = "addressP")
     public String addressP(
             @ModelAttribute("formBean") BookingQuery bookingQuery,
-            Model model) {
+            Model model,HttpServletRequest request) {
+        String city = request.getParameter("city");
+        String area = request.getParameter("area");
+        bookingQuery.setCityId(city);
+        bookingQuery.setAreaId(area);
         StringBuilder areaStr = new StringBuilder();
         areaStr.append(
                 bookingQuery.getProvId().substring(

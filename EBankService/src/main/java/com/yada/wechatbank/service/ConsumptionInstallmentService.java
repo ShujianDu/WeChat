@@ -58,7 +58,7 @@ public interface ConsumptionInstallmentService {
 	 *            消费分期（费用试算）(TS011009)及消费分期授权(TS011011)上送报文实体
 	 * @return 分期授权结果
 	 */
-	String authorizationConsumptionInstallment(ConsumptionInstallmentAuthorization consumptionInstallmentAuthorization);
+	boolean authorizationConsumptionInstallment(ConsumptionInstallmentAuthorization consumptionInstallmentAuthorization);
 
 	/**
 	 * 验证手机号是否为用户注册的手机号

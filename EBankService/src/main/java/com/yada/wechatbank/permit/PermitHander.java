@@ -41,7 +41,7 @@ public class PermitHander  extends BaseService{
             map.put("cardNo",cardNo);
             map.put("pwd",password);
 			//调用后台验密
-            BooleanResp booleanResp = httpClient.send("verificationPWD",map,BooleanResp.class);
+            BooleanResp booleanResp = httpClient.send(verificationPWD,map,BooleanResp.class);
             if(!booleanResp.getBizResult()){
                 return false;
             }

@@ -7,7 +7,6 @@ public class MyToken extends UsernamePasswordToken {
     private static final long serialVersionUID = 1L;
 
     private String username;
-    private String openId;
     private char[] password;
     private String verification;
     private boolean rememberMe = false;
@@ -16,23 +15,14 @@ public class MyToken extends UsernamePasswordToken {
 
 
     public MyToken(final String username, final char[] password,
-                   final String verification, final boolean rememberMe, final String host, String openId, String identityType) {
+                   final String verification, final boolean rememberMe, final String host,String identityType) {
 
         this.username = username;
         this.password = password;
         this.verification = verification;
         this.rememberMe = rememberMe;
         this.host = host;
-        this.openId = openId;
         this.identityType = identityType;
-    }
-
-    public String getOpenId() {
-        return openId;
-    }
-
-    public void setOpenId(String openId) {
-        this.openId = openId;
     }
 
     public String getUsername() {

@@ -21,12 +21,12 @@
 		}
 		if (cityId != null && cityId != "") {
 			var citySelect = $("#citySelect");
-			$("#citySelect").attr("disabled","");
+			$("#citySelect").attr("disabled",false);
 			select(citySelect, cityId);
 		}
 		if (areaId != null && areaId != "") {
 			var areaSelect = $("#areaSelect");
-			$("#areaSelect").attr("disabled","");
+			$("#areaSelect").attr("disabled",true);
 			select(areaSelect, areaId);
 		}
 	}
@@ -54,6 +54,8 @@
 		<input type="hidden" name="phoneNum" value="${model.phoneNum}">
 		<input type="hidden" name="mobilePhone" value="${model.mobilePhone}">
 		<input type="hidden" name="serviceAddr" value="${model.serviceAddr}">
+			<input type="hidden" name="city" id="city" >
+			<input type="hidden" name="area" id="area">
 			<div class="topOneB mar-1 topOneBradius">
 				<table class="topTwo">
 					<tr>
@@ -93,7 +95,6 @@
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id="cityWarning"
 					style="color: red; font-size: 12px;"></span>
 			</div>
-
 			<div class="topOneB mar-1 bottomOneBradius">
 				<table class="topTwo">
 					<tr>
@@ -133,18 +134,20 @@
 		var areaSelect = $("#areaSelect");
 		function validate_form() {
 			if (isClicked == false) {
-				if (provSelect.value == null || provSelect.value == "") {
+				if (provSelect.val() == null || provSelect.val() == "") {
 					$("#provWarning").text("请选择省市！");
 					return false;
 				}
-				if (citySelect.value == null || citySelect.value == "") {
+				if (citySelect.val() == null || citySelect.val() == "") {
 					$("#cityWarning").text("请选择市区！");
 					return false;
 				}
-				if (areaSelect.value == null || areaSelect.value == "") {
+				if (areaSelect.val() == null || areaSelect.val() == "") {
 					$("#areaWarning").text("请选择区县！");
 					return false;
 				}
+				$("#city").val(citySelect.val())
+				$("#area").val(areaSelect.val())
 				citySelect.attr("disabled","");
 				areaSelect.attr("disabled","");
 				var sending = $("#sending");
@@ -171,10 +174,8 @@
 		}
 
 		function removeCityOptions() {
-			var citySize = $("#citySelect option").size();
-			for ( var i = citySize-1; i > 0; i--) {
-				$("#citySelect option[index=i]").remove();
-			}
+			$("#citySelect").empty();
+			$("#citySelect").append("<option value=''>--请选择市区--</option>")
 		}
 
 		function changeCity() {
@@ -189,10 +190,8 @@
 			$("#cityWarning").text("");
 		}
 		function removeAreaOptions() {
-			var areaSize = $("#areaSelect option").size();
-			for ( var i = areaSize-1; i > 0; i--) {
-				$("#areaSelect option[index=i]").remove();
-			}
+			$("#areaSelect").empty();
+			$("#areaSelect").append("<option value=''>--请选择区县--</option>")
 		}
 
 		function changeArea() {

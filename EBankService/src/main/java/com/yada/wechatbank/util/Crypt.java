@@ -14,14 +14,15 @@ import javax.crypto.SecretKey;
 
 public class Crypt {
 
-	private static final byte[] key = "openIdAndTimeKey".getBytes();
+	private static final byte[] key = "PageCardNoKey".getBytes();
 
 	private static String Algorithm = "Blowfish"; // 定义 加密算法,可用
 
 	/**
 	 * 加密
 	 * 
-	 * @param input 加密数据
+	 * @param input
+	 *            加密数据
 	 * @return 加密后的数据
 	 * @throws Exception
 	 *             异常
@@ -95,7 +96,8 @@ public class Crypt {
 	/**
 	 * 将传到页面的卡列表加密
 	 * 
-	 * @param cardList 需要加密的卡列表集合
+	 * @param cardList
+	 *            需要加密的卡列表集合
 	 * @return 加密好的卡列表
 	 * @throws Exception
 	 */
@@ -117,7 +119,8 @@ public class Crypt {
 	/**
 	 * 将加密的卡号集合解密
 	 * 
-	 * @param cardList 需要解密的卡列表集合
+	 * @param cardList
+	 *            需要解密的卡列表集合
 	 * @return 解密的卡列表集合
 	 * @throws Exception
 	 */
@@ -133,8 +136,9 @@ public class Crypt {
 	/**
 	 * 将一张卡号加密
 	 * 
-	 * @param cardNo 需要解密的卡号
-	 * @return  加密的卡号
+	 * @param cardNo
+	 *            需要解密的卡号
+	 * @return 加密的卡号
 	 * @throws Exception
 	 */
 	public static String cardNoOneEncode(String cardNo) throws Exception {

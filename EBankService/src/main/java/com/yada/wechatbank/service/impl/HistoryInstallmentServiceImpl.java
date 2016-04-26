@@ -28,7 +28,7 @@ public class HistoryInstallmentServiceImpl extends BaseService implements Histor
 
     @Override
     public HistoryInstallmentList queryHistoryInstallment(String cardNo, String startNumber, String selectNumber) {
-        //TODO 调用后台查询分期历史
+        //调用后台查询分期历史
         Map<String, String> map = initGcsParam();
         map.put("cardNo", cardNo);
         map.put("startNumber", startNumber);
@@ -38,13 +38,8 @@ public class HistoryInstallmentServiceImpl extends BaseService implements Histor
     }
 
     @Override
-    public List<String> selectCardNOs(String identityNo, String identityType) {
-        List<CardInfo> cardInfoList = selectCardNos(identityNo, identityType);
-        List<String> cardList = new ArrayList<>();
-        for (int i = 0; i < cardInfoList.size(); i++) {
-            cardList.add(cardInfoList.get(i).getCardNo());
-        }
-        return cardList;
+    public List<CardInfo> selectCardNOs(String identityNo, String identityType) {
+        return selectCardNos(identityNo, identityType);
     }
 
 

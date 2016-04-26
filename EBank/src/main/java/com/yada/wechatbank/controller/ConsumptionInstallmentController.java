@@ -216,12 +216,13 @@ public class ConsumptionInstallmentController extends BaseController {
 			return BUSYURL;
 		}
 		// 调用行内service消费分期授权
-		String result = consumptionInstallmentServiceImpl.authorizationConsumptionInstallment(consumptionInstallmentAuthorization);
+		boolean result = consumptionInstallmentServiceImpl.authorizationConsumptionInstallment(consumptionInstallmentAuthorization);
 		logger.info("@XFFQ@调用核心根据consumptionInstallmentAuthorization[" + consumptionInstallmentAuthorization + "]进行消费分期授权，授权结果result[" + result + "]");
-		if ("1".equals(result)) {
+		if (result) {
 			return SUCCESS;
+		} else {
+			return FAIL;
 		}
-		return FAIL;
 	}
 
 	/**
