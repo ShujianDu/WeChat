@@ -59,6 +59,10 @@
         <filter-name>shiroFilter</filter-name>
         <url-pattern>*.do</url-pattern>
     </filter-mapping>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/pages/wechatbank_pages/500.jsp</location>
+    </error-page>
     <!-- SiteMesh web页面布局 filter -->
     <filter>
         <filter-name>sitemesh</filter-name>

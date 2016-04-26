@@ -11,11 +11,6 @@ public class MyAuthcFilter extends FormAuthenticationFilter {
 
     public static final String DEFAULT_VERIFICATION_PARAM = "verification";
     private String verificationParam = DEFAULT_VERIFICATION_PARAM;     //验证码
-
-
-    private String openId = "openId";     //openId
-
-
     private String identityType = "identityType";
 
     /**
@@ -26,31 +21,18 @@ public class MyAuthcFilter extends FormAuthenticationFilter {
         String username = getUsername(request);
         char[] password = getPassword(request).toCharArray();
         String verification = getVerificationParam(request);
-        String openId = getOpenIdParam(request);
         boolean rememberMe = isRememberMe(request);
         String host = getHost(request);
         String identityType = getIdentityType(request);
-        return new MyToken(username, password, verification, rememberMe, host, openId, identityType);
+        return new MyToken(username, password, verification, rememberMe, host,identityType);
     }
 
     protected String getVerificationParam(ServletRequest request) {
         return WebUtils.getCleanParam(request, getVerificationParam());
     }
 
-    protected String getOpenIdParam(ServletRequest request) {
-        return WebUtils.getCleanParam(request, getOpenId());
-    }
-
     protected String getIdentityType(ServletRequest request) {
         return WebUtils.getCleanParam(request, getIdentityType());
-    }
-
-    public String getOpenId() {
-        return openId;
-    }
-
-    public void setOpenId(String openId) {
-        this.openId = openId;
     }
 
     public String getVerificationParam() {

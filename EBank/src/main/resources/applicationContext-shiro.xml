@@ -26,22 +26,27 @@
 			<value>
 				#anon是匿名过滤器，用户不必登录即可访问的地址，必须放在其他过滤器前面
 				#myAuthc是自定义认证过滤器，对用户的登陆信息进行认证
+				/login/list.do = myAuthc
+				/binding/list.do = myAuthc
 				/*/*.do = anon
 			</value>
 		</property>
 	</bean>
+	<!-- 自定义的认证过滤器 -->
+	<bean id="myAuthc" class="com.yada.wechatbank.shiro.MyAuthcFilter"/>
+	<bean id="myRealm" class="com.yada.wechatbank.shiro.MyRealm">
+		<property name="timeout" value="${session.timeout}"/>
+	</bean>
 	
 	<!-- shiro安全核心 -->
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<!-- 配置验证用户的realm，当有多个验证realm时有属性realms -->
+		<property name="realm" ref="myRealm" />
 		<!-- 配置缓存管理 -->
 		<property name="cacheManager" ref="shiroEhCacheManager" />
 		<property name="rememberMeManager" ref="cookieRememberMeManager" />
-		<!--
-		 <property name="sessionMode" value="native"/>
-		 <property name="sessionManager" ref="sessionManager"/>    
-		 -->
 	</bean>
-	
+
 	<bean id="cookieRememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager" >
 		<property name="cookie" ref="simpleCookie"></property>
 	</bean>

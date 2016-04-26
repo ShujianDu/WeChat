@@ -28,7 +28,6 @@ public class MyRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(
             PrincipalCollection principals) {
-        // TODO Auto-generated method stub
         String username = (String) principals.fromRealm(getName()).iterator()
                 .next();
 
@@ -48,56 +47,24 @@ public class MyRealm extends AuthorizingRealm {
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
         String identityType = myToken.getIdentityType();
-
         String randomCode = (String) session.getAttribute("jcmsrandomchar");
-        String openId = myToken.getOpenId();
-        if (openId == null || "".equals(openId)) {
-            SavedRequest sr = (SavedRequest) session.getAttribute("shiroSavedRequest");
-            openId = getOpenId(sr.getQueryString());
-        }
-
-        if (openId != null) {
-            if (randomCode.equals(verification)) {
-                boolean hasPermit = permitHander.hasPermits(username, password, openId);
-                if (hasPermit) {
-                    session.setAttribute("identityNo", username);
-                    session.setAttribute("identityType", identityType);
-                    long time = Long.parseLong(timeout);
-                    // 设置session超时时间10分钟
-                    SecurityUtils.getSubject().getSession().setTimeout(time);
-                    return new SimpleAuthenticationInfo(username, password,
-                            getName());
-                } else {
-                    session.setAttribute("message", "证件号或密码错误！");
-                }
+        if (randomCode.equals(verification)) {
+            boolean hasPermit = permitHander.hasPermits(username, password, identityType);
+            if (hasPermit) {
+                session.setAttribute("identityNo", username);
+                session.setAttribute("identityType", identityType);
+                long time = Long.parseLong(timeout);
+                // 设置session超时时间10分钟
+                SecurityUtils.getSubject().getSession().setTimeout(time);
+                return new SimpleAuthenticationInfo(username, password,
+                        getName());
             } else {
-                session.setAttribute("message", "验证码错误！");
+                session.setAttribute("message", "证件号或密码错误！");
             }
         } else {
-            session.setAttribute("message", "非法的URL！");
+            session.setAttribute("message", "验证码错误！");
         }
         return null;
-    }
-
-    private String getOpenId(String queryString) {
-        String openId = null;
-        if (queryString == null) {
-            return openId;
-        }
-
-        int i = queryString.indexOf("openId=");
-        if (i == -1) {
-            return openId;
-        }
-
-        int j = queryString.indexOf("&", i);
-        if (j == -1) {
-            j = queryString.length() + 1;
-        }
-
-        openId = queryString.substring(i + 7, j);
-
-        return openId;
     }
 
     public String getTimeout() {

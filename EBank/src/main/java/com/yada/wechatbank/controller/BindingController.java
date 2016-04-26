@@ -58,6 +58,8 @@ public class BindingController extends BaseController {
     public String list(
             @ModelAttribute("formBean") BindingQuery bindingQuery, Model model,
             HttpServletRequest request) {
+        //TODO 获取参数方式
+//        String openId = (String) request.getAttribute("openId");
         String openId = request.getParameter("openId");
         if (openId != null && !"".equals(openId)) {
             bindingQuery.setOpenId(openId);
