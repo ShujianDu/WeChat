@@ -14,10 +14,10 @@ import java.util.List;
  */
 public interface BookingDao extends JpaRepository<Booking, Long>, JpaSpecificationExecutor<Booking> {
 
-    Long deleteByClientNameAndPhone(String clientName, String phone);
+    Long deleteByClientNameAndMobilePhone(String clientName, String mobilePhone);
 
-    List<Booking> findByClientNameAndPhone(String clientName, String phone);
+    List<Booking> findByClientNameAndMobilePhone(String clientName, String mobilePhone);
 
-    @Query(nativeQuery = true, value = "select SEQ_T_B_BOOKING.Nextval from dual" )
+    @Query(nativeQuery = true, value = "select SEQ_T_B_BOOKING.Nextval from dual")
     String getSequences();
 }
