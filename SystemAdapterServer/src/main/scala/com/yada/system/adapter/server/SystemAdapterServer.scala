@@ -14,7 +14,6 @@ object SystemAdapterServer {
 
   def start(): Unit ={
     val port = ConfigFactory.load().getInt("systemAdapter.server.port")
-    val ip = "22.7.16.95"
 
     val bossGroup = new NioEventLoopGroup(1)
     val workGroup = new NioEventLoopGroup()
@@ -32,6 +31,6 @@ object SystemAdapterServer {
             .addLast(new HttpObjectAggregator(1024 * 1024))
             .addLast(new SystemAdapterHandler)
         }
-      }).bind(ip, port)
+      }).bind(port)
   }
 }
