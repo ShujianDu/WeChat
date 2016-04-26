@@ -53,6 +53,7 @@
     <!--初始化数据-->
     <jdbc:initialize-database data-source="dataSource">
         <jdbc:script location="classpath:data/init-data.sql" encoding="UTF-8"/>
+        <jdbc:script location="classpath:data/init_t_b_nuw_org.sql" encoding="UTF-8"/>
     </jdbc:initialize-database>
 
 </beans>
