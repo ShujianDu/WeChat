@@ -5,7 +5,7 @@ import com.yada.wx.cb.data.service.jpa.dao.CustomerDao
 /**
   * 客户信息服务实现
   */
-class CustomerServiceImpl(customerDao: CustomerDao) extends CustomerService {
+class CustomerServiceImpl(customerDao: CustomerDao = SpringContext.context.getBean(classOf[CustomerDao])) extends CustomerService {
 
   /**
     * 用户是否绑定
