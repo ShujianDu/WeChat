@@ -1,10 +1,12 @@
 package com.yada.wechatbank.controller.mock;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,6 +33,8 @@ import com.yada.wechatbank.model.PointsBalance;
 import com.yada.wechatbank.model.PointsDetail;
 import com.yada.wechatbank.model.PointsValidates;
 import com.yada.wechatbank.model.VerificationCardNoResult;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 模拟行内返回 Created by QinQiang on 2016/4/11.
@@ -262,43 +266,67 @@ public class MockController {
 
 	@RequestMapping(value = "getWbicCards")
 	@ResponseBody
-	public String getWbicCards() {
+	public String getWbicCards(HttpServletRequest request){
+		JSONObject obj = readReq(request);
+		String idNum = (String) obj.get("idNum");
+		String idType = (String) obj.get("idType");
 		Map<String, Object> map = mockResult();
-		String cardNo = "111111222222333333";
-		map.put(key, cardNo);
+		if("110625199301280000".equals(idNum) && "IDCD".equals(idType)){
+			String cardNo = "111111222222333333";
+			map.put(key, cardNo);
+		}else{
+			return "exception";
+		}
 		return JSON.toJSONString(map);
 	}
 
 	@RequestMapping(value = "wbicCardInfoSendSms")
 	@ResponseBody
-	public String wbicCardInfoSendSms() {
+	public String wbicCardInfoSendSms(HttpServletRequest request){
+		JSONObject obj = readReq(request);
+		String cardNo = (String) obj.get("cardNo");
 		Map<String, Object> map = mockResult();
-		map.put(key, true);
+		if("11111111111111111111".equals(cardNo)){
+			map.put(key, true);
+		}else{
+			return "exception";
+		}
 		return JSON.toJSONString(map);
 	}
 
 	@RequestMapping(value = "getCardBalance")
 	@ResponseBody
-	public String getCardBalance() {
+	public String getCardBalance(HttpServletRequest request){
+		JSONObject obj = readReq(request);
+		String cardNo = (String) obj.get("cardNo");
 		Map<String, Object> map = mockResult();
-		List<Balance> list = new ArrayList<>();
+		if("11111111111111111".equals(cardNo)){
+			//返回正常值
+			List<Balance> list = new ArrayList<>();
 
-		Balance balance = new Balance();
-		balance.setCardNo("11111111111111111");
-		balance.setCurrencyCode("CNY");
-		balance.setPreCashAdvanceCreditLimit("31");
-		balance.setWholeCreditLimit("101");
-		balance.setPeriodAvailableCreditLimit("100");
+			Balance balance = new Balance();
+			balance.setCardNo("11111111111111111");
+			balance.setCurrencyCode("CNY");
+			balance.setPreCashAdvanceCreditLimit("31");
+			balance.setWholeCreditLimit("101");
+			balance.setPeriodAvailableCreditLimit("100");
 
-		Balance balance2 = new Balance();
-		balance2.setCardNo("11111111111112223");
-		balance2.setCurrencyCode("USD");
-		balance2.setPreCashAdvanceCreditLimit("33");
-		balance2.setWholeCreditLimit("130");
-		balance2.setPeriodAvailableCreditLimit("102");
-		list.add(balance);
-		list.add(balance2);
-		map.put(key, list);
+			Balance balance2 = new Balance();
+			balance2.setCardNo("11111111111111111");
+			balance2.setCurrencyCode("USD");
+			balance2.setPreCashAdvanceCreditLimit("33");
+			balance2.setWholeCreditLimit("130");
+			balance2.setPeriodAvailableCreditLimit("102");
+			list.add(balance);
+			list.add(balance2);
+			map.put(key, list);
+		}else if("222222222222222222".equals(cardNo)){
+			//返回空值
+			List<Balance> list = new ArrayList<>();
+			map.put(key, list);
+		}else{
+			return "exception";
+		}
 		return JSON.toJSONString(map);
 	}
 
@@ -663,5 +691,19 @@ public class MockController {
 	@RequestMapping(value = "chinabankinfo")
 	private String chinabankinfolist() {
 		return "redirect:http://localhost/ebank/chinabankinfo/baiduMap.do?longitude=116.326418&latitude=39.984683&userLongitude=116.326417&userLatitude=39.984684&name=%E5%8C%97%E4%BA%AC%E4%B8%B0%E5%8F%B0%E5%88%86%E8%A1%8C";
+	}
+
+	private JSONObject readReq(HttpServletRequest request){
+		StringBuffer sb = new StringBuffer();
+		String str;
+		try {
+			while ((str = request.getReader().readLine()) != null) {
+                sb.append(str);
+            }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		JSONObject obj = JSON.parseObject(sb.toString());
+		return obj;
 	}
 }
