@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 /**
+ * 客户信息Dao
  * Created by QinQiang on 2016/4/6.
  */
 public interface CustomerInfoDao extends JpaRepository<CustomerInfo, Long>, JpaSpecificationExecutor<CustomerInfo> {
@@ -19,12 +20,12 @@ public interface CustomerInfoDao extends JpaRepository<CustomerInfo, Long>, JpaS
     List<CustomerInfo> findByIdentityTypeAndIdentityNo(String identityType,String identityNo);
 
     @Modifying(clearAutomatically = true)
-    @Query(nativeQuery = true, value = "UPDATE T_B_CUSTOMER_INFO SET IDENTITY_TYPE = :identityType WHERE IDENTITY_NO = :identityNo")
+    @Query(nativeQuery = true, value = "UPDATE T_B_CUSTOMER_INFO_NEW SET IDENTITY_TYPE = :identityType WHERE IDENTITY_NO = :identityNo")
     int updateIdentityTypeByIdentityNo(@Param("identityType") String identityType, @Param("identityNo") String identityNo);
 
     @Modifying(clearAutomatically = true)
-    @Query(nativeQuery = true, value = "SELECT T.OPENID FROM T_B_CUSTOMER_INFO T WHERE T.IDENTITY_NO = :identityNo")
+    @Query(nativeQuery = true, value = "SELECT T.OPENID FROM T_B_CUSTOMER_INFO_NEW T WHERE T.IDENTITY_NO = :identityNo")
     List<String> getOpenIdByidentityNo(@Param("identityNo") String identityNo);
 
-    void  deleteByOpenId(String openId);
+    int deleteByOpenId(String openId);
 }
