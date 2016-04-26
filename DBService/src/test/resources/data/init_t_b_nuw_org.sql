@@ -1,629 +1,629 @@
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('310000', null, 'ÉÏº£ÊĞ');
+values ('310000', null, 'ä¸Šæµ·å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('310100', '310000', 'ÉÏº£ÊĞ');
+values ('310100', '310000', 'ä¸Šæµ·å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('310101', '310100', '±¦É½Çø');
+values ('310101', '310100', 'å®å±±åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('310102', '310100', '³¤ÄşÇø');
+values ('310102', '310100', 'é•¿å®åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('310103', '310100', 'ºç¿ÚÇø');
+values ('310103', '310100', 'è™¹å£åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('310104', '310100', '»ÆÆÖÇø');
+values ('310104', '310100', 'é»„æµ¦åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('310105', '310100', '¾²°²Çø');
+values ('310105', '310100', 'é™å®‰åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('310106', '310100', 'Â¬ÍåÇø');
+values ('310106', '310100', 'å¢æ¹¾åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('310107', '310100', 'ãÉĞĞÇø');
+values ('310107', '310100', 'é—µè¡ŒåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('310108', '310100', 'ÆÖ¶«ĞÂÇø');
+values ('310108', '310100', 'æµ¦ä¸œæ–°åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('310109', '310100', 'ÆÕÍÓÇø');
+values ('310109', '310100', 'æ™®é™€åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('310110', '310100', 'ËÉ½­Çø');
+values ('310110', '310100', 'æ¾æ±ŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('310111', '310100', 'Ğì»ãÇø');
+values ('310111', '310100', 'å¾æ±‡åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('310112', '310100', 'ÑîÆÖÇø');
+values ('310112', '310100', 'æ¨æµ¦åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('310113', '310100', 'Õ¢±±Çø');
+values ('310113', '310100', 'é—¸åŒ—åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150000', null, '¹ã¶«Ê¡');
+values ('150000', null, 'å¹¿ä¸œçœ');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('210000', null, 'ºşÄÏÊ¡');
+values ('210000', null, 'æ¹–å—çœ');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280000', null, 'ÔÆÄÏÊ¡');
+values ('280000', null, 'äº‘å—çœ');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('110000', null, '±±¾©ÊĞ');
+values ('110000', null, 'åŒ—äº¬å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290000', null, 'Õã½­Ê¡');
+values ('290000', null, 'æµ™æ±Ÿçœ');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('170000', null, 'Ìì½òÊĞ');
+values ('170000', null, 'å¤©æ´¥å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('240000', null, '½­Î÷Ê¡');
+values ('240000', null, 'æ±Ÿè¥¿çœ');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('120000', null, '°²»ÕÊ¡');
+values ('120000', null, 'å®‰å¾½çœ');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('160000', null, '¹ãÎ÷Ê¡');
+values ('160000', null, 'å¹¿è¥¿çœ');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260000', null, 'ËÄ´¨Ê¡');
+values ('260000', null, 'å››å·çœ');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130000', null, 'ÖØÇìÊĞ');
+values ('130000', null, 'é‡åº†å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('190000', null, 'ºÓÄÏÊ¡');
+values ('190000', null, 'æ²³å—çœ');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230000', null, '½­ËÕÊ¡');
+values ('230000', null, 'æ±Ÿè‹çœ');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250000', null, 'É½¶«Ê¡');
+values ('250000', null, 'å±±ä¸œçœ');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('110100', '110000', '±±¾©ÊĞ');
+values ('110100', '110000', 'åŒ—äº¬å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('190100', '190000', 'Ö£ÖİÊĞ');
+values ('190100', '190000', 'éƒ‘å·å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260900', '260000', 'ÄÚ½­ÊĞ');
+values ('260900', '260000', 'å†…æ±Ÿå¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261200', '260000', 'ËìÄşÊĞ');
+values ('261200', '260000', 'é‚å®å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261400', '260000', '×ÊÑôÊĞ');
+values ('261400', '260000', 'èµ„é˜³å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290100', '290000', 'º¼ÖİÊĞ');
+values ('290100', '290000', 'æ­å·å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290400', '290000', 'ÒåÎÚÊĞ');
+values ('290400', '290000', 'ä¹‰ä¹Œå¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('160100', '160000', 'ÄÏÄşÊĞ');
+values ('160100', '160000', 'å—å®å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230100', '230000', 'ÄÏ¾©ÊĞ');
+values ('230100', '230000', 'å—äº¬å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250100', '250000', '¼ÃÄÏÊĞ');
+values ('250100', '250000', 'æµå—å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260200', '260000', '´ïÖİÊĞ');
+values ('260200', '260000', 'è¾¾å·å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280400', '280000', 'ÕÑÍ¨ÊĞ');
+values ('280400', '280000', 'æ˜­é€šå¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130100', '130000', 'ÖØÇìÊĞ');
+values ('130100', '130000', 'é‡åº†å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230400', '230000', 'ÄÏÍ¨ÊĞ');
+values ('230400', '230000', 'å—é€šå¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250200', '250000', 'ÇàµºÊĞ');
+values ('250200', '250000', 'é’å²›å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260300', '260000', 'µÂÑôÊĞ');
+values ('260300', '260000', 'å¾·é˜³å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260500', '260000', 'Á¹É½ÊĞ');
+values ('260500', '260000', 'å‡‰å±±å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261000', '260000', 'ÄÏ³äÊĞ');
+values ('261000', '260000', 'å—å……å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261100', '260000', 'ÅÊÖ¦»¨ÊĞ');
+values ('261100', '260000', 'æ”€æèŠ±å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('170100', '170000', 'Ìì½òÊĞ');
+values ('170100', '170000', 'å¤©æ´¥å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('210100', '210000', '³¤É³ÊĞ');
+values ('210100', '210000', 'é•¿æ²™å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230800', '230000', 'ËÕÖİÊĞ');
+values ('230800', '230000', 'è‹å·å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280100', '280000', 'ÓñÏªÊĞ');
+values ('280100', '280000', 'ç‰æºªå¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280200', '280000', '³şĞÛÊĞ');
+values ('280200', '280000', 'æ¥šé›„å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280300', '280000', '´óÀíÊĞ');
+values ('280300', '280000', 'å¤§ç†å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280500', '280000', 'À¥Ã÷ÊĞ');
+values ('280500', '280000', 'æ˜†æ˜å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290500', '290000', '½ğ»ªÊĞ');
+values ('290500', '290000', 'é‡‘åå¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('120100', '120000', 'ºÏ·ÊÊĞ');
+values ('120100', '120000', 'åˆè‚¥å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150400', '150000', 'Öéº£ÊĞ');
+values ('150400', '150000', 'ç æµ·å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150500', '150000', '¹ãÖİÊĞ');
+values ('150500', '150000', 'å¹¿å·å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230300', '230000', 'ÎŞÎıÊĞ');
+values ('230300', '230000', 'æ— é”¡å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260400', '260000', 'ÀÖÉ½ÊĞ');
+values ('260400', '260000', 'ä¹å±±å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260800', '260000', 'ÃàÑôÊĞ');
+values ('260800', '260000', 'ç»µé˜³å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280700', '280000', 'Çú¾¸ÊĞ');
+values ('280700', '280000', 'æ›²é–å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150600', '150000', 'ÉîÛÚÊĞ');
+values ('150600', '150000', 'æ·±åœ³å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('190200', '190000', 'ÂåÑôÊĞ');
+values ('190200', '190000', 'æ´›é˜³å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230200', '230000', '»´°²ÊĞ');
+values ('230200', '230000', 'æ·®å®‰å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230600', '230000', 'ÑÎ³ÇÊĞ');
+values ('230600', '230000', 'ç›åŸå¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250300', '250000', 'ÑÌÌ¨ÊĞ');
+values ('250300', '250000', 'çƒŸå°å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260700', '260000', 'Ã¼É½ÊĞ');
+values ('260700', '260000', 'çœ‰å±±å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290200', '290000', 'ÉÜĞËÊĞ');
+values ('290200', '290000', 'ç»å…´å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290300', '290000', 'ÎÂÖİÊĞ');
+values ('290300', '290000', 'æ¸©å·å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150200', '150000', '½­ÃÅÊĞ');
+values ('150200', '150000', 'æ±Ÿé—¨å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('240100', '240000', 'ÄÏ²ıÊĞ');
+values ('240100', '240000', 'å—æ˜Œå¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260600', '260000', 'ãòÖİÊĞ');
+values ('260600', '260000', 'æ³¸å·å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150100', '150000', '¶«İ¸ÊĞ');
+values ('150100', '150000', 'ä¸œèå¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150300', '150000', '·ğÉ½ÊĞ');
+values ('150300', '150000', 'ä½›å±±å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260100', '260000', '³É¶¼ÊĞ');
+values ('260100', '260000', 'æˆéƒ½å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261300', '260000', 'ÒË±öÊĞ');
+values ('261300', '260000', 'å®œå®¾å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261500', '260000', '×Ô¹±ÊĞ');
+values ('261500', '260000', 'è‡ªè´¡å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280600', '280000', 'ÃÉ×ÔÊĞ');
+values ('280600', '280000', 'è’™è‡ªå¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290600', '290000', 'Äş²¨ÊĞ');
+values ('290600', '290000', 'å®æ³¢å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('120105', '120100', '·Ê¶«ÏØ£¨³ÇÇø£©');
+values ('120105', '120100', 'è‚¥ä¸œå¿ï¼ˆåŸåŒºï¼‰');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130112', '130100', 'ºÏ´¨Çø');
+values ('130112', '130100', 'åˆå·åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130103', '130100', '½­±±Çø');
+values ('130103', '130100', 'æ±ŸåŒ—åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130108', '130100', 'Á½½­ĞÂÇø');
+values ('130108', '130100', 'ä¸¤æ±Ÿæ–°åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150202', '150200', '½­º£Çø');
+values ('150202', '150200', 'æ±Ÿæµ·åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150205', '150200', 'Ì¨É½ÊĞ');
+values ('150205', '150200', 'å°å±±å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150401', '150400', 'ÏãÖŞÇø');
+values ('150401', '150400', 'é¦™æ´²åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150603', '150600', 'ÑÎÌïÇø');
+values ('150603', '150600', 'ç›ç”°åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('160102', '160100', 'ĞËÄşÇø');
+values ('160102', '160100', 'å…´å®åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('190101', '190100', 'ÖĞÔ­Çø');
+values ('190101', '190100', 'ä¸­åŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('210105', '210100', 'Óê»¨Çø');
+values ('210105', '210100', 'é›¨èŠ±åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230106', '230100', '½¨ÚşÇø');
+values ('230106', '230100', 'å»ºé‚ºåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230111', '230100', '½­ÄşÇø');
+values ('230111', '230100', 'æ±Ÿå®åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230801', '230800', 'Æ½½­Çø');
+values ('230801', '230800', 'å¹³æ±ŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230807', '230800', '½ğãÑÇø');
+values ('230807', '230800', 'é‡‘é˜ŠåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('240106', '240100', 'ºì¹ÈÌ²Çø');
+values ('240106', '240100', 'çº¢è°·æ»©åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('240112', '240100', '³¤ÁêÍâÉÌÍ¶×Ê¹¤ÒµÔ°');
+values ('240112', '240100', 'é•¿é™µå¤–å•†æŠ•èµ„å·¥ä¸šå›­');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250103', '250100', 'ÌìÇÅÇø');
+values ('250103', '250100', 'å¤©æ¡¥åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260602', '260600', 'ÁúÂíÌ¶Çø');
+values ('260602', '260600', 'é¾™é©¬æ½­åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261003', '261000', '¼ÎÁêÇø');
+values ('261003', '261000', 'å˜‰é™µåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280506', '280500', '½úÄşÏØ');
+values ('280506', '280500', 'æ™‹å®å¿');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280799', '280700', 'ÊĞÇø');
+values ('280799', '280700', 'å¸‚åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290201', '290200', 'Ô½³ÇÇø');
+values ('290201', '290200', 'è¶ŠåŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290604', '290600', 'Û´ÖİÇø');
+values ('290604', '290600', 'é„å·åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('110102', '110100', '¶«³ÇÇø');
+values ('110102', '110100', 'ä¸œåŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('120103', '120100', 'ÊñÉ½Çø');
+values ('120103', '120100', 'èœ€å±±åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130118', '130100', '¸¢ÁêÇø');
+values ('130118', '130100', 'æ¶ªé™µåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130123', '130100', 'ôë½­Çø');
+values ('130123', '130100', 'ç¶¦æ±ŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130109', '130100', '±±íÕÇø');
+values ('130109', '130100', 'åŒ—ç¢šåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150102', '150100', '³¤°²Õò');
+values ('150102', '150100', 'é•¿å®‰é•‡');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150107', '150100', 'ÍûÅ£¶ÕÕò');
+values ('150107', '150100', 'æœ›ç‰›å¢©é•‡');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150206', '150200', 'º×É½ÊĞ');
+values ('150206', '150200', 'é¹¤å±±å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150602', '150600', '¸£ÌïÇø');
+values ('150602', '150600', 'ç¦ç”°åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('160101', '160100', 'ÇàĞãÇø');
+values ('160101', '160100', 'é’ç§€åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('190102', '190100', '¶şÆßÇø');
+values ('190102', '190100', 'äºŒä¸ƒåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('190206', '190200', 'ÂåÁúÇø');
+values ('190206', '190200', 'æ´›é¾™åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('210104', '210100', 'ÔÀÂ´Çø');
+values ('210104', '210100', 'å²³éº“åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230201', '230200', 'ÇåºÓÇø');
+values ('230201', '230200', 'æ¸…æ²³åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230203', '230200', '¿ª·¢Çø');
+values ('230203', '230200', 'å¼€å‘åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230301', '230300', '³ç°²Çø');
+values ('230301', '230300', 'å´‡å®‰åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230809', '230800', '³£Êì');
+values ('230809', '230800', 'å¸¸ç†Ÿ');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('240110', '240100', 'Ğ¡À¼¾­¼Ã¿ª·¢Çø');
+values ('240110', '240100', 'å°å…°ç»æµå¼€å‘åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250206', '250200', '¿ª·¢Çø');
+values ('250206', '250200', 'å¼€å‘åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260107', '260100', 'ÎÂ½­Çø');
+values ('260107', '260100', 'æ¸©æ±ŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260108', '260100', 'ĞÂ¶¼Çø');
+values ('260108', '260100', 'æ–°éƒ½åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260901', '260900', 'ÊĞÖĞÇø');
+values ('260901', '260900', 'å¸‚ä¸­åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261102', '261100', 'Î÷Çø');
+values ('261102', '261100', 'è¥¿åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261401', '261400', 'Ñã½­Çø');
+values ('261401', '261400', 'é›æ±ŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261504', '261500', 'ÑØÌ²Çø');
+values ('261504', '261500', 'æ²¿æ»©åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261505', '261500', '¸ßĞÂÇø');
+values ('261505', '261500', 'é«˜æ–°åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261502', '261500', '¹±¾®Çø');
+values ('261502', '261500', 'è´¡äº•åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280199', '280100', 'ÊĞÇø');
+values ('280199', '280100', 'å¸‚åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280502', '280500', '¹Ù¶ÉÇø');
+values ('280502', '280500', 'å®˜æ¸¡åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290101', '290100', 'ÉÏ³ÇÇø');
+values ('290101', '290100', 'ä¸ŠåŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290603', '290600', 'º£ÊïÇø');
+values ('290603', '290600', 'æµ·æ›™åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('110103', '110100', 'º£µíÇø');
+values ('110103', '110100', 'æµ·æ·€åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('110108', '110100', '³¯ÑôÇø');
+values ('110108', '110100', 'æœé˜³åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130113', '130100', '½­½òÇø');
+values ('130113', '130100', 'æ±Ÿæ´¥åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130122', '130100', 'ÄÏ´¨Çø');
+values ('130122', '130100', 'å—å·åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130111', '130100', 'ÓÀ´¨Çø');
+values ('130111', '130100', 'æ°¸å·åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130104', '130100', 'É³Æº°ÓÇø');
+values ('130104', '130100', 'æ²™åªååŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130101', '130100', 'Óå±±Çø');
+values ('130101', '130100', 'æ¸åŒ—åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130110', '130100', '°ÍÄÏÇø');
+values ('130110', '130100', 'å·´å—åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150204', '150200', '¿ªÆ½ÊĞ');
+values ('150204', '150200', 'å¼€å¹³å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150505', '150500', 'º£ÖéÇø');
+values ('150505', '150500', 'æµ·ç åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('170102', '170100', 'ÄÏ¿ªÇø');
+values ('170102', '170100', 'å—å¼€åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('170101', '170100', 'ºÍÆ½Çø');
+values ('170101', '170100', 'å’Œå¹³åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('190201', '190200', '½§Î÷Çø');
+values ('190201', '190200', 'æ¶§è¥¿åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('190205', '190200', '½§Î÷Çø');
+values ('190205', '190200', 'æ¶§è¥¿åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('210102', '210100', 'ĞÇÉ³Çø');
+values ('210102', '210100', 'æ˜Ÿæ²™åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('210106', '210100', 'ÌìĞÄÇø');
+values ('210106', '210100', 'å¤©å¿ƒåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230110', '230100', 'ÆÜÏ¼Çø');
+values ('230110', '230100', 'æ –éœåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230104', '230100', '¹ÄÂ¥Çø');
+values ('230104', '230100', 'é¼“æ¥¼åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230307', '230300', 'ÒËĞËÊĞ');
+values ('230307', '230300', 'å®œå…´å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('240102', '240100', 'Î÷ºşÇø');
+values ('240102', '240100', 'è¥¿æ¹–åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('240103', '240100', 'ÇàÔÆÆ×Çø');
+values ('240103', '240100', 'é’äº‘è°±åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('240104', '240100', 'ÇàÉ½ºşÇø');
+values ('240104', '240100', 'é’å±±æ¹–åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250102', '250100', 'ÀúÏÂÇø');
+values ('250102', '250100', 'å†ä¸‹åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260401', '260400', 'ÊĞÖĞÇø');
+values ('260401', '260400', 'å¸‚ä¸­åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260802', '260800', 'ÓÎÏÉÇø');
+values ('260802', '260800', 'æ¸¸ä»™åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261103', '261100', 'ÈÊºÍÇø');
+values ('261103', '261100', 'ä»å’ŒåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261101', '261100', '¶«Çø');
+values ('261101', '261100', 'ä¸œåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280501', '280500', 'Îå»ªÇø');
+values ('280501', '280500', 'äº”ååŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280505', '280500', 'ÅÌÁúÇø');
+values ('280505', '280500', 'ç›˜é¾™åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290106', '290100', '±õ½­Çø');
+values ('290106', '290100', 'æ»¨æ±ŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290102', '290100', 'ÏÂ³ÇÇø');
+values ('290102', '290100', 'ä¸‹åŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('110105', '110100', '³çÎÄÇø');
+values ('110105', '110100', 'å´‡æ–‡åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('120101', '120100', 'Â®ÑôÇø');
+values ('120101', '120100', 'åºé˜³åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('120104', '120100', '°üºÓÇø');
+values ('120104', '120100', 'åŒ…æ²³åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130116', '130100', 'èµÉ½ÏØ');
+values ('130116', '130100', 'ç’§å±±å¿');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130117', '130100', '³¤ÊÙÇø');
+values ('130117', '130100', 'é•¿å¯¿åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130124', '130100', 'µæ½­ÏØ');
+values ('130124', '130100', 'å«æ±Ÿå¿');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130121', '130100', 'ÖÒÏØ');
+values ('130121', '130100', 'å¿ å¿');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150101', '150100', '³ÇÇø');
+values ('150101', '150100', 'åŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150201', '150200', 'Åî½­Çø');
+values ('150201', '150200', 'è“¬æ±ŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150207', '150200', '¶÷Æ½ÊĞ');
+values ('150207', '150200', 'æ©å¹³å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('170106', '170100', 'ºìÇÅÇø');
+values ('170106', '170100', 'çº¢æ¡¥åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('170105', '170100', 'ºÓ¶«Çø');
+values ('170105', '170100', 'æ²³ä¸œåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('170104', '170100', 'ºÓÎ÷Çø');
+values ('170104', '170100', 'æ²³è¥¿åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('190104', '190100', '»İ¼ÃÇø');
+values ('190104', '190100', 'æƒ æµåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('190204', '190200', 'eºÓ»Ø×åÇø');
+values ('190204', '190200', 'ç€æ²³å›æ—åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230202', '230200', 'ÇåÆÖÇø');
+values ('230202', '230200', 'æ¸…æµ¦åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230302', '230300', '±±ÌÁÇø');
+values ('230302', '230300', 'åŒ—å¡˜åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250105', '250100', 'Àú³ÇÇø');
+values ('250105', '250100', 'å†åŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260110', '260100', 'ÁúÈªæäÇø');
+values ('260110', '260100', 'é¾™æ³‰é©¿åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260102', '260100', 'ÇàÑòÇø');
+values ('260102', '260100', 'é’ç¾ŠåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260201', '260200', 'Í¨ÖİÇø');
+values ('260201', '260200', 'é€šå·åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260301', '260300', 'ìºÑôÇø');
+values ('260301', '260300', 'æ—Œé˜³åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260902', '260900', '¶«ĞËÇø');
+values ('260902', '260900', 'ä¸œå…´åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261202', '261200', '°²¾ÓÇø');
+values ('261202', '261200', 'å®‰å±…åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280299', '280200', 'ÊĞÇø');
+values ('280299', '280200', 'å¸‚åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290103', '290100', '½­¸ÉÇø');
+values ('290103', '290100', 'æ±Ÿå¹²åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290501', '290500', 'æÄ³ÇÇø£¨¶ş»·ÄÚ£©');
+values ('290501', '290500', 'å©ºåŸåŒºï¼ˆäºŒç¯å†…ï¼‰');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290601', '290600', '½­¶«Çø');
+values ('290601', '290600', 'æ±Ÿä¸œåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('110104', '110100', '·áÌ¨Çø');
+values ('110104', '110100', 'ä¸°å°åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('110109', '110100', 'Ê¹¹İ');
+values ('110109', '110100', 'ä½¿é¦†');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('110107', '110100', 'ÉÌÎñ');
+values ('110107', '110100', 'å•†åŠ¡');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130115', '130100', 'Í­ÁºÏØ');
+values ('130115', '130100', 'é“œæ¢å¿');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130125', '130100', '¾ÅÁúÆÂÇø');
+values ('130125', '130100', 'ä¹é¾™å¡åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150104', '150100', '»¢ÃÅÕò');
+values ('150104', '150100', 'è™é—¨é•‡');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150301', '150300', 'ìø³ÇÇø');
+values ('150301', '150300', 'ç¦…åŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150604', '150600', 'ÄÏÉ½Çø');
+values ('150604', '150600', 'å—å±±åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('190105', '190100', 'ÉÏ½ÖÇø');
+values ('190105', '190100', 'ä¸Šè¡—åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('210101', '210100', '¿ª¸£Çø');
+values ('210101', '210100', 'å¼€ç¦åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('210103', '210100', 'Ü½ÈØÇø');
+values ('210103', '210100', 'èŠ™è“‰åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230108', '230100', 'ÆÖ¿ÚÇø');
+values ('230108', '230100', 'æµ¦å£åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230305', '230300', 'ÎıÉ½Çø');
+values ('230305', '230300', 'é”¡å±±åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230601', '230600', 'Í¤ºşÇø');
+values ('230601', '230600', 'äº­æ¹–åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230802', '230800', 'Ô°Çø');
+values ('230802', '230800', 'å›­åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230805', '230800', 'ÎâÖĞÇø');
+values ('230805', '230800', 'å´ä¸­åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230810', '230800', 'Ì«²Ö');
+values ('230810', '230800', 'å¤ªä»“');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230812', '230800', 'À¥É½');
+values ('230812', '230800', 'æ˜†å±±');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230808', '230800', 'Îâ½­');
+values ('230808', '230800', 'å´æ±Ÿ');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('240111', '240100', 'É£º£¾­¼Ã¿ª·¢Çø');
+values ('240111', '240100', 'æ¡‘æµ·ç»æµå¼€å‘åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250101', '250100', 'ÊĞÖĞÇø');
+values ('250101', '250100', 'å¸‚ä¸­åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250202', '250200', 'Àî²×Çø');
+values ('250202', '250200', 'ææ²§åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250201', '250200', 'ËÄ·½Çø');
+values ('250201', '250200', 'å››æ–¹åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250207', '250200', 'áÀÉ½Çø');
+values ('250207', '250200', 'å´‚å±±åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260104', '260100', '½õ½­Çø');
+values ('260104', '260100', 'é”¦æ±ŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260404', '260400', '½ğ¿ÚºÓ');
+values ('260404', '260400', 'é‡‘å£æ²³');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260801', '260800', '¸¢³ÇÇø');
+values ('260801', '260800', 'æ¶ªåŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261001', '261000', 'Ë³ÇìÇø');
+values ('261001', '261000', 'é¡ºåº†åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261201', '261200', '´¬É½Çø');
+values ('261201', '261200', 'èˆ¹å±±åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261302', '261300', 'ÄÏÏªÇø');
+values ('261302', '261300', 'å—æºªåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261501', '261500', '×ÔÁ÷¾®Çø');
+values ('261501', '261500', 'è‡ªæµäº•åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280399', '280300', 'ÊĞÇø');
+values ('280399', '280300', 'å¸‚åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280503', '280500', '³Ê¹±ĞÂÇø');
+values ('280503', '280500', 'å‘ˆè´¡æ–°åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290401', '290400', 'ÒåÎÚÊĞÇø');
+values ('290401', '290400', 'ä¹‰ä¹Œå¸‚åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('120102', '120100', 'Ñşº£Çø');
+values ('120102', '120100', 'ç‘¶æµ·åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150103', '150100', '´óÀÊÕò');
+values ('150103', '150100', 'å¤§æœ—é•‡');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150105', '150100', 'É³ÌïÕò');
+values ('150105', '150100', 'æ²™ç”°é•‡');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150106', '150100', 'Ê¯íÙÕò');
+values ('150106', '150100', 'çŸ³ç¢£é•‡');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('160103', '160100', '½­ÄÏÇø');
+values ('160103', '160100', 'æ±Ÿå—åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('160106', '160100', 'Î÷ÏçÌÁÇø');
+values ('160106', '160100', 'è¥¿ä¹¡å¡˜åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('190202', '190200', 'Î÷¹¤Çø');
+values ('190202', '190200', 'è¥¿å·¥åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230107', '230100', 'Óê»¨Ì¨Çø');
+values ('230107', '230100', 'é›¨èŠ±å°åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230105', '230100', 'ÏÂ¹ØÇø');
+values ('230105', '230100', 'ä¸‹å…³åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230101', '230100', 'ĞşÎäÇø');
+values ('230101', '230100', 'ç„æ­¦åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230303', '230300', '±õºşÇø');
+values ('230303', '230300', 'æ»¨æ¹–åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230401', '230400', '¸ÛÕ¢Çø');
+values ('230401', '230400', 'æ¸¯é—¸åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230804', '230800', 'Ïà³ÇÇø');
+values ('230804', '230800', 'ç›¸åŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('240109', '240100', '²ı±±Çø');
+values ('240109', '240100', 'æ˜ŒåŒ—åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('240105', '240100', 'ÍåÀïÇø');
+values ('240105', '240100', 'æ¹¾é‡ŒåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260103', '260100', '½ğÅ£Çø');
+values ('260103', '260100', 'é‡‘ç‰›åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260599', '260500', 'ÊĞÇø');
+values ('260599', '260500', 'å¸‚åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260603', '260600', 'ÄÉÏªÇø');
+values ('260603', '260600', 'çº³æºªåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261301', '261300', '´äÆÁÇø');
+values ('261301', '261300', 'ç¿ å±åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280499', '280400', 'ÊĞÇø');
+values ('280499', '280400', 'å¸‚åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290107', '290100', 'ÏôÉ½Çø');
+values ('290107', '290100', 'è§å±±åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290301', '290300', 'Â¹³ÇÇø');
+values ('290301', '290300', 'é¹¿åŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('120106', '120100', '·ÊÎ÷ÏØ£¨³ÇÇø£©');
+values ('120106', '120100', 'è‚¥è¥¿å¿ï¼ˆåŸåŒºï¼‰');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130119', '130100', 'ÍòÖİÇø');
+values ('130119', '130100', 'ä¸‡å·åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130120', '130100', 'ÁºÆ½ÏØ');
+values ('130120', '130100', 'æ¢å¹³å¿');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130102', '130100', 'ÄÏ°¶Çø');
+values ('130102', '130100', 'å—å²¸åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130105', '130100', 'ÓåÖĞÇø');
+values ('130105', '130100', 'æ¸ä¸­åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130107', '130100', '´ó¶É¿ÚÇø');
+values ('130107', '130100', 'å¤§æ¸¡å£åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150108', '150100', 'ºñ½ÖÕò');
+values ('150108', '150100', 'åšè¡—é•‡');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150302', '150300', 'ÄÏº£Çø');
+values ('150302', '150300', 'å—æµ·åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150502', '150500', 'Ô½ĞãÇø');
+values ('150502', '150500', 'è¶Šç§€åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150503', '150500', 'ÌìºÓÇø');
+values ('150503', '150500', 'å¤©æ²³åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150605', '150600', '±¦°²Çø');
+values ('150605', '150600', 'å®å®‰åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150601', '150600', 'ÂŞºşÇø');
+values ('150601', '150600', 'ç½—æ¹–åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('170103', '170100', 'ºÓ±±Çø');
+values ('170103', '170100', 'æ²³åŒ—åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('190203', '190200', 'ÀÏ³ÇÇø');
+values ('190203', '190200', 'è€åŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230306', '230300', '»İÉ½Çø');
+values ('230306', '230300', 'æƒ å±±åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230402', '230400', '³ç´¨Çø');
+values ('230402', '230400', 'å´‡å·åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230806', '230800', '²×ÀËÇø');
+values ('230806', '230800', 'æ²§æµªåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250106', '250100', '³¤ÇåÇø');
+values ('250106', '250100', 'é•¿æ¸…åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250203', '250200', 'ÊĞ±±Çø');
+values ('250203', '250200', 'å¸‚åŒ—åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260109', '260100', 'Çà°×½­Çø');
+values ('260109', '260100', 'é’ç™½æ±ŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260403', '260400', 'É³Íå');
+values ('260403', '260400', 'æ²™æ¹¾');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260601', '260600', '½­ÑôÇø');
+values ('260601', '260600', 'æ±Ÿé˜³åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261002', '261000', '¸ßÆºÇø');
+values ('261002', '261000', 'é«˜åªåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('261503', '261500', '´ó°²Çø');
+values ('261503', '261500', 'å¤§å®‰åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290105', '290100', 'Î÷ºşÇø');
+values ('290105', '290100', 'è¥¿æ¹–åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290104', '290100', '¹°Ò°Çø');
+values ('290104', '290100', 'æ‹±é‡åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('290602', '290600', '½­±±Çø');
+values ('290602', '290600', 'æ±ŸåŒ—åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('110101', '110100', 'Î÷³ÇÇø');
+values ('110101', '110100', 'è¥¿åŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('110106', '110100', 'ĞûÎäÇø');
+values ('110106', '110100', 'å®£æ­¦åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('130114', '130100', '´ó×ãÏØ');
+values ('130114', '130100', 'å¤§è¶³å¿');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150203', '150200', 'ĞÂ»áÇø');
+values ('150203', '150200', 'æ–°ä¼šåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150402', '150400', '¶·ÃÅÇø');
+values ('150402', '150400', 'æ–—é—¨åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150403', '150400', '½ğÍåÇø');
+values ('150403', '150400', 'é‡‘æ¹¾åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150501', '150500', '°×ÔÆÇø');
+values ('150501', '150500', 'ç™½äº‘åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150504', '150500', 'ÀóÍåÇø');
+values ('150504', '150500', 'è”æ¹¾åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('150606', '150600', 'Áú¸ÚÇø');
+values ('150606', '150600', 'é¾™å²—åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('160105', '160100', 'çßÄşÇø');
+values ('160105', '160100', 'é‚•å®åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('160104', '160100', 'Á¼ÇìÇø');
+values ('160104', '160100', 'è‰¯åº†åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('190106', '190100', '¹Ü³ÇÇø');
+values ('190106', '190100', 'ç®¡åŸåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('190103', '190100', '½ğË®Çø');
+values ('190103', '190100', 'é‡‘æ°´åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('190207', '190200', 'ÒÁ±õÇø');
+values ('190207', '190200', 'ä¼Šæ»¨åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230109', '230100', 'ÁùºÏÇø');
+values ('230109', '230100', 'å…­åˆåŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230103', '230100', 'ÇØ»´Çø');
+values ('230103', '230100', 'ç§¦æ·®åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230102', '230100', '°×ÏÂÇø');
+values ('230102', '230100', 'ç™½ä¸‹åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230308', '230300', '½­ÒõÊĞ');
+values ('230308', '230300', 'æ±Ÿé˜´å¸‚');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230304', '230300', 'ĞÂÇø');
+values ('230304', '230300', 'æ–°åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230403', '230400', 'Í¨ÖİÇø');
+values ('230403', '230400', 'é€šå·åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230803', '230800', 'ĞÂÇø');
+values ('230803', '230800', 'æ–°åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('230811', '230800', 'ÕÅ¼Ò¸Û');
+values ('230811', '230800', 'å¼ å®¶æ¸¯');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('240108', '240100', '¾­¿ªÇø');
+values ('240108', '240100', 'ç»å¼€åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('240107', '240100', '¸ßĞÂÇø');
+values ('240107', '240100', 'é«˜æ–°åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('240101', '240100', '¶«ºşÇø');
+values ('240101', '240100', 'ä¸œæ¹–åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250104', '250100', '»±ÒñÇø');
+values ('250104', '250100', 'æ§è«åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250205', '250200', 'ÊĞÄÏÇø');
+values ('250205', '250200', 'å¸‚å—åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250204', '250200', '³ÇÑôÇø');
+values ('250204', '250200', 'åŸé˜³åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('250301', '250300', 'Ö¥î·Çø');
+values ('250301', '250300', 'èŠç½˜åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260105', '260100', '³É»ªÇø');
+values ('260105', '260100', 'æˆååŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260101', '260100', 'ÎäºîÇø');
+values ('260101', '260100', 'æ­¦ä¾¯åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260106', '260100', '¸ßĞÂÇø');
+values ('260106', '260100', 'é«˜æ–°åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260402', '260400', 'ÎåÍ¨ÇÅ');
+values ('260402', '260400', 'äº”é€šæ¡¥');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('260701', '260700', '¶«ÆÂÇø');
+values ('260701', '260700', 'ä¸œå¡åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280504', '280500', 'Î÷É½Çø');
+values ('280504', '280500', 'è¥¿å±±åŒº');
 insert into T_B_NUW_ORG (ORG_ID, P_ORG_ID, ORG_NAME)
-values ('280699', '280600', 'ÊĞÇø');
+values ('280699', '280600', 'å¸‚åŒº');
 commit;
