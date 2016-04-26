@@ -14,7 +14,7 @@ import javax.crypto.SecretKey;
 
 public class Crypt {
 
-	private static final byte[] key = "MyKey".getBytes();
+	private static final byte[] key = "PageCardNoKey".getBytes();
 
 	private static String Algorithm = "Blowfish"; // 定义 加密算法,可用
 
