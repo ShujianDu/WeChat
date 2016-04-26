@@ -45,12 +45,13 @@ public class HttpClient {
             String data = JSON.toJSONString(object);
             String respStr = postRequest(method, data);
             result = JSON.parseObject(respStr, targetClass);
+            return result;
         } catch (JSONException e) {
             logger.error("数据转换异常", e);
+            return result;
         } catch (Exception e) {
             logger.error("HttpClient通讯时发生错误", e);
-        } finally {
-            return result;
+            throw new RuntimeException(e);
         }
     }
 
@@ -105,6 +106,7 @@ public class HttpClient {
             }
         } catch (IOException e) {
             logger.error("HttpClient通讯异常:", e);
+            throw new RuntimeException(e);
         } finally {
             if (writer != null) {
                 try {
@@ -124,9 +126,5 @@ public class HttpClient {
                 conn.disconnect();
             }
         }
-        return sb.toString();
     }
-
-
-
 }

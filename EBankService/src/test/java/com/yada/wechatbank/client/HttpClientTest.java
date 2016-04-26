@@ -1,8 +1,6 @@
 package com.yada.wechatbank.client;
 
-import com.yada.wechatbank.base.BaseModel;
 import com.yada.wechatbank.client.model.CardApplyResp;
-import com.yada.wechatbank.model.CardApplyList;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +10,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
