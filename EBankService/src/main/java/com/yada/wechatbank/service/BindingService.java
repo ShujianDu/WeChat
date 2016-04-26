@@ -98,12 +98,11 @@ public interface BindingService {
     /**
      * 补充证件类型插入数据库是否成功
      *
-     * @param openId       openId
      * @param identityType 证件类型
      * @param identityNo   证件号
      * @return 补充证件类型插入数据库是否结果
      */
-    boolean fillIdentityType(String openId, String identityType, String identityNo);
+    boolean fillIdentityType( String identityType, String identityNo);
 
 
 }

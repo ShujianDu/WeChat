@@ -291,7 +291,7 @@ public class BindingController extends BaseController {
             model.addAttribute("msg", "1");
             return FILLIDTYPEURL;
         }
-        if (bindingServiceImpl.fillIdentityType(openId, identityType, identityNo)) {
+        if (bindingServiceImpl.fillIdentityType(identityType, identityNo)) {
             // 获取默认卡
             String defCardNo = bindingServiceImpl.getDefCardNo(openId);
             if (defCardNo == null) {

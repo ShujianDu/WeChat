@@ -28,7 +28,7 @@ public class HistoryInstallmentServiceImpl extends BaseService implements Histor
 
     @Override
     public HistoryInstallmentList queryHistoryInstallment(String cardNo, String startNumber, String selectNumber) {
-        //TODO 调用后台查询分期历史
+        //调用后台查询分期历史
         Map<String, String> map = initGcsParam();
         map.put("cardNo", cardNo);
         map.put("startNumber", startNumber);
