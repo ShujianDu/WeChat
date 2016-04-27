@@ -160,7 +160,7 @@ public class CreditLimitTemporaryUpController extends BaseController {
             model.addAttribute("failMsg", "未查询到您近期的申请记录！");
             return FAILURL;
         }
-        model.addAttribute("cardNo", cardNo);
+        model.addAttribute("cardNo", decodeCardNo);
         model.addAttribute("limitUpHistorys", creditLimitTemporaryUpStatusList);
         return SHOWHISTORY;
     }

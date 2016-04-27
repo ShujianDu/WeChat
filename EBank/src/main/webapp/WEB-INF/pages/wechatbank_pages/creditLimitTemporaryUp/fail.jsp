@@ -8,8 +8,8 @@
 	<meta name=" format-detection" content= "telephone=no" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
 	<%@include file="../../base_pages/base.jsp" %>
-	<link href="css/UpgradeYES.css" rel="stylesheet" type="text/css">
-	<script src="js/UpgradeYES.js" type="text/javascript"></script>
+	<link href="<c:url value="/css/UpgradeYES.css"/>" rel="stylesheet" type="text/css">
+	<script src="<c:url value="/js/UpgradeYES.js"/>" type="text/javascript"></script>
 </head>
 <body>
 <!--UpgradeYES-->
@@ -17,7 +17,7 @@
 	<div class="UpgradeYES_title">提升额度</div>
 	<!--第一种卡信息-->
 	<div class="dynamic_box">
-		<img src="images/no.png" class="imgyes">
+		<img src="<c:url value="/images/no.png"/>" class="imgyes">
 		<span class="textYes">提交额度临时提升申请失败！</span>
 	</div>
 	<span class="tip_text">${failMsg }</span>

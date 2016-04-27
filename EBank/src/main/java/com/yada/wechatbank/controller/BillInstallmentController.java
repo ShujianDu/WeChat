@@ -272,11 +272,11 @@ public class BillInstallmentController extends BaseController {
     @ResponseBody
     public String checkMagCode_ajax(HttpServletRequest request) throws IOException {
         String identityNo=getIdentityNo(request);
-        String mobile = request.getParameter("mobile");
+        String mobileNo = request.getParameter("mobileNo");
         String code = request.getParameter("code");
-        String sendResult = Boolean.toString(smsService.checkSMSCode(identityNo, mobile, "BillInstallment", code)).toLowerCase();
+        String sendResult = Boolean.toString(smsService.checkSMSCode(identityNo, mobileNo, "BillInstallment", code)).toLowerCase();
         logger.debug("@ZDFQ@identityNo[{}],手机号[{}],code[{}"
-                + "]验证账单分期短信验证码,验证结果sendResult[{}]", identityNo, mobile, code);
+                + "]验证账单分期短信验证码,验证结果sendResult[{}]", identityNo, mobileNo, code);
         return sendResult;
     }
 

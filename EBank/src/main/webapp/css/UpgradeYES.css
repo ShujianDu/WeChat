@@ -1,0 +1,79 @@
+	@charset "utf-8";
+	/* CSS Document */
+	/*@import "menu.css";*/
+	/** 清除内外边距  */
+	body, h1, h2, h3, h4, h5, h6, hr, p,
+	blockquote, /* structural elements 结构元素 */
+	dl, dt, dd, ul, ol, li, /* list elements 列表元素 */
+	pre, /* text formatting elements 文本格式元素 */
+	form, fieldset, legend, button, input, textarea, /* form elements 表单元素 */
+	th, td, /* table elements 表格元素 */
+	img/* img elements 图片元素 */{
+	border:medium none;
+	margin: 0;
+	padding: 0;font-family:"微软雅黑";
+	}
+	/** 设置默认字体 **/
+	body,button, input, select, textarea {
+	font: 12px/1.5 '微软雅黑',tahoma, Srial, helvetica, sans-serif; }
+	h1, h2, h3, h4, h5, h6 { font-size: 100%; }
+	em{font-style:normal;}
+	/** 重置列表元素 **/
+	ul, ol { list-style: none;}
+	/** 重置超链接元素 **/
+	a { text-decoration: none; color:#000;}
+	/** 重置图片元素 **/
+	/** 重置表格元素 **/
+	table { border-collapse: collapse; border-spacing: 0; }
+	*{padding:0;margin:0;font-size:12px;}
+	button, input, select, textarea { font-size: 100%; margin: 0; vertical-align: baseline; *vertical-align: middle; }
+	img/* img elements 图片元素 */,select,option{
+	border:medium none;
+	margin: 0;
+	padding: 0;font-family:"微软雅黑";
+	list-style:none;border:none;
+	border:none;
+	background-color:none;
+	
+	overflow: hidden; /*隐藏了小三角，因为宽度为110px,而select宽度为130px*/border-width:0px;border-top-style: none; border-right-style: none; 
+border-left-style: none; 
+border-bottom-style: none;
+	}
+	button, input[type="button"], input[type="reset"], input[type="submit"] { cursor: pointer; -webkit-appearance: button; }
+	input[type="checkbox"], input[type="radio"] { box-sizing: border-box; }
+	input[type="search"] { -webkit-appearance: textfield; -moz-box-sizing: content-box; -webkit-box-sizing: content-box; box-sizing: content-box; }
+	input[type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
+	button::-moz-focus-inner, input::-moz-focus-inner { border: 0; padding: 0; }
+	textarea { overflow: auto; vertical-align: top; resize: vertical; }
+	select {
+  /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+
+  /*很关键：将默认的select选择框样式清除*/
+  appearance:none;
+  -moz-appearance:none;
+  -webkit-appearance:none;
+
+  /*在选择框的最右侧中间显示小箭头图片*/
+  background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
+
+
+  /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+  padding-right: 14px;
+	}
+	
+	
+	/*清除ie的默认选择框样式清除，隐藏下拉箭头*/
+	select::-ms-expand { display: none; }
+	
+	body{width:100%;background-color:#eeeeee;}
+	
+	/*UpgradeYES*/
+	
+	.cardActivated_title{width:95%;height:42px;line-height:42px;background-color:#fafafa;color:#666666;padding-left:5%;font-size:16px;border-left:#e05d4f solid 4px;}
+	.UpgradeYES_content{width:100%;padding-bottom:20px;background-color:#eeeeee;}
+	.UpgradeYES_content .dynamic_box{width:100%;height:160px;background-color:white;}
+	.UpgradeYES_title{font-size:14px;text-align:center;line-height:40px;color:#999999;background-color:#eeeeee;}
+	.UpgradeYES_content .dynamic_box .imgyes{width:60px;padding-top:20px;margin-left:auto;margin-right:auto;display:block;}
+	.UpgradeYES_content .dynamic_box .textYes{width:100%;line-height:40px;color:#666666;font-size:16px;text-align:center;display:block;margin-top:20px;}
+	.UpgradeYES_content .tip_text{width:68%;margin-left:16%;color:#999999;font-size:12px;text-align:center;display:block;margin-top:10px;}
+	

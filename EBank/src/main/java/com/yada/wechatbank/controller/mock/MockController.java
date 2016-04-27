@@ -32,8 +32,8 @@ import com.yada.wechatbank.model.HistoryInstallmentList;
 import com.yada.wechatbank.model.PointsBalance;
 import com.yada.wechatbank.model.PointsDetail;
 import com.yada.wechatbank.model.PointsValidates;
+import com.yada.wechatbank.model.BillCost;
 import com.yada.wechatbank.model.VerificationCardNoResult;
-
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -706,4 +706,28 @@ public class MockController {
 		JSONObject obj = JSON.parseObject(sb.toString());
 		return obj;
 	}
+	@RequestMapping(value = "queryBillCost")
+	@ResponseBody
+	public String queryBillCost() {
+		Map<String, Object> map = mockResult();
+		BillCost b=new BillCost();
+		b.setBillFeeMeans("1");
+		b.setCurrentBillMinimum("200.00");
+		b.setCurrentBillSurplusAmount("123.00");
+		b.setInstallmentsAlsoAmountEach("100.00");
+		b.setInstallmentsAlsoAmountFirst("3.00");
+		b.setInstallmentsfee("1.00");
+		b.setInstallmentsNumber("3");
+		map.put(key, b);
+		return JSON.toJSONString(map);
+	}
+
+	@RequestMapping(value = "billInstallment")
+	@ResponseBody
+	public String billInstallment() {
+		Map<String, Object> map = mockResult();
+		map.put(key, "+GC00000");
+		return JSON.toJSONString(map);
+	}
+
 }

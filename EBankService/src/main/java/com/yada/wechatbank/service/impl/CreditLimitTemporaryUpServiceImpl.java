@@ -30,7 +30,7 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
 
     // 信用卡提额的尝试次数
     private AtomicInteger creditLimitUpTimes = new AtomicInteger(0);
-    @Value("url.getCardHolderInfo")
+    @Value("${url.getCardHolderInfo}")
     private String getCardHolderInfo;
     @Value("${url.temporaryUpCommit}")
     private String temporaryUpCommit;
@@ -65,8 +65,8 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
         mapCardHolderInfo.put("cardNo", cardNo);
 
         //获取用户姓名
-        CardHolderInfo cardHolderInfo = httpClient.send(getCardHolderInfo, mapCardHolderInfo, CardHolderInfoResp.class).getBizResult();
-
+        CardHolderInfoResp cardHolderInfoResp = httpClient.send(getCardHolderInfo, mapCardHolderInfo, CardHolderInfoResp.class);
+        CardHolderInfo cardHolderInfo = cardHolderInfoResp == null ? null : cardHolderInfoResp.getBizResult();
         if (cardHolderInfo == null) {
             return null;
         }
@@ -92,7 +92,7 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
         map.put("issuingBranchId", issuingBranchId);
         map.put("pmtCreditLimit", pmtCreditLimit);
         BooleanResp resultR = httpClient.send(temporaryUpCommit, map, BooleanResp.class);
-        Boolean b=  resultR == null ? false : resultR.getBizResult();
+        Boolean b = resultR == null ? false : resultR.getBizResult();
         return b == null ? false : b;
     }
 
@@ -117,18 +117,18 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
         map.put("certType", IdTypeUtil.numIdTypeTransformToECode(certType));
         map.put("certNum", certNum);
         map.put("cardNo", cardNo);
-        CreditLimitTemporaryUpStatusResp cltusr=httpClient.send(getTemporaryUpCommitStatus, map, CreditLimitTemporaryUpStatusResp.class);
+        CreditLimitTemporaryUpStatusResp cltusr = httpClient.send(getTemporaryUpCommitStatus, map, CreditLimitTemporaryUpStatusResp.class);
         List<CreditLimitTemporaryUpStatus> list = cltusr == null ? null : cltusr.getBizResult();
         Calendar eosStarLimitDateCalendar = Calendar.getInstance();
 
         // 给申请日期增加6个月
         eosStarLimitDateCalendar.add(Calendar.MONTH, 6);
 
-        for(int i =0;i<list.size();i++) {
+        for (int i = 0; i < list.size(); i++) {
             try {
                 eosStarLimitDateCalendar.setTime(dateFormat.parse(list.get(i).getEosStarLimitDate()));
             } catch (ParseException e) {
-               logger.warn("@LSTE@转换日期异常certType[{}] certNum[{}] cardNo[{}]",certType,certNum,cardNo);
+                logger.warn("@LSTE@转换日期异常certType[{}] certNum[{}] cardNo[{}]", certType, certNum, cardNo);
                 list.remove(i);
             }
             // 增额生效开始日期加6个月后与当前日期比较

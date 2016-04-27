@@ -6,26 +6,16 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name=" format-detection" content= "telephone=no" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
-	<link href="css/adjustLine.css" rel="stylesheet" type="text/css">
-	<script src="js/jquery-2.2.3.min.js" type="text/javascript"></script>
-	<script src="js/adjustLine.js" type="text/javascript"></script>
+	<%@include file="../../base_pages/base.jsp"%>
+	<link href="<c:url value="/css/adjustLine.css"/>" rel="stylesheet" type="text/css">
+	<script src="<c:url value="/js/jquery-2.2.3.min.js"/>" type="text/javascript"></script>
+	<script src="<c:url value="/js/adjustLine.js"/>" type="text/javascript"></script>
 	<script >
 		$(function(){
-
-			$(".UpgradeProgress").click(function(){
-
-				$(".wait_box").fadeIn(500);
-				setTimeout(function(){
-					$(".adjustLine_box").load('UpgradeQuery.html');
-				},0);
-				setTimeout(function(){
-					$(".wait_box").fadeOut(500);
-				},2000);
-			});
 			$(".ApplyAmount").click(function(){
 				$(".wait_box").fadeIn(500);
 				setTimeout(function(){
-					$(".adjustLine_box").load('UpgradeLine.html');
+					$("#submitForm").submit();
 				},0);
 				setTimeout(function(){
 					$(".wait_box").fadeOut(500);
@@ -33,8 +23,8 @@
 			});
 		});
 		function showHistory() {
-			document.getElementById("submitForm").action = "showHistory.do";
-			document.getElementById("submitForm").submit();
+			$("#submitForm").attr("action" , "showHistory.do");
+			$("#submitForm").submit();
 		}
 	</script>
 	<title>调整额度</title>
@@ -50,8 +40,7 @@
 		<form action="show.do" method="post" name="submitForm" id="submitForm">
 			<select class="control_card" name="cardNo" id="cardNoSelect">
 				<c:forEach items="${cardList}" var="item" varStatus="status">
-					<option class="" value="${fn:substringAfter(item, ',')}"
-							name="cardNo">
+					<option class="" value="${fn:substringAfter(item, ',')}">
 						<c:out value="${fn:substring(item, 0, 16)}" />
 					</option>
 				</c:forEach>
