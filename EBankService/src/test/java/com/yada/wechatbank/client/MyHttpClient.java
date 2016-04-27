@@ -19,6 +19,7 @@ public class MyHttpClient extends HttpClient {
     private final String getBillSendType = "/getBillSendType.do";
     private final String getMobilePhone = "/getMobilePhone.do"; // 获取预约办卡手机号
     private final String getCardInfos = "/getCardInfos.do"; // 获取客户卡列表
+    private final String sendSMS = "/sendSMS.do"; // 发送短信验证码
 
 
     protected final String pubilcMobileNo="18888888888";//手机号
@@ -73,11 +74,11 @@ public class MyHttpClient extends HttpClient {
             case getCustMobile:   {  getCustMobile(map);    break; }//查询客户手机号
             case getBillSendType: {  getBillSendType(requestMap,map);  break; }//账单寄送方式查询
             case getMobilePhone:  {  getMobilePhone(map);   break; }//查询客户预约办卡手机号
-            case getCardInfos:  {  getCardInfos(requestMap,map);
-                break; }//查询客户预约办卡手机号
+            case getCardInfos:  {  getCardInfos(requestMap,map); break; }//查询客户预约办卡手机号
+            case sendSMS:  {  sendSMS(map); break; } //发送短信验证码
             default:{ break; }
         }
-        String   mapJson= JSON.toJSONString(map);
+        String mapJson = JSON.toJSONString(map);
         T result = JSON.parseObject(mapJson, targetClass);
         return result;
     }
@@ -87,6 +88,10 @@ public class MyHttpClient extends HttpClient {
         map.put(key, "18888888888");
     }
 
+    // 发送短信验证码
+    private void sendSMS(Map<String, Object> map) {
+        map.put(key, "true");
+    }
 
     //账单寄送方式
     private void getBillSendType(Map<String,String> reqeustMap,Map<String, Object> responseMap) {
