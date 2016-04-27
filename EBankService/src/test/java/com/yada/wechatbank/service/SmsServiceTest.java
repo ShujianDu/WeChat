@@ -1,6 +1,5 @@
 package com.yada.wechatbank.service;
 
-import com.yada.wechatbank.service.impl.SmsServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
