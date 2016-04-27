@@ -40,9 +40,11 @@ class Dispatcher {
   }
 
   private def init(): Map[String, Route] = {
-    ConfigFactory.load().getStringList("systemAdapter.server.routeClasses").asScala.map(
+    val a = ConfigFactory.load().getStringList("systemAdapter.server.routeClasses").asScala.map(
       className => (className,Class.forName(className).newInstance().asInstanceOf[Route])
     ).toMap
+
+    a
   }
 }
 

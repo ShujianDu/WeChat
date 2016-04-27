@@ -4,10 +4,10 @@ import com.yada.system.adapter.directsale.{DirectSale, DirectSaleImpl, ScheduleO
 import com.yada.system.adapter.route.Route
 import play.api.libs.json.Json
 
-class ScheduleOfCrdCardApplyRoute(directSale: DirectSale = DirectSaleImpl) extends Route{
+class ScheduleOfCrdCardApplyRoute extends Route {
   override def execute(json: String): String = {
     val params = Json.toJson(json).as[ScheduleOfCrdCardApplyParams]
-    val rs=directSale.getScheduleOfCrdCardApply(params)
+    val rs = DirectSaleImpl.getScheduleOfCrdCardApply(params)
     Json.toJson(rs).toString()
   }
 }

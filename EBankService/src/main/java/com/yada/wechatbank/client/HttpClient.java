@@ -69,6 +69,7 @@ public class HttpClient {
         BufferedReader bufferedReader = null;
 
         try {
+            logger.info("HTTP Client请求URL：" + hostAddr + method);
             URL url = new URL(hostAddr + method);
             conn = (HttpURLConnection) url.openConnection();
             // 发送Post强求，开启其读写的功能
