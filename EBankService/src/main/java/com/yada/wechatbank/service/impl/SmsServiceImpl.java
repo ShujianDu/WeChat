@@ -26,8 +26,6 @@ public class SmsServiceImpl extends BaseService implements SmsService {
     @Autowired
     protected HttpClient httpClient;
 
-    private Random random;
-
     @Autowired
     private ISMSCache sMSCacheImpl;
 
@@ -84,9 +82,9 @@ public class SmsServiceImpl extends BaseService implements SmsService {
     /**
      * 发送分期短信验证码
      *
-     * @param identityNo  证件号
-     * @param mobileNo    手机号
-     * @param bizCode     渠道号
+     * @param identityNo 证件号
+     * @param mobileNo   手机号
+     * @param bizCode    渠道号
      * @return true-成功，false-失败
      */
     @Override
@@ -97,9 +95,9 @@ public class SmsServiceImpl extends BaseService implements SmsService {
     /**
      * 发送提额短信验证码
      *
-     * @param identityNo  证件号
-     * @param mobileNo    手机号
-     * @param bizCode 渠道号
+     * @param identityNo 证件号
+     * @param mobileNo   手机号
+     * @param bizCode    渠道号
      * @return true-成功，false-失败
      */
     @Override
@@ -130,10 +128,6 @@ public class SmsServiceImpl extends BaseService implements SmsService {
      */
     private boolean assemblySMS(String identityNo, String mobileNo, String bizCode, String smsContent, String bxnType) {
         String code = generateSMSCode();
-        if (code == null || "".equals(code)) {
-            logger.warn("为用户identityNo[{}]，mobile[{}]在渠道[{}]生成验证码失败", identityNo, mobileNo, bizCode);
-            return false;
-        }
         String content = smsContent.replace("#sms.msg#", code);
         Map<String, String> param = new HashMap<>();
         param.put("sysId", bcspSmsSysId);
@@ -176,10 +170,8 @@ public class SmsServiceImpl extends BaseService implements SmsService {
      * @return 随机6位码
      */
 
-    private String generateSMSCode() {
-        if (random == null) {
-            random = new Random();
-        }
+    public String generateSMSCode() {
+        Random random = new Random();
         return String.format("%06d", random.nextInt(999999));
     }
 
