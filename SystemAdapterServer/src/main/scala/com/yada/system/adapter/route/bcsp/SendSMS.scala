@@ -1,6 +1,6 @@
 package com.yada.system.adapter.route.bcsp
 
-import com.yada.system.adapter.bcsp.{BCSPSendSMSParams, BCSPService, BCSPServiceImpl}
+import com.yada.system.adapter.bcsp.{BCSPSendSMSParams, BCSPServiceImpl}
 import com.yada.system.adapter.route.Route
 import play.api.libs.json.Json
 
