@@ -1,5 +1,6 @@
 package com.yada.wechatbank.service;
 
+import com.yada.wechatbank.model.CardApplyList;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +21,16 @@ public class CardApplyServiceTest {
     private String identityType = "01";
     private String identityNo = "888999101010";
     private String mobileNo = "18888888888";
+
+    private String name = "秦始皇";
+
+    @Test
+    public void testGetCrdCardSchedule() {
+        CardApplyList cardApplyList = cardApplyService.getCrdCardSchedule(name, identityType, identityNo, 1);
+        Assert.assertNotNull(cardApplyList);
+        Assert.assertEquals(true, cardApplyList.getHasNext());
+        Assert.assertNotEquals(0, cardApplyList.getCardApplies().size());
+    }
 
     @Test
     public void testSendCardApplySMS() {

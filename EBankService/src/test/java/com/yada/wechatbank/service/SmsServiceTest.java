@@ -1,5 +1,6 @@
 package com.yada.wechatbank.service;
 
+import com.yada.wechatbank.service.impl.SmsServiceImpl;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +30,8 @@ public class SmsServiceTest {
 
     @Test
     public void testCheckSMSCode() {
-        boolean result = smsService.checkSMSCode(identityNo, mobileNo, bizCode, "000000");
+        boolean result = smsService.checkSMSCode(identityNo, mobileNo, bizCode, "888888");
         Assert.assertEquals(false, result);
     }
+
 }
