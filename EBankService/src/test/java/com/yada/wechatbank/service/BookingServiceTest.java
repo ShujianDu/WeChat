@@ -39,6 +39,11 @@ public class BookingServiceTest {
         booking.setServiceAddr("测试地址");
     }
 
+    @Test
+    public void testGetSequences(){
+        String result = bookingService.getSequences();
+        Assert.assertNotNull(result);
+    }
 
     @Test
     public void testInsertBooking(){

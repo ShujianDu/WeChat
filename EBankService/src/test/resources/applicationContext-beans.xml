@@ -5,10 +5,9 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd"
        default-lazy-init="false">
 
-    <bean id="httpClient" class="com.yada.wechatbank.client.HttpClient">
+    <bean id="httpClient" class="com.yada.wechatbank.client.MyHttpClient">
         <constructor-arg name="hostAddr" value="${httpClient.url}"></constructor-arg>
         <constructor-arg name="conTimeout" value="${httpClient.conTimeout}"></constructor-arg>
         <constructor-arg name="readTimeout" value="${httpClient.readTimeout}"></constructor-arg>
     </bean>
-
 </beans>

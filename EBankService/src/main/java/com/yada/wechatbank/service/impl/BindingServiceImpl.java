@@ -94,7 +94,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      */
     @Override
     public String custBinding(String openId, String idType, String idCardNo, String pwd) {
-        String cardNo = "";
+        String cardNo;
         List<CardInfo> cardInfoList = selectCardNOs(idCardNo, idType);
         if (cardInfoList != null && cardInfoList.size() != 0) {
             cardNo = cardInfoList.get(0).getCardNo();
