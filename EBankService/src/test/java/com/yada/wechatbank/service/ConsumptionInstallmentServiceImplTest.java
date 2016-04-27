@@ -28,16 +28,18 @@ public class ConsumptionInstallmentServiceImplTest {
 	private ConsumptionInstallmentService consumptionInstallmentService;
 	private ConsumptionInstallmentAuthorization c;
 	private ConsumptionInstallmentAuthorization c1;
+	private String cardNo;
 
 	@Before
 	public void init() {
+		cardNo = "6225888899990001";
 		c = new ConsumptionInstallmentAuthorization();
 		c.setAccountKeyOne("01");
 		c.setAccountKeyTwo("02");
 		c.setCurrencyCode("CNY");
 		c.setBillDateNo("4");
 		c.setTransactionAmount("1111");
-		c.setCardNo("1111111111111111");
+		c.setCardNo(cardNo);
 		c.setAccountNoID("03");
 		c.setInstallmentPeriods("6");
 		c.setIsfeeFlag("1");
@@ -47,7 +49,7 @@ public class ConsumptionInstallmentServiceImplTest {
 		c1.setCurrencyCode("USD");
 		c1.setBillDateNo("4");
 		c1.setTransactionAmount("1111");
-		c1.setCardNo("1111111111111111");
+		c1.setCardNo(cardNo);
 		c1.setAccountNoID("03");
 		c1.setInstallmentPeriods("6");
 		c1.setIsfeeFlag("1");
@@ -60,12 +62,12 @@ public class ConsumptionInstallmentServiceImplTest {
 	public void testQueryConsumptionInstallments() {
 		Map<String, Object> map;
 		List<ConsumptionInstallments> consumptionInstallmentsList;
-		map = consumptionInstallmentService.queryConsumptionInstallments("1111111111111111", "CNY", "1", "10");
+		map = consumptionInstallmentService.queryConsumptionInstallments(cardNo, "CNY", "1", "10");
 		Assert.assertNotNull(map);
 		consumptionInstallmentsList = (List<ConsumptionInstallments>) map.get("consumptionInstallmentsList");
 		Assert.assertTrue(consumptionInstallmentsList.size() == 1);
 		Assert.assertEquals("0", map.get("isFollowUp"));
-		map = consumptionInstallmentService.queryConsumptionInstallments("1111111111111111", "USD", "1", "10");
+		map = consumptionInstallmentService.queryConsumptionInstallments(cardNo, "USD", "1", "10");
 		Assert.assertNotNull(map);
 		consumptionInstallmentsList = (List<ConsumptionInstallments>) map.get("consumptionInstallmentsList");
 		Assert.assertTrue(consumptionInstallmentsList.size() == 0);

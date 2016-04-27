@@ -337,7 +337,7 @@ public class MyHttpClient extends HttpClient {
 		Map<String, String> param = (Map<String, String>) object;
 		String cardNo = param.get("cardNo");
 		// 根据卡号返回的账期不同
-		if ("1111111111111111".equals(cardNo)) {
+		if (cardNo1.equals(cardNo)) {
 			// 正常返回账期
 			List<BillingPeriod> list = new ArrayList<>();
 			BillingPeriod b = new BillingPeriod();
@@ -355,7 +355,7 @@ public class MyHttpClient extends HttpClient {
 			list.add(b);
 			list.add(b1);
 			map.put(key, list);
-		} else if ("2222222222222222".equals(cardNo)) {
+		} else if (cardNo2.equals(cardNo)) {
 			// 无账期
 			List<BillingPeriod> list = new ArrayList<>();
 			map.put(key, list);
@@ -388,7 +388,7 @@ public class MyHttpClient extends HttpClient {
 		List<BillingDetail> billingDetailList = new ArrayList<>();
 		if ("ALLT".equals(queryType)) {
 			BillingDetail b1 = new BillingDetail();
-			b1.setCardNo("1111111111111111");
+			b1.setCardNo(cardNo1);
 			b1.setCurrencyCode("CNY");
 			b1.setDebitCreditCode("DEBT");
 			b1.setReturnMsg("成功");
@@ -400,7 +400,7 @@ public class MyHttpClient extends HttpClient {
 			map.put(key, billingDetailList);
 		} else if ("UNSM".equals(queryType)) {
 			BillingDetail b = new BillingDetail();
-			b.setCardNo("1111111111111111");
+			b.setCardNo(cardNo1);
 			b.setCurrencyCode("USD");
 			b.setDebitCreditCode("DEBT");
 			b.setReturnMsg("成功");
@@ -410,7 +410,7 @@ public class MyHttpClient extends HttpClient {
 			b.setTransactionDescription("京东商城");
 			billingDetailList.add(b);
 			BillingDetail b1 = new BillingDetail();
-			b1.setCardNo("1111111111111111");
+			b1.setCardNo(cardNo1);
 			b1.setCurrencyCode("USD");
 			b1.setDebitCreditCode("DEBT");
 			b1.setReturnMsg("成功");
@@ -500,7 +500,7 @@ public class MyHttpClient extends HttpClient {
 			c.setAccountedID("01");
 			c.setAccountID("02");
 			c.setAccountNoID("03");
-			c.setCardNo("1111111111111111");
+			c.setCardNo(cardNo1);
 			c.setDebitCreditCode("DEBT");
 			c.setOriginalCurrencyCode("CNY");
 			c.setOriginalTransactionAmount("1111");
@@ -533,7 +533,7 @@ public class MyHttpClient extends HttpClient {
 			cost.setInstallmentsAlsoAmountEach("180");
 			cost.setInstallmentsAlsoAmountFirst("170");
 			cost.setInstallmentsNumber("6");
-			cost.setCardNo("1111111111111111");
+			cost.setCardNo(cardNo1);
 			map.put(key, cost);
 		} else {
 			// 其他币种无返回null
