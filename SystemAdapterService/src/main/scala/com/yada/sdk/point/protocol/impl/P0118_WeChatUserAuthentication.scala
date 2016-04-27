@@ -1,6 +1,6 @@
 package com.yada.sdk.point.protocol.impl
 
-import com.yada.sdk.point.PointSecurity
+import com.yada.sdk.point.{IPointClient, PointSecurity}
 import com.yada.sdk.point.protocol.PointReq
 
 /**
@@ -8,7 +8,7 @@ import com.yada.sdk.point.protocol.PointReq
   *
   * @param cardNo 卡号
   */
-class P0118_WeChatUserAuthentication(cardNo: String) extends PointReq {
+class P0118_WeChatUserAuthentication(cardNo: String)(implicit client: IPointClient = IPointClient.GLOBAL) extends PointReq(client) {
   val security = PointSecurity.GLOBAL
   setReqBodyProps("EncryptCardNo", security.encrypt(cardNo, security.weChatUserAuthenticationDESKey))
 

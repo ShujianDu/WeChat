@@ -1,5 +1,6 @@
 package com.yada.sdk.point.protocol.impl
 
+import com.yada.sdk.point.IPointClient
 import com.yada.sdk.point.protocol.PointReq
 
 /**
@@ -7,7 +8,7 @@ import com.yada.sdk.point.protocol.PointReq
   *
   * @param cardNo 卡号
   */
-class P0004_GetECIF(cardNo: String) extends PointReq {
+class P0004_GetECIF(cardNo: String)(implicit client: IPointClient = IPointClient.GLOBAL) extends PointReq(client) {
   setReqBodyProps("CardNo", cardNo)
 
   /**

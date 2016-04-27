@@ -32,7 +32,7 @@ public class BillingDetailServiceImpl extends BaseService implements BillingDeta
 	protected String unsmBillingDetailUrl;
 
 	@Override
-	public List<BillingDetail> getBillingDetail(String cardNo, String queryType, String STARTNUM, String TOTALNUM, String periodStartDate,
+	public List<BillingDetail> getBillingDetail(String cardNo, String queryType, String startnum, String totalnum, String periodStartDate,
 			String periodEndDate, String currencyCode) {
 		// 账单明细查询结果
 		List<BillingDetail> billingDetailList = new ArrayList<>();
@@ -40,8 +40,8 @@ public class BillingDetailServiceImpl extends BaseService implements BillingDeta
 		Map<String, String> param = initGcsParam();
 		param.put("cardNo", cardNo);
 		param.put("queryType", queryType);
-		param.put("startNum", STARTNUM);
-		param.put("totalNum", TOTALNUM);
+		param.put("startNum", startnum);
+		param.put("totalNum", totalnum);
 		// 已出账单查询
 		if (queryType != null && "ALLT".equals(queryType)) {
 			param.put("currencyCode", currencyCode);

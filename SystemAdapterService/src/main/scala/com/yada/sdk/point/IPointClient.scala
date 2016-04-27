@@ -1,4 +1,4 @@
-package com.yada.sdk.point.xml
+package com.yada.sdk.point
 
 import com.typesafe.config.ConfigFactory
 
@@ -12,9 +12,9 @@ trait IPointClient {
     * @param req 请求报文
     * @return
     */
-  def send(req: Message): Message
+  def send(req: String): String
 }
 
 object IPointClient {
-  var GLOBAL = Class.forName(ConfigFactory.load().getString("Point.client")).newInstance().asInstanceOf[IPointClient]
+  val GLOBAL = Class.forName(ConfigFactory.load().getString("Point.client")).newInstance().asInstanceOf[IPointClient]
 }
