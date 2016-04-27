@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(value = "/applicationContext.xml")
 public class SmsServiceTest {
+
     @Autowired
     private SmsService smsService;
 
@@ -29,8 +30,12 @@ public class SmsServiceTest {
 
     @Test
     public void testCheckSMSCode() {
-        boolean result = smsService.checkSMSCode(identityNo, mobileNo, bizCode, "888888");
-        Assert.assertEquals(false, result);
+        boolean result1 = smsService.sendSMS(identityNo, mobileNo, bizCode);
+        Assert.assertEquals(true, result1);
+        smsService.checkSMSCode(identityNo, mobileNo, bizCode, "888888");
+        smsService.checkSMSCode(identityNo, mobileNo, bizCode, "888888");
+         boolean result2 = smsService.checkSMSCode(identityNo, mobileNo, bizCode, "888888");
+        Assert.assertEquals(false, result2);
     }
 
 }
