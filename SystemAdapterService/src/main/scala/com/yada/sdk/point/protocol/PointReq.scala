@@ -2,14 +2,15 @@ package com.yada.sdk.point.protocol
 
 import java.util.Calendar
 
-import com.yada.sdk.point.xml.{Body, Head, IPointClient, Message}
+import com.yada.sdk.point.IPointClient
+import com.yada.sdk.point.xml.{Body, Head, Message, XMLHandler}
 
 import scala.collection.mutable
 
 /**
   * 积分请求
   */
-trait PointReq {
+abstract class PointReq(client: IPointClient) {
   private val tranDateTime = Calendar.getInstance.getTime
   private val reqHeadProps = mutable.Map.empty[String, String]
   private val reqBodyProps = mutable.Map.empty[String, String]
@@ -100,12 +101,12 @@ trait PointReq {
   }
 
   def send: PointResp = {
-    val resp = IPointClient.GLOBAL.send(mkReqMessage)
-    respMessageToObj(resp)
+    val resp = client.send(toXml)
+    respMessageToObj(XMLHandler.fromXML(resp))
   }
 
-  def mkReqMessage: Message = {
-    Message(Head(reqHeadProps.toMap), Some(Body(reqBodyProps.toMap, List.empty[Map[String, String]])))
+  def toXml: String = {
+    XMLHandler.toXML(Message(Head(reqHeadProps.toMap), Some(Body(reqBodyProps.toMap, List.empty[Map[String, String]]))))
   }
 
   /**

@@ -6,7 +6,7 @@ import com.thoughtworks.xstream.io.xml.{XppDriver, XmlFriendlyNameCoder}
 /**
   * 积分XML处理
   */
-private[point] class XmlHandler {
+private[point] class XMLHandler {
   // 初始化stream
   private val xstream = new XStream(new XppDriver(new XmlFriendlyNameCoder("_-", "_")))
   // 注册定制的xml转换器
@@ -16,7 +16,7 @@ private[point] class XmlHandler {
   // 声明短名称
   xstream.alias("message", classOf[Message])
 
-  val XML_HEADER = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" + java.lang.System.getProperty("line.separator")
+  private[point] val XML_HEADER = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" + java.lang.System.getProperty("line.separator")
 
   def toXML(message: Message): String = {
     XML_HEADER + xstream.toXML(message)
@@ -29,6 +29,4 @@ private[point] class XmlHandler {
   }
 }
 
-private[point] object XmlHandler {
-  var GLOBAL = new XmlHandler
-}
+private[point] object XMLHandler extends XMLHandler

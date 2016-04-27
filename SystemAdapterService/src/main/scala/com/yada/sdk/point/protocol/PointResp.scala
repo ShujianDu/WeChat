@@ -81,6 +81,9 @@ class PointResp(msg: Message) {
     * @return
     */
   protected def failedThrowException: Boolean = true
+
+
+  override def toString = s"PointResp($msg)"
 }
 
 /**

@@ -1,5 +1,6 @@
 package com.yada.sdk.point.protocol.impl
 
+import com.yada.sdk.point.IPointClient
 import com.yada.sdk.point.protocol.PointReq
 
 /**
@@ -7,7 +8,7 @@ import com.yada.sdk.point.protocol.PointReq
   *
   * @param ecifNo 积分系统的唯一标识
   */
-class P0001_GetBalance(ecifNo: String) extends PointReq {
+class P0001_GetBalance(ecifNo: String)(implicit client: IPointClient = IPointClient.GLOBAL) extends PointReq(client) {
   // 设置ECIF NO
   setReqBodyProps("EcifNo", ecifNo)
 

@@ -1,11 +1,12 @@
 package com.yada.sdk.point
 
+import java.io.IOException
 import java.net.{InetSocketAddress, Socket}
 import java.util.UUID
 
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.slf4j.Logger
-import com.yada.sdk.point.xml.{IPointClient, Message, XmlHandler}
+import com.yada.sdk.commons.SystemIOException
 import org.slf4j.LoggerFactory
 
 import scala.io.Source
@@ -29,12 +30,11 @@ private[point] class PointClient extends IPointClient {
     * @param req 请求报文
     * @return
     */
-  def send(req: Message): Message = {
-    val reqXML = XmlHandler.GLOBAL.toXML(req)
+  def send(req: String): String = {
     // 计算头长度
-    val reqXMLLen = reqXML.length
+    val reqXMLLen = req.length
     // 组装完整报文
-    val reqMsg = f"$reqXMLLen%06d$reqXML"
+    val reqMsg = f"$reqXMLLen%06d$req"
     val socket = new Socket()
     val uuid = UUID.randomUUID().toString
     try {
@@ -46,11 +46,12 @@ private[point] class PointClient extends IPointClient {
       socket.getOutputStream.flush()
       val source = Source.fromInputStream(socket.getInputStream, "GBK")
       val resp = source.mkString
-      log.debug(s"[$uuid] receive from POINT msg :\r\n$resp")
       log.info(s"[$uuid] receive from POINT...")
+      log.debug(s"[$uuid] receive from POINT msg :\r\n$resp")
       if (resp.isEmpty) throw new RuntimeException("receive from POINT msg can`t be empty...")
-      XmlHandler.GLOBAL.fromXML(resp.substring(6))
+      resp.substring(6)
     } catch {
+      case e: IOException => throw SystemIOException("POINT", address.toString)
       case e: Exception => throw new RuntimeException(s"Point [$address] has a error...", e)
     } finally {
       socket.close()
