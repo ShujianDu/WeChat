@@ -1,6 +1,8 @@
 package com.yada.wechatbank.client;
 
 import com.alibaba.fastjson.JSON;
+import com.yada.wechatbank.model.BillSendType;
+
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.HashMap;
@@ -13,9 +15,9 @@ public class MyHttpClient extends HttpClient {
     private static final String key = "bizResult";
 
     private final String getCustMobile = "/getCustMobile.do";
-
+    private final String getBillSendType = "/getBillSendType.do";
+    private final String pubilcMobileNo="13800138000";
     private final String getMobilePhone = "/getMobilePhone.do"; // 获取预约办卡手机号
-    private final String getCustMobile = "/getCustMobile.do"; // 获取客户手机号
 
 
     private Map<String, Object> mockResult() {
@@ -34,7 +36,11 @@ public class MyHttpClient extends HttpClient {
         Map<String, Object> map = mockResult();
         switch (method){
             case getCustMobile: {
-                map.put(key, "13800138000");
+                map.put(key, pubilcMobileNo);
+                break;
+            }
+            case getBillSendType: {
+                getBillSendType(map);
                 break;
             }
             default:{
@@ -53,6 +59,15 @@ public class MyHttpClient extends HttpClient {
         String mapJson = JSON.toJSONString(map);
         T result = JSON.parseObject(mapJson, targetClass);
         return result;
+    }
+
+
+    //账单寄送方式
+    public void getBillSendType(Map<String, Object> map) {
+        BillSendType b = new BillSendType();
+        b.setBillSendType("C");
+        b.setBillSendTypeDesc("测试");
+        map.put(key, b);
     }
 
     // 获取客户手机号
