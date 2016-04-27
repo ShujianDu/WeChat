@@ -15,7 +15,7 @@
                                   ignore-unresolvable="true" location="classpath:/application-test.properties"/>
 
     <!--配置扫描包-->
-    <context:component-scan base-package="com.yada"/>
+    <context:component-scan base-package="com.yada.wechatbank"/>
 
     <!-- 注解驱动（用于扫描autowired注解） -->
     <context:annotation-config/>

@@ -1,16 +1,21 @@
 package com.yada.wechatbank.client;
 
 import com.alibaba.fastjson.JSON;
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by Echo on 2016/4/27.
  */
-public class MyHttpClient extends HttpClient{
+public class MyHttpClient extends HttpClient {
     private static final String key = "bizResult";
 
-    private final String getCustMobile = "/getCustMobile.do";
+    private final String mobileNo = "13800138000";
+
+    private final String getMobilePhone = "/getMobilePhone.do"; // 获取预约办卡手机号
+    private final String getCustMobile = "/getCustMobile.do"; // 获取客户手机号
 
 
     private Map<String, Object> mockResult() {
@@ -25,21 +30,29 @@ public class MyHttpClient extends HttpClient{
     }
 
     public <T> T send(String method, Object object, Class<T> targetClass) {
-        T result = null;
-        switch (method){
-            case getCustMobile: {
-                Map<String, Object> map = mockResult();
-                map.put(key, "13800138000");
-                String mapJson = JSON.toJSONString(map);
-                result = JSON.parseObject(mapJson, targetClass);
-                break;
-            }
-            default:{
-                break;
-            }
+        switch (method) {
+            case getMobilePhone: { return getMobilePhone(targetClass); }
+            case getCustMobile: { return getCustMobile(targetClass); }
         }
+        return null;
+    }
+
+    // 获取预约办卡手机号
+    private <T> T getMobilePhone(Class<T> targetClass) {
+        Map<String, Object> map = mockResult();
+        map.put(key, "18888888888");
+        String mapJson = JSON.toJSONString(map);
+        T result = JSON.parseObject(mapJson, targetClass);
         return result;
     }
 
+    // 获取客户手机号
+    private <T> T getCustMobile(Class<T> targetClass) {
+        Map<String, Object> map = mockResult();
+        map.put(key, mobileNo);
+        String mapJson = JSON.toJSONString(map);
+        T result = JSON.parseObject(mapJson, targetClass);
+        return result;
+    }
 
 }
