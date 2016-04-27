@@ -27,12 +27,7 @@ public class AllCustomerInfoServiceImpl implements AllCustomerInfoService {
 
     @Override
     public boolean updateNoticeByIdentityNo(String notice, String billNotice, String repaymentNotice, String identityNo) {
-        try {
-            allCustomerInfoDao.updateNoticeByIdentityNo(notice, billNotice, repaymentNotice, identityNo);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        allCustomerInfoDao.updateNoticeByIdentityNo(notice, billNotice, repaymentNotice, identityNo);
+        return true;
     }
 }
