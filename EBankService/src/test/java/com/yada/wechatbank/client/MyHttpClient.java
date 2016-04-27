@@ -8,6 +8,7 @@ import java.util.Map;
 import com.alibaba.fastjson.JSON;
 import com.yada.wechatbank.model.Balance;
 import com.yada.wechatbank.model.BillSendType;
+import com.yada.wechatbank.model.BillingDetail;
 import com.yada.wechatbank.model.BillingPeriod;
 import com.yada.wechatbank.model.BillingSummary;
 import com.yada.wechatbank.model.CardInfo;
@@ -28,7 +29,8 @@ public class MyHttpClient extends HttpClient {
 	private final String wbicCardInfoSendSms = "/wbicCardInfoSendSms.do";// 海淘卡用户发送短信
 	private final String billingPeriod = "/billingPeriod.do";// 查询账期
 	private final String billingSummary = "/billingSummary.do";// 查询账单摘要
-
+	private final String alltBillingDetail = "/alltBillingDetail.do";// 已出账单明细
+	private final String unsmBillingDetail = "/unsmBillingDetail.do";// 未出账单明细
 	protected final String pubilcMobileNo = "18888888888";// 手机号
 	protected final String idType = "03";// 证件类型-护照
 	protected final String idNo = "MOCK01";// 证件号
@@ -109,13 +111,25 @@ public class MyHttpClient extends HttpClient {
 		case wbicCardInfoSendSms: {
 			wbicCardInfoSendSms(map, object);
 			break;
-		}// 给海淘卡用户发送短信
+		}
+		// 账期查询
 		case billingPeriod: {
 			getBillingPeriod(map, object);
 			break;
 		}
+		// 账单摘要
 		case billingSummary: {
 			getBillingSummary(map, object);
+			break;
+		}
+		// 已出账单明细
+		case alltBillingDetail: {
+			getBillingDetail(map, object);
+			break;
+		}
+		// 未出账单查询
+		case unsmBillingDetail: {
+			getBillingDetail(map, object);
 			break;
 		}
 		default: {
@@ -282,5 +296,50 @@ public class MyHttpClient extends HttpClient {
 			map.put(key, b);
 		} else if ("2".equals(statementNo)) {
 		}
+	}
+
+	// 查询账单明细
+	private void getBillingDetail(Map<String, Object> map, Object object) {
+		Map<String, String> param = (Map<String, String>) object;
+		String queryType = param.get("queryType");
+		List<BillingDetail> billingDetailList = new ArrayList<>();
+		if ("ALLT".equals(queryType)) {
+			BillingDetail b1 = new BillingDetail();
+			b1.setCardNo("1111111111111111");
+			b1.setCurrencyCode("CNY");
+			b1.setDebitCreditCode("DEBT");
+			b1.setReturnMsg("成功");
+			b1.setStartnum("1");
+			b1.setTransactionAmount("1234");
+			b1.setTransactionDate("2016-04-16");
+			b1.setTransactionDescription("京东商城");
+			billingDetailList.add(b1);
+			map.put(key, billingDetailList);
+		} else if ("UNSM".equals(queryType)) {
+			BillingDetail b = new BillingDetail();
+			b.setCardNo("1111111111111111");
+			b.setCurrencyCode("USD");
+			b.setDebitCreditCode("DEBT");
+			b.setReturnMsg("成功");
+			b.setStartnum("1");
+			b.setTransactionAmount("1234");
+			b.setTransactionDate("2016-04-16");
+			b.setTransactionDescription("京东商城");
+			billingDetailList.add(b);
+			BillingDetail b1 = new BillingDetail();
+			b1.setCardNo("1111111111111111");
+			b1.setCurrencyCode("USD");
+			b1.setDebitCreditCode("DEBT");
+			b1.setReturnMsg("成功");
+			b1.setStartnum("1");
+			b1.setTransactionAmount("1234");
+			b1.setTransactionDate("2016-04-16");
+			b1.setTransactionDescription("京东商城");
+			billingDetailList.add(b1);
+			map.put(key, billingDetailList);
+		} else {
+
+		}
+
 	}
 }
