@@ -25,19 +25,19 @@ public class MyHttpClient extends HttpClient{
     }
 
     public <T> T send(String method, Object object, Class<T> targetClass) {
-        T result = null;
+        T result ;
+        Map<String, Object> map = mockResult();
         switch (method){
             case getCustMobile: {
-                Map<String, Object> map = mockResult();
                 map.put(key, "13800138000");
-                String mapJson = JSON.toJSONString(map);
-                result = JSON.parseObject(mapJson, targetClass);
                 break;
             }
             default:{
                 break;
             }
         }
+        String   mapJson= JSON.toJSONString(map);
+        result = JSON.parseObject(mapJson, targetClass);
         return result;
     }
 

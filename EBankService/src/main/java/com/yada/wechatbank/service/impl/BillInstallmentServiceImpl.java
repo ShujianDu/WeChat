@@ -25,6 +25,7 @@ import java.util.*;
  * @author Tx
  */
 @Service
+@Transactional
 public class BillInstallmentServiceImpl extends BaseService implements BillInstallmentService {
     private final Logger logger = LoggerFactory
             .getLogger(this.getClass());

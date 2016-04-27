@@ -31,11 +31,11 @@
 <form action="" method="post" name="submitForm" id="submitForm">
 <div class="UpgradeLine_box">
  <div class="UpgradeQuery_title">提升额度</div>
-    <div class="container">
-            <table class="table table-shadow table-bg bg">
+    <div class="container" style="margin-top:10px;">
+            <table class="table table-shadow table-bg bg" style="height:36px;">
                 <tr>
-                    <th>信用卡号</th>
-                    <th class="text-right">${fn:substring(cardNo, 0, 16)}</th>
+                    <th style="font-size:15px;line-height:36px;">信用卡号</th>
+                    <th class="text-right" style="font-size:15px;line-height:36px;">${fn:substring(cardNo, 0, 16)}</th>
                 </tr>
             </table>
 
@@ -43,16 +43,16 @@
         <div class="container" style="width: 100%;">
             <span id="ex6CurrentSliderValLabel" class="text-primary"
                   style="display:block; width: 100%;text-align:
-                      center;padding-bottom: 20px;font-size:16px;">
+                      center;padding-bottom: 20px;font-size:18px;">
                     +
-                    <span id="ex6SliderVal" class="text-red">0</span>
+                    <span id="ex6SliderVal" class="text-red" style="font-size:20px;">0</span>
                 </span>
             <input id="ex6" type="text"
                    data-slider-min="0"
                    name="eosPreAddLimit"
                    data-slider-max="${amount }"
                    data-slider-step="100"
-                   data-slider-value="0" style="width:100%">
+                   data-slider-value="0" style="width:100%;">
 
             <p>
                 <span class="pull-left text-primary">拖动提升</span> <span
@@ -63,29 +63,29 @@
         <div style="height: 30px"></div>
         <ul class="list-group nobd">
            <%-- class="form-control form_datetime index-date"--%>
-            <li class="list-group-item" ><span  >生效日期</span> <span class="pull-right">${effectiveDate }</span>
+            <li class="list-group-item" ><span style="font-size:14px;" >生效日期</span> <span class="pull-right" style="font-size:14px;">${effectiveDate }</span>
             </li>
-            <li class="list-group-item"><span >失效日期</span> <input size="16"
+            <li class="list-group-item"><span style="font-size:14px;">失效日期</span> <input size="16"
                                                                  type="text" value="" readonly
                                                                  name="eosEndlimitdate"
                                                                  id="datetimeEnd"
-                                                                 placeholder="请选择失效日期" class="pull-right" style="text-align:right;"> <span
+                                                                 placeholder="请选择失效日期" class="pull-right" style="text-align:right;font-size:14px;"> <span
                     id="datetimeEndWarning"
-                    style="color: red; font-size: 12px;"></span></li>
+                    style="color: red; font-size: 14px;"></span></li>
             <li class="list-group-item text-center">
                     <span
-                            class="pull-left" style="margin-left:8px;">手机验证码</span>
+                            class="pull-left" style="margin-left:8px;font-size:14px;">手机验证码</span>
                 <input
                         id="msgCode" class="form-inline"
-                        placeholder="输入验证码" maxlength="6" onchange="changeWarning();"  style="margin-left:10px;float:left;border: none;background-color: transparent;margin-top:-2px;">
+                        placeholder="输入验证码" maxlength="6" onchange="changeWarning();"  style="font-size:14px;text-align:center;border: none;background-color: transparent;margin-top:-2px;">
                 <input
                         class="btn btn-xs pull-right" id="msgCodeButton" value="发送验证码"
-                        type="button" onclick="sendMessage();" style="float:right;background-color:#fafafa;border:1px solid #eeeeee;line-height: 28px;margin-top:-8px;width:84px;color:#666666;"> <span id="codeWarning"   style="color: red; font-size: 12px;"></span></li>
+                        type="button" onclick="sendMessage();" style="float:right;font-size:14px;background-color:#fafafa;border:1px solid #eeeeee;line-height: 28px;margin-top:-8px;width:84px;color:#666666;"> <span id="codeWarning"   style="color: red; font-size: 12px;"></span></li>
         </ul>
     </div>
 
         <input type="button" id="tijiao" class="btn btn-block btn-default btn-sm btn-bank"
-               value="提&nbsp;&nbsp;交" onclick="submitTemp();" style="background-color:#e05d4f;color:white;height:40px;margin-top:20px;margin-bottom:30px;font-size:14px;">
+               value="提&nbsp;&nbsp;交" onclick="submitTemp();" style="background-color:#e05d4f;color:white;height:40px;margin-top:20px;margin-bottom:30px;font-size:15px;">
 
     </div>
     </div>

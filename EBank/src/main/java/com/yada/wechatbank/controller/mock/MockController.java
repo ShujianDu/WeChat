@@ -545,7 +545,7 @@ public class MockController {
 		cltur2.setEosImpTime("2016-04-24");
 		cltur2.setEosLimit("22000");
 		cltur2.setEosStarLimitDate("2016-04-25");
-		cltur2.setEosState("60");
+		cltur2.setEosState("50");
 		list.add(cltur2);
 		CreditLimitTemporaryUpStatus cltur3 = new CreditLimitTemporaryUpStatus();
 		cltur3.setEosEndLimitDate("2015-09-30");
