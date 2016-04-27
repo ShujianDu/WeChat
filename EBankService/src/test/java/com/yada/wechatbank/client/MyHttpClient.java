@@ -3,6 +3,8 @@ package com.yada.wechatbank.client;
 import com.alibaba.fastjson.JSON;
 import com.yada.wechatbank.model.BillSendType;
 import com.yada.wechatbank.model.CardInfo;
+import com.yada.wechatbank.model.HistoryInstallment;
+import com.yada.wechatbank.model.HistoryInstallmentList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +21,8 @@ public class MyHttpClient extends HttpClient {
     private final String getBillSendType = "/getBillSendType.do";
     private final String getMobilePhone = "/getMobilePhone.do"; // 获取预约办卡手机号
     private final String getCardInfos = "/getCardInfos.do"; // 获取客户卡列表
+    private final String verificationPWD = "/verificationPWD.do"; // 验密
+    private final String getHistoryInstallment = "/getHistoryInstallment.do"; // 验密
 
 
     protected final String pubilcMobileNo="18888888888";//手机号
@@ -73,8 +77,9 @@ public class MyHttpClient extends HttpClient {
             case getCustMobile:   {  getCustMobile(map);    break; }//查询客户手机号
             case getBillSendType: {  getBillSendType(requestMap,map);  break; }//账单寄送方式查询
             case getMobilePhone:  {  getMobilePhone(map);   break; }//查询客户预约办卡手机号
-            case getCardInfos:  {  getCardInfos(requestMap,map);
-                break; }//查询客户预约办卡手机号
+            case getCardInfos:  {  getCardInfos(requestMap,map);break; }//查询客户预约办卡手机号
+            case verificationPWD:{ verificationPWD(map); break;}
+            case getHistoryInstallment: { getHistoryInstallment(map);break;}
             default:{ break; }
         }
         String   mapJson= JSON.toJSONString(map);
@@ -120,4 +125,25 @@ public class MyHttpClient extends HttpClient {
         responseMap.put(key, true);
     }
 
+    private void verificationPWD(Map<String, Object> map) {
+        String res = "true";
+        map.put(key, res);
+    }
+
+    private void getHistoryInstallment(Map<String, Object> map){
+        HistoryInstallmentList historyInstallmentList = new HistoryInstallmentList();
+        List<HistoryInstallment> historyInstallments = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            HistoryInstallment historyInstallment = new HistoryInstallment();
+            historyInstallment.setCardNo("11111111111111111" + i);
+            historyInstallment.setInstalmentCompleteDate("1111" + i);
+            historyInstallment.setInstalmentNextPostingAmount("1111" + i);
+            historyInstallment.setInstalmentOriginalAmount("1111" + i);
+            historyInstallments.add(historyInstallment);
+        }
+        historyInstallmentList.setHistoryInstallmentList(historyInstallments);
+        historyInstallmentList.setFollowUp(true);
+        historyInstallmentList.setTransactionNumber("10");
+        map.put(key, historyInstallmentList);
+    }
 }

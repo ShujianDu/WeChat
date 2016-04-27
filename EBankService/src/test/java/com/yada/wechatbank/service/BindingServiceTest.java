@@ -1,5 +1,6 @@
 package com.yada.wechatbank.service;
 
+import com.yada.wechatbank.model.CardInfo;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,6 +8,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -81,6 +84,23 @@ public class BindingServiceTest {
     @Test
     public void testFillIdentityType(){
         boolean result = bindingService.fillIdentityType(idType,idNo);
+        Assert.assertEquals(true,result);
+    }
+
+    @Test
+    public void testSelectCardNOs(){
+        List<CardInfo> result = bindingService.selectCardNOs(idNo,idType);
+        Assert.assertNotNull(result);
+    }
+
+    @Test
+    public void testIsLocked(){
+        boolean result = bindingService.isLocked(openId,idNo);
         Assert.assertEquals(false,result);
+    }
+
+    @Test
+    public void testAddCountCache(){
+        bindingService.addCountCache(openId,idNo);
     }
 }
