@@ -104,15 +104,15 @@ public class MyHttpClient extends HttpClient {
                 break;
             } // 发送短信验证码
             case getCardBalance: {
-                getCardBalance(map, object);
+                getCardBalance(requestMap, map);
                 break;
             }// 根据卡号查询额度
             case getWbicCards: {
-                getWbicCards(map, object);
+                getWbicCards(requestMap, map);
                 break;
             }// 查询海淘卡
             case wbicCardInfoSendSms: {
-                wbicCardInfoSendSms(map, object);
+                wbicCardInfoSendSms(requestMap, map);
                 break;
             }
             // 账期查询
@@ -216,18 +216,21 @@ public class MyHttpClient extends HttpClient {
         map.put(key, pubilcMobileNo);
     }
 
+
     // 获取客户卡列表
-    private void getCardInfos(Map<String, String> reqeustMap, Map<String, Object> responseMap) {
-        if (!idType.equals(reqeustMap.get("idType")) || !idNo.equals(reqeustMap.get("idNo"))) {
-            responseMap.put(key, null);
+    private void getCardInfos(Map<String,String> reqeustMap,Map<String, Object> responseMap) {
+        if(!idType.equals(reqeustMap.get("idType"))|| !idNo.equals(reqeustMap.get("idNum"))){
+            responseMap.put(key,null);
+        }else{
+            List<CardInfo> cardInfoList = new ArrayList<>();
+            for(String cardNo:getCardNoList()) {
+                CardInfo cardInfo = new CardInfo();
+                cardInfo.setCardNo(cardNo);
+                cardInfoList.add(cardInfo);
+            }
+            responseMap.put(key, cardInfoList);
         }
-        List<CardInfo> cardInfoList = new ArrayList<>();
-        for (String cardNo : getCardNoList()) {
-            CardInfo cardInfo = new CardInfo();
-            cardInfo.setCardNo(cardNo);
-            cardInfoList.add(cardInfo);
-        }
-        responseMap.put(key, cardInfoList);
+
     }
 
     // 更新客户账单寄送方式
@@ -238,13 +241,12 @@ public class MyHttpClient extends HttpClient {
         responseMap.put(key, true);
     }
 
-    // 根据卡号查询额度
-    private void getCardBalance(Map<String, Object> map, Object object) {
-        // 获得参数map
-        Map<String, String> param = (Map<String, String>) object;
-        String cardNo = param.get("cardNo");
-        if ("11111111111111111".equals(cardNo)) {
-            // 返回正常值
+    //根据卡号查询额度
+    private void getCardBalance(Map<String,String> reqeustMap, Map<String, Object> responseMap){
+
+        String cardNo = reqeustMap.get("cardNo");
+        if("11111111111111111".equals(cardNo)){
+            //返回正常值
             List<Balance> list = new ArrayList<>();
 
             Balance balance = new Balance();
@@ -262,39 +264,39 @@ public class MyHttpClient extends HttpClient {
             balance2.setPeriodAvailableCreditLimit("102");
             list.add(balance);
             list.add(balance2);
-            map.put(key, list);
-        } else if ("222222222222222222".equals(cardNo)) {
-            // 返回空值
+            responseMap.put(key, list);
+        }else if("222222222222222222".equals(cardNo)){
+            //返回空值
             List<Balance> list = new ArrayList<>();
-            map.put(key, list);
-        } else {
-            map = null;
+            responseMap.put(key, list);
+        }else{
+            responseMap.put(key, null);
         }
     }
 
-    // 查询海淘卡
-    private void getWbicCards(Map<String, Object> map, Object object) {
-        // 获得参数map
-        Map<String, String> param = (Map<String, String>) object;
+    //查询海淘卡
+    private void getWbicCards(Map<String,String> reqeustMap, Map<String, Object> responseMap){
+        //获得参数map
+        Map<String, String> param = (Map<String, String>) reqeustMap;
         String idNum = param.get("idNum");
         String idType = param.get("idType");
         if ("110625199301280000".equals(idNum) && "IDCD".equals(idType)) {
             String cardNo = "111111222222333333";
-            map.put(key, cardNo);
-        } else {
-            map = null;
+            responseMap.put(key, cardNo);
+        }else{
+            responseMap.put(key, null);
         }
     }
 
-    // 给海淘卡用户发送短信
-    private void wbicCardInfoSendSms(Map<String, Object> map, Object object) {
-        // 获得参数map
-        Map<String, String> param = (Map<String, String>) object;
+    //给海淘卡用户发送短信
+    private void wbicCardInfoSendSms(Map<String,String> reqeustMap, Map<String, Object> responseMap){
+        //获得参数map
+        Map<String, String> param = (Map<String, String>) reqeustMap;
         String cardNo = param.get("cardNo");
-        if ("11111111111111111111".equals(cardNo)) {
-            map.put(key, true);
-        } else {
-            map = null;
+        if("11111111111111111111".equals(cardNo)){
+            responseMap.put(key, true);
+        }else{
+            responseMap.put(key, null);
         }
     }
 

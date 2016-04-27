@@ -4,6 +4,7 @@ import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.BooleanResp;
 import com.yada.wechatbank.client.model.StringResp;
 import com.yada.wechatbank.service.WbicCardInfoService;
+import com.yada.wechatbank.util.IdTypeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,7 +32,8 @@ public class WbicCardInfoServiceImpl extends BaseService implements WbicCardInfo
         //获得gcs初始化map
         Map<String, String> param = initGcsParam();
         param.put("idNum", idNum);
-        param.put("idType", idType);
+        //转化成gcs证件类型
+        param.put("idType", IdTypeUtil.numIdTypeTransformToECode(idType));
 
         //发送请求，查询海淘卡
         StringResp stringResp = httpClient.send(getWbicCards, param, StringResp.class);
@@ -49,7 +51,7 @@ public class WbicCardInfoServiceImpl extends BaseService implements WbicCardInfo
         //发送请求，给海涛用户发送短信
         BooleanResp booleanResp = httpClient.send(wbicCardInfoSendSms, param, BooleanResp.class);
         logger.debug("@HTCX@海淘卡根据卡号发送短信，传入的参数为 cardNo[{}],返回的结果为[{}]", cardNo,
-                booleanResp == null ? false : booleanResp.getBizResult());
-        return booleanResp == null ? false : booleanResp.getBizResult();
+                (booleanResp == null || booleanResp.getBizResult() == null) ? false : booleanResp.getBizResult());
+        return (booleanResp == null || booleanResp.getBizResult() == null) ? false : booleanResp.getBizResult();
     }
 }
