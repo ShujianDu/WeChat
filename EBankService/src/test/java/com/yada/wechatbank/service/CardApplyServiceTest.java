@@ -24,8 +24,8 @@ public class CardApplyServiceTest {
     @Test
     public void testSendCardApplySMS() {
         String result1 = cardApplyService.sendCardApplySMS(identityType, identityNo, mobileNo);
-        Assert.assertEquals("true",result1);
+        Assert.assertEquals("true", result1);
         String result2 = cardApplyService.sendCardApplySMS(identityType, identityNo, "19999999999");
-        Assert.assertEquals("wrongMobilNo",result2);
+        Assert.assertEquals("wrongMobilNo", result2);
     }
 }

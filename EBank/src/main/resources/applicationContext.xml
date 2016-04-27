@@ -12,7 +12,7 @@
     <import resource="classpath:applicationContext-loader.xml"/>
 
     <!--配置扫描包-->
-    <context:component-scan base-package="com.yada"/>
+    <context:component-scan base-package="com.yada.wechatbank"/>
 
     <!-- 注解驱动（用于扫描autowired注解） -->
     <context:annotation-config/>

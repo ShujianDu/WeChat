@@ -28,6 +28,20 @@
 				#myAuthc是自定义认证过滤器，对用户的登陆信息进行认证
 				/login/list.do = myAuthc
 				/binding/list.do = myAuthc
+				/balance/list.do = myAuthc
+				/billingdetail/list.do = myAuthc
+				/billingsendway/list.do = myAuthc
+				/billingsummary/list.do = myAuthc
+				/billinstallment/search.do = myAuthc
+				/booking/list.do = myAuthc
+				/cardholderinfo/list.do = myAuthc
+				/consumptionInstallment/list.do = myAuthc
+				/creditLimitTemporaryUp/list.do = myAuthc
+				/historyInstalment/list.do = myAuthc
+				/noticemag/list.do = myAuthc
+				/points/list.do = myAuthc
+				/reportlost/list.do = myAuthc
+				/wbicCardInfo/list.do = myAuthc
 				/*/*.do = anon
 			</value>
 		</property>

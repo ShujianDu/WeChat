@@ -8,38 +8,51 @@
         maximum-scale=1, user-scalable=no" />
     <title></title>
     <%@include file="../../base_pages/base.jsp" %>
-    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="css/bootstrap-slider.min.css" type="text/css">
-    <link href="css/index.css" rel="stylesheet" type="text/css">
-    <script src="js/jquery-2.2.3.min.js"></script>
-    <script src="js/bootstrap-slider.min.js"></script>
+    <link href="<c:url value="/css/bootstrap.min.css"/>" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="<c:url value="/css/bootstrap-slider.min.css"/>" type="text/css">
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/bootstrap-datetimepicker.min.css"/>" />
+    <link href="<c:url value="/css/new_index.css"/>" rel="stylesheet" type="text/css">
+
+    <script src="<c:url value="/js/jquery-2.2.3.min.js"/>"></script>
+    <script src="<c:url value="/js/bootstrap-slider.min.js"/>"></script>
+    <script type="text/javascript"
+            src="../js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+    <script type="text/javascript"
+            src="../js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <style>
+        .UpgradeQuery_title{font-size:14px;text-align:center;line-height:40px;color:#999999;background-color:#eeeeee;}
+
+        </style>
 </head>
 <body>
+<style>
+    .list-group-item{font-size:14px;}
+    </style>
 <form action="" method="post" name="submitForm" id="submitForm">
 <div class="UpgradeLine_box">
  <div class="UpgradeQuery_title">提升额度</div>
-    <div class="container">
-            <table class="table table-shadow table-bg bg">
+    <div class="container" style="margin-top:10px;">
+            <table class="table table-shadow table-bg bg" style="height:36px;">
                 <tr>
-                    <th>信用卡号</th>
-                    <th class="text-right">${fn:substring(cardNo, 0, 16)}</th>
+                    <th style="font-size:15px;line-height:36px;">信用卡号</th>
+                    <th class="text-right" style="font-size:15px;line-height:36px;">${fn:substring(cardNo, 0, 16)}</th>
                 </tr>
             </table>
-    </div>
+
     <div class="well well-bg nopd">
-        <div class="container">
+        <div class="container" style="width: 100%;">
             <span id="ex6CurrentSliderValLabel" class="text-primary"
                   style="display:block; width: 100%;text-align:
-                      center;padding-bottom: 20px;font-size:16px;">
+                      center;padding-bottom: 20px;font-size:18px;">
                     +
-                    <span id="ex6SliderVal" class="text-red">0</span>
+                    <span id="ex6SliderVal" class="text-red" style="font-size:20px;">0</span>
                 </span>
             <input id="ex6" type="text"
                    data-slider-min="0"
                    name="eosPreAddLimit"
                    data-slider-max="${amount }"
                    data-slider-step="100"
-                   data-slider-value="0" style="width: 100%">
+                   data-slider-value="0" style="width:100%;">
 
             <p>
                 <span class="pull-left text-primary">拖动提升</span> <span
@@ -49,35 +62,31 @@
         </div>
         <div style="height: 30px"></div>
         <ul class="list-group nobd">
-            <li class="list-group-item"><span>生效日期</span> <input size="16"
-                                                                 type="text" value="${effectiveDate }" readonly
-                                                                 name="eosStarLimitDate"
-                                                                 class="form-control form_datetime index-date"
-                                                                 id="datetimeStart">
+           <%-- class="form-control form_datetime index-date"--%>
+            <li class="list-group-item" ><span style="font-size:14px;" >生效日期</span> <span class="pull-right" style="font-size:14px;">${effectiveDate }</span>
             </li>
-            <li class="list-group-item"><span>失效日期</span> <input size="16"
+            <li class="list-group-item"><span style="font-size:14px;">失效日期</span> <input size="16"
                                                                  type="text" value="" readonly
                                                                  name="eosEndlimitdate"
-                                                                 class="form-control form_datetime index-date"
                                                                  id="datetimeEnd"
-                                                                 placeholder="请选择失效日期"> <span
+                                                                 placeholder="请选择失效日期" class="pull-right" style="text-align:right;font-size:14px;"> <span
                     id="datetimeEndWarning"
-                    style="color: red; font-size: 12px;"></span></li>
+                    style="color: red; font-size: 14px;"></span></li>
             <li class="list-group-item text-center">
                     <span
-                            class="pull-left" style="margin-left: 8px">手机验证码</span>
+                            class="pull-left" style="margin-left:8px;font-size:14px;">手机验证码</span>
                 <input
-                        id="msgCode" class="form-inline" style="width: 80px"
-                        placeholder="输入验证码" maxlength="6" onchange="changeWarning();">
+                        id="msgCode" class="form-inline"
+                        placeholder="输入验证码" maxlength="6" onchange="changeWarning();"  style="font-size:14px;text-align:center;border: none;background-color: transparent;margin-top:-2px;">
                 <input
                         class="btn btn-xs pull-right" id="msgCodeButton" value="发送验证码"
-                        type="button" onclick="sendMessage();"> <span
-                    id="codeWarning" style="border:1px solid #eeeeee;margin-top:-8px;"></span></li>
+                        type="button" onclick="sendMessage();" style="float:right;font-size:14px;background-color:#fafafa;border:1px solid #eeeeee;line-height: 28px;margin-top:-8px;width:84px;color:#666666;"> <span id="codeWarning"   style="color: red; font-size: 12px;"></span></li>
         </ul>
     </div>
-    <div class="container">
+
         <input type="button" id="tijiao" class="btn btn-block btn-default btn-sm btn-bank"
-               value="提&nbsp;&nbsp;交" onclick="submitTemp();" style="background-color:#e05d4f;color:white;height:40px;margin-top:20px;margin-bottom:30px;font-size:14px;">
+               value="提&nbsp;&nbsp;交" onclick="submitTemp();" style="background-color:#e05d4f;color:white;height:40px;margin-top:20px;margin-bottom:30px;font-size:15px;">
+
     </div>
     </div>
     <input type="hidden" id="cardNo" name="cardNo" value="${fn:substringAfter(cardNo, ',')}">
@@ -85,6 +94,7 @@
     <input type="hidden" id="issuingBranchId" name="issuingBranchId" value="${issuingBranchId}">
     <input type="hidden" id="pmtCreditLimit" name="pmtCreditLimit" value="${pmtCreditLimit}">
     <input type="hidden" id="minExpirationDate" name="minExpirationDate" value="${minExpirationDate}">
+    <input type="hidden" id="eosStarLimitDate" name="eosStarLimitDate" value="${eosStarLimitDate}">
     <input type="hidden" id="maxExpirationDate" name="maxExpirationDate" value="${maxExpirationDate}">
 </form>
 <p class="text-center" style="margin-top: 8px">
@@ -96,25 +106,10 @@
     $("#ex6").on('slide', function (slideEvt) {
         $("#ex6SliderVal").text(slideEvt.value);
     });
-    $("#tijiao").click(function(){
-
-        $(".wait_box").fadeIn(500);
-        setTimeout(function(){
-            $(".UpgradeLine_box").load('UpgradeYES.html');
-        },600);
-        setTimeout(function(){
-            $(".wait_box").fadeOut(500);
-        },2000);
-    });
 </script>
 <script type="text/javascript">
-    //提升额度历史查询
-    function showHistory() {
-        $("#submitForm").action = "showHistory.do";
-        $("#submitForm").submit();
-    }
-    //提交提升额度表单
 
+    //提交提升额度表单
     var can = false;
     var form = $("#submitForm");
     function submitTemp() {
@@ -122,24 +117,31 @@
         $("#datetimeEndWarning").text ("");
         checkMsgCode();
         if ($("#ex6").val() == "0") {
-            $("#amountWarning").text ("请选择提升额度");
-            return;
+            $("#amountWarning").text("请选择提升额度");
+            return false;
         }
         if ($("#datetimeEnd").val() == "") {
             $("#datetimeEndWarning").text ("请选择失效日期");
-            return;
+            return false;
         }
         if ($("#msgCode").val() == "") {
             $("#codeWarning").text ("请输入手机验证码");
-            return;
+            return false;
         }
         if (!can) {
             $("#codeWarning").text ("验证码错误，请重新输入！");
-            return;
+            return false;
         }
-        form.action = "temporaryUp.do";
+        form.attr("action","temporaryUp.do");
         form.submit();
     }
+
+    //提升额度历史查询
+    function showHistory() {
+        form.attr("action","showHistory.do");
+        form.submit();
+    }
+
 
     //发送手机验证码
     function sendMessage() {
@@ -169,11 +171,12 @@
         $.ajax({
             url: "checkMagCode_ajax.do",
             data: {
-                date: new Date().getTime()
+                date: new Date().getTime(),
+                code: code
             },
             type: "post",
             dataType: "text",
-            async: true,
+            async: false,
             success: function (result) {
                 if (result != null && result != "") {
                     if (result == "true") {
@@ -196,10 +199,10 @@
         i--;
         if (i == 0) {
             i = 60;
-            msgCodeButton.disabled = "";
+            msgCodeButton.attr("disabled", false);
             msgCodeButton.val("获取验证码");
         } else {
-            msgCodeButton.disabled = "disabled";
+            msgCodeButton.attr("disabled", true);
             msgCodeButton.val(i + "秒");
             setTimeout("buttonTimeOut()", 1000);
         }

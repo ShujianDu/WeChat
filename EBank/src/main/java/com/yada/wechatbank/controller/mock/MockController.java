@@ -32,8 +32,8 @@ import com.yada.wechatbank.model.HistoryInstallmentList;
 import com.yada.wechatbank.model.PointsBalance;
 import com.yada.wechatbank.model.PointsDetail;
 import com.yada.wechatbank.model.PointsValidates;
+import com.yada.wechatbank.model.BillCost;
 import com.yada.wechatbank.model.VerificationCardNoResult;
-
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -266,67 +266,46 @@ public class MockController {
 
 	@RequestMapping(value = "getWbicCards")
 	@ResponseBody
-	public String getWbicCards(HttpServletRequest request){
-		JSONObject obj = readReq(request);
-		String idNum = (String) obj.get("idNum");
-		String idType = (String) obj.get("idType");
+	public String getWbicCards(){
 		Map<String, Object> map = mockResult();
-		if("110625199301280000".equals(idNum) && "IDCD".equals(idType)){
-			String cardNo = "111111222222333333";
-			map.put(key, cardNo);
-		}else{
-			return "exception";
-		}
+        String cardNo = "111111222222333333";
+        map.put(key, cardNo);
 		return JSON.toJSONString(map);
 	}
 
 	@RequestMapping(value = "wbicCardInfoSendSms")
 	@ResponseBody
-	public String wbicCardInfoSendSms(HttpServletRequest request){
-		JSONObject obj = readReq(request);
-		String cardNo = (String) obj.get("cardNo");
+	public String wbicCardInfoSendSms(){
 		Map<String, Object> map = mockResult();
-		if("11111111111111111111".equals(cardNo)){
-			map.put(key, true);
-		}else{
-			return "exception";
-		}
+        map.put(key, true);
 		return JSON.toJSONString(map);
 	}
 
 	@RequestMapping(value = "getCardBalance")
 	@ResponseBody
-	public String getCardBalance(HttpServletRequest request){
-		JSONObject obj = readReq(request);
-		String cardNo = (String) obj.get("cardNo");
+	public String getCardBalance(){
+
 		Map<String, Object> map = mockResult();
-		if("11111111111111111".equals(cardNo)){
-			//返回正常值
-			List<Balance> list = new ArrayList<>();
+        //返回正常值
+        List<Balance> list = new ArrayList<>();
 
-			Balance balance = new Balance();
-			balance.setCardNo("11111111111111111");
-			balance.setCurrencyCode("CNY");
-			balance.setPreCashAdvanceCreditLimit("31");
-			balance.setWholeCreditLimit("101");
-			balance.setPeriodAvailableCreditLimit("100");
+        Balance balance = new Balance();
+        balance.setCardNo("11111111111111111");
+        balance.setCurrencyCode("CNY");
+        balance.setPreCashAdvanceCreditLimit("31");
+        balance.setWholeCreditLimit("101");
+        balance.setPeriodAvailableCreditLimit("100");
 
-			Balance balance2 = new Balance();
-			balance2.setCardNo("11111111111111111");
-			balance2.setCurrencyCode("USD");
-			balance2.setPreCashAdvanceCreditLimit("33");
-			balance2.setWholeCreditLimit("130");
-			balance2.setPeriodAvailableCreditLimit("102");
-			list.add(balance);
-			list.add(balance2);
-			map.put(key, list);
-		}else if("222222222222222222".equals(cardNo)){
-			//返回空值
-			List<Balance> list = new ArrayList<>();
-			map.put(key, list);
-		}else{
-			return "exception";
-		}
+        Balance balance2 = new Balance();
+        balance2.setCardNo("11111111111111111");
+        balance2.setCurrencyCode("USD");
+        balance2.setPreCashAdvanceCreditLimit("33");
+        balance2.setWholeCreditLimit("130");
+        balance2.setPeriodAvailableCreditLimit("102");
+        list.add(balance);
+        list.add(balance2);
+        map.put(key, list);
+
 		return JSON.toJSONString(map);
 	}
 
@@ -566,7 +545,7 @@ public class MockController {
 		cltur2.setEosImpTime("2016-04-24");
 		cltur2.setEosLimit("22000");
 		cltur2.setEosStarLimitDate("2016-04-25");
-		cltur2.setEosState("60");
+		cltur2.setEosState("50");
 		list.add(cltur2);
 		CreditLimitTemporaryUpStatus cltur3 = new CreditLimitTemporaryUpStatus();
 		cltur3.setEosEndLimitDate("2015-09-30");
@@ -693,17 +672,28 @@ public class MockController {
 		return "redirect:http://localhost/ebank/chinabankinfo/baiduMap.do?longitude=116.326418&latitude=39.984683&userLongitude=116.326417&userLatitude=39.984684&name=%E5%8C%97%E4%BA%AC%E4%B8%B0%E5%8F%B0%E5%88%86%E8%A1%8C";
 	}
 
-	private JSONObject readReq(HttpServletRequest request){
-		StringBuffer sb = new StringBuffer();
-		String str;
-		try {
-			while ((str = request.getReader().readLine()) != null) {
-                sb.append(str);
-            }
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		JSONObject obj = JSON.parseObject(sb.toString());
-		return obj;
+	@RequestMapping(value = "queryBillCost")
+	@ResponseBody
+	public String queryBillCost() {
+		Map<String, Object> map = mockResult();
+		BillCost b=new BillCost();
+		b.setBillFeeMeans("1");
+		b.setCurrentBillMinimum("200.00");
+		b.setCurrentBillSurplusAmount("123.00");
+		b.setInstallmentsAlsoAmountEach("100.00");
+		b.setInstallmentsAlsoAmountFirst("3.00");
+		b.setInstallmentsfee("1.00");
+		b.setInstallmentsNumber("3");
+		map.put(key, b);
+		return JSON.toJSONString(map);
 	}
+
+	@RequestMapping(value = "billInstallment")
+	@ResponseBody
+	public String billInstallment() {
+		Map<String, Object> map = mockResult();
+		map.put(key, "+GC00000");
+		return JSON.toJSONString(map);
+	}
+
 }

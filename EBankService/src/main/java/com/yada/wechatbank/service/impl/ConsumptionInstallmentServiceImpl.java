@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.ConsumerAuthorizationResultResp;
@@ -33,6 +34,7 @@ import com.yada.wx.db.service.model.InstallmentInfo;
  *
  */
 @Service
+@Transactional
 public class ConsumptionInstallmentServiceImpl extends BaseService implements ConsumptionInstallmentService {
 	private final Logger logger = LoggerFactory.getLogger(ConsumptionInstallmentServiceImpl.class);
 	// 查询所有可分期的消费交易

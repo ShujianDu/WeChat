@@ -46,8 +46,7 @@ class Dispatcher {
   }
 }
 
-object Dispatcher extends Dispatcher {
-}
+object Dispatcher extends Dispatcher
 
 case class Response(returnCode:String,returnMsg:String,data:Option[String])
 

@@ -9,8 +9,8 @@
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
     <title>中国银行信用卡</title>
     <%@include file="../../base_pages/base.jsp" %>
-    <script src="/js/UpgradeQuery.js" type="text/javascript"></script>
-    <link href="/css/UpgradeQuery.css" rel="stylesheet" type="text/css">
+    <script src="<c:url value="/js/UpgradeQuery.js"/>" type="text/javascript"></script>
+    <link href="<c:url value="/css/UpgradeQuery.css"/>" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -21,13 +21,13 @@
     <c:forEach items="${limitUpHistorys}" var="item" varStatus="status">
         <div class="dynamic_box">
             <div class="productName"><span class="name">信用卡号</span><span class="dynamicData"
-                    >${fn:substring(cardNo, 0, 16)}</span>
+                    >${fn:substring(cardNo, 0, 4)}********${fn:substring(cardNo, 12, 16)}</span>
             </div>
             <div class="productName"><span class="name">生效日期</span><span class="dynamicData"
                     >${item.eosStarLimitDate}</span>
             </div>
             <div class="productName"><span class="name">失效日期</span><span class="dynamicData"
-                    >${item.eosEndlimitdate}</span>
+                    >${item.eosEndLimitDate}</span>
             </div>
             <div class="productName"><span class="name">临时增额</span><span class="dynamicData"
                     >${item.eosLimit}元</span>

@@ -32,7 +32,7 @@ public class BindingServiceTest {
         this.idType = "01";
         this.idNo = "12345678912234";
         this.pwd = "111111";
-        this.mobileNo = "13800138000";
+        this.mobileNo = "18888888888";
     }
 
     @Test
@@ -81,6 +81,6 @@ public class BindingServiceTest {
     @Test
     public void testFillIdentityType(){
         boolean result = bindingService.fillIdentityType(idType,idNo);
-        Assert.assertEquals(true,result);
+        Assert.assertEquals(false,result);
     }
 }
