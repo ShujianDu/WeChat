@@ -1,8 +1,7 @@
 package com.yada.wechatbank.client;
 
 import com.alibaba.fastjson.JSON;
-import com.yada.wechatbank.model.BillSendType;
-import com.yada.wechatbank.model.CardInfo;
+import com.yada.wechatbank.model.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +19,12 @@ public class MyHttpClient extends HttpClient {
     private final String getMobilePhone = "/getMobilePhone.do"; // 获取预约办卡手机号
     private final String getCardInfos = "/getCardInfos.do"; // 获取客户卡列表
     private final String sendSMS = "/sendSMS.do"; // 发送短信验证码
+    private final String verificationPWD = "/verificationPWD.do"; // 验密
+    private final String getHistoryInstallment = "/getHistoryInstallment.do"; // 分期历史查询
+    private final String getPointsBalance = "/getPointsBalance.do"; // 查询积分余额
+    private final String getPointsDetails = "/getPointsDetails.do"; // 查询积分明细
+    private final String getPointsValidates = "/getPointsValidates.do"; // 查询积分到期日
+    private final String verificationCardNo = "/verificationCardNo.do"; //积分兑换加密卡号
 
 
     protected final String pubilcMobileNo="18888888888";//手机号
@@ -76,6 +81,12 @@ public class MyHttpClient extends HttpClient {
             case getMobilePhone:  {  getMobilePhone(map);   break; }//查询客户预约办卡手机号
             case getCardInfos:  {  getCardInfos(requestMap,map); break; }//查询客户预约办卡手机号
             case sendSMS:  {  sendSMS(map); break; } //发送短信验证码
+            case verificationPWD:{ verificationPWD(map); break;}
+            case getHistoryInstallment: { getHistoryInstallment(map);break;}
+            case getPointsBalance: { getPointsBalance(map);break;}
+            case getPointsDetails: { getPointsDetails(map);break;}
+            case getPointsValidates: { getPointsValidates(map);break;}
+            case verificationCardNo: { verificationCardNo(map);break;}
             default:{ break; }
         }
         String mapJson = JSON.toJSONString(map);
@@ -124,5 +135,65 @@ public class MyHttpClient extends HttpClient {
         if(getCardNoList().contains(reqeustMap.get("cardNo"))){responseMap.put(key,null); }
         responseMap.put(key, true);
     }
+    private void verificationPWD(Map<String, Object> map) {
+        String res = "true";
+        map.put(key, res);
+    }
 
+    private void getHistoryInstallment(Map<String, Object> map){
+        HistoryInstallmentList historyInstallmentList = new HistoryInstallmentList();
+        List<HistoryInstallment> historyInstallments = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            HistoryInstallment historyInstallment = new HistoryInstallment();
+            historyInstallment.setCardNo("11111111111111111" + i);
+            historyInstallment.setInstalmentCompleteDate("1111" + i);
+            historyInstallment.setInstalmentNextPostingAmount("1111" + i);
+            historyInstallment.setInstalmentOriginalAmount("1111" + i);
+            historyInstallments.add(historyInstallment);
+        }
+        historyInstallmentList.setHistoryInstallmentList(historyInstallments);
+        historyInstallmentList.setFollowUp(true);
+        historyInstallmentList.setTransactionNumber("10");
+        map.put(key, historyInstallmentList);
+    }
+
+    public void getPointsBalance(Map<String, Object> map) {
+        PointsBalance pointsBalance = new PointsBalance();
+        pointsBalance.setTotalPoint("1212");
+        map.put(key, pointsBalance);
+    }
+
+    public void getPointsDetails(Map<String, Object> map) {
+        List<PointsDetail> pointsDetailList = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            PointsDetail pointsDetail = new PointsDetail();
+            pointsDetail.setId(String.valueOf(i));
+            pointsDetail.setCardNo("1111111111111111" + i);
+            if (i == 2) {
+                pointsDetail.setParentId("1");
+            }
+            pointsDetail.setPointuseFlg("正常");
+            pointsDetail.setProductName("1111" + i);
+            pointsDetailList.add(pointsDetail);
+        }
+        map.put(key, pointsDetailList);
+    }
+
+    public void getPointsValidates(Map<String, Object> map) {
+        List<PointsValidates> pointsValidatesList = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            PointsValidates pointsValidates = new PointsValidates();
+            pointsValidates.setCardNo("111111111111111111" + i);
+            pointsValidates.setProductName("111111111111111" + i);
+            pointsValidates.setProductCode("1111111111111111" + i);
+            pointsValidatesList.add(pointsValidates);
+        }
+        map.put(key, pointsValidatesList);
+    }
+    public void verificationCardNo(Map<String, Object> map) {
+        VerificationCardNoResult verificationCardNoResult = new VerificationCardNoResult();
+        verificationCardNoResult.setEncryptCardNo("11111111111111111111111");
+        verificationCardNoResult.setSign("2222222222222222222");
+        map.put(key, verificationCardNoResult);
+    }
 }

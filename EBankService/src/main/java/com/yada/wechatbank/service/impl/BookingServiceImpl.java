@@ -48,10 +48,7 @@ public class BookingServiceImpl implements BookingService {
             bookingDao.deleteByClientNameAndMobilePhone(booking.getClientName(), booking.getMobilePhone());
         }
         Booking res = bookingDao.save(booking);
-        if (res == null) {
-            return false;
-        }
-        return true;
+        return res != null;
     }
 
     /**

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,5 +57,17 @@ public class PointsServiceTest {
         VerificationCardNoResult result = pointsService.verificationCardNo(cardNo);
         Assert.assertNotNull(result);
     }
+
+    @Test
+    public void testGetList(){
+        List<PointsDetail> list = new ArrayList<>();
+        PointsDetail pointsDetail = new PointsDetail();
+        pointsDetail.setId("11");
+        pointsDetail.setPointuseFlg("qq");
+        pointsDetail.setProductCode("1232");
+        List<List<PointsDetail>> result = pointsService.getList(list);
+        Assert.assertNotNull(result);
+    }
+
 
 }
