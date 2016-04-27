@@ -34,7 +34,6 @@ import com.yada.wechatbank.model.PointsDetail;
 import com.yada.wechatbank.model.PointsValidates;
 import com.yada.wechatbank.model.BillCost;
 import com.yada.wechatbank.model.VerificationCardNoResult;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 模拟行内返回 Created by QinQiang on 2016/4/11.

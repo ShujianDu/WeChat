@@ -1,5 +1,6 @@
 package com.yada.wechatbank.service;
 
+import com.yada.wechatbank.client.HttpClient;
 import com.yada.wechatbank.model.BillSendType;
 import org.junit.Assert;
 import org.junit.Before;
@@ -23,20 +24,21 @@ public class BillingSendWayServiceTest {
 
     private String idType;
     private String idNo;
-    private String pwd;
-    private String mobileNo;
 
-
-    @Before
-    public void init(){
-        this.idType = "01";
-        this.idNo = "130100199009112427";
+    @Test
+    public void testgetBillSendTypeNull(){
+        this.idType = "03";
+        this.idNo = "MOCK01";
+        List<BillSendType> billSendType = billingSendWayService.getBillSendType(idType, idNo);
+        Assert.assertNull(billSendType);
     }
 
     @Test
-    public void testgetBillSendType(){
+    public void testgetBillSendTypeNotNull(){
+        this.idType = "01";
+        this.idNo = "MOCK01";
         List<BillSendType> billSendType = billingSendWayService.getBillSendType(idType, idNo);
-        Assert.assertNull(billSendType);
+        Assert.assertNotNull(billSendType);
     }
 
 }

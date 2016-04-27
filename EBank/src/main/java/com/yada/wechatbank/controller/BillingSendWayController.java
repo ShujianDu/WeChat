@@ -43,7 +43,7 @@ public class BillingSendWayController extends BaseController {
         String identityNo = "";
         List<BillSendType> list = billingSendWayServiceImpl.getBillSendType(identityType, identityNo);
         logger.debug("@ZDJSFSCX@通过identityType[{}],identityNo[{}]获取账单寄送方式集合为[{}]", identityType, identityNo, list);
-        if (list == null) {
+        if (list == null || list.size() == 0) {
             logger.warn("@ZDJSFSCX@通过identityType[{}],identityNo[{}]获取寄送方式集合为空或没有数据", identityType, identityNo);
             return BUSYURL;
         } else {
