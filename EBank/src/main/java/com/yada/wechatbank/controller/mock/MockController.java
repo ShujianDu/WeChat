@@ -1,12 +1,10 @@
 package com.yada.wechatbank.controller.mock;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSON;
 import com.yada.wechatbank.model.AmountLimit;
 import com.yada.wechatbank.model.Balance;
+import com.yada.wechatbank.model.BillCost;
 import com.yada.wechatbank.model.BillSendType;
 import com.yada.wechatbank.model.BillingDetail;
 import com.yada.wechatbank.model.BillingPeriod;
@@ -32,7 +31,6 @@ import com.yada.wechatbank.model.HistoryInstallmentList;
 import com.yada.wechatbank.model.PointsBalance;
 import com.yada.wechatbank.model.PointsDetail;
 import com.yada.wechatbank.model.PointsValidates;
-import com.yada.wechatbank.model.BillCost;
 import com.yada.wechatbank.model.VerificationCardNoResult;
 
 /**
@@ -265,45 +263,45 @@ public class MockController {
 
 	@RequestMapping(value = "getWbicCards")
 	@ResponseBody
-	public String getWbicCards(){
+	public String getWbicCards() {
 		Map<String, Object> map = mockResult();
-        String cardNo = "111111222222333333";
-        map.put(key, cardNo);
+		String cardNo = "111111222222333333";
+		map.put(key, cardNo);
 		return JSON.toJSONString(map);
 	}
 
 	@RequestMapping(value = "wbicCardInfoSendSms")
 	@ResponseBody
-	public String wbicCardInfoSendSms(){
+	public String wbicCardInfoSendSms() {
 		Map<String, Object> map = mockResult();
-        map.put(key, true);
+		map.put(key, true);
 		return JSON.toJSONString(map);
 	}
 
 	@RequestMapping(value = "getCardBalance")
 	@ResponseBody
-	public String getCardBalance(){
+	public String getCardBalance() {
 
 		Map<String, Object> map = mockResult();
-        //返回正常值
-        List<Balance> list = new ArrayList<>();
+		// 返回正常值
+		List<Balance> list = new ArrayList<>();
 
-        Balance balance = new Balance();
-        balance.setCardNo("11111111111111111");
-        balance.setCurrencyCode("CNY");
-        balance.setPreCashAdvanceCreditLimit("31");
-        balance.setWholeCreditLimit("101");
-        balance.setPeriodAvailableCreditLimit("100");
+		Balance balance = new Balance();
+		balance.setCardNo("11111111111111111");
+		balance.setCurrencyCode("CNY");
+		balance.setPreCashAdvanceCreditLimit("31");
+		balance.setWholeCreditLimit("101");
+		balance.setPeriodAvailableCreditLimit("100");
 
-        Balance balance2 = new Balance();
-        balance2.setCardNo("11111111111111111");
-        balance2.setCurrencyCode("USD");
-        balance2.setPreCashAdvanceCreditLimit("33");
-        balance2.setWholeCreditLimit("130");
-        balance2.setPeriodAvailableCreditLimit("102");
-        list.add(balance);
-        list.add(balance2);
-        map.put(key, list);
+		Balance balance2 = new Balance();
+		balance2.setCardNo("11111111111111111");
+		balance2.setCurrencyCode("USD");
+		balance2.setPreCashAdvanceCreditLimit("33");
+		balance2.setWholeCreditLimit("130");
+		balance2.setPeriodAvailableCreditLimit("102");
+		list.add(balance);
+		list.add(balance2);
+		map.put(key, list);
 
 		return JSON.toJSONString(map);
 	}
@@ -577,7 +575,6 @@ public class MockController {
 			c.setAccountID("02");
 			c.setAccountNoID("03");
 			c.setCardNo("1111111111111111");
-			c.setCurrencyChinaCode("CNY");
 			c.setDebitCreditCode("DEBT");
 			c.setOriginalCurrencyCode("CNY");
 			c.setOriginalTransactionAmount("1111");
@@ -675,7 +672,7 @@ public class MockController {
 	@ResponseBody
 	public String queryBillCost() {
 		Map<String, Object> map = mockResult();
-		BillCost b=new BillCost();
+		BillCost b = new BillCost();
 		b.setBillFeeMeans("1");
 		b.setCurrentBillMinimum("200.00");
 		b.setCurrentBillSurplusAmount("123.00");

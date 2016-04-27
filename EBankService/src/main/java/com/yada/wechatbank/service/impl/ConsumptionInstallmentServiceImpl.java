@@ -71,8 +71,12 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		param.put("selectNumber", selectNumber);
 		ConsumptionInstallmentsResp consumptionInstallmentsResp = httpClient.send(queryConsumptionInstallmentsUrl, param, ConsumptionInstallmentsResp.class);
 		// 判断查询信息是否为空
-		if (consumptionInstallmentsResp == null || consumptionInstallmentsResp.getBizResult() == null) {
+		if (consumptionInstallmentsResp == null) {
 			return null;
+		} else if (consumptionInstallmentsResp.getBizResult() == null) {
+			map.put("consumptionInstallmentsList", consumptionInstallmentsList);
+			map.put("isFollowUp", "0");
+			return map;
 		} else {
 			consumptionInstallmentsesReceive = consumptionInstallmentsResp.getBizResult();
 		}
