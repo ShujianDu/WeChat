@@ -3,8 +3,6 @@ package com.yada.wechatbank.client;
 import com.alibaba.fastjson.JSON;
 import com.yada.wechatbank.model.BillSendType;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,11 +10,13 @@ import java.util.Map;
  * Created by Echo on 2016/4/27.
  */
 public class MyHttpClient extends HttpClient {
-    private static final String key = "bizResult";
 
+    //公用手机号
+    private final String pubilcMobileNo="18888888888";
+
+    private static final String key = "bizResult";
     private final String getCustMobile = "/getCustMobile.do";
     private final String getBillSendType = "/getBillSendType.do";
-    private final String pubilcMobileNo="13800138000";
     private final String getMobilePhone = "/getMobilePhone.do"; // 获取预约办卡手机号
 
 
@@ -32,38 +32,26 @@ public class MyHttpClient extends HttpClient {
     }
 
     public <T> T send(String method, Object object, Class<T> targetClass) {
-        T result ;
         Map<String, Object> map = mockResult();
         switch (method){
-            case getCustMobile: {
-                map.put(key, pubilcMobileNo);
-                break;
-            }
-            case getBillSendType: {
-                getBillSendType(map);
-                break;
-            }
-            default:{
-                break;
-            }
+            case getCustMobile:   {  getCustMobile(map);    break; }//查询客户手机号
+            case getBillSendType: {  getBillSendType(map);  break; }//账单寄送方式查询
+            case getMobilePhone:  {  getMobilePhone(map);   break; }//查询客户预约办卡手机号
+            default:{ break; }
         }
         String   mapJson= JSON.toJSONString(map);
-        result = JSON.parseObject(mapJson, targetClass);
-        return null;
-    }
-
-    // 获取预约办卡手机号
-    private <T> T getMobilePhone(Class<T> targetClass) {
-        Map<String, Object> map = mockResult();
-        map.put(key, "18888888888");
-        String mapJson = JSON.toJSONString(map);
         T result = JSON.parseObject(mapJson, targetClass);
         return result;
     }
 
+    // 获取预约办卡手机号
+    private void getMobilePhone(Map<String, Object> map) {
+        map.put(key, "18888888888");
+    }
+
 
     //账单寄送方式
-    public void getBillSendType(Map<String, Object> map) {
+    private void getBillSendType(Map<String, Object> map) {
         BillSendType b = new BillSendType();
         b.setBillSendType("C");
         b.setBillSendTypeDesc("测试");
@@ -71,12 +59,8 @@ public class MyHttpClient extends HttpClient {
     }
 
     // 获取客户手机号
-    private <T> T getCustMobile(Class<T> targetClass) {
-        Map<String, Object> map = mockResult();
-        map.put(key, mobileNo);
-        String mapJson = JSON.toJSONString(map);
-        T result = JSON.parseObject(mapJson, targetClass);
-        return result;
+    private void getCustMobile(Map<String, Object> map) {
+        map.put(key, pubilcMobileNo);
     }
 
 }
