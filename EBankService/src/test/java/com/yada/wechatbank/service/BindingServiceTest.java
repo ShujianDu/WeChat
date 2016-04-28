@@ -19,6 +19,7 @@ import java.util.Map;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(value = "/applicationContext.xml")
 public class BindingServiceTest {
+
     @Autowired
     private BindingService bindingService;
 
