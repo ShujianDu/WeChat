@@ -12,14 +12,14 @@ import com.yada.wechatbank.model.BillingPeriod;
  *
  */
 public class BillingPeriodResp extends BaseModel {
-	private List<BillingPeriod> bizResult;
+	private List<BillingPeriod> data;
 
-	public List<BillingPeriod> getBizResult() {
-		return bizResult;
+	public List<BillingPeriod> getData() {
+		return data;
 	}
 
-	public void setBizResult(List<BillingPeriod> bizResult) {
-		this.bizResult = bizResult;
+	public void setData(List<BillingPeriod> data) {
+		this.data = data;
 	}
 
 }

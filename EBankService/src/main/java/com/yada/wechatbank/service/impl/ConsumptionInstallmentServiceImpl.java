@@ -73,12 +73,12 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		// 判断查询信息是否为空
 		if (consumptionInstallmentsResp == null) {
 			return null;
-		} else if (consumptionInstallmentsResp.getBizResult() == null) {
+		} else if (consumptionInstallmentsResp.getData() == null) {
 			map.put("consumptionInstallmentsList", consumptionInstallmentsList);
 			map.put("isFollowUp", "0");
 			return map;
 		} else {
-			consumptionInstallmentsesReceive = consumptionInstallmentsResp.getBizResult();
+			consumptionInstallmentsesReceive = consumptionInstallmentsResp.getData();
 		}
 		// 是否还有更多信息查询，0没有，1有
 		map.put("isFollowUp", consumptionInstallmentsesReceive.isHasNext() ? "1" : "0");
@@ -108,13 +108,13 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		param.put("isfeeFlag", consumptionInstallmentAuthorization.getIsfeeFlag());
 		ConsumptionInstallmentCostResp consumptionInstallmentCostResp = httpClient.send(costConsumptionInstallmentUrl, param,
 				ConsumptionInstallmentCostResp.class);
-		if (consumptionInstallmentCostResp == null || consumptionInstallmentCostResp.getBizResult() == null) {
+		if (consumptionInstallmentCostResp == null || consumptionInstallmentCostResp.getData() == null) {
 			return null;
 		}
-		ConsumptionInstallmentCost consumptionInstallmentCost = consumptionInstallmentCostResp.getBizResult();
+		ConsumptionInstallmentCost consumptionInstallmentCost = consumptionInstallmentCostResp.getData();
 		// 设置显示币种
 		consumptionInstallmentCost.setCurrencyChinaCode(CurrencyUtil.translateChinese(consumptionInstallmentCost.getCurrencyCode()));
-		return consumptionInstallmentCostResp.getBizResult();
+		return consumptionInstallmentCostResp.getData();
 	}
 
 	@Override
@@ -136,10 +136,10 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 				cia.getIsfeeFlag(), tDate);
 		ConsumerAuthorizationResultResp consumerAuthorizationResultResp = httpClient.send(authorizationConsumptionInstallmentUrl, param,
 				ConsumerAuthorizationResultResp.class);
-		if (consumerAuthorizationResultResp == null || consumerAuthorizationResultResp.getBizResult() == null) {
+		if (consumerAuthorizationResultResp == null || consumerAuthorizationResultResp.getData() == null) {
 			return false;
 		}
-		String resultCode = consumerAuthorizationResultResp.getBizResult();
+		String resultCode = consumerAuthorizationResultResp.getData();
 		if ("+GC00000".equals(resultCode)) {
 			bi.setStatus("1");
 			returnRes = true;

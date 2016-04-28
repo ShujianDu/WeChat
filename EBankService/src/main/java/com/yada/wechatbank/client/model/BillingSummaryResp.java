@@ -10,13 +10,14 @@ import com.yada.wechatbank.model.BillingSummary;
  *
  */
 public class BillingSummaryResp extends BaseModel {
-	private BillingSummary bizResult;
+	private BillingSummary data;
 
-	public BillingSummary getBizResult() {
-		return bizResult;
+	public BillingSummary getData() {
+		return data;
 	}
 
-	public void setBizResult(BillingSummary bizResult) {
-		this.bizResult = bizResult;
+	public void setData(BillingSummary data) {
+		this.data = data;
 	}
+
 }
