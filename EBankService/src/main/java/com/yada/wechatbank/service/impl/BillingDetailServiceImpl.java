@@ -54,9 +54,10 @@ public class BillingDetailServiceImpl extends BaseService implements BillingDeta
 			billingDetailResp = httpClient.send(unsmBillingDetailUrl, param, BillingDetailResp.class);
 		}
 		if (billingDetailResp == null) {
-			logger.error("@BillingDetail@BillingDetail is null,cardNo[" + cardNo + "]");
+			logger.error("@BillingDetail@billingDetailResp is null,cardNo[" + cardNo + "]");
 			return null;
 		} else if (billingDetailResp.getData() == null) {
+			logger.info("@BillingDetail@billingDetailResp's data is null,cardNo[" + cardNo + "]");
 			return billingDetailList;
 		} else {
 			billingDetailList = billingDetailResp.getData();

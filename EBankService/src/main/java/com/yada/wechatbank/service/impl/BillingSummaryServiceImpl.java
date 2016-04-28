@@ -54,9 +54,10 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 		BillingPeriodResp billingPeriodResp = httpClient.send(billingPeriodUrl, paramPeriods, BillingPeriodResp.class);
 		// 判断账期
 		if (billingPeriodResp == null) {
-			logger.info("@BillingPeriods@BillingPeriods is null,cardNo[" + cardNo + "]");
+			logger.info("@BillingPeriods@billingPeriodResp is null,cardNo[" + cardNo + "]");
 			return null;
 		} else if (billingPeriodResp.getData() == null) {
+			logger.info("@BillingPeriods@billingPeriodResp's data is null,cardNo[" + cardNo + "]");
 			// 没有账期
 			return billingSummaries;
 		}
@@ -79,9 +80,10 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 				paramBillingSummary.put("accountId", billingPeriod.getAccountId());
 				BillingSummaryResp billingSummaryResp = httpClient.send(billingSummaryUrl, paramBillingSummary, BillingSummaryResp.class);
 				if (billingSummaryResp == null) {
-					logger.info("@BillingSummary@BillingSummary is null,cardNo[" + cardNo + "]billingPeriod[" + billingPeriod + "]");
+					logger.info("@BillingSummary@billingSummaryResp is null,cardNo[" + cardNo + "]billingPeriod[" + billingPeriod + "]");
 					return null;
 				} else if (billingSummaryResp.getData() == null) {
+					logger.info("@BillingSummary@billingSummaryResp'data is null,cardNo[" + cardNo + "]billingPeriod[" + billingPeriod + "]");
 					billingSummary = new BillingSummary();
 					billingSummary.setClosingBalance("0");
 				} else {
@@ -111,7 +113,7 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 				list.add(dateStrY);
 			}
 		} catch (ParseException e) {
-			throw new RuntimeException("@WDZD@getDateList error,ParseException");
+			throw new RuntimeException("@BillingSummary@getDateList error,ParseException");
 		}
 		return list;
 	}

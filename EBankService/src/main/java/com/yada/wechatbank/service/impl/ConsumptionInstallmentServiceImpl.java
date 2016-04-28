@@ -73,8 +73,10 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		ConsumptionInstallmentsResp consumptionInstallmentsResp = httpClient.send(queryConsumptionInstallmentsUrl, param, ConsumptionInstallmentsResp.class);
 		// 判断查询信息是否为空
 		if (consumptionInstallmentsResp == null) {
+			logger.error("@ConsumptionInstallment@consumptionInstallmentsResp is null,cardNo[" + cardNo + "]");
 			return null;
 		} else if (consumptionInstallmentsResp.getData() == null) {
+			logger.info("@ConsumptionInstallment@consumptionInstallmentsResp's data is null,cardNo[" + cardNo + "]");
 			map.put("consumptionInstallmentsList", consumptionInstallmentsList);
 			map.put("isFollowUp", "0");
 			return map;
@@ -115,6 +117,8 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		ConsumptionInstallmentCostResp consumptionInstallmentCostResp = httpClient.send(costConsumptionInstallmentUrl, param,
 				ConsumptionInstallmentCostResp.class);
 		if (consumptionInstallmentCostResp == null || consumptionInstallmentCostResp.getData() == null) {
+			logger.error("@ConsumptionInstallment@consumptionInstallmentCostResp or data is null,cardNo[" + consumptionInstallmentAuthorization.getCardNo()
+					+ "]");
 			return null;
 		}
 		ConsumptionInstallmentCost consumptionInstallmentCost = consumptionInstallmentCostResp.getData();
@@ -146,6 +150,7 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		ConsumerAuthorizationResultResp consumerAuthorizationResultResp = httpClient.send(authorizationConsumptionInstallmentUrl, param,
 				ConsumerAuthorizationResultResp.class);
 		if (consumerAuthorizationResultResp == null || consumerAuthorizationResultResp.getData() == null) {
+			logger.error("@ConsumptionInstallment@consumerAuthorizationResultResp or data is null,cardNo[" + cia.getCardNo() + "]");
 			return false;
 		}
 		String resultCode = consumerAuthorizationResultResp.getData();
@@ -159,7 +164,7 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		try {
 			installmentInfoDao.save(bi);
 		} catch (Exception e) {
-			logger.error("@ConsumptionInstallment@db error:[", e + "]");
+			logger.error("@ConsumptionInstallment@db error:cardNo[" + cia.getCardNo() + "e[", e + "]");
 		}
 		return returnRes;
 	}

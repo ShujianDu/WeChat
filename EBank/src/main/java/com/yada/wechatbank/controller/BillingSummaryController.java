@@ -52,8 +52,10 @@ public class BillingSummaryController extends BaseController {
 		request.getSession().setAttribute("menuId", "1");
 		String identityNo = getIdentityNo(request);
 		String identityType = getIdentityType(request);
+		logger.info("@BillingSummary@get cardList by identityNo[" + identityNo + "]and identityType[" + identityType + "]");
 		// 获取加密后的卡列表，传至页面用
 		List<String> cardList = billingSummaryServiceImpl.selectCardNoList(identityType, identityNo);
+		logger.info("@BillingSummary@get cardList by identityNo[" + identityNo + "],cardList[" + cardList + "]");
 		if (cardList == null) {
 			return BUSYURL;
 		} else if (cardList.size() == 0) {
@@ -62,7 +64,7 @@ public class BillingSummaryController extends BaseController {
 			try {
 				Crypt.cardNoCrypt(cardList);
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.error("@BillingSummary@ cardNoCrypt error,cardList[" + identityNo + "]and identityType[" + identityType + "],cardList[" + cardList + "]");
 				return BUSYURL;
 			}
 			// 查询账单可选日期
@@ -89,8 +91,15 @@ public class BillingSummaryController extends BaseController {
 		List<BillingSummary> billingSummaries;
 		try {
 			cardNo = Crypt.decode(cardNo);
+		} catch (Exception e1) {
+			logger.error("@BillingSummary@ cardNo decode error,cardNo[" + cardNo + "]");
+			return JSONObject.toJSONString(null);
+		}
+		try {
+			logger.info("@BillingSummary@ajax getBillingSummary,cardNo[" + cardNo + "],date[" + date + "]");
 			// 调用行内service 获取账单摘要
 			billingSummaries = billingSummaryServiceImpl.getBillingSummaryList(cardNo, date);
+			logger.info("@BillingSummary@ajax getBillingSummary,cardNo[" + cardNo + "],date[" + date + "],billingSummaries[" + billingSummaries + "]");
 		} catch (Exception e) {
 			// 解密或解密失败
 			logger.error("@WDZD@调用行内service根据queryCardList[" + cardNo + "],date[" + date + "]获取账单摘要,获取到的账单摘要合集billsList[" + null + "]");
