@@ -2,6 +2,7 @@ package com.yada.wechatbank.base;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.yada.wechatbank.util.IdTypeUtil;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -43,6 +44,15 @@ public class BaseController {
 	public String getIdentityType(HttpServletRequest request) {
 		String identityType = (String) request.getSession().getAttribute("identityType");
 		return identityType;
+	}
+
+	/**
+	 * 获得gcs的证件类型
+	 * @param idType 证件类型
+	 * @return gcs证件类型
+     */
+	public String getGcsIdType(String idType){
+		return IdTypeUtil.numIdTypeTransformToECode(idType);
 	}
 
 }
