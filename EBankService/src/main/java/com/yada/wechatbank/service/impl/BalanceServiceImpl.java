@@ -5,6 +5,7 @@ import com.yada.wechatbank.client.model.BalanceResp;
 import com.yada.wechatbank.model.Balance;
 import com.yada.wechatbank.model.CardInfo;
 import com.yada.wechatbank.service.BalanceService;
+import com.yada.wechatbank.util.AmtUtil;
 import com.yada.wechatbank.util.Crypt;
 import com.yada.wechatbank.util.CurrencyUtil;
 import org.slf4j.Logger;
@@ -56,6 +57,9 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
         //替换币种显示
         for(Balance b:newList) {
             b.setCurrencyChinaCode(CurrencyUtil.translateChinese(b.getCurrencyCode()));
+            b.setPeriodAvailableCreditLimit(AmtUtil.procString(b.getPeriodAvailableCreditLimit()));
+            b.setPreCashAdvanceCreditLimit(AmtUtil.procString(b.getPreCashAdvanceCreditLimit()));
+            b.setWholeCreditLimit(AmtUtil.procString(b.getWholeCreditLimit()));
         }
         return newList;
     }
