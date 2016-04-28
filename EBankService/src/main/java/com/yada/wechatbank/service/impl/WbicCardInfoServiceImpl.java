@@ -32,13 +32,9 @@ public class WbicCardInfoServiceImpl extends BaseService implements WbicCardInfo
         //获得gcs初始化map
         Map<String, String> param = initGcsParam();
         param.put("idNum", idNum);
-        //转化成gcs证件类型
-        param.put("idType", IdTypeUtil.numIdTypeTransformToECode(idType));
-
+        param.put("idType", idType);
         //发送请求，查询海淘卡
         StringResp stringResp = httpClient.send(getWbicCards, param, StringResp.class);
-        logger.debug("@HTCX@根据证件号证件类型查询海淘卡，传入的参数为idNum[{}],idType[{}],结果为[{}]",
-                idNum, idType, stringResp == null ? null : stringResp.getData());
         return stringResp == null ? null : stringResp.getData();
     }
 
@@ -47,11 +43,8 @@ public class WbicCardInfoServiceImpl extends BaseService implements WbicCardInfo
         //获得gcs初始化map
         Map<String, String> param = initGcsParam();
         param.put("cardNo", cardNo);
-
         //发送请求，给海涛用户发送短信
         BooleanResp booleanResp = httpClient.send(wbicCardInfoSendSms, param, BooleanResp.class);
-        logger.debug("@HTCX@海淘卡根据卡号发送短信，传入的参数为 cardNo[{}],返回的结果为[{}]", cardNo,
-                (booleanResp == null || booleanResp.getData() == null) ? false : booleanResp.getData());
         return (booleanResp == null || booleanResp.getData() == null) ? false : booleanResp.getData();
     }
 }

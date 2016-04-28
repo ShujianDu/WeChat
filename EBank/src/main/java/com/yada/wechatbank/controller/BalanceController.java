@@ -6,6 +6,7 @@ import com.yada.wechatbank.model.Balance;
 import com.yada.wechatbank.model.CardInfo;
 import com.yada.wechatbank.query.BalanceQuery;
 import com.yada.wechatbank.service.BalanceService;
+import com.yada.wechatbank.util.Crypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,8 @@ public class BalanceController extends BaseController{
 	@Autowired
 	private BalanceService balanceServiceImpl;
 
+	public static final String LISTURL = "wechatbank_pages/Balance/list";
+
 	/**
 	 * 额度查询
 	 */
@@ -38,18 +41,18 @@ public class BalanceController extends BaseController{
 	public String list(HttpServletRequest request,@ModelAttribute("formBean") BalanceQuery balanceQuery, Model model) {
 		request.getSession().setAttribute("menuId", "2");
 		String identityNo = getIdentityNo(request);
-		String identityType = getIdentityType(request);
+		String identityType = getGcsIdentityType(request);
 		List<CardInfo> cardList = balanceServiceImpl.getProessCardNoList(identityType, identityNo);
-		logger.debug("@WDED@根据证件类型[{}]证件号[{}]获取卡片列表,获取到的卡列表cardList[{}]", identityType, identityNo, cardList);
 		if (cardList == null) {
-			logger.warn("@WDED@根据证件类型[{}]证件号[{}]获取到的卡列表为null", identityType, identityNo);
+			logger.info("@Balance根据证件类型[{}]证件号[{}]获取到的卡列表为null", identityType, identityNo);
 			return BUSYURL;
 		} else if (cardList.size() == 0) {
-			logger.warn("@WDED@根据证件类型[{}]证件号[{}]获取到的卡列表长度为0", identityType, identityNo);
+			logger.info("@Balance根据证件类型[{}]证件号[{}]获取到的卡列表长度为0", identityType, identityNo);
 			return NOCARDURL;
 		} else {
+			logger.info("@Balance根据证件类型[{}]证件号[{}]获取卡片列表,获取到的卡列表cardList[{}]", identityType, identityNo, cardList);
 			model.addAttribute("cardList", cardList);
-			return "wechatbank_pages/Balance/list";
+			return LISTURL;
 		}
 	}
 	/**
@@ -59,11 +62,18 @@ public class BalanceController extends BaseController{
 	@RequestMapping(value = "getCardNoBalance_Ajax")
 	@ResponseBody
 	public String getCardNoBalance_Ajax(String cardNo) {
+		String decodeCardNo;
+		try {
+			cardNo = Crypt.decode(cardNo);
+		} catch (Exception e) {
+			logger.info("@Balance解密cardNo[{}]失败", cardNo);
+			return JSONObject.toJSONString("exception");
+		}
 		List<Balance> newList = balanceServiceImpl.getCardNoBalance(cardNo);
+		logger.info("@Balance通过cardNo[{}]获取到的额度集合为[{}]", cardNo, newList);
 		if (newList == null) {
 			return JSONObject.toJSONString("exception");
 		}
-		logger.debug("@WDED@通过cardNo[{}]获取到的额度集合为[{}]", cardNo, newList);
 		return JSONObject.toJSONString(newList);
 	}
 }
