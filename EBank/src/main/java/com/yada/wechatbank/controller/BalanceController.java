@@ -62,7 +62,6 @@ public class BalanceController extends BaseController{
 	@RequestMapping(value = "getCardNoBalance_Ajax")
 	@ResponseBody
 	public String getCardNoBalance_Ajax(String cardNo) {
-		String decodeCardNo;
 		try {
 			cardNo = Crypt.decode(cardNo);
 		} catch (Exception e) {
