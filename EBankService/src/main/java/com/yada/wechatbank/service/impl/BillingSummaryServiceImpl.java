@@ -55,12 +55,12 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 		if (billingPeriodResp == null) {
 			logger.info("@BillingPeriods@BillingPeriods is null,cardNo[" + cardNo + "]");
 			return null;
-		} else if (billingPeriodResp.getBizResult() == null) {
+		} else if (billingPeriodResp.getData() == null) {
 			// 没有账期
 			return billingSummaries;
 		}
 		// 账期不为空，判断有无合适账期
-		billingPeriods = billingPeriodResp.getBizResult();
+		billingPeriods = billingPeriodResp.getData();
 		for (BillingPeriod temp : billingPeriods) {
 			String formatDate = DateUtil.parseDate(date, "yyyyMM", "yyyy-MM");
 			if (temp.getPeriodEndDate().startsWith(formatDate)) {
@@ -80,11 +80,11 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 				if (billingSummaryResp == null) {
 					logger.info("@BillingSummary@BillingSummary is null,cardNo[" + cardNo + "]billingPeriod[" + billingPeriod + "]");
 					return null;
-				} else if (billingSummaryResp.getBizResult() == null) {
+				} else if (billingSummaryResp.getData() == null) {
 					billingSummary = new BillingSummary();
 					billingSummary.setClosingBalance("0");
 				} else {
-					billingSummary = billingSummaryResp.getBizResult();
+					billingSummary = billingSummaryResp.getData();
 					// 设置中文显示币种
 					billingSummary.setCurrencyChinaCode(CurrencyUtil.translateChinese(billingSummary.getCurrencyCode()));
 				}

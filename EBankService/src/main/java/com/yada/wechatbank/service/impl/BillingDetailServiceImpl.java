@@ -55,10 +55,10 @@ public class BillingDetailServiceImpl extends BaseService implements BillingDeta
 		if (billingDetailResp == null) {
 			logger.error("@BillingDetail@BillingDetail is null,cardNo[" + cardNo + "]");
 			return null;
-		} else if (billingDetailResp.getBizResult() == null) {
+		} else if (billingDetailResp.getData() == null) {
 			return billingDetailList;
 		} else {
-			billingDetailList = billingDetailResp.getBizResult();
+			billingDetailList = billingDetailResp.getData();
 			// 设置中文显示币种
 			for (BillingDetail billingDetail : billingDetailList) {
 				billingDetail.setCurrencyChinaCode(CurrencyUtil.translateChinese(billingDetail.getCurrencyCode()));

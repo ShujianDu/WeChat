@@ -1,6 +1,5 @@
 package com.yada.wechatbank.client.model;
 
-
 /**
  * 消费分期授权行内service返回结果
  * 
@@ -8,14 +7,14 @@ package com.yada.wechatbank.client.model;
  *
  */
 public class ConsumerAuthorizationResultResp {
-	private String bizResult;
+	private String data;
 
-	public String getBizResult() {
-		return bizResult;
+	public String getData() {
+		return data;
 	}
 
-	public void setBizResult(String bizResult) {
-		this.bizResult = bizResult;
+	public void setData(String data) {
+		this.data = data;
 	}
 
 }

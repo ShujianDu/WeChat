@@ -10,14 +10,14 @@ import com.yada.wechatbank.model.ConsumptionInstallmentCost;
  *
  */
 public class ConsumptionInstallmentCostResp extends BaseModel {
-	private ConsumptionInstallmentCost bizResult;
+	private ConsumptionInstallmentCost data;
 
-	public ConsumptionInstallmentCost getBizResult() {
-		return bizResult;
+	public ConsumptionInstallmentCost getData() {
+		return data;
 	}
 
-	public void setBizResult(ConsumptionInstallmentCost bizResult) {
-		this.bizResult = bizResult;
+	public void setData(ConsumptionInstallmentCost data) {
+		this.data = data;
 	}
 
 }

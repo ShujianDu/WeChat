@@ -10,14 +10,14 @@ import com.yada.wechatbank.model.ConsumptionInstallmentsesReceive;
  *
  */
 public class ConsumptionInstallmentsResp extends BaseModel {
-	private ConsumptionInstallmentsesReceive bizResult;
+	private ConsumptionInstallmentsesReceive data;
 
-	public ConsumptionInstallmentsesReceive getBizResult() {
-		return bizResult;
+	public ConsumptionInstallmentsesReceive getData() {
+		return data;
 	}
 
-	public void setBizResult(ConsumptionInstallmentsesReceive bizResult) {
-		this.bizResult = bizResult;
+	public void setData(ConsumptionInstallmentsesReceive data) {
+		this.data = data;
 	}
 
 }
