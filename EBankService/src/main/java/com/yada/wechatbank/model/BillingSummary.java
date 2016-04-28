@@ -91,16 +91,9 @@ public class BillingSummary {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("BillingSummary [currencyCode=").append(currencyCode);
-		sb.append(", periodEndDate=").append(periodEndDate);
-		sb.append(", closingBalance=").append(closingBalance);
-		sb.append(", periodStartDate=").append(periodStartDate);
-		sb.append(", minPaymentAmount=").append(minPaymentAmount);
-		sb.append(", paymentDueDate=").append(paymentDueDate);
-		// sb.append(", closingMinPayment=").append(closingMinPayment);
-		sb.append(", cardNo=").append(cardNo);
-		sb.append("]");
-		return sb.toString();
+		return "BillingSummary [periodStartDate=" + periodStartDate + ", periodEndDate=" + periodEndDate + ", paymentDueDate=" + paymentDueDate
+				+ ", closingBalance=" + closingBalance + ", currencyCode=" + currencyCode + ", minPaymentAmount=" + minPaymentAmount + ", cardNo=" + cardNo
+				+ ", currencyChinaCode=" + currencyChinaCode + "]";
 	}
+
 }

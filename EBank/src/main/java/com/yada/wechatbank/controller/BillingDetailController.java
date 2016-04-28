@@ -57,7 +57,7 @@ public class BillingDetailController extends BaseController {
 		try {
 			cardNo = Crypt.decode(billingSummaryQuery.getCardNo());
 		} catch (Exception e) {
-			logger.info("@WDZD@cardNo crypt error,cardNo[" + cardNo + "]:" + e);
+			logger.info("@BillingDetail@cardNo crypt error,cardNo[" + cardNo + "]:" + e);
 			return ERROR;
 		}
 		// 币种
@@ -72,8 +72,11 @@ public class BillingDetailController extends BaseController {
 			periodStartDate = billingSummaryQuery.getPeriodStartDate();
 			periodEndDate = billingSummaryQuery.getPeriodEndDate();
 		}
+		logger.info("@BillingDetail@getbillingDetailList,cardNo[" + cardNo + "],queryType[" + queryType + "],STARTNUM[" + STARTNUM + "],TOTALNUM[" + TOTALNUM
+				+ "],periodStartDate[" + periodStartDate + "],periodEndDate[" + periodEndDate + "],currencyCode[" + currencyCode + "]");
 		List<BillingDetail> billingDetailList = billingDetailServiceImpl.getBillingDetail(cardNo, queryType, STARTNUM, TOTALNUM, periodStartDate,
 				periodEndDate, currencyCode);
+		logger.info("@BillingDetail@getbillingDetailList,cardNo[" + cardNo + "],billingDetailList[" + billingDetailList + "]");
 		// 返回值为空或没有数据
 		if (billingDetailList == null) {
 			return BUSYURL;
@@ -90,7 +93,7 @@ public class BillingDetailController extends BaseController {
 		try {
 			model.addAttribute("cardNo", Crypt.cardNoOneEncode(cardNo));
 		} catch (Exception e) {
-			logger.error("@WDZD@cardNo crypt error,cardNo[" + cardNo + "]:" + e);
+			logger.error("@BillingDetail@cardNo crypt error,cardNo[" + cardNo + "]:" + e);
 			return ERROR;
 		}
 		return LISTURL;
@@ -126,8 +129,11 @@ public class BillingDetailController extends BaseController {
 		String periodEndDate = billingSummaryQuery.getPeriodEndDate();
 		// 账单类型
 		String queryType = billingSummaryQuery.getQueryType();
+		logger.info("@BillingDetail@getbillingDetailList,cardNo[" + cardNo + "],queryType[" + queryType + "],STARTNUM[" + STARTNUM + "],TOTALNUM[" + TOTALNUM
+				+ "],periodStartDate[" + periodStartDate + "],periodEndDate[" + periodEndDate + "],currencyCode[" + currencyCode + "]");
 		// 查询账单，从开始条数开始查询
 		billingDetailList = billingDetailServiceImpl.getBillingDetail(cardNo, queryType, startnum, TOTALNUM, periodStartDate, periodEndDate, currencyCode);
+		logger.info("@BillingDetail@getbillingDetailList,cardNo[" + cardNo + "],billingDetailList[" + billingDetailList + "]");
 		// 获得当前账单明细的展示数目
 		if (billingDetailList == null) {
 			return JSONObject.toJSONString(null);

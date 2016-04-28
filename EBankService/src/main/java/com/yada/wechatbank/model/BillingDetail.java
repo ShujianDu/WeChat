@@ -42,19 +42,6 @@ public class BillingDetail extends BaseModel implements Serializable {
 		this.startnum = startnum;
 	}
 
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("BillingDetail [cardNo=").append(cardNo);
-		sb.append(", currencyCode=").append(currencyCode);
-		sb.append(", transactionDate=").append(transactionDate);
-		sb.append(", transactionAmount=").append(transactionAmount);
-		sb.append(", debitCreditCode=").append(debitCreditCode);
-		sb.append(", transactionDescription=").append(transactionDescription);
-		sb.append("]");
-		return sb.toString();
-	}
-
 	public String getCardNo() {
 		return cardNo;
 	}
@@ -101,6 +88,13 @@ public class BillingDetail extends BaseModel implements Serializable {
 
 	public void setDebitCreditCode(String debitCreditCode) {
 		this.debitCreditCode = debitCreditCode;
+	}
+
+	@Override
+	public String toString() {
+		return "BillingDetail [cardNo=" + cardNo + ", currencyCode=" + currencyCode + ", transactionDate=" + transactionDate + ", transactionAmount="
+				+ transactionAmount + ", transactionDescription=" + transactionDescription + ", debitCreditCode=" + debitCreditCode + ", startnum=" + startnum
+				+ ", currencyChinaCode=" + currencyChinaCode + "]";
 	}
 
 }

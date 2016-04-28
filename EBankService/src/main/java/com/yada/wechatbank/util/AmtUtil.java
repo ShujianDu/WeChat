@@ -28,16 +28,4 @@ public class AmtUtil {
 		BigDecimal bigDecimal = new BigDecimal(money);
 		return String.format(STRINGFORMAT, bigDecimal.scaleByPowerOfTen(SCALEBYPOWEROFTEN).intValue());
 	}
-	
-	// 记录后台日志
-	public static String apiSysLog(String apiImpl, String sourceSystem) {
-		Calendar cal=Calendar.getInstance();
-		String datetime = new SimpleDateFormat("yyyyMMddHHmmss").format(cal.getTime());
-		//yyyyMMddcoreLog.log日志输出内容 用于后台交易次数统计 关键内容均以'#'标识开始和';'结束
-		String result = "apiImpl=#" + apiImpl + ";date=#" + datetime.substring(0, 8) 
-				+ ";time=#" + datetime.substring(8)+";sourceSystem=#"+sourceSystem+";";
-		
-		return result;
-	}
-	
 }

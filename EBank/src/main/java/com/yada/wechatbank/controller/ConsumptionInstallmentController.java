@@ -60,8 +60,10 @@ public class ConsumptionInstallmentController extends BaseController {
 	public String list(HttpServletRequest request, Model model) {
 		String identityNo = getIdentityNo(request);
 		String identityType = getIdentityType(request);
+		logger.info("@ConsumptionInstallment@get cardList by identityNo[" + identityNo + "]and identityType[" + identityType + "]");
 		// 获取加密后的卡列表，传至页面用
 		List<String> cardList = consumptionInstallmentServiceImpl.selectCardNoList(identityType, identityNo);
+		logger.info("@ConsumptionInstallment@get cardList by identityNo[" + identityNo + "]and identityType[" + identityType + "],cardList[" + cardList + "]");
 		if (cardList == null) {
 			return BUSYURL;
 		} else if (cardList.size() == 0) {
@@ -70,7 +72,8 @@ public class ConsumptionInstallmentController extends BaseController {
 			try {
 				Crypt.cardNoCrypt(cardList);
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.error("@ConsumptionInstallment@ cardNo Crypt error,cardList[" + identityNo + "]and identityType[" + identityType + "],cardList["
+						+ cardList + "]");
 				return BUSYURL;
 			}
 			model.addAttribute("cardList", cardList);
@@ -105,21 +108,23 @@ public class ConsumptionInstallmentController extends BaseController {
 			try {
 				Crypt.cardNoCrypt(cardList);
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.error("@ConsumptionInstallment@ cardNo Crypt error,cardList[" + identityNo + "]and identityType[" + identityType + "],cardList["
+						+ cardList + "]");
 				return BUSYURL;
 			}
 			model.addAttribute("cardList", cardList);
 			try {
 				cardNo = Crypt.decode(cardNo);
 			} catch (Exception e) {
-				logger.info("@XFFQ@解密卡号出现异常" + e);
+				logger.error("@ConsumptionInstallment@ cardNo decode error,cardNo[" + cardNo + "]");
 				return BUSYURL;
 			}
 		}
+		logger.info("@ConsumptionInstallment@调用核心根据cardNo[" + cardNo + "],currencyCode[" + currencyCode + ",STARTNUM[" + STARTNUM + "]SELECTNUM[" + SELECTNUM
+				+ "]");
 		// 获取可分期消费信息集合
 		Map<String, Object> map = consumptionInstallmentServiceImpl.queryConsumptionInstallments(cardNo, currencyCode, STARTNUM, SELECTNUM);
-		logger.info("@XFFQ@调用核心根据cardNo[" + cardNo + "],currencyCode[" + currencyCode + ",STARTNUM[" + STARTNUM + "]SELECTNUM[" + SELECTNUM
-				+ "]获取可分期交易，获取到的交易列表map[" + map + "]");
+		logger.info("@ConsumptionInstallment@调用核心根据cardNo[" + cardNo + "]获取可分期交易，获取到的交易列表map[" + map + "]");
 		if (map == null || map.get("isFollowUp") == null || map.get("consumptionInstallmentsList") == null) {
 			return BUSYURL;
 		}
@@ -158,7 +163,7 @@ public class ConsumptionInstallmentController extends BaseController {
 			String cardNo = Crypt.decode(consumptionInstallments.getCardNo());
 			consumptionInstallments.setCardNo(Crypt.cardNoOneEncode(cardNo));
 		} catch (Exception e) {
-			logger.info("@XFFQ@加密/解密卡号出现异常" + e);
+			logger.error("@ConsumptionInstallment@ cardNo decode error,cardNo[" + consumptionInstallments.getCardNo() + "]");
 			return BUSYURL;
 		}
 		model.addAttribute("ciinfo", consumptionInstallments);
@@ -180,18 +185,23 @@ public class ConsumptionInstallmentController extends BaseController {
 		try {
 			consumptionInstallmentAuthorization.setCardNo(Crypt.decode(cryptCardNo));
 		} catch (Exception e) {
-			logger.info("@XFFQ@解密卡号出现异常" + e);
+			logger.error("@ConsumptionInstallment@ cardNo decode error,cardNo[" + cryptCardNo + "]");
 			return BUSYURL;
 		}
+		logger.info("@ConsumptionInstallment@get consumptionInstallmentAuthorization[" + consumptionInstallmentAuthorization + "]");
 		// 调用行内service查询消费分期（费用试算）
 		ConsumptionInstallmentCost cost = consumptionInstallmentServiceImpl.costConsumptionInstallment(consumptionInstallmentAuthorization);
-		logger.info("@XFFQ@调用核心根据consumptionInstallmentAuthorization[" + consumptionInstallmentAuthorization + "]进行消费分期试算，试算结果cost[" + cost.toString() + "]");
+		logger.info("@ConsumptionInstallment@get consumptionInstallmentAuthorization[" + consumptionInstallmentAuthorization + "],the result cost[" + cost
+				+ "]");
+		if (cost == null) {
+			return BUSYURL;
+		}
 		model.addAttribute("cost", cost);
 		String cardNo = consumptionInstallmentAuthorization.getCardNo();
 		try {
 			consumptionInstallmentAuthorization.setCardNo(Crypt.encode(cardNo));
 		} catch (Exception e) {
-			logger.info("@XFFQ@加密卡号出现异常" + e);
+			logger.info("@ConsumptionInstallment@cardNo encode error,cardNo[" + cardNo + "]");
 			return BUSYURL;
 		}
 		model.addAttribute("ciinfo", consumptionInstallmentAuthorization);
@@ -212,12 +222,13 @@ public class ConsumptionInstallmentController extends BaseController {
 		try {
 			consumptionInstallmentAuthorization.setCardNo(Crypt.decode(consumptionInstallmentAuthorization.getCardNo()));
 		} catch (Exception e) {
-			logger.info("@XFFQ@解密卡号出现异常" + e);
+			logger.error("@ConsumptionInstallment@ cardNo decode error,cardNo[" + consumptionInstallmentAuthorization.getCardNo() + "]");
 			return BUSYURL;
 		}
+		logger.info("@ConsumptionInstallment@get ConsumptionInstallmentAuthorization[" + consumptionInstallmentAuthorization + "]");
 		// 调用行内service消费分期授权
 		boolean result = consumptionInstallmentServiceImpl.authorizationConsumptionInstallment(consumptionInstallmentAuthorization);
-		logger.info("@XFFQ@调用核心根据consumptionInstallmentAuthorization[" + consumptionInstallmentAuthorization + "]进行消费分期授权，授权结果result[" + result + "]");
+		logger.info("@ConsumptionInstallment@get ConsumptionInstallmentAuthorization[" + consumptionInstallmentAuthorization + "],result[" + result + "]");
 		if (result) {
 			return SUCCESS;
 		} else {
@@ -244,10 +255,11 @@ public class ConsumptionInstallmentController extends BaseController {
 			logger.info("@XFFQ@解密卡号出现异常" + e);
 			return JSONObject.toJSONString(null);
 		}
+		logger.info("@ConsumptionInstallment@调用核心根据cardNo[" + cardNo + "],currencyCode[" + currencyCode + ",STARTNUM[" + startnum + "]SELECTNUM[" + SELECTNUM
+				+ "]");
 		// 获取可分期消费信息集合
 		Map<String, Object> map = consumptionInstallmentServiceImpl.queryConsumptionInstallments(cardNo, currencyCode, startnum, SELECTNUM);
-		logger.info("@XFFQ@调用核心根据cardNo[" + cardNo + "],currencyCode[" + currencyCode + ",STARTNUM[" + startnum + "]SELECTNUM[" + SELECTNUM
-				+ "]获取可分期交易，获取到的交易列表map[" + map + "]");
+		logger.info("@ConsumptionInstallment@调用核心根据cardNo[" + cardNo + "]获取可分期交易，获取到的交易列表map[" + map + "]");
 		if (map == null || map.get("isFollowUp") == null || map.get("consumptionInstallmentsList") == null) {
 			return JSONObject.toJSONString("");
 		}

@@ -108,4 +108,11 @@ public class ConsumptionInstallmentAuthorization {
 		this.isfeeFlag = isfeeFlag;
 	}
 
+	@Override
+	public String toString() {
+		return "ConsumptionInstallmentAuthorization [accountKeyOne=" + accountKeyOne + ", accountKeyTwo=" + accountKeyTwo + ", currencyCode=" + currencyCode
+				+ ", billDateNo=" + billDateNo + ", transactionAmount=" + transactionAmount + ", cardNo=" + cardNo + ", accountNoID=" + accountNoID
+				+ ", transactionNo=" + transactionNo + ", installmentPeriods=" + installmentPeriods + ", isfeeFlag=" + isfeeFlag + "]";
+	}
+
 }
