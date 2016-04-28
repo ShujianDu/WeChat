@@ -7,6 +7,10 @@ import com.yada.wechatbank.model.CardInfo;
 import com.yada.wechatbank.model.HistoryInstallment;
 import com.yada.wechatbank.model.HistoryInstallmentList;
 import com.yada.wechatbank.service.HistoryInstallmentService;
+import com.yada.wechatbank.util.AmtUtil;
+import com.yada.wechatbank.util.CurrencyUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,7 +24,7 @@ import java.util.Map;
  */
 @Service
 public class HistoryInstallmentServiceImpl extends BaseService implements HistoryInstallmentService {
-
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private HttpClient httpClient;
     @Value("${url.getHistoryInstallment}")
@@ -34,12 +38,37 @@ public class HistoryInstallmentServiceImpl extends BaseService implements Histor
         map.put("startNumber", startNumber);
         map.put("selectNumber", selectNumber);
         HistoryInstallmentResp historyInstallmentResp = httpClient.send(getHistoryInstallment, map, HistoryInstallmentResp.class);
-        return historyInstallmentResp.getData();
+        if (historyInstallmentResp == null) {
+            logger.warn("@FQLSCX@分期历史信息查询结果为空cardNo[{}]", cardNo);
+            return null;
+        }
+        if (!"00".equals(historyInstallmentResp.getReturnCode())) {
+            logger.warn("@FQLSCX@分期历史信息查询返回错误,错误码returnCode[{}]卡号cardNo[{}]", historyInstallmentResp.getReturnCode(), cardNo);
+            return null;
+        }
+        HistoryInstallmentList historyInstallmentList = historyInstallmentResp.getData();
+        List<HistoryInstallment> setList = new ArrayList<>();
+        if (historyInstallmentList.getHistoryInstallmentList() == null || historyInstallmentList.getHistoryInstallmentList().size() == 0) {
+            logger.warn("@FQLSCX@分期历史信息查询-信息列表为空或列表长度为0,cardNo[{}]", cardNo);
+            return null;
+        }
+        //替换币种
+        for (HistoryInstallment historyInstallment : historyInstallmentList.getHistoryInstallmentList()) {
+            historyInstallment.setCurrencyCode(CurrencyUtil.translateChinese(historyInstallment.getCurrencyCode()));
+            historyInstallment.setInstalmentOriginalAmount(AmtUtil.procString(historyInstallment.getInstalmentOriginalAmount()));
+            historyInstallment.setInstalmentFirstPostingAmount(AmtUtil.procString(historyInstallment.getInstalmentFirstPostingAmount()));
+            historyInstallment.setInstalmentNextPostingAmount(AmtUtil.procString(historyInstallment.getInstalmentNextPostingAmount()));
+            historyInstallment.setInstalmentOutstandingAmount(AmtUtil.procString(historyInstallment.getInstalmentOutstandingAmount()));
+            historyInstallment.setInstalmentReversalAmount(AmtUtil.procString(historyInstallment.getInstalmentReversalAmount()));
+            setList.add(historyInstallment);
+        }
+        historyInstallmentList.setHistoryInstallmentList(setList);
+        return historyInstallmentList;
     }
 
     @Override
-    public List<CardInfo> selectCardNOs(String identityNo, String identityType) {
-        return selectCardNos(identityNo, identityType);
+    public List<CardInfo> selectCardNOs(String identityType, String identityNo) {
+        return selectCardNos(identityType, identityNo);
     }
 
 

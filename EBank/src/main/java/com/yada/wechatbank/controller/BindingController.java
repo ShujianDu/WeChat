@@ -11,6 +11,7 @@ import com.yada.wechatbank.model.CardInfo;
 import com.yada.wechatbank.service.BindingService;
 import com.yada.wechatbank.service.SmsService;
 import com.yada.wechatbank.util.Crypt;
+import com.yada.wechatbank.util.IdTypeUtil;
 import com.yada.wx.db.service.model.CustomerInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,10 +63,10 @@ public class BindingController extends BaseController {
         if (openId != null && !"".equals(openId)) {
             bindingQuery.setOpenId(openId);
         }
-        logger.info("@BD@从链接中获取到openId[{}]"+openId);
-        boolean rmiReturn = bindingServiceImpl.validateIsBinding(openId);
+        logger.info("@BD@从链接中获取到openId[{}]" + openId);
+        boolean result = bindingServiceImpl.validateIsBinding(openId);
         // 判断是否已经绑定
-        if (rmiReturn) {
+        if (result) {
             model.addAttribute("openId", openId);
             return BOUNDURL;
         }
@@ -87,7 +88,7 @@ public class BindingController extends BaseController {
             @ModelAttribute("formBean") BindingQuery bindingQuery, Model model,
             HttpServletRequest request) {
         if (bindingServiceImpl.isLocked(bindingQuery.getOpenId(), bindingQuery.getIdNumber())) {
-            logger.info("@BD@用户已锁定idNumber[{}]idType[{}]",bindingQuery.getIdNumber(),bindingQuery.getIdType());
+            logger.info("@BD@用户已锁定idNumber[{}]idType[{}]", bindingQuery.getIdNumber(), bindingQuery.getIdType());
             return LOCK;
         }
         String mobileCode = request.getParameter("mobileCode");
@@ -95,7 +96,7 @@ public class BindingController extends BaseController {
         if (!smsServiceImpl.checkSMSCode(bindingQuery.getIdNumber(), bindingQuery.getMobilNo(), "binding", mobileCode)) {
             model.addAttribute("msg", "3");
             model.addAttribute("model", bindingQuery);
-            logger.info("@BD@短信验证码错误idNumber[{}]idType[{}]",bindingQuery.getIdNumber(),bindingQuery.getIdType());
+            logger.info("@BD@短信验证码错误idNumber[{}]idType[{}]", bindingQuery.getIdNumber(), bindingQuery.getIdType());
             return BINDLISTURL;
         }
         //获取session中存储的短信验证码的证件号
@@ -105,30 +106,30 @@ public class BindingController extends BaseController {
             bindingServiceImpl.addCountCache(bindingQuery.getOpenId(), bindingQuery.getIdNumber());
             model.addAttribute("msg", "2");
             model.addAttribute("model", bindingQuery);
-            logger.info("@BD@两次证件号不一致idNumber[{}]",bindingQuery.getIdNumber());
+            logger.info("@BD@两次证件号不一致idNumber[{}]", bindingQuery.getIdNumber());
             return BINDLISTURL;
         }
-        logger.info("@BD@用户提交的绑定数据openId[{}]idNumber[{}]idType[{}]mobilNo[{}]",bindingQuery.getOpenId(),bindingQuery.getIdNumber(),bindingQuery.getIdType(),bindingQuery.getMobilNo());
+        logger.info("@BD@用户提交的绑定数据openId[{}]idNumber[{}]idType[{}]mobilNo[{}]", bindingQuery.getOpenId(), bindingQuery.getIdNumber(), bindingQuery.getIdType(), bindingQuery.getMobilNo());
         String bindingResult = bindingServiceImpl.custBinding(bindingQuery.getOpenId(), bindingQuery.getIdType(),
                 bindingQuery.getIdNumber(), bindingQuery.getPasswordQuery());
         // 查不到卡号
         if ("1".equals(bindingResult)) {
             model.addAttribute("model", bindingQuery);
             model.addAttribute("msg", bindingResult);
-            logger.info("@BD@查不到卡号openId[{}]idNumber[{}]idType[{}]mobilNo[{}]",bindingQuery.getOpenId(),bindingQuery.getIdNumber(),bindingQuery.getIdType(),bindingQuery.getMobilNo());
+            logger.info("@BD@查不到卡号openId[{}]idNumber[{}]idType[{}]mobilNo[{}]", bindingQuery.getOpenId(), bindingQuery.getIdNumber(), bindingQuery.getIdType(), bindingQuery.getMobilNo());
         } else if ("2".equals(bindingResult)) { // 验密失败
             model.addAttribute("model", bindingQuery);
             model.addAttribute("msg", bindingResult);
-            logger.info("@BD@验密失败openId[{}]idNumber[{}]idType[{}]mobilNo[{}]",bindingQuery.getOpenId(),bindingQuery.getIdNumber(),bindingQuery.getIdType(),bindingQuery.getMobilNo());
+            logger.info("@BD@验密失败openId[{}]idNumber[{}]idType[{}]mobilNo[{}]", bindingQuery.getOpenId(), bindingQuery.getIdNumber(), bindingQuery.getIdType(), bindingQuery.getMobilNo());
         } else if ("0".equals(bindingResult)) { // 成功
             // 获取卡列表
-            List<CardInfo> cardList = bindingServiceImpl.selectCardNOs(bindingQuery.getIdNumber(),bindingQuery.getIdType());
+            List<CardInfo> cardList = bindingServiceImpl.selectCardNOs(IdTypeUtil.numIdTypeTransformToECode(bindingQuery.getIdType()), bindingQuery.getIdNumber());
             // 返回值为空或没有数据
             if (cardList == null) {
-                logger.info("@BD@查不到卡号idNumber[{}]idType[{}]",bindingQuery.getIdNumber(),bindingQuery.getIdType());
+                logger.warn("@BD@查不到卡号idNumber[{}]idType[{}]", bindingQuery.getIdNumber(), bindingQuery.getIdType());
                 return BUSYURL;
             } else if (cardList.size() == 0) {
-                logger.info("@BD@查询到卡列表长度为0,idNumber[{}]idType[{}]",bindingQuery.getIdNumber(),bindingQuery.getIdType());
+                logger.warn("@BD@查询到卡列表长度为0,idNumber[{}]idType[{}]", bindingQuery.getIdNumber(), bindingQuery.getIdType());
                 return NOCARDURL;
             } else {
                 //为方便页面显示加密的卡号，为卡号单独设置传递到页面的卡号列表集合
@@ -140,7 +141,7 @@ public class BindingController extends BaseController {
                 try {
                     Crypt.cardNoCrypt(cardListCrypt);
                 } catch (Exception e) {
-                    logger.info("@BD@加密卡列表失败,idNumber[{}]idType[{}]",bindingQuery.getIdNumber(),bindingQuery.getIdType());
+                    logger.error("@BD@加密卡列表失败,idNumber[{}]idType[{}]", bindingQuery.getIdNumber(), bindingQuery.getIdType());
                     return BUSYURL;
                 }
                 model.addAttribute("cardListCrypt", cardListCrypt);
@@ -173,7 +174,7 @@ public class BindingController extends BaseController {
         if (bindingServiceImpl.isExistIdType(openId).get("isexist").equals("false")) {
             model.addAttribute("idNum", bindingServiceImpl.isExistIdType(openId).get("idNum"));
             model.addAttribute("model", bindingQuery);
-            logger.info("@BD@用户未绑定证件类型,openId[{}]",openId);
+            logger.info("@BD@用户未绑定证件类型,openId[{}]", openId);
             return FILLIDTYPEURL;
         }
         //获取默认卡列表
@@ -183,14 +184,16 @@ public class BindingController extends BaseController {
         }
 
         CustomerInfo customerInfo = bindingServiceImpl.findCustomerInfoByOpenId(openId);
-        if(customerInfo == null){
+        if (customerInfo == null) {
+            logger.warn("@BD@绑定默认卡,根据openId获取客户信息为空openId[{}]", openId);
             return BUSYURL;
         }
-        List<CardInfo> cardList = bindingServiceImpl.selectCardNOs(customerInfo.getIdentityNo(), customerInfo.getIdentityType());
+        List<CardInfo> cardList = bindingServiceImpl.selectCardNOs(IdTypeUtil.numIdTypeTransformToECode(customerInfo.getIdentityType()), customerInfo.getIdentityNo());
         if (cardList == null) {
+            logger.warn("@BD@绑定默认卡,根据openId获取客户信息为空openId[{}]", openId);
             return BUSYURL;
         } else if (cardList.size() == 0) {
-            logger.info("@BD@用户未绑定证件类型,openId[{}]",openId);
+            logger.warn("@BD@用户未绑定证件类型,openId[{}]", openId);
             return NOCARDURL;
         } else {
             //为方便页面显示加密的卡号，为卡号单独设置传递到页面的卡号列表集合
@@ -202,6 +205,7 @@ public class BindingController extends BaseController {
             try {
                 Crypt.cardNoCrypt(cardListCrypt);
             } catch (Exception e) {
+                logger.error("@BD@加密卡列表异常,openId[{}]", openId);
                 return BUSYURL;
             }
             model.addAttribute("defCardNo", defCardNo);
@@ -223,17 +227,17 @@ public class BindingController extends BaseController {
         try {
             defCardNO = Crypt.decode(defCardNO);
         } catch (Exception e) {
-            logger.info("@BD@解密卡号出现错误openId[{}]defCardNO[{}]",bindingQuery.getOpenId(),defCardNO);
+            logger.error("@BD@解密卡号出现错误openId[{}]defCardNO[{}]", bindingQuery.getOpenId(), defCardNO);
             return ERRORURL;
         }
-        logger.info("@BD@用户提交的默认卡信息openId[{}]defCardNO[{}]",bindingQuery.getOpenId(),defCardNO);
+        logger.info("@BD@用户提交的默认卡信息openId[{}]defCardNO[{}]", bindingQuery.getOpenId(), defCardNO);
         boolean dcbReturn = bindingServiceImpl.defCardBinding(bindingQuery.getOpenId(), defCardNO);
         //绑定默认卡并返回结果 失败进入绑定失败界面 成功进入绑定成功界面
         if (dcbReturn) {
             // 定义绑定成功跳转的url
             return SUCCESSURL;
         } else {
-            logger.info("@BD@默认卡绑定失败openId[{}]defCardNO[{}]",bindingQuery.getOpenId(),defCardNO);
+            logger.warn("@BD@默认卡绑定失败openId[{}]defCardNO[{}]", bindingQuery.getOpenId(), defCardNO);
             // 定义绑定失败跳转的url
             return ERRORURL;
         }
@@ -261,15 +265,15 @@ public class BindingController extends BaseController {
         if (verificationCode != null
                 && verificationCode.equalsIgnoreCase(Randomcode_yz)) {
             if (!"".equals(identityNo) && !"".equals(mobilNo)) {
-                logger.info("@BD@验证手机号码openId[{}]identityNo[{}]identityType[{}]mobilNo[{}]",openId,identityNo,identityType,mobilNo);
+                logger.info("@BD@验证手机号码openId[{}]identityNo[{}]identityType[{}]mobilNo[{}]", openId, identityNo, identityType, mobilNo);
                 //验证手机号
-                String valResult = bindingServiceImpl.vaidateMobilNo(openId, identityNo, identityType, mobilNo);
+                String valResult = bindingServiceImpl.vaidateMobilNo(openId, identityNo, IdTypeUtil.numIdTypeTransformToECode(identityType), mobilNo);
                 if ("true".equals(valResult)) {
-                    logger.info("@BD@发送短信验证码openId[{}]identityNo[{}]identityType[{}]mobilNo[{}]",openId,identityNo,identityType,mobilNo);
+                    logger.info("@BD@发送短信验证码openId[{}]identityNo[{}]identityType[{}]mobilNo[{}]", openId, identityNo, identityType, mobilNo);
                     //调用发送短信验证码方法
                     boolean sendResult = smsServiceImpl.sendBinDingSMS(identityNo, mobilNo, "binding");
                     if (!sendResult) {
-                        logger.info("@BD@发送短信验证码失败openId[{}]identityNo[{}]identityType[{}]mobilNo[{}]",openId,identityNo,identityType,mobilNo);
+                        logger.info("@BD@发送短信验证码失败openId[{}]identityNo[{}]identityType[{}]mobilNo[{}]", openId, identityNo, identityType, mobilNo);
                         result = "exception";
                     } else {
                         //验证码发送成功记录证件号，防止黑客修改卡号后再验证查询密码
@@ -278,12 +282,12 @@ public class BindingController extends BaseController {
                         result = sendResult + "," + request.getSession().getAttribute("keyInSession");
                     }
                 } else {
-                    logger.info("@BD@验证手机号码错误openId[{}]identityNo[{}]identityType[{}]mobilNo[{}]",openId,identityNo,identityType,mobilNo);
+                    logger.info("@BD@验证手机号码错误openId[{}]identityNo[{}]identityType[{}]mobilNo[{}]", openId, identityNo, identityType, mobilNo);
                     result = valResult;
                 }
             }
         } else {
-            logger.info("@BD@手机验证码错误openId[{}]identityNo[{}]identityType[{}]mobilNo[{}]",openId,identityNo,identityType,mobilNo);
+            logger.info("@BD@手机验证码错误openId[{}]identityNo[{}]identityType[{}]mobilNo[{}]", openId, identityNo, identityType, mobilNo);
             result = "errorCode";
         }
         return result;
@@ -311,15 +315,15 @@ public class BindingController extends BaseController {
             if (defCardNo == null) {
                 defCardNo = "";
             }
-            logger.info("@BD@补充证件类型获取卡列表openId[{}]identityNo[{}]identityType[{}]",openId,identityNo,identityType);
+            logger.info("@BD@补充证件类型获取卡列表openId[{}]identityNo[{}]identityType[{}]", openId, identityNo, identityType);
             //获得卡号列表
-            List<CardInfo> cardList = bindingServiceImpl.selectCardNOs(getIdentityNo(request), getIdentityType(request));
-            // RMI返回值为空或没有数据
+            List<CardInfo> cardList = bindingServiceImpl.selectCardNOs(IdTypeUtil.numIdTypeTransformToECode(identityType), identityNo);
+            //返回值为空或没有数据
             if (cardList == null) {
-                logger.info("@BD@补充证件类型获取卡列表为null或没有数据openId[{}]identityNo[{}]identityType[{}]",openId,identityNo,identityType);
+                logger.info("@BD@补充证件类型获取卡列表为null或没有数据openId[{}]identityNo[{}]identityType[{}]", openId, identityNo, identityType);
                 return BUSYURL;
             } else if (cardList.size() == 0) {
-                logger.info("@BD@补充证件类型获取卡列表长度为0,openId[{}]identityNo[{}]identityType[{}]",openId,identityNo,identityType);
+                logger.info("@BD@补充证件类型获取卡列表长度为0,openId[{}]identityNo[{}]identityType[{}]", openId, identityNo, identityType);
                 return NOCARDURL;
             } else {
                 //为方便页面显示加密的卡号，为卡号单独设置传递到页面的卡号列表集合
@@ -331,7 +335,7 @@ public class BindingController extends BaseController {
                 try {
                     Crypt.cardNoCrypt(cardListCrypt);
                 } catch (Exception e) {
-                    logger.info("@BD@补充证件类型加密卡列表失败,openId[{}]identityNo[{}]identityType[{}]",openId,identityNo,identityType);
+                    logger.info("@BD@补充证件类型加密卡列表失败,openId[{}]identityNo[{}]identityType[{}]", openId, identityNo, identityType);
                     return BUSYURL;
                 }
                 model.addAttribute("defCardNo", defCardNo);

@@ -50,7 +50,7 @@ public interface BindingService {
      * @param identityType 证件类型
      * @return 卡列表
      */
-    List<CardInfo> selectCardNOs(String identityNo, String identityType);
+    List<CardInfo> selectCardNOs(String identityType, String identityNo);
 
     /**
      * 查询数据库中的客户信息的证件类型有无数据
@@ -84,7 +84,7 @@ public interface BindingService {
      * @param identityType 证件类型
      * @return 手机号码
      */
-    String vaidateMobilNo(String openId,String identityNo, String identityType, String mobilNo);
+    String vaidateMobilNo(String openId, String identityNo, String identityType, String mobilNo);
 
 
     /**
@@ -103,11 +103,12 @@ public interface BindingService {
      * @param identityNo   证件号
      * @return 补充证件类型插入数据库是否结果
      */
-    boolean fillIdentityType( String identityType, String identityNo);
+    boolean fillIdentityType(String identityType, String identityNo);
 
 
     /**
      * 根据opId获取客户信息
+     *
      * @param openId
      * @return
      */

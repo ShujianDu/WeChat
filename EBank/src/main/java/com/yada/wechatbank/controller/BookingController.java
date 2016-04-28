@@ -59,6 +59,7 @@ public class BookingController extends BaseController {
                 .getTime());
         String num = bookingServiceImpl.getSequences();
         if (num == null) {
+            logger.info("@YYBK@获取sequence失败");
             return ERRORURL;
         }
         String numStr = String.format("%04d", Integer.parseInt(num));
@@ -77,6 +78,7 @@ public class BookingController extends BaseController {
         booking.setMobilePhone(bookingQuery.getMobilePhone());
         booking.setServiceAddr(bookingQuery.getServiceAddr());
         booking.setApplyDt(dateStr);
+        logger.info("@YYBK@用户提交信息" + booking);
         boolean insertBookingRet = bookingServiceImpl.insertBooking(booking);
         if (!insertBookingRet) {
             return ERRORURL;
@@ -94,8 +96,10 @@ public class BookingController extends BaseController {
         // 获取省份集合
         List<NuwOrg> provinceList = bookingServiceImpl.selectNumOrgList(null);
         if (provinceList == null) {
+            logger.info("@YYBK@获取省份集合失败");
             return ERROR;
         }
+        logger.info("@YYBK@获取到的省份集合" + provinceList.toString());
         if (request.getParameter("provId") != null
                 && !"".equals(request.getParameter("provId"))) {
             String provIdstr = bookingQuery.getProvId();
@@ -119,7 +123,7 @@ public class BookingController extends BaseController {
     @RequestMapping(value = "addressP")
     public String addressP(
             @ModelAttribute("formBean") BookingQuery bookingQuery,
-            Model model,HttpServletRequest request) {
+            Model model, HttpServletRequest request) {
         String city = request.getParameter("city");
         String area = request.getParameter("area");
         bookingQuery.setCityId(city);
@@ -146,13 +150,15 @@ public class BookingController extends BaseController {
     @RequestMapping(value = "getOrg_ajax")
     @ResponseBody
     public String getOrg_ajax(HttpServletRequest request) throws IOException {
-        String result = "";
+        String result;
         String pOrgIdstr = request.getParameter("pOrgId");
         String pOrgId = pOrgIdstr.substring(0, pOrgIdstr.indexOf("^"));
         List<NuwOrg> list = bookingServiceImpl.selectNumOrgList(pOrgId);
         if (list == null || list.size() == 0) {
+            logger.info("@YYBK@获取到的城市集合为空pOrgId[{}]", pOrgId);
             result = "exception";
         } else {
+            logger.info("@YYBK@获取到的城市集合", list.toString());
             result = JSONArray.fromObject(list).toString();
         }
         return result;
@@ -167,9 +173,11 @@ public class BookingController extends BaseController {
         String result = "";
         String bookingResult = bookingServiceImpl.isHaveBooking(request.getParameter("clientName"), request.getParameter("mobilePhone"));
         if (bookingResult == null) {
+            logger.info("@YYBK@判断是否已经预约失败clientName[{}]mobilePhone[{}]", request.getParameter("clientName"), request.getParameter("mobilePhone"));
             result = "exception";
         } else if ("true".equals(bookingResult)) {
             result = "true";
+            logger.info("@YYBK@客户已经预约过clientName[{}]mobilePhone[{}]", request.getParameter("clientName"), request.getParameter("mobilePhone"));
         }
         return result;
     }

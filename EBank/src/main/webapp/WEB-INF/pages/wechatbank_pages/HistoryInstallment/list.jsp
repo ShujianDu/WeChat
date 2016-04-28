@@ -3,7 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <%@include file="../../base_pages/base.jsp"%>
-<%@include file="../../base_pages/wxjs.jsp"%>
 <meta name="viewport"
 	content="initial-scale=1, maximum-scale=1, user-scalable=no" />
 <title>中国银行信用卡</title>
@@ -65,7 +64,7 @@
 						<td width="70">币种:</td>
 						<td>
 							<select name="currencyCodeChinese" id="dateSelect">
-								<option value="人民币">人民币</option>
+								<option value="CNY">人民币</option>
 							</select>
 						</td>
 					</tr>

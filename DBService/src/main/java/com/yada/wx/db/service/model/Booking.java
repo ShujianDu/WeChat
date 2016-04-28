@@ -130,4 +130,21 @@ public class Booking {
     public void setState(String state) {
         this.state = state;
     }
+
+    public String toString(){
+        StringBuffer sb = new StringBuffer();
+        sb.append("Booking [ bookingId = " + bookingId);
+        sb.append(",clientId = "+clientId);
+        sb.append(",clientName = "+clientName);
+        sb.append(",provId = "+provId);
+        sb.append(",cityId = "+cityId);
+        sb.append(",areaId = "+areaId);
+        sb.append(",phone = "+phone);
+        sb.append(",mobilePhone = "+mobilePhone);
+        sb.append(",serviceAddr = "+serviceAddr);
+        sb.append(",applyDt = "+applyDt);
+        sb.append(",state = "+state);
+        sb.append("]");
+        return sb.toString();
+    }
 }

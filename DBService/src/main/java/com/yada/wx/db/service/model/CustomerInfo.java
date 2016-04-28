@@ -88,4 +88,18 @@ public class CustomerInfo {
     public void setBindingDate(String bindingDate) {
         this.bindingDate = bindingDate;
     }
+
+
+    public String toString(){
+        StringBuffer sb = new StringBuffer();
+        sb.append("CustomerInfo [id = "+id);
+        sb.append(",openId = "+ openId);
+        sb.append(",identityNo = "+identityNo);
+        sb.append(",identityType = "+identityType);
+        sb.append(",mobilePhone = "+mobilePhone);
+        sb.append(",defCardNo = "+defCardNo);
+        sb.append(",bindingDate = "+bindingDate);
+        sb.append(" ]");
+        return sb.toString();
+    }
 }

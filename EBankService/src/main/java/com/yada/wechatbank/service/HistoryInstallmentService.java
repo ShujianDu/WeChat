@@ -1,7 +1,6 @@
 package com.yada.wechatbank.service;
 
 
-
 import com.yada.wechatbank.model.CardInfo;
 import com.yada.wechatbank.model.HistoryInstallmentList;
 
@@ -14,8 +13,9 @@ public interface HistoryInstallmentService {
 
     /**
      * 查询分期历史
-     * @param cardNo 卡号
-     * @param startNumber 开始号
+     *
+     * @param cardNo       卡号
+     * @param startNumber  开始号
      * @param selectNumber 查询号
      * @return 分期历史信息
      */
@@ -23,10 +23,11 @@ public interface HistoryInstallmentService {
 
     /**
      * 查询卡列表
-     * @param identityNo 证件号
+     *
      * @param identityType 证件类型
+     * @param identityNo   证件号
      * @return 卡列表
      */
-    List<CardInfo> selectCardNOs(String identityNo, String identityType);
+    List<CardInfo> selectCardNOs(String identityType, String identityNo);
 
 }

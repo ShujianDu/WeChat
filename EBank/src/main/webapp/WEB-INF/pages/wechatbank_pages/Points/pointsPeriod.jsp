@@ -3,8 +3,6 @@
 <html>
 <head>
     <%@include file="../../base_pages/base.jsp"%>
-    <%@include file="../../base_pages/wxjs.jsp"%>
-    <%@include file="../../base_pages/wxReadyFunction.jsp"%>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name=" format-detection" content= "telephone=no" />

@@ -14,19 +14,23 @@ public interface PointsService {
 
     /**
      * 获取账户积分余额
+     *
      * @return
      */
-    PointsBalance getPointsBlance(String identityNo, String identityType);
+    PointsBalance getPointsBlance(String identityType, String identityNo);
+
     /**
      * 获取积分明细
-     * @param identityNo 证件号
+     *
      * @param identityType 证件类型
+     * @param identityNo   证件号
      * @return List<JifenDetail>
      */
-    List<PointsDetail> getPointsDetail(String identityNo, String identityType);
+    List<PointsDetail> getPointsDetail(String identityType, String identityNo);
 
     /**
      * 处理远程接口返回的积分明细集合
+     *
      * @param list 积分明细列表
      * @return List<List<JifenDetail>>
      */
@@ -34,6 +38,7 @@ public interface PointsService {
 
     /**
      * 获取积分有效期
+     *
      * @param cardNo 卡号
      * @return List<PointsValidates>
      */
@@ -41,14 +46,16 @@ public interface PointsService {
 
     /**
      * 获取客户卡号
-     * @param identityNo
+     *
      * @param identityType
+     * @param identityNo
      * @return
      */
-    String getCardN0(String identityNo, String identityType);
+    String getCardNo(String identityType, String identityNo);
 
     /**
      * 通过卡号获取加密后的卡号和sign
+     *
      * @param cardNo
      * @return
      */
