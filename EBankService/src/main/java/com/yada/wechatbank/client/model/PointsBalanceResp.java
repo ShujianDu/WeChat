@@ -7,13 +7,13 @@ import com.yada.wechatbank.model.PointsBalance;
  * Created by Echo on 2016/4/21.
  */
 public class PointsBalanceResp extends BaseModel{
-    private PointsBalance bizResult;
+    private PointsBalance data;
 
-    public PointsBalance getBizResult() {
-        return bizResult;
+    public PointsBalance getData() {
+        return data;
     }
 
-    public void setBizResult(PointsBalance bizResult) {
-        this.bizResult = bizResult;
+    public void setData(PointsBalance data) {
+        this.data = data;
     }
 }

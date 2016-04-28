@@ -54,7 +54,7 @@ public class PointsServiceImpl extends BaseService implements PointsService {
         Map<String, String> map = new HashMap<>();
         map.put("cardNo", cardNo);
         PointsBalanceResp pointsBlanceResp = httpClient.send(getBalance, map, PointsBalanceResp.class);
-        return pointsBlanceResp.getBizResult();
+        return pointsBlanceResp.getData();
     }
 
     /**
@@ -78,7 +78,7 @@ public class PointsServiceImpl extends BaseService implements PointsService {
         PointsDetailResp pointsDetailResp = httpClient.send(getPointsDetails, map, PointsDetailResp.class);
         List<PointsDetail> pointsList = null;
         if (pointsDetailResp != null) {
-            pointsList = pointsDetailResp.getBizResult();
+            pointsList = pointsDetailResp.getData();
         }
         return pointsList;
     }
@@ -130,7 +130,7 @@ public class PointsServiceImpl extends BaseService implements PointsService {
         map.put("cardNo", cardNo);
         //调用后台获取积分到期日
         PointsValidatesResp pointsValidatesResp = httpClient.send(getPointsValidates, map, PointsValidatesResp.class);
-        return pointsValidatesResp.getBizResult();
+        return pointsValidatesResp.getData();
     }
 
     /**
@@ -154,7 +154,7 @@ public class PointsServiceImpl extends BaseService implements PointsService {
         Map<String, String> map = new HashMap<>();
         map.put("cardNo", cardNo);
         VerificationCardNoResultResp verificationCardNoResultResp = httpClient.send(verificationCardNo, map, VerificationCardNoResultResp.class);
-        return verificationCardNoResultResp.getBizResult();
+        return verificationCardNoResultResp.getData();
     }
 
 

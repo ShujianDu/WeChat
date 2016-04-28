@@ -34,7 +34,7 @@ public class HistoryInstallmentServiceImpl extends BaseService implements Histor
         map.put("startNumber", startNumber);
         map.put("selectNumber", selectNumber);
         HistoryInstallmentResp historyInstallmentResp = httpClient.send(getHistoryInstallment, map, HistoryInstallmentResp.class);
-        return historyInstallmentResp.getBizResult();
+        return historyInstallmentResp.getData();
     }
 
     @Override

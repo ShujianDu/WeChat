@@ -40,9 +40,6 @@ public class BindingController extends BaseController {
     private static final String ERRORURL = "wechatbank_pages/Binding/error";
     private static final String LOCK = "wechatbank_pages/Binding/lock";
     private static final String FILLIDTYPEURL = "wechatbank_pages/Binding/fillIdType";
-    // 是否是默认卡(0 是，1 否)
-    private static final String ISDEFAULT = "0";
-    private static final String NODEFAULT = "1";
     @Autowired
     private BindingService bindingServiceImpl;
     @Autowired
@@ -314,12 +311,15 @@ public class BindingController extends BaseController {
             if (defCardNo == null) {
                 defCardNo = "";
             }
-            // 调用RMI 获得卡号列表
+            logger.info("@BD@补充证件类型获取卡列表openId[{}]identityNo[{}]identityType[{}]",openId,identityNo,identityType);
+            //获得卡号列表
             List<CardInfo> cardList = bindingServiceImpl.selectCardNOs(getIdentityNo(request), getIdentityType(request));
             // RMI返回值为空或没有数据
             if (cardList == null) {
+                logger.info("@BD@补充证件类型获取卡列表为null或没有数据openId[{}]identityNo[{}]identityType[{}]",openId,identityNo,identityType);
                 return BUSYURL;
             } else if (cardList.size() == 0) {
+                logger.info("@BD@补充证件类型获取卡列表长度为0,openId[{}]identityNo[{}]identityType[{}]",openId,identityNo,identityType);
                 return NOCARDURL;
             } else {
                 //为方便页面显示加密的卡号，为卡号单独设置传递到页面的卡号列表集合
@@ -331,6 +331,7 @@ public class BindingController extends BaseController {
                 try {
                     Crypt.cardNoCrypt(cardListCrypt);
                 } catch (Exception e) {
+                    logger.info("@BD@补充证件类型加密卡列表失败,openId[{}]identityNo[{}]identityType[{}]",openId,identityNo,identityType);
                     return BUSYURL;
                 }
                 model.addAttribute("defCardNo", defCardNo);

@@ -130,7 +130,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
         customerInfo.setOpenId(openId);
         customerInfo.setIdentityType(idType);
         customerInfo.setIdentityNo(idCardNo);
-        customerInfo.setMobilePhone(custMobileResp.getBizResult());
+        customerInfo.setMobilePhone(custMobileResp.getData());
         Calendar cal = Calendar.getInstance();
         String dateStr = new SimpleDateFormat("yyyyMMdd").format(cal.getTime());
         customerInfo.setBindingDate(dateStr);
@@ -232,7 +232,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
         CustMobileResp custMobileResp = httpClient.send(getCustMobile, map, CustMobileResp.class);
         String mobile = null;
         if (custMobileResp != null) {
-            mobile = custMobileResp.getBizResult();
+            mobile = custMobileResp.getData();
         }
         if (mobile == null) {
             countSMSCacheImpl.put(openId, identityNo);

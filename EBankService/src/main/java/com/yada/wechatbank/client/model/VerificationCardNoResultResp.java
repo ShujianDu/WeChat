@@ -6,13 +6,13 @@ import com.yada.wechatbank.model.VerificationCardNoResult;
  * Created by Echo on 2016/4/22.
  */
 public class VerificationCardNoResultResp {
-    private VerificationCardNoResult bizResult;
+    private VerificationCardNoResult data;
 
-    public VerificationCardNoResult getBizResult() {
-        return bizResult;
+    public VerificationCardNoResult getData() {
+        return data;
     }
 
-    public void setBizResult(VerificationCardNoResult bizResult) {
-        this.bizResult = bizResult;
+    public void setData(VerificationCardNoResult data) {
+        this.data = data;
     }
 }

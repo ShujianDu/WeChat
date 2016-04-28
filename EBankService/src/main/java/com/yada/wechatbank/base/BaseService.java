@@ -88,7 +88,7 @@ public class BaseService {
         map.put("idType", identityType);
         map.put("idNum", identityNo);
         CardInfoResp cardInfoResp = httpClient.send(getCardInfos, map, CardInfoResp.class);
-        return cardInfoResp == null ? null : cardInfoResp.getBizResult();
+        return cardInfoResp == null ? null : cardInfoResp.getData();
     }
 
     /**
@@ -107,8 +107,8 @@ public class BaseService {
             return null;
         }
         List<String> cardNoList = new ArrayList<>();
-        for (int i = 0; i < cardInfoResp.getBizResult().size(); i++) {
-            cardNoList.add(cardInfoResp.getBizResult().get(i).getCardNo());
+        for (int i = 0; i < cardInfoResp.getData().size(); i++) {
+            cardNoList.add(cardInfoResp.getData().get(i).getCardNo());
         }
         return cardNoList;
     }

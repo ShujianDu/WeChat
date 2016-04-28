@@ -40,7 +40,7 @@ import com.yada.wechatbank.model.VerificationCardNoResult;
 @RequestMapping(value = "mock")
 public class MockController {
 
-	private static final String key = "bizResult";
+	private static final String key = "data";
 
 	private final String accountId = "TX01";
 

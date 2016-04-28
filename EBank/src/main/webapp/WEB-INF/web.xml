@@ -10,7 +10,7 @@
     </context-param>
     <context-param>
         <param-name>spring.profiles.default</param-name>
-        <param-value>sit</param-value>
+        <param-value>test</param-value>
     </context-param>
     <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>

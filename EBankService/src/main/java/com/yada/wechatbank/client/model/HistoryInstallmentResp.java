@@ -7,13 +7,13 @@ import com.yada.wechatbank.model.HistoryInstallmentList;
  * Created by Echo on 2016/4/21.
  */
 public class HistoryInstallmentResp extends BaseModel {
-    private HistoryInstallmentList bizResult;
+    private HistoryInstallmentList data;
 
-    public HistoryInstallmentList getBizResult() {
-        return bizResult;
+    public HistoryInstallmentList getData() {
+        return data;
     }
 
-    public void setBizResult(HistoryInstallmentList bizResult) {
-        this.bizResult = bizResult;
+    public void setData(HistoryInstallmentList data) {
+        this.data = data;
     }
 }
