@@ -42,9 +42,9 @@ public class BillingSendWayController extends BaseController {
         String identityType = "";
         String identityNo = "";
         List<BillSendType> list = billingSendWayServiceImpl.getBillSendType(identityType, identityNo);
-        logger.debug("@ZDJSFSCX@通过identityType[{}],identityNo[{}]获取账单寄送方式集合为[{}]", identityType, identityNo, list);
+        logger.info("@BillingSendWay@通过identityType[{}],identityNo[{}]获取账单寄送方式集合为[{}]", identityType, identityNo, list);
         if (list == null || list.size() == 0) {
-            logger.warn("@ZDJSFSCX@通过identityType[{}],identityNo[{}]获取寄送方式集合为空或没有数据", identityType, identityNo);
+            logger.warn("@BillingSendWay@通过identityType[{}],identityNo[{}]获取寄送方式集合为空或没有数据", identityType, identityNo);
             return BUSYURL;
         } else {
             model.addAttribute("sendTypeList", list);
@@ -60,12 +60,19 @@ public class BillingSendWayController extends BaseController {
         try {
             cardNo = Crypt.decode(cardNo);
         } catch (Exception e) {
-            logger.error("@WDZD@解密卡号出现异常cardNo[" + cardNo + "]", e);
+            logger.error("@BillingSendWay@解密卡号出现异常cardNo[" + cardNo + "]", e);
+            return ERROR;
         }
         BillSendType b = new BillSendType();
         b.setBillSendType(billSendType);
         b.setCardNo(cardNo);
-        billingSendWayServiceImpl.processShowCardNo(b);
+        try {
+            billingSendWayServiceImpl.processShowCardNo(b);
+        } catch (Exception e) {
+            logger.error("@ZDJSFSCX@卡号加密过程中出现错误cardNo["
+                    + cardNo + "]:", e);
+             return ERROR;
+        }
         model.addAttribute("bsw", b);
         return EDITURL;
     }
@@ -80,16 +87,15 @@ public class BillingSendWayController extends BaseController {
         try {
             cardNo = Crypt.decode(request.getParameter("cardNo"));
         } catch (Exception e) {
-            logger.error("@WDZD@解密卡号出现异常cardNo[" + cardNo + "]", e);
+            logger.error("@BillingSendWay@解密卡号出现异常cardNo[" + cardNo + "]", e);
             return "修改失败";
         }
         String billSendType = request.getParameter("billSendType");
         if (cardNo != null && !"".equals(cardNo) && billSendType != null
                 && !"".equals(billSendType)) {
+            logger.info("@BillingSendWay@卡cardNo[{}]修改账单寄送方式为[{}]",cardNo,billSendType);
             boolean result = billingSendWayServiceImpl.updateBillSendType(cardNo, billSendType);
-            logger.info("@ZDJSFSXG@调用核心根据cardNo[" + cardNo
-                    + "]修改账单寄送方式，账单寄送方式修改结果result[" + result + "]");
-            return "修改成功";
+            return result?"修改成功":"修改失败";
         }
         return "修改失败";
     }

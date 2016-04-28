@@ -48,7 +48,7 @@
                     <span id="ex6SliderVal" class="text-red" style="font-size:20px;">0</span>
                 </span>
             <input id="ex6" type="text"
-                   data-slider-min="0"
+                   data-slider-min="${creditLimit}"
                    name="eosPreAddLimit"
                    data-slider-max="${amount }"
                    data-slider-step="100"

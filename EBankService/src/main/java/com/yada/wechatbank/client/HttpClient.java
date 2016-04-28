@@ -2,6 +2,7 @@ package com.yada.wechatbank.client;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
+import com.yada.wechatbank.base.BaseModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +12,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashSet;
+import java.util.Set;
 
 
 /**
@@ -24,9 +27,14 @@ public class HttpClient {
     private int conTimeout; // 连接超时时间
     private int readTimeout; // 读取超时时间
 
+    private Set<String> error_code;
+
     private String hostAddr;
 
     public HttpClient(String hostAddr, int conTimeout, int readTimeout) {
+        error_code= new HashSet<>();
+        error_code.add("01");
+        error_code.add("99");
         this.hostAddr = hostAddr;
         this.conTimeout = conTimeout;
         this.readTimeout = readTimeout;
@@ -45,6 +53,11 @@ public class HttpClient {
             String data = JSON.toJSONString(object);
             String respStr = postRequest(method, data);
             result = JSON.parseObject(respStr, targetClass);
+            BaseModel baseMode=(BaseModel)result;
+            if(error_code.contains(baseMode.getReturnCode()))
+            {
+                throw new RuntimeException("行内服务返回异常,响应码[" +baseMode.getReturnCode() + "]，响应信息["+baseMode.getReturnMsg()+"]");
+            }
             return result;
         } catch (JSONException e) {
             logger.error("HttpClient 数据转换异常", e);

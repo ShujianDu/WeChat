@@ -289,16 +289,16 @@ public class MockController {
 		Balance balance = new Balance();
 		balance.setCardNo("11111111111111111");
 		balance.setCurrencyCode("CNY");
-		balance.setPreCashAdvanceCreditLimit("31");
-		balance.setWholeCreditLimit("101");
-		balance.setPeriodAvailableCreditLimit("100");
+		balance.setPreCashAdvanceCreditLimit("+000000000000003100");
+		balance.setWholeCreditLimit("+000000000000010100");
+		balance.setPeriodAvailableCreditLimit("+000000000000010000");
 
 		Balance balance2 = new Balance();
 		balance2.setCardNo("11111111111111111");
 		balance2.setCurrencyCode("USD");
-		balance2.setPreCashAdvanceCreditLimit("33");
-		balance2.setWholeCreditLimit("130");
-		balance2.setPeriodAvailableCreditLimit("102");
+		balance2.setPreCashAdvanceCreditLimit("+000000000000003300");
+		balance2.setWholeCreditLimit("+000000000000013000");
+		balance2.setPeriodAvailableCreditLimit("+000000000000010200");
 		list.add(balance);
 		list.add(balance2);
 		map.put(key, list);

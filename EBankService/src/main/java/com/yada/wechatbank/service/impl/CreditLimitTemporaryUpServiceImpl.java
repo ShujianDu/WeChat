@@ -4,6 +4,7 @@ import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.*;
 import com.yada.wechatbank.model.*;
 import com.yada.wechatbank.service.CreditLimitTemporaryUpService;
+import com.yada.wechatbank.util.AmtUtil;
 import com.yada.wechatbank.util.Crypt;
 import com.yada.wechatbank.util.IdTypeUtil;
 import org.slf4j.Logger;
@@ -85,7 +86,7 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
         map.put("phoneNumber", phoneNumber);
         map.put("eosCurrency", eosCurrency);
         map.put("cardNo", cardNo);
-        map.put("eosPreAddLimit", eosPreAddLimit);
+        map.put("eosPreAddLimit", AmtUtil.procMoneyToString(eosPreAddLimit));
         map.put("eosStarLimitDate", eosStarLimitDate);
         map.put("eosEndLimitDate", eosEndLimitDate);
         map.put("cardStyle", cardStyle);
@@ -107,7 +108,14 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
         map.put("cardNo", cardNo);
         map.put("phoneNumber", mobileNo);
         CreditLimitTemporaryUpReviewResp clturr = httpClient.send(creditLimitTemporaryUpReview, map, CreditLimitTemporaryUpReviewResp.class);
-        return clturr == null ? null : clturr.getData();
+        CreditLimitTemporaryUpReview creditLimitTemporaryUpReview= clturr == null ? null : clturr.getData();
+        //金额转换
+        if(creditLimitTemporaryUpReview!=null)
+        {
+            creditLimitTemporaryUpReview.setCreditLimit(AmtUtil.procString(creditLimitTemporaryUpReview.getCreditLimit()));
+            creditLimitTemporaryUpReview.setAmount(AmtUtil.procString(creditLimitTemporaryUpReview.getAmount()));
+        }
+        return creditLimitTemporaryUpReview;
     }
 
     @Override
@@ -146,6 +154,8 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
                 // 不是审批批准并已同步CSR（70）也不是审批批准（50），所以过滤掉
                 continue;
             }
+            //金额转换
+            aList.setEosLimit(AmtUtil.procString(aList.getEosLimit()));
             resultLiast.add(aList);
         }
 

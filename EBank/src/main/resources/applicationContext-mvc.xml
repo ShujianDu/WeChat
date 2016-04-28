@@ -56,4 +56,16 @@
         </mvc:interceptor>
     </mvc:interceptors>
 
+
+    <!-- 异常处理 -->
+    <bean id="exceptionResolver"
+          class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <!--HttpClient及行内返回的01 99 抛出的RuntimeException统一处理到指定页面 -->
+        <property name="exceptionMappings">
+            <props>
+                <prop key="java.lang.RuntimeException">wechatbank_pages/error</prop>
+            </props>
+        </property>
+    </bean>
+
 </beans>
