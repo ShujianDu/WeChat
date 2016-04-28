@@ -92,7 +92,7 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
         map.put("issuingBranchId", issuingBranchId);
         map.put("pmtCreditLimit", pmtCreditLimit);
         BooleanResp resultR = httpClient.send(temporaryUpCommit, map, BooleanResp.class);
-        Boolean b = resultR == null ? false : resultR.getBizResult();
+        Boolean b = resultR == null ? false : resultR.getData();
         return b == null ? false : b;
     }
 

@@ -8,13 +8,13 @@ import com.yada.wechatbank.base.BaseModel;
  */
 public class BooleanResp extends BaseModel {
 
-    private Boolean bizResult;
+    private Boolean data;
 
-    public Boolean getBizResult() {
-        return bizResult;
+    public Boolean getData() {
+        return data;
     }
 
-    public void setBizResult(Boolean bizResult) {
-        this.bizResult = bizResult;
+    public void setData(Boolean data) {
+        this.data = data;
     }
 }

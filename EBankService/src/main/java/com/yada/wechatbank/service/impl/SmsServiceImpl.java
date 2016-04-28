@@ -136,10 +136,10 @@ public class SmsServiceImpl extends BaseService implements SmsService {
         param.put("content", content);
         BooleanResp result = httpClient.send(sendSMS, param, BooleanResp.class);
         //发送成功保存缓存
-        if (result != null && result.getBizResult()) {
+        if (result != null && result.getData()) {
             saveSMSCodeToCache(identityNo, mobileNo, bizCode, code);
         }
-        return result == null ? false : result.getBizResult();
+        return result == null ? false : result.getData();
     }
 
 

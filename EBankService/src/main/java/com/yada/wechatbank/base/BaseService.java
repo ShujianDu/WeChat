@@ -126,7 +126,7 @@ public class BaseService {
             map.put("idType", identityType);
             map.put("idNum", identityNo);
             StringResp stringResp= httpClient.send(getCustMobile, map, StringResp.class);
-            return stringResp == null ? null : stringResp.getBizResult();
+            return stringResp == null ? null : stringResp.getData();
         }
 
 }

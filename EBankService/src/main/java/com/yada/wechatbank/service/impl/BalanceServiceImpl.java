@@ -34,7 +34,7 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
         param.put("cardNo", cardNo);
 
         BalanceResp balanceResp = httpClient.send(getCardBalance, param, BalanceResp.class);
-        List<Balance> balanceList=balanceResp==null ? null : balanceResp.getBizResult();
+        List<Balance> balanceList=balanceResp==null ? null : balanceResp.getData();
 
         logger.debug("@WDED@通过卡[{}]获取到的额度集合为[{}]", cardNo, balanceList);
         //判断是否获取到额度数据

@@ -170,7 +170,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 		String tDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 		InstallmentInfo bi = new InstallmentInfo(cardNo, "账单分期", currencyCode, billActualAmount, installmentsNumber, feeInstallmentsFlag, tDate);
 		StringResp stringResp = httpClient.send(billInstallment, bi, StringResp.class);
-		String resultCode = stringResp == null ? null : stringResp.getBizResult();
+		String resultCode = stringResp == null ? null : stringResp.getData();
 
 		if (resultCode != null) {
 			bi.setGcsCode(resultCode);

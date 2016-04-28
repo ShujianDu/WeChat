@@ -54,8 +54,8 @@ public class CardApplyServiceImpl extends BaseService implements CardApplyServic
             return "exception";
         }
         // 验证手机号的正确性
-        if (resp.getBizResult() == null || resp.getBizResult().isEmpty()
-                || !resp.getBizResult().equals(mobileNo)) {
+        if (resp.getData() == null || resp.getData().isEmpty()
+                || !resp.getData().equals(mobileNo)) {
             return "wrongMobilNo";
         }
         // 发送短信验证码

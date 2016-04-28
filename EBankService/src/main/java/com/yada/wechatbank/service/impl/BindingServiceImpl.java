@@ -107,7 +107,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
         map.put("pwd", pwd);
         //使用卡号密码验密
         BooleanResp booleanResp = httpClient.send(verificationPWD, map, BooleanResp.class);
-        if (!booleanResp.getBizResult()) {
+        if (!booleanResp.getData()) {
             countSMSCacheImpl.put(openId, idCardNo);
             return pwdFiled;
         } else {

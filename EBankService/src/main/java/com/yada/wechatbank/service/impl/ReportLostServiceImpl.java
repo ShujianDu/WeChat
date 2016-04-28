@@ -56,7 +56,7 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
         param.put("familyName", familyName);
         param.put("lostReason", lostReason);
         BooleanResp resp = httpClient.send(tempCreditCardReportLost, param, BooleanResp.class);
-        return resp == null ? false : resp.getBizResult();
+        return resp == null ? false : resp.getData();
     }
 
     @Override
@@ -72,7 +72,7 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
         param.put("familyName", familyName);
         param.put("lostReason", lostReason);
         BooleanResp resp = httpClient.send(creditCardReportLost, param, BooleanResp.class);
-        return resp == null ? false : resp.getBizResult();
+        return resp == null ? false : resp.getData();
     }
 
     @Override
@@ -84,7 +84,7 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
         param.put("idNum", identityNo);
         param.put("familyName", familyName);
         BooleanResp resp = httpClient.send(relieveCreditCardTempReportLost, param, BooleanResp.class);
-        return resp == null ? false : resp.getBizResult();
+        return resp == null ? false : resp.getData();
     }
 
     /**

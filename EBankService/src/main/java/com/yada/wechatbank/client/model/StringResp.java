@@ -4,17 +4,18 @@ import com.yada.wechatbank.base.BaseModel;
 
 /**
  * 返回String通用实体
+ *
  * @author Tx
  */
 public class StringResp extends BaseModel {
 
-    private String bizResult;
+    private String data;
 
-    public String getBizResult() {
-        return bizResult;
+    public String getData() {
+        return data;
     }
 
-    public void setBizResult(String bizResult) {
-        this.bizResult = bizResult;
+    public void setData(String data) {
+        this.data = data;
     }
 }

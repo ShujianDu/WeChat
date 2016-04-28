@@ -38,8 +38,8 @@ public class WbicCardInfoServiceImpl extends BaseService implements WbicCardInfo
         //发送请求，查询海淘卡
         StringResp stringResp = httpClient.send(getWbicCards, param, StringResp.class);
         logger.debug("@HTCX@根据证件号证件类型查询海淘卡，传入的参数为idNum[{}],idType[{}],结果为[{}]",
-                idNum, idType, stringResp == null ? null : stringResp.getBizResult());
-        return stringResp == null ? null : stringResp.getBizResult();
+                idNum, idType, stringResp == null ? null : stringResp.getData());
+        return stringResp == null ? null : stringResp.getData();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class WbicCardInfoServiceImpl extends BaseService implements WbicCardInfo
         //发送请求，给海涛用户发送短信
         BooleanResp booleanResp = httpClient.send(wbicCardInfoSendSms, param, BooleanResp.class);
         logger.debug("@HTCX@海淘卡根据卡号发送短信，传入的参数为 cardNo[{}],返回的结果为[{}]", cardNo,
-                (booleanResp == null || booleanResp.getBizResult() == null) ? false : booleanResp.getBizResult());
-        return (booleanResp == null || booleanResp.getBizResult() == null) ? false : booleanResp.getBizResult();
+                (booleanResp == null || booleanResp.getData() == null) ? false : booleanResp.getData());
+        return (booleanResp == null || booleanResp.getData() == null) ? false : booleanResp.getData();
     }
 }

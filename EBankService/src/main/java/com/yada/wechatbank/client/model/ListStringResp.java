@@ -10,13 +10,13 @@ import java.util.List;
  */
 public class ListStringResp  extends BaseModel {
 
-    private List<String> bizResult;
+    private List<String> data;
 
-    public List<String> getBizResult() {
-        return bizResult;
+    public List<String> getData() {
+        return data;
     }
 
-    public void setBizResult(List<String> bizResult) {
-        this.bizResult = bizResult;
+    public void setData(List<String> data) {
+        this.data = data;
     }
 }

@@ -42,7 +42,7 @@ public class PermitHander  extends BaseService{
             map.put("pwd",password);
 			//调用后台验密
             BooleanResp booleanResp = httpClient.send(verificationPWD,map,BooleanResp.class);
-            if(!booleanResp.getBizResult()){
+            if(!booleanResp.getData()){
                 return false;
             }
 		}

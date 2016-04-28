@@ -73,7 +73,7 @@ public class BillingSendWayServiceImpl extends BaseService implements BillingSen
         map.put("cardNo", cardNo);
         map.put("billSendType", billSendType);
         BooleanResp booleanResp = httpClient.send(updateBillSendType, map, BooleanResp.class);
-        Boolean b = booleanResp == null ? null : booleanResp.getBizResult();
+        Boolean b = booleanResp == null ? null : booleanResp.getData();
         return b == null ? false : b;
     }
 

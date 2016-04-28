@@ -12,14 +12,14 @@ import java.util.List;
  *
  */
 public class BalanceResp extends BaseModel {
-	private List<Balance> bizResult;
 
-	public List<Balance> getBizResult() {
-		return bizResult;
+	private List<Balance> data;
+
+	public List<Balance> getData() {
+		return data;
 	}
 
-	public void setBizResult(List<Balance> bizResult) {
-		this.bizResult = bizResult;
+	public void setData(List<Balance> data) {
+		this.data = data;
 	}
-
 }
