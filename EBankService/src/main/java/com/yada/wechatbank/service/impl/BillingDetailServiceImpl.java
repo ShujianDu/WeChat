@@ -13,6 +13,7 @@ import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.BillingDetailResp;
 import com.yada.wechatbank.model.BillingDetail;
 import com.yada.wechatbank.service.BillingDetailService;
+import com.yada.wechatbank.util.AmtUtil;
 import com.yada.wechatbank.util.CurrencyUtil;
 
 /**
@@ -59,9 +60,11 @@ public class BillingDetailServiceImpl extends BaseService implements BillingDeta
 			return billingDetailList;
 		} else {
 			billingDetailList = billingDetailResp.getData();
-			// 设置中文显示币种
 			for (BillingDetail billingDetail : billingDetailList) {
+				// 设置中文显示币种
 				billingDetail.setCurrencyChinaCode(CurrencyUtil.translateChinese(billingDetail.getCurrencyCode()));
+				// 对金额字段进行处理
+				billingDetail.setTransactionAmount(AmtUtil.procString(billingDetail.getTransactionAmount()));
 			}
 		}
 		return billingDetailList;

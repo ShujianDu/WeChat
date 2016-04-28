@@ -18,7 +18,7 @@ public class BillingSummary {
 	private String closingBalance;
 	// 币种(金额类型)
 	private String currencyCode;
-	// 最小还款额(微信显示：应还金额---20130827修改为closingBalance)
+	// 最小还款额
 	private String minPaymentAmount;
 	// 卡号
 	private String cardNo;

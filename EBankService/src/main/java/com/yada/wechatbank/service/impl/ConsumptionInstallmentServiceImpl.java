@@ -23,6 +23,7 @@ import com.yada.wechatbank.model.ConsumptionInstallmentCost;
 import com.yada.wechatbank.model.ConsumptionInstallments;
 import com.yada.wechatbank.model.ConsumptionInstallmentsesReceive;
 import com.yada.wechatbank.service.ConsumptionInstallmentService;
+import com.yada.wechatbank.util.AmtUtil;
 import com.yada.wechatbank.util.CurrencyUtil;
 import com.yada.wx.db.service.dao.InstallmentInfoDao;
 import com.yada.wx.db.service.model.InstallmentInfo;
@@ -86,7 +87,11 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 			// 交易金额---过滤出大于600的数据 借方、贷方---过滤出DEBT表示借方（例如，消费）
 			if (Double.parseDouble(consumptionInstallments.getTransactionAmount()) >= Double.parseDouble(consumptionInstallmentMinAmount)
 					&& "DEBT".equalsIgnoreCase(consumptionInstallments.getDebitCreditCode())) {
+				// 设置币种中文显示
 				consumptionInstallments.setCurrencyChinaCode(CurrencyUtil.translateChinese(consumptionInstallments.getOriginalCurrencyCode()));
+				// 对金额字段进行处理
+				consumptionInstallments.setTransactionAmount(AmtUtil.procString(consumptionInstallments.getTransactionAmount()));
+				consumptionInstallments.setOriginalTransactionAmount(AmtUtil.procString(consumptionInstallments.getOriginalTransactionAmount()));
 				consumptionInstallmentsList.add(consumptionInstallments);
 			}
 		}
@@ -101,7 +106,8 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		param.put("accountKeyTwo", consumptionInstallmentAuthorization.getAccountKeyTwo());
 		param.put("currencyCode", consumptionInstallmentAuthorization.getCurrencyCode());
 		param.put("billDateNo", consumptionInstallmentAuthorization.getBillDateNo());
-		param.put("transactionAmount", consumptionInstallmentAuthorization.getTransactionAmount());
+		// 对金额字段进行处理
+		param.put("transactionAmount", AmtUtil.procMoneyToString(consumptionInstallmentAuthorization.getTransactionAmount()));
 		param.put("cardNo", consumptionInstallmentAuthorization.getCardNo());
 		param.put("accountNoID", consumptionInstallmentAuthorization.getAccountNoID());
 		param.put("installmentPeriods", consumptionInstallmentAuthorization.getInstallmentPeriods());
@@ -114,6 +120,8 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		ConsumptionInstallmentCost consumptionInstallmentCost = consumptionInstallmentCostResp.getData();
 		// 设置显示币种
 		consumptionInstallmentCost.setCurrencyChinaCode(CurrencyUtil.translateChinese(consumptionInstallmentCost.getCurrencyCode()));
+		// 对金额字段进行处理
+		consumptionInstallmentCost.setInstallmentAmount(consumptionInstallmentCost.getInstallmentAmount());
 		return consumptionInstallmentCostResp.getData();
 	}
 
@@ -126,7 +134,8 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		param.put("accountKeyTwo", cia.getAccountKeyTwo());
 		param.put("currencyCode", cia.getCurrencyCode());
 		param.put("billDateNo", cia.getBillDateNo());
-		param.put("transactionAmount", cia.getTransactionAmount());
+		// 对金额字段进行处理
+		param.put("transactionAmount", AmtUtil.procMoneyToString(cia.getTransactionAmount()));
 		param.put("cardNo", cia.getCardNo());
 		param.put("accountNoID", cia.getAccountNoID());
 		param.put("installmentPeriods", cia.getInstallmentPeriods());

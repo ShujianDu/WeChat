@@ -18,6 +18,7 @@ import com.yada.wechatbank.client.model.BillingSummaryResp;
 import com.yada.wechatbank.model.BillingPeriod;
 import com.yada.wechatbank.model.BillingSummary;
 import com.yada.wechatbank.service.BillingSummaryService;
+import com.yada.wechatbank.util.AmtUtil;
 import com.yada.wechatbank.util.CurrencyUtil;
 import com.yada.wechatbank.util.DateUtil;
 
@@ -87,6 +88,9 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 					billingSummary = billingSummaryResp.getData();
 					// 设置中文显示币种
 					billingSummary.setCurrencyChinaCode(CurrencyUtil.translateChinese(billingSummary.getCurrencyCode()));
+					// 对金额字段进行处理
+					billingSummary.setClosingBalance(AmtUtil.procString(billingSummary.getClosingBalance()));
+					billingSummary.setMinPaymentAmount(AmtUtil.procString(billingSummary.getMinPaymentAmount()));
 				}
 				billingSummaries.add(billingSummary);
 			}
