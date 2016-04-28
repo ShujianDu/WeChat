@@ -61,4 +61,6 @@ public interface CreditLimitTemporaryUpService {
      * @return              手机号
      */
     String getCustMobileNo(String identityType,String identityNo);
+
+
 }

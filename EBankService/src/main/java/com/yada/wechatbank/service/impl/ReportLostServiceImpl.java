@@ -98,8 +98,8 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
         param.put("cardNo", cardNo);
         // 调用HttpClient完成持卡人信息查询
         CardHolderInfoResp resp = httpClient.send(getCardHolderInfo, param, CardHolderInfoResp.class);
-        if (resp != null && resp.getBizResult() == null) {
-            name = resp.getBizResult().getFamilyName() + resp.getBizResult().getFirstName();
+        if (resp != null && resp.getData() == null) {
+            name = resp.getData().getFamilyName() + resp.getData().getFirstName();
         }
         return name;
     }

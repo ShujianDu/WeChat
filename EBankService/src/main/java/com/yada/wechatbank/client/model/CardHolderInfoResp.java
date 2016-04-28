@@ -13,14 +13,14 @@ import java.util.List;
  *
  */
 public class CardHolderInfoResp extends BaseModel {
-	private CardHolderInfo bizResult;
+	private CardHolderInfo data;
 
-	public CardHolderInfo getBizResult() {
-		return bizResult;
+	public CardHolderInfo getData() {
+		return data;
 	}
 
-	public void setBizResult(CardHolderInfo bizResult) {
-		this.bizResult = bizResult;
+	public void setData(CardHolderInfo data) {
+		this.data = data;
 	}
 
 }

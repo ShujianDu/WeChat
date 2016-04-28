@@ -64,7 +64,7 @@
                                    properties="replicateAsynchronously=true, replicatePuts=true, replicateUpdates=true,replicateUpdatesViaCopy=false, replicateRemovals=true "/>
     </cache>
 
-    <!--部署时注意修改hsotName和rmiUrls  -->
+    <!--部署时注意修改hsotName和rmiUrls-->
     <cacheManagerPeerListenerFactory
             class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"
             properties="hostName=localhost, port=40002, socketTimeoutMillis=2000"/>

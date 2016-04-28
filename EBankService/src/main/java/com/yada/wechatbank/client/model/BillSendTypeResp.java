@@ -13,14 +13,14 @@ import java.util.List;
  *
  */
 public class BillSendTypeResp extends BaseModel {
-	private BillSendType bizResult;
+	private BillSendType data;
 
-	public BillSendType getBizResult() {
-		return bizResult;
+	public BillSendType getData() {
+		return data;
 	}
 
-	public void setBizResult(BillSendType bizResult) {
-		this.bizResult = bizResult;
+	public void setData(BillSendType data) {
+		this.data = data;
 	}
 
 }

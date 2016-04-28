@@ -45,7 +45,7 @@ public class BillingSendWayServiceImpl extends BaseService implements BillingSen
         for (CardInfo cardBean : cardNos) {
             map.put("cardNo", cardBean.getCardNo());
             BillSendTypeResp br = httpClient.send(getBillSendType, map, BillSendTypeResp.class);
-            BillSendType b = br == null ? null : br.getBizResult();
+            BillSendType b = br == null ? null : br.getData();
             if (b != null) {
                 b.setCardNo(cardBean.getCardNo());
                 list.add(b);

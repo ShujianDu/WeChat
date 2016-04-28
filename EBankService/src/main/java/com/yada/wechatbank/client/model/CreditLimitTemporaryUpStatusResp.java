@@ -9,13 +9,13 @@ import java.util.List;
  */
 public class CreditLimitTemporaryUpStatusResp {
 
-    private List<CreditLimitTemporaryUpStatus> bizResult;
+    private List<CreditLimitTemporaryUpStatus> data;
 
-    public List<CreditLimitTemporaryUpStatus> getBizResult() {
-        return bizResult;
+    public List<CreditLimitTemporaryUpStatus> getData() {
+        return data;
     }
 
-    public void setBizResult(List<CreditLimitTemporaryUpStatus> bizResult) {
-        this.bizResult = bizResult;
+    public void setData(List<CreditLimitTemporaryUpStatus> data) {
+        this.data = data;
     }
 }

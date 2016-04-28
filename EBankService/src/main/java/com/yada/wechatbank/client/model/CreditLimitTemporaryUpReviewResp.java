@@ -11,14 +11,14 @@ import com.yada.wechatbank.model.CreditLimitTemporaryUpReview;
  */
 public class CreditLimitTemporaryUpReviewResp extends BaseModel {
 
-    private CreditLimitTemporaryUpReview bizResult;
+    private CreditLimitTemporaryUpReview data;
 
-    public CreditLimitTemporaryUpReview getBizResult() {
-        return bizResult;
+    public CreditLimitTemporaryUpReview getData() {
+        return data;
     }
 
-    public void setBizResult(CreditLimitTemporaryUpReview bizResult) {
-        this.bizResult = bizResult;
+    public void setData(CreditLimitTemporaryUpReview data) {
+        this.data = data;
     }
 
 }

@@ -19,7 +19,7 @@ import java.util.Map;
  * @author Tx
  */
 @Service
-public class CardHolderInfoServiceImpl extends BaseService implements CardHolderInfoService {
+public class CardHolderInfoServiceTest extends BaseService implements CardHolderInfoService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String DEFAULT = "未登记";
@@ -43,7 +43,7 @@ public class CardHolderInfoServiceImpl extends BaseService implements CardHolder
             //任意有效卡
             map.put("cardNo", cardInfos.get(0).getCardNo());
             CardHolderInfoResp cardHolderInfoResp = httpClient.send(getCardHolderInfo, map, CardHolderInfoResp.class);
-            cardHolderInfo = cardHolderInfoResp == null ? null : cardHolderInfoResp.getBizResult();
+            cardHolderInfo = cardHolderInfoResp == null ? null : cardHolderInfoResp.getData();
         } else {
             logger.warn("@WDZL@根据用户的证件类型[{}]，证件号[{}]获取用户卡列表为空", identityType, identityNo);
             return null;

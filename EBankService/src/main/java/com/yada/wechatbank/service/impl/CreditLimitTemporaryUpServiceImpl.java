@@ -66,7 +66,7 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
 
         //获取用户姓名
         CardHolderInfoResp cardHolderInfoResp = httpClient.send(getCardHolderInfo, mapCardHolderInfo, CardHolderInfoResp.class);
-        CardHolderInfo cardHolderInfo = cardHolderInfoResp == null ? null : cardHolderInfoResp.getBizResult();
+        CardHolderInfo cardHolderInfo = cardHolderInfoResp == null ? null : cardHolderInfoResp.getData();
         if (cardHolderInfo == null) {
             return null;
         }
@@ -92,8 +92,7 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
         map.put("issuingBranchId", issuingBranchId);
         map.put("pmtCreditLimit", pmtCreditLimit);
         BooleanResp resultR = httpClient.send(temporaryUpCommit, map, BooleanResp.class);
-        Boolean b = resultR == null ? false : resultR.getData();
-        return b == null ? false : b;
+        return resultR == null ? false : resultR.getData();
     }
 
     @Override
@@ -108,7 +107,7 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
         map.put("cardNo", cardNo);
         map.put("phoneNumber", mobileNo);
         CreditLimitTemporaryUpReviewResp clturr = httpClient.send(creditLimitTemporaryUpReview, map, CreditLimitTemporaryUpReviewResp.class);
-        return clturr == null ? null : clturr.getBizResult();
+        return clturr == null ? null : clturr.getData();
     }
 
     @Override
@@ -118,33 +117,39 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
         map.put("certNum", certNum);
         map.put("cardNo", cardNo);
         CreditLimitTemporaryUpStatusResp cltusr = httpClient.send(getTemporaryUpCommitStatus, map, CreditLimitTemporaryUpStatusResp.class);
-        List<CreditLimitTemporaryUpStatus> list = cltusr == null ? null : cltusr.getBizResult();
+        List<CreditLimitTemporaryUpStatus> list = cltusr == null ? null : cltusr.getData();
         Calendar eosStarLimitDateCalendar = Calendar.getInstance();
 
-        // 给申请日期增加6个月
-        eosStarLimitDateCalendar.add(Calendar.MONTH, 6);
+        List<CreditLimitTemporaryUpStatus> resultLiast=new ArrayList<>();
 
-        for (int i = 0; i < list.size(); i++) {
+        if(list==null)
+        {
+            return null;
+        }
+
+        for (CreditLimitTemporaryUpStatus aList : list) {
             try {
-                eosStarLimitDateCalendar.setTime(dateFormat.parse(list.get(i).getEosStarLimitDate()));
+                eosStarLimitDateCalendar.setTime(dateFormat.parse(aList.getEosStarLimitDate()));
+                // 给申请日期增加6个月
+                eosStarLimitDateCalendar.add(Calendar.MONTH, 6);
             } catch (ParseException e) {
                 logger.warn("@LSTE@转换日期异常certType[{}] certNum[{}] cardNo[{}]", certType, certNum, cardNo);
-                list.remove(i);
+                continue;
             }
             // 增额生效开始日期加6个月后与当前日期比较
             if (eosStarLimitDateCalendar.compareTo(Calendar.getInstance()) < 0) {
                 // 记录超过半年，过滤掉
-                list.remove(list.get(i));
                 continue;
             }
             // 工单状态
-            if (!"70".equals(list.get(i).getEosState()) && !"50".equals(list.get(i).getEosState())) {
+            if (!"70".equals(aList.getEosState()) && !"50".equals(aList.getEosState())) {
                 // 不是审批批准并已同步CSR（70）也不是审批批准（50），所以过滤掉
-                list.remove(i);
                 continue;
             }
+            resultLiast.add(aList);
         }
-        return list;
+
+        return resultLiast;
     }
 
 

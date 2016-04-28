@@ -3,7 +3,6 @@ package com.yada.wechatbank.service;
 import com.yada.wechatbank.client.HttpClient;
 import com.yada.wechatbank.model.BillSendType;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,21 +22,20 @@ public class BillingSendWayServiceTest {
     private BillingSendWayService billingSendWayService;
 
     private String idType;
-    private String idNo;
+    private String idNum;
 
     @Test
-    public void testgetBillSendTypeNull(){
-        this.idType = "03";
-        this.idNo = "MOCK01";
-        List<BillSendType> billSendType = billingSendWayService.getBillSendType(idType, idNo);
-        Assert.assertNull(billSendType);
+    public void testUpdateBillSendTypeNull(){
+        String cardNo="6225888899990001";
+        Boolean bool=billingSendWayService.updateBillSendType(cardNo,"C");
+        Assert.assertTrue(bool);
     }
 
     @Test
-    public void testgetBillSendTypeNotNull(){
+    public void testGetBillSendTypeNotNull(){
         this.idType = "01";
-        this.idNo = "MOCK01";
-        List<BillSendType> billSendType = billingSendWayService.getBillSendType(idType, idNo);
+        this.idNum = "MOCK01";
+        List<BillSendType> billSendType = billingSendWayService.getBillSendType(idType, idNum);
         Assert.assertNotNull(billSendType);
     }
 

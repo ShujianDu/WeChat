@@ -1,43 +1,32 @@
 package com.yada.wechatbank.client;
 
+import com.alibaba.fastjson.JSON;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
-import com.yada.wechatbank.model.Balance;
-import com.yada.wechatbank.model.BillSendType;
-import com.yada.wechatbank.model.BillingDetail;
-import com.yada.wechatbank.model.BillingPeriod;
-import com.yada.wechatbank.model.BillingSummary;
-import com.yada.wechatbank.model.CardApply;
-import com.yada.wechatbank.model.CardApplyList;
-import com.yada.wechatbank.model.CardInfo;
-import com.yada.wechatbank.model.ConsumptionInstallmentCost;
-import com.yada.wechatbank.model.ConsumptionInstallments;
-import com.yada.wechatbank.model.ConsumptionInstallmentsesReceive;
-import com.yada.wechatbank.model.HistoryInstallment;
-import com.yada.wechatbank.model.HistoryInstallmentList;
-import com.yada.wechatbank.model.PointsBalance;
-import com.yada.wechatbank.model.PointsDetail;
-import com.yada.wechatbank.model.PointsValidates;
-import com.yada.wechatbank.model.VerificationCardNoResult;
+import com.yada.wechatbank.model.*;
 
 /**
  * Created by Echo on 2016/4/27.
  */
 public class MyHttpClient extends HttpClient {
 
-	private static final String key = "bizResult";
-	protected final String pubilcMobileNo = "18888888888";// 手机号
-	protected final String idType = "03";// 证件类型-护照
-	protected final String idNo = "MOCK01";// 证件号
-
-	private final String getCustMobile = "/getCustMobile.do";
-	private final String getBillSendType = "/getBillSendType.do";
-	private final String getMobilePhone = "/getMobilePhone.do"; // 获取预约办卡手机号
-	private final String getCardInfos = "/getCardInfos.do"; // 获取客户卡列表
+    private static final String key = "data";
+    private final String getCustMobile = "/getCustMobile.do";
+    private final String getBillSendType = "/getBillSendType.do";
+    private final String getMobilePhone = "/getMobilePhone.do"; // 获取预约办卡手机号
+    private final String getCardInfos = "/getCardInfos.do"; // 获取客户卡列表
+    private final String getCardHolderInfo = "/getCardHolderInfo.do"; // 获取客户卡列表
+    private final String updateBillSendType = "/updateBillSendType.do"; //修改账单寄送方式
+    private final String getAmountLimit = "/getAmountLimit.do"; //账单分期上下线
+    private final String billInstallment = "/billInstallment.do"; //账单分期授权
+    private final String queryBillCost = "/queryBillCost.do"; //账单分期试算
+    private final String temporaryUpCommit = "/temporaryUpCommit.do"; //临增额度试算
+    private final String creditLimitTemporaryUpReview = "/creditLimitTemporaryUpReview.do"; //临增额度授权
+    private final String getTemporaryUpCommitStatus = "/getTemporaryUpCommitStatus.do"; //临增额度历史查询
 	private final String sendSMS = "/sendSMS.do"; // 发送短信验证码
 	private final String getCardBalance = "/getCardBalance.do";// 查询额度
 	private final String getWbicCards = "/getWbicCards.do";// 海淘卡查询
@@ -57,155 +46,152 @@ public class MyHttpClient extends HttpClient {
 	private final String costConsumptionInstallment = "/costConsumptionInstallment.do";// 消费分期试算
 	private final String authorizationConsumptionInstallment = "/authorizationConsumptionInstallment.do";// 消费分期授权
 
+    protected final String pubilcMobileNo = "18888888888";//手机号
+    protected final String idType = "03";//证件类型-护照
+    protected final String idNo = "MOCK01";//证件号
 	// 测试一卡数据
 	protected final String cardNo1 = "6225888899990001"; // 测试卡1
 	protected final String cardNo1_Currency1 = "CNY"; // 人民币
 	protected final String cardNo1_Currency2 = "USD"; // 美元
 
-	// 测试二卡数据
-	protected final String cardNo2 = "6225888899990002"; // 测试卡2
-	protected final String cardNo2_Currency1 = "CNY"; // 人民币
-	protected final String cardNo2_Currency2 = "JPY"; // 日元
 
-	// 测试三卡数据
-	protected final String cardNo3 = "6225888899990003"; // 测试卡3
-	protected final String cardNo3_Currency1 = "CNY"; // 人民币
-	protected final String cardNo3_Currency2 = "HKD"; // 法郎
+    //测试二卡数据
+    protected final String cardNo2="6225888899990002"; //测试卡2
+    protected final String cardNo2_Currency1="CNY"; //人民币
+    protected final String cardNo2_Currency2="JPY"; //日元
 
-	// 测试四卡数据
-	protected final String cardNo4 = "6225888899990004"; // 测试卡4
-	protected final String cardNo4_Currency1 = "CNY"; // 人民币
+    //测试三卡数据
+    protected final String cardNo3="6225888899990003"; //测试卡3
+    protected final String cardNo3_Currency1="CNY"; //人民币
+    protected final String cardNo3_Currency2="HKD"; //法郎
 
-	// 卡列表
-	public List<String> getCardNoList() {
-		List<String> list = new ArrayList<>();
-		list.add(cardNo1);
-		list.add(cardNo2);
-		list.add(cardNo3);
-		list.add(cardNo4);
-		return list;
-	}
+    //测试四卡数据
+    protected final String cardNo4="6225888899990004"; //测试卡4
+    protected final String cardNo4_Currency1="CNY"; //人民币
 
-	private Map<String, Object> mockResult() {
-		Map<String, Object> param = new HashMap<>();
-		param.put("returnCode", "00");
-		param.put("returnMsg", "成功");
-		return param;
-	}
+    //卡列表
+    public List<String> getCardNoList() {
+        List<String> list=new ArrayList<>();
+        list.add(cardNo1);
+        list.add(cardNo2);
+        list.add(cardNo3);
+        list.add(cardNo4);
+        return list;
+    }
 
-	public MyHttpClient(String hostAddr, int conTimeout, int readTimeout) {
-		super(hostAddr, conTimeout, readTimeout);
-	}
+    private Map<String, Object> mockResult() {
+        Map<String, Object> param = new HashMap<>();
+        param.put("returnCode", "00");
+        param.put("returnMsg", "成功");
+        return param;
+    }
 
-	@Override
-	public <T> T send(String method, Object object, Class<T> targetClass) {
-		Map<String, Object> map = mockResult();
-		Map<String, String> requestMap = (HashMap<String, String>) object;
-		switch (method) {
-		case getCustMobile: {
-			getCustMobile(map);
-			break;
-		}// 查询客户手机号
-		case getBillSendType: {
-			getBillSendType(requestMap, map);
-			break;
-		}// 账单寄送方式查询
-		case getMobilePhone: {
-			getMobilePhone(map);
-			break;
-		}// 查询客户预约办卡手机号
-		case getCardInfos: {
-			getCardInfos(requestMap, map);
-			break;
-		}// 查询客户预约办卡手机号
-		case sendSMS: {
-			sendSMS(map);
-			break;
-		} // 发送短信验证码
-		case getCardBalance: {
-			getCardBalance(requestMap, map);
-			break;
-		}// 根据卡号查询额度
-		case getWbicCards: {
-			getWbicCards(requestMap, map);
-			break;
-		}// 查询海淘卡
-		case wbicCardInfoSendSms: {
-			wbicCardInfoSendSms(requestMap, map);
-			break;
-		}
-		// 账期查询
-		case billingPeriod: {
-			getBillingPeriod(map, object);
-			break;
-		}
-		// 账单摘要
-		case billingSummary: {
-			getBillingSummary(map, object);
-			break;
-		}
-		// 已出账单明细
-		case alltBillingDetail: {
-			getBillingDetail(map, object);
-			break;
-		}
-		// 未出账单查询
-		case unsmBillingDetail: {
-			getBillingDetail(map, object);
-			break;
-		}
-		case getPointsBalance: {
-			getPointsBalance(map);
-			break;
-		}
-		case getPointsDetails: {
-			getPointsDetails(map);
-			break;
-		}
-		case getPointsValidates: {
-			getPointsValidates(map);
-			break;
-		}
-		case verificationCardNo: {
-			verificationCardNo(map);
-			break;
-		}
-		case verificationPWD: {
-			verificationPWD(map);
-			break;
-		}
-		case getHistoryInstallment: {
-			getHistoryInstallment(map);
-			break;
-		}
-		// 预约办卡进度查询
-		case cardApply: {
-			cardApply(map);
-			break;
-		}// 可消费分期信息查询
-		case queryConsumptionInstallments: {
-			getQueryConsumptionInstallments(map, object);
-			break;
-		}
-		// 消费分期试算
-		case costConsumptionInstallment: {
-			getCstConsumptionInstallment(map, object);
-			break;
-		}
-		// 消费分期授权
-		case authorizationConsumptionInstallment: {
-			getAuthorizationConsumptionInstallment(map, object);
-			break;
-		}
-		default: {
-			break;
-		}
-		}
-		String mapJson = JSON.toJSONString(map);
-		T result = JSON.parseObject(mapJson, targetClass);
-		return result;
-	}
+    public MyHttpClient(String hostAddr, int conTimeout, int readTimeout) {
+        super(hostAddr, conTimeout, readTimeout);
+    }
 
+    @Override
+    public <T> T send(String method, Object object, Class<T> targetClass) {
+        Map<String, Object> map = mockResult();
+        Map<String, String> requestMap = (HashMap<String, String>) object;
+        switch (method) {
+            case getCustMobile: {getCustMobile(map); break;}//查询客户手机号
+            case getBillSendType: {getBillSendType(requestMap, map);break;}//账单寄送方式查询
+            case getMobilePhone: {getMobilePhone(map);break; }//查询客户预约办卡手机号
+            case getCardInfos: {getCardInfos(requestMap,map); break;}//查询客户卡列表
+            case getCardHolderInfo: {getCardHolderInfo(requestMap, map); break;}//客户资料
+            case getAmountLimit: { getAmountLimit(requestMap, map);break;}//账单分期上下线
+            case updateBillSendType: { updateBillSendType(requestMap, map);break;}//修改账单寄送方式
+            case billInstallment: { billInstallment(requestMap, map);break;}//账单分期授权
+            case queryBillCost: { queryBillCost(requestMap, map); break;}//账单分期试算
+            case temporaryUpCommit: { temporaryUpCommit(requestMap, map); break;}//临增额度试算
+            case creditLimitTemporaryUpReview: { creditLimitTemporaryUpReview(requestMap, map); break;}//临增额度授权
+            case getTemporaryUpCommitStatus: { getTemporaryUpCommitStatus(requestMap, map); break;}//临增额度历史查询
+        case sendSMS: {
+            sendSMS(map);
+            break;
+        } // 发送短信验证码
+        case getCardBalance: {
+            getCardBalance(requestMap, map);
+            break;
+        }// 根据卡号查询额度
+        case getWbicCards: {
+            getWbicCards(requestMap, map);
+            break;
+        }// 查询海淘卡
+        case wbicCardInfoSendSms: {
+            wbicCardInfoSendSms(requestMap, map);
+            break;
+        }
+        // 账期查询
+        case billingPeriod: {
+            getBillingPeriod(map, object);
+            break;
+        }
+        // 账单摘要
+        case billingSummary: {
+            getBillingSummary(map, object);
+            break;
+        }
+        // 已出账单明细
+        case alltBillingDetail: {
+            getBillingDetail(map, object);
+            break;
+        }
+        // 未出账单查询
+        case unsmBillingDetail: {
+            getBillingDetail(map, object);
+            break;
+        }
+        case getPointsBalance: {
+            getPointsBalance(map);
+            break;
+        }
+        case getPointsDetails: {
+            getPointsDetails(map);
+            break;
+        }
+        case getPointsValidates: {
+            getPointsValidates(map);
+            break;
+        }
+        case verificationCardNo: {
+            verificationCardNo(map);
+            break;
+        }
+        case verificationPWD: {
+            verificationPWD(map);
+            break;
+        }
+        case getHistoryInstallment: {
+            getHistoryInstallment(map);
+            break;
+        }
+        // 预约办卡进度查询
+        case cardApply: {
+            cardApply(map);
+            break;
+        }// 可消费分期信息查询
+        case queryConsumptionInstallments: {
+            getQueryConsumptionInstallments(map, object);
+            break;
+        }
+        // 消费分期试算
+        case costConsumptionInstallment: {
+            getCstConsumptionInstallment(map, object);
+            break;
+        }
+        // 消费分期授权
+        case authorizationConsumptionInstallment: {
+            getAuthorizationConsumptionInstallment(map, object);
+            break;
+        }
+            default: { break; }
+        }
+        String mapJson = JSON.toJSONString(map);
+        T result = JSON.parseObject(mapJson, targetClass);
+        return result;
+    }
 	// 获取预约办卡手机号
 	private void getMobilePhone(Map<String, Object> map) {
 		map.put(key, "18888888888");
@@ -262,16 +248,14 @@ public class MyHttpClient extends HttpClient {
 			}
 			responseMap.put(key, cardInfoList);
 		}
-
 	}
 
-	// 更新客户账单寄送方式
-	private void updateBillSendType(Map<String, String> reqeustMap, Map<String, Object> responseMap) {
-		if (getCardNoList().contains(reqeustMap.get("cardNo"))) {
-			responseMap.put(key, null);
-		}
-		responseMap.put(key, true);
-	}
+    // 更新客户账单寄送方式
+    private void updateBillSendType(Map<String,String> reqeustMap,Map<String, Object> responseMap) {
+        if(getCardNoList().contains(reqeustMap.get("cardNo"))){responseMap.put(key,null); }
+        responseMap.put(key, true);
+    }
+
 
 	// 根据卡号查询额度
 	private void getCardBalance(Map<String, String> reqeustMap, Map<String, Object> responseMap) {
@@ -329,55 +313,6 @@ public class MyHttpClient extends HttpClient {
 			responseMap.put(key, true);
 		} else {
 			responseMap.put(key, null);
-		}
-	}
-
-	// 查询账期
-	private void getBillingPeriod(Map<String, Object> map, Object object) {
-		Map<String, String> param = (Map<String, String>) object;
-		String cardNo = param.get("cardNo");
-		// 根据卡号返回的账期不同
-		if (cardNo1.equals(cardNo)) {
-			// 正常返回账期
-			List<BillingPeriod> list = new ArrayList<>();
-			BillingPeriod b = new BillingPeriod();
-			b.setAccountId("BP01");
-			b.setCurrencyCode("CNY");
-			b.setPeriodStartDate("2016-03-24");
-			b.setPeriodEndDate("2016-04-24");
-			b.setStatementNo("1");
-			BillingPeriod b1 = new BillingPeriod();
-			b1.setAccountId("BP02");
-			b1.setCurrencyCode("USB");
-			b1.setPeriodStartDate("2016-03-24");
-			b1.setPeriodEndDate("2016-04-24");
-			b1.setStatementNo("2");
-			list.add(b);
-			list.add(b1);
-			map.put(key, list);
-		} else if (cardNo2.equals(cardNo)) {
-			// 无账期
-			List<BillingPeriod> list = new ArrayList<>();
-			map.put(key, list);
-		} else {
-			// 无返回，bizResult为null
-		}
-	}
-
-	// 根据账期查询账单摘要
-	public void getBillingSummary(Map<String, Object> map, Object object) {
-		Map<String, String> param = (Map<String, String>) object;
-		String statementNo = param.get("statementNo");
-		BillingSummary b = new BillingSummary();
-		if ("1".equals(statementNo)) {
-			b.setClosingBalance("3000");
-			b.setCurrencyCode("CNY");
-			b.setMinPaymentAmount("800");
-			b.setPaymentDueDate("2016-05-09");
-			b.setPeriodEndDate("2016-04-24");
-			b.setPeriodStartDate("2016-03-24");
-			map.put(key, b);
-		} else if ("2".equals(statementNo)) {
 		}
 	}
 
@@ -552,4 +487,148 @@ public class MyHttpClient extends HttpClient {
 			// 其他币种无返回null
 		}
 	}
+
+    //客户资料
+    private void getCardHolderInfo(Map<String, String> reqeustMap, Map<String, Object> responseMap) {
+        if (!getCardNoList().contains(reqeustMap.get("cardNo"))) {
+            responseMap.put(key, null);
+        }
+        CardHolderInfo c = new CardHolderInfo();
+        c.setMobileNo(pubilcMobileNo);
+        c.setMailBox("123123123123@qq.com");
+        c.setFamilyName("李天一");
+        c.setGender("Male");
+        c.setPostalCode("100010");
+        c.setHomeAddressPhone("67986543");
+        c.setWorkUnitName("北京亚大通讯");
+        c.setWorkUnitPhone("82971902");
+        c.setBillAddressLine("上地西路8号院B座");
+        responseMap.put(key, c);
+    }
+
+	// 查询账期
+	private void getBillingPeriod(Map<String, Object> map, Object object) {
+		Map<String, String> param = (Map<String, String>) object;
+		String cardNo = param.get("cardNo");
+		// 根据卡号返回的账期不同
+		if (cardNo1.equals(cardNo)) {
+			// 正常返回账期
+			List<BillingPeriod> list = new ArrayList<>();
+			BillingPeriod b = new BillingPeriod();
+			b.setAccountId("BP01");
+			b.setCurrencyCode(cardNo1_Currency1);
+			b.setPeriodStartDate("2016-03-24");
+			b.setPeriodEndDate("2016-04-24");
+			b.setStatementNo("1");
+			BillingPeriod b1 = new BillingPeriod();
+			b1.setAccountId("BP02");
+			b1.setCurrencyCode(cardNo1_Currency2);
+			b1.setPeriodStartDate("2016-03-24");
+			b1.setPeriodEndDate("2016-04-24");
+			b1.setStatementNo("2");
+			list.add(b);
+			list.add(b1);
+			map.put(key, list);
+		} else if (cardNo2.equals(cardNo)) {
+			// 无账期
+			List<BillingPeriod> list = new ArrayList<>();
+			map.put(key, list);
+		} else {
+			// 无返回，bizResult为null
+		}
+	}
+
+	// 根据账期查询账单摘要
+	public void getBillingSummary(Map<String, Object> map, Object object) {
+		Map<String, String> param = (Map<String, String>) object;
+		String statementNo = param.get("statementNo");
+		BillingSummary b = new BillingSummary();
+		if ("1".equals(statementNo)) {
+			b.setClosingBalance("3000");
+			b.setCurrencyCode(cardNo1_Currency1);
+			b.setMinPaymentAmount("800");
+			b.setPaymentDueDate("2016-05-09");
+			b.setPeriodEndDate("2016-04-24");
+			b.setPeriodStartDate("2016-03-24");
+			map.put(key, b);
+		} else if ("2".equals(statementNo)) {
+		}
+	}
+
+    //账单分期上下线
+    private void getAmountLimit(Map<String, String> reqeustMap, Map<String, Object> responseMap) {
+        if (!getCardNoList().contains(reqeustMap.get("cardNo"))||!"CNY".equals(reqeustMap.get("currencyCode"))) {
+            responseMap.put(key, null);
+        }
+        AmountLimit amountLimit = new AmountLimit();
+        amountLimit.setAccountId("MOCK01AD");
+        amountLimit.setAccountNo("MOCK01AN");
+        amountLimit.setCurrencyCode("CNY");
+        amountLimit.setMaxAmount("10000");
+        amountLimit.setMinAmount("1000");
+        amountLimit.setRespCode("");
+        responseMap.put(key,amountLimit);
+    }
+
+    //账单分期试算
+    private void queryBillCost(Map<String, String> reqeustMap, Map<String, Object> responseMap) {
+        BillCost b=new BillCost();
+        b.setBillFeeMeans("1");
+        b.setCurrentBillMinimum("200.00");
+        b.setCurrentBillSurplusAmount("123.00");
+        b.setInstallmentsAlsoAmountEach("100.00");
+        b.setInstallmentsAlsoAmountFirst("3.00");
+        b.setInstallmentsfee("1.00");
+        b.setInstallmentsNumber("3");
+        responseMap.put(key,b);
+    }
+
+    //账单分期授权
+    private void billInstallment(Map<String, String> reqeustMap, Map<String, Object> responseMap) {
+        responseMap.put(key,"+GC00000");
+    }
+    //账单分期授权
+    private void temporaryUpCommit(Map<String, String> reqeustMap, Map<String, Object> responseMap) {
+        responseMap.put(key,true);
+    }
+    //账单分期授权
+    private void creditLimitTemporaryUpReview(Map<String, String> reqeustMap, Map<String, Object> responseMap) {
+        CreditLimitTemporaryUpReview cltur=new CreditLimitTemporaryUpReview();
+        cltur.setAmount("30000");
+        cltur.setCardStyle("1");
+        cltur.setCreditLimit("10000");
+        cltur.setIssuingBranchId("0000000111");
+        cltur.setPmtCreditLimit("10000");
+        cltur.setPrincipalResultID("A");
+        responseMap.put(key,cltur);
+    }
+    //账单分期授权
+    private void getTemporaryUpCommitStatus(Map<String, String> reqeustMap, Map<String, Object> responseMap) {
+        List<CreditLimitTemporaryUpStatus> list = new ArrayList<>();
+        CreditLimitTemporaryUpStatus cltur1 = new CreditLimitTemporaryUpStatus();
+        cltur1.setEosEndLimitDate("2016-11-30");
+        cltur1.setEosId("060220160425123456");
+        cltur1.setEosImpTime("2016-04-24");
+        cltur1.setEosLimit("30000");
+        cltur1.setEosStarLimitDate("2016-04-25");
+        cltur1.setEosState("60");
+        list.add(cltur1);
+        CreditLimitTemporaryUpStatus cltur2 = new CreditLimitTemporaryUpStatus();
+        cltur2.setEosEndLimitDate("2016-11-30");
+        cltur2.setEosId("060220160425123456");
+        cltur2.setEosImpTime("2016-04-24");
+        cltur2.setEosLimit("22000");
+        cltur2.setEosStarLimitDate("2016-04-25");
+        cltur2.setEosState("50");
+        list.add(cltur2);
+        CreditLimitTemporaryUpStatus cltur3 = new CreditLimitTemporaryUpStatus();
+        cltur3.setEosEndLimitDate("2015-09-30");
+        cltur3.setEosId("060220150325123422");
+        cltur3.setEosImpTime("2015-04-24");
+        cltur3.setEosLimit("12000");
+        cltur3.setEosStarLimitDate("2015-03-25");
+        cltur3.setEosState("50");
+        list.add(cltur3);
+        responseMap.put(key,list);
+    }
 }
