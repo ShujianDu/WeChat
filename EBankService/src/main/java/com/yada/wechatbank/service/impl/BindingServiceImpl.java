@@ -150,7 +150,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      */
     @Override
     public List<CardInfo> selectCardNOs(String identityNo, String identityType) {
-        return selectCardNos(identityNo, identityType);
+        return selectCardNos(identityType,identityNo);
     }
 
     /**
@@ -274,6 +274,11 @@ public class BindingServiceImpl extends BaseService implements BindingService {
     public boolean fillIdentityType(String identityType, String identityNo) {
         int result = customerInfoDao.updateIdentityTypeByIdentityNo(identityType, identityNo);
         return result != 0;
+    }
+
+    @Override
+    public CustomerInfo findCustomerInfoByOpenId(String openId) {
+        return customerInfoDao.findByOpenId(openId);
     }
 
 }

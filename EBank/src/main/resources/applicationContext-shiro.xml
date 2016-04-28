@@ -27,7 +27,6 @@
 				#anon是匿名过滤器，用户不必登录即可访问的地址，必须放在其他过滤器前面
 				#myAuthc是自定义认证过滤器，对用户的登陆信息进行认证
 				/login/list.do = myAuthc
-				/binding/list.do = myAuthc
 				/balance/list.do = myAuthc
 				/billingdetail/list.do = myAuthc
 				/billingsendway/list.do = myAuthc

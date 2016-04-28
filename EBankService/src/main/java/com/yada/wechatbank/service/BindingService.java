@@ -1,6 +1,7 @@
 package com.yada.wechatbank.service;
 
 import com.yada.wechatbank.model.CardInfo;
+import com.yada.wx.db.service.model.CustomerInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -104,5 +105,12 @@ public interface BindingService {
      */
     boolean fillIdentityType( String identityType, String identityNo);
 
+
+    /**
+     * 根据opId获取客户信息
+     * @param openId
+     * @return
+     */
+    CustomerInfo findCustomerInfoByOpenId(String openId);
 
 }
