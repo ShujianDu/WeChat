@@ -48,7 +48,7 @@ public class PointsServiceTest {
 
     @Test
     public void testGetCardN0(){
-        String result = pointsService.getCardN0(idNo,idType);
+        String result = pointsService.getCardNo(idNo,idType);
         Assert.assertNotNull(result);
     }
 
