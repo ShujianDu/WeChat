@@ -44,11 +44,12 @@ public class ReportLostController extends BaseController {
      */
     @RequestMapping(value = "list")
     public String list(Model model, HttpServletRequest request) {
-        String identityType = getIdentityType(request);
+        String identityType = getGcsIdentityType(request);
         String identityNo = getIdentityNo(request);
+
+        logger.info("@ReportLost@挂失查询卡列表，参数：[identityType={},identityNo={}]", identityType, identityNo);
         List<String> cardNoList = reportLostService.selectCardNoList(identityType, identityNo);
-        logger.info("@**GS@调用核心根据identityType[" + identityType + "],identityNo["
-                + identityNo + "]获取卡片列表,获取到的卡列表cardNoList[" + cardNoList + "]");
+        logger.info("@ReportLost@挂失查询卡列表，参数：[identityType={},identityNo={}]，结果：[{}]", identityType, identityNo, cardNoList);
         if (cardNoList == null) {
             return BUSYURL;
         } else if (cardNoList.size() == 0) {
@@ -57,7 +58,7 @@ public class ReportLostController extends BaseController {
         try {
             Crypt.cardNoCrypt(cardNoList);
         } catch (Exception e) {
-            logger.info("@**GS@加密卡列表出现异常");
+            logger.error("@ReportLost@加密卡列表出现异常");
             return BUSYURL;
         }
         model.addAttribute("cardList", cardNoList);
@@ -77,24 +78,24 @@ public class ReportLostController extends BaseController {
     public String reprotLost(String cardNo, String reportType, Model model, HttpServletRequest request) {
         String msg;
         boolean result;
-        String identityType = getIdentityType(request);
+        String identityType = getGcsIdentityType(request);
         String identityNo = getIdentityNo(request);
         try {
             cardNo = Crypt.decode(cardNo);
         } catch (Exception e) {
-            logger.info("@LSGS@解密卡号出现异常");
+            logger.error("@ReportLost@解密卡号出现异常,[cardNo={}]", cardNo, e);
             return BUSYURL;
         }
         if ("1".equals(reportType)) { // 临时挂失
+            logger.info("@ReportLost@执行临时挂失，参数：[cardNo={},entyMethod={},identityType={},identityNo={},lossReason={}]", cardNo, entyMethod, identityType, identityNo, lossReason);
             result = reportLostService.tempCreditCardReportLost(cardNo, entyMethod, identityType, identityNo, lossReason);
+            logger.info("@ReportLost@执行临时挂失，参数：[cardNo={},entyMethod={},identityType={},identityNo={},lossReason={}]，结果：[{}]", cardNo, entyMethod, identityType, identityNo, lossReason, result);
             msg = result ? "临时挂失成功" : "临时挂失失败";
-            logger.info("@LSGS@调用核心根据cardNo[" + cardNo + "],identityType[" + identityType + "],identityNo["
-                    + identityNo + "]进行临时挂失，临时挂失结果result[" + result + "]");
         } else if ("2".equals(reportType)) { // 永久挂失
+            logger.info("@ReportLost@执行临时挂失，参数：[cardNo={},identityType={},identityNo={},lossReason={}]", cardNo, identityType, identityNo, lossReason);
             result = reportLostService.creditCardReportLost(cardNo, identityType, identityNo, lossReason);
+            logger.info("@ReportLost@执行临时挂失，参数：[cardNo={},identityType={},identityNo={},lossReason={}]，结果：[{}]", cardNo, identityType, identityNo, lossReason, result);
             msg = result ? "永久挂失成功" : "永久挂失失败";
-            logger.info("@LSGS@调用核心根据cardNo[" + cardNo + "],identityType[" + identityType + "],identityNo["
-                    + identityNo + "]进行永久挂失，永久挂失结果result[" + result + "]");
         } else {
             return ERROR;
         }
@@ -112,11 +113,11 @@ public class ReportLostController extends BaseController {
      */
     @RequestMapping(value = "cancel")
     public String cancel(Model model, HttpServletRequest request) {
-        String identityType = getIdentityType(request);
+        String identityType = getGcsIdentityType(request);
         String identityNo = getIdentityNo(request);
+        logger.info("@ReportLost@取消临时挂失查询卡列表，参数：[identityType={},identityNo={}]", identityType, identityNo);
         List<String> cardNoList = reportLostService.selectCardNoList(identityType, identityNo);
-        logger.info("@JCLSGS@调用核心根据identityType[" + identityType + "],identityNo["
-                + identityNo + "]获取卡片列表,获取到的卡列表cardNoList[" + cardNoList + "]");
+        logger.info("@ReportLost@取消临时挂失查询卡列表，参数：[identityType={},identityNo={}]，结果：[{}]", identityType, identityNo, cardNoList);
         if (cardNoList == null) {
             return BUSYURL;
         } else if (cardNoList.size() == 0) {
@@ -125,7 +126,7 @@ public class ReportLostController extends BaseController {
         try {
             Crypt.cardNoCrypt(cardNoList);
         } catch (Exception e) {
-            logger.info("@JCLSGS@加密卡列表出现异常" + e);
+            logger.error("@ReportLost@加密卡列表出现异常" + e);
             return BUSYURL;
         }
         model.addAttribute("cardList", cardNoList);
@@ -144,17 +145,17 @@ public class ReportLostController extends BaseController {
     public String doCancel(String cardNo, Model model, HttpServletRequest request) {
         String msg;
         boolean result;
-        String identityType = getIdentityType(request);
+        String identityType = getGcsIdentityType(request);
         String identityNo = getIdentityNo(request);
         try {
             cardNo = Crypt.decode(cardNo);
         } catch (Exception e) {
-            logger.info("@JCLSGS@解密卡号出现异常" + e);
+            logger.error("@ReportLost@解密卡号出现异常,[cardNo={}]", cardNo, e);
             return BUSYURL;
         }
+        logger.info("@ReportLost@取消临时挂失，参数：[cardNo={},identityType={},identityNo={}]", cardNo, identityType, identityNo);
         result = reportLostService.relieveCreditCardTempReportLost(cardNo, identityType, identityNo);
-        logger.info("@JCLSGS@调用核心根据cardNo[" + cardNo + "],identityType[" + identityType + "],identityNo["
-                + identityNo + "]进行解除临时挂失，解除临时挂失结果result[" + result + "]");
+        logger.info("@ReportLost@取消临时挂失，参数：[cardNo={},identityType={},identityNo={}]，结果：[{}]", cardNo, identityType, identityNo, result);
         msg = result ? "解除临时挂失成功" : "解除临时挂失失败";
         model.addAttribute("msg", msg);
         model.addAttribute("result", result);
@@ -171,11 +172,11 @@ public class ReportLostController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "getMsgCode_ajax")
     public String getMsgCode_ajax(HttpServletRequest request, String mobileNo) {
-        String identityType = getIdentityType(request);
+        String identityType = getGcsIdentityType(request);
         String identityNo = getIdentityNo(request);
+        logger.info("@ReportLost@挂失发送短信验证码，参数：[identityType={},identityNo={},mobileNo={}]", identityType, identityNo, mobileNo);
         String sendResult = reportLostService.sendSMS(identityType, identityNo, mobileNo);
-        logger.info("@YJGS@调用核心根据identityNo[" + identityNo + "],mobileNo["
-                + mobileNo + "]发送短信验证码，发送结果sendResult[" + sendResult + "]");
+        logger.info("@ReportLost@挂失发送短信验证码，参数：[identityType={},identityNo={},mobileNo={}]，结果：[{}]", identityType, identityNo, mobileNo, sendResult);
         return sendResult;
     }
 
@@ -191,9 +192,9 @@ public class ReportLostController extends BaseController {
     @RequestMapping(value = "checkMsgCode_ajax")
     public String checkMsgCode_ajax(HttpServletRequest request, String mobileNo, String code) {
         String identityNo = getIdentityNo(request);
+        logger.info("@ReportLost@挂失验证短信验证码，参数：[identityNo={},mobileNo={},code={}]", identityNo, mobileNo, code);
         String result = Boolean.toString(reportLostService.checkSMSCode(identityNo, mobileNo, code)).toLowerCase();
-        logger.info("@YJGS@调用核心根据identityNo[" + identityNo + "],mobileNo["
-                + mobileNo + "],code[" + code + "]验证短信验证码，验证结果result[" + result + "]");
+        logger.info("@ReportLost@挂失验证短信验证码，参数：[identityNo={},mobileNo={},code={}]，结果：[{}]", identityNo, mobileNo, code, result);
         return result;
     }
 

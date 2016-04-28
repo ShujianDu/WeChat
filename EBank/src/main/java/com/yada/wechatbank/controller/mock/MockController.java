@@ -289,16 +289,16 @@ public class MockController {
 		Balance balance = new Balance();
 		balance.setCardNo("11111111111111111");
 		balance.setCurrencyCode("CNY");
-		balance.setPreCashAdvanceCreditLimit("31");
-		balance.setWholeCreditLimit("101");
-		balance.setPeriodAvailableCreditLimit("100");
+		balance.setPreCashAdvanceCreditLimit("+000000000000003100");
+		balance.setWholeCreditLimit("+000000000000010100");
+		balance.setPeriodAvailableCreditLimit("+000000000000010000");
 
 		Balance balance2 = new Balance();
 		balance2.setCardNo("11111111111111111");
 		balance2.setCurrencyCode("USD");
-		balance2.setPreCashAdvanceCreditLimit("33");
-		balance2.setWholeCreditLimit("130");
-		balance2.setPeriodAvailableCreditLimit("102");
+		balance2.setPreCashAdvanceCreditLimit("+000000000000003300");
+		balance2.setWholeCreditLimit("+000000000000013000");
+		balance2.setPeriodAvailableCreditLimit("+000000000000010200");
 		list.add(balance);
 		list.add(balance2);
 		map.put(key, list);
@@ -348,16 +348,16 @@ public class MockController {
 		Map<String, Object> map = mockResult();
 		BillingSummary b = new BillingSummary();
 		if (i % 2 != 0) {
-			b.setClosingBalance("3000");
+			b.setClosingBalance("-00000000001234010");
 			b.setCurrencyCode("CNY");
-			b.setMinPaymentAmount("800");
+			b.setMinPaymentAmount("-00000000000800010");
 			b.setPaymentDueDate("2016-05-09");
 			b.setPeriodEndDate("2016-04-24");
 			b.setPeriodStartDate("2016-03-24");
 		} else {
-			b.setClosingBalance("900");
+			b.setClosingBalance("-00000000001234010");
 			b.setCurrencyCode("USD");
-			b.setMinPaymentAmount("100");
+			b.setMinPaymentAmount("-00000000000800010");
 			b.setPaymentDueDate("2016-05-09");
 			b.setPeriodEndDate("2016-04-24");
 			b.setPeriodStartDate("2016-03-24");
@@ -387,7 +387,7 @@ public class MockController {
 			b1.setDebitCreditCode("DEBT");
 			b1.setReturnMsg("成功");
 			b1.setStartnum("1");
-			b1.setTransactionAmount("1234");
+			b1.setTransactionAmount("-00000000001234010");
 			b1.setTransactionDate("2016-04-16");
 			b1.setTransactionDescription("京东商城");
 			billingDetailList.add(b1);
@@ -398,7 +398,7 @@ public class MockController {
 			b.setDebitCreditCode("DEBT");
 			b.setReturnMsg("成功");
 			b.setStartnum("1");
-			b.setTransactionAmount("1234");
+			b.setTransactionAmount("-00000000001234010");
 			b.setTransactionDate("2016-04-16");
 			b.setTransactionDescription("京东商城");
 			billingDetailList.add(b);
@@ -437,7 +437,7 @@ public class MockController {
 			b1.setDebitCreditCode("DEBT");
 			b1.setReturnMsg("成功");
 			b1.setStartnum("1");
-			b1.setTransactionAmount("1234");
+			b1.setTransactionAmount("-00000000001234010");
 			b1.setTransactionDate("2016-04-16");
 			b1.setTransactionDescription("京东商城");
 			billingDetailList.add(b1);
@@ -448,7 +448,7 @@ public class MockController {
 			b.setDebitCreditCode("DEBT");
 			b.setReturnMsg("成功");
 			b.setStartnum("1");
-			b.setTransactionAmount("1234");
+			b.setTransactionAmount("-00000000001234010");
 			b.setTransactionDate("2016-04-16");
 			b.setTransactionDescription("京东商城");
 			billingDetailList.add(b);
@@ -577,22 +577,13 @@ public class MockController {
 			c.setCardNo("1111111111111111");
 			c.setDebitCreditCode("DEBT");
 			c.setOriginalCurrencyCode("CNY");
-			c.setOriginalTransactionAmount("1111");
-			c.setTransactionAmount("1111");
+			c.setOriginalTransactionAmount("+00000000001234010");
+			c.setTransactionAmount("+00000000001234010");
 			c.setTransactionDate("2016-04-25");
 			c.setTransactionDescription("京东");
 			c.setCycleNumber("4");
 			c.setTransactionCurrencyCode("CNY");
 			c.setTransactionNo("5");
-			consumptionInstallmentsList.add(c);
-			consumptionInstallmentsList.add(c);
-			consumptionInstallmentsList.add(c);
-			consumptionInstallmentsList.add(c);
-			consumptionInstallmentsList.add(c);
-			consumptionInstallmentsList.add(c);
-			consumptionInstallmentsList.add(c);
-			consumptionInstallmentsList.add(c);
-			consumptionInstallmentsList.add(c);
 			consumptionInstallmentsList.add(c);
 			consumptionInstallmentsesReceive.setConsumptionInstallmentsList(consumptionInstallmentsList);
 			consumptionInstallmentsesReceive.setHasNext(true);
@@ -606,8 +597,8 @@ public class MockController {
 			c1.setCurrencyChinaCode("CNY");
 			c1.setDebitCreditCode("DEBT");
 			c1.setOriginalCurrencyCode("USD");
-			c1.setOriginalTransactionAmount("1111");
-			c1.setTransactionAmount("1111");
+			c1.setOriginalTransactionAmount("+00000000001234010");
+			c1.setTransactionAmount("+00000000001234010");
 			c1.setTransactionDate("2016-04-25");
 			c1.setTransactionDescription("京东");
 			c1.setCycleNumber("4");

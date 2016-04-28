@@ -10,13 +10,13 @@ import com.yada.wechatbank.model.BillCost;
  * @author Tx
  */
 public class BillCostResp extends BaseModel {
-    private BillCost bizResult;
+    private BillCost data;
 
-    public BillCost getBizResult() {
-        return bizResult;
+    public BillCost getData() {
+        return data;
     }
 
-    public void setBizResult(BillCost bizResult) {
-        this.bizResult = bizResult;
+    public void setData(BillCost data) {
+        this.data = data;
     }
 }

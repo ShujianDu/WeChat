@@ -55,14 +55,16 @@ public class BillingSendWayServiceImpl extends BaseService implements BillingSen
                 list.add(billSendType);
             }
         }
-
-        logger.debug("@ZDJSFSCX@通过卡列表cardNos[{}]获取账单寄送方式集合为[{}]", cardNos, list);
-
-        //如果有数据，则将卡号展示的部分隐藏
-        if (list.size() != 0) {
-            for (BillSendType billSendType : list) {
-                processShowCardNo(billSendType);
+        try {
+            //如果有数据，则将卡号展示的部分隐藏
+            if (list.size() != 0) {
+                for (BillSendType billSendType : list) {
+                    processShowCardNo(billSendType);
+                }
             }
+        } catch (Exception e) {
+            logger.error("@ZDJSFSCX@卡号加密过程中出现错误", e);
+            return null;
         }
         return list;
     }
@@ -83,20 +85,15 @@ public class BillingSendWayServiceImpl extends BaseService implements BillingSen
      * @param billSendType 账单寄送方式
      */
     @Override
-    public void processShowCardNo(BillSendType billSendType) {
-        try {
-            String cardNo = billSendType.getCardNo();
-            if (cardNo != null && !"".equals(cardNo)) {
-                billSendType.setCardNo(
-                        cardNo.substring(0, 4)
-                                + "********"
-                                + cardNo.substring(cardNo.length() - 4,
-                                cardNo.length()) + ","
-                                + Crypt.encode(cardNo));
-            }
-        } catch (Exception e) {
-            logger.error("@ZDJSFSCX@卡号加密过程中出现错误cardNo["
-                    + billSendType.getCardNo() + "]:", e);
+    public void processShowCardNo(BillSendType billSendType) throws Exception {
+        String cardNo = billSendType.getCardNo();
+        if (cardNo != null && !"".equals(cardNo)) {
+            billSendType.setCardNo(
+                    cardNo.substring(0, 4)
+                            + "********"
+                            + cardNo.substring(cardNo.length() - 4,
+                            cardNo.length()) + ","
+                            + Crypt.encode(cardNo));
         }
     }
 }

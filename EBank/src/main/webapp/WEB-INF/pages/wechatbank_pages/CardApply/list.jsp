@@ -239,6 +239,7 @@
         $.ajax({
             url: "getMsgCode_ajax.do",
             data: {
+                identityType: identityNo,
                 identityNo: identityNo,
                 mobileNo: mobileNo,
                 verificationCode: encodeURI(verificationCode),

@@ -15,7 +15,7 @@ public interface BillingSendWayService{
 	 * @param identityNo   证件号
 	 * @return 账单寄送方式集合
 	 */
-	List<BillSendType> getBillSendType(String identityType,String identityNo);
+	List<BillSendType> getBillSendType(String identityType,String identityNo) ;
 
 	/**
 	 * 账单寄送方式修改
@@ -28,5 +28,5 @@ public interface BillingSendWayService{
 	 * 卡号加密+卡号遮掩
      * @param billSendType  账单寄送方式实体
 	 */
-	void processShowCardNo(BillSendType billSendType);
+	void processShowCardNo(BillSendType billSendType) throws Exception;
 }

@@ -28,4 +28,13 @@ public class CardApplyList {
     public void setCardApplies(List<CardApply> cardApplies) {
         this.cardApplies = cardApplies;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("CardApplyList{");
+        sb.append("hasNext=").append(hasNext);
+        sb.append(", cardApplies=").append(cardApplies);
+        sb.append('}');
+        return sb.toString();
+    }
 }

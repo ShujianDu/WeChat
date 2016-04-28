@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+
 import com.yada.wechatbank.model.AmountLimit;
 import com.yada.wechatbank.model.BillCost;
 import com.yada.wechatbank.model.BillingSummary;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 账单分期
+ *
  * @author Tx
  */
 @Controller
@@ -52,17 +54,17 @@ public class BillInstallmentController extends BaseController {
      * 跳转至
      */
     @RequestMapping(value = "search")
-    public String search(HttpServletRequest request,Model model) {
+    public String search(HttpServletRequest request, Model model) {
         String identityNo = getIdentityNo(request);
         String identityType = getIdentityType(request);
         List<CardInfo> cardList = billInstallmentServiceImpl.getProessCardNoList(identityType, identityNo);
-        logger.debug("@ZDFQ@根据证件类型[{}]证件号[{}]获取卡片列表,获取到的卡列表cardList[{}]", identityType, identityNo, cardList);
-        // RMI返回值为空或没有数据
+        logger.debug("@BillInstallment@根据证件类型[{}]证件号[{}]获取卡片列表", identityType, identityNo);
+        // 返回值为空或没有数据
         if (cardList == null) {
-            logger.warn("@ZDFQ@根据证件类型[{}]证件号[{}]获取到的卡列表为null", identityType, identityNo);
+            logger.warn("@BillInstallment@根据证件类型[{}]证件号[{}]获取到的卡列表为null", identityType, identityNo);
             return BUSYURL;
         } else if (cardList.size() == 0) {
-            logger.warn("@ZDFQ@根据证件类型[{}]证件号[{}]获取到的卡列表长度为0", identityType, identityNo);
+            logger.warn("@BillInstallment@根据证件类型[{}]证件号[{}]获取到的卡列表长度为0", identityType, identityNo);
             return NOCARDURL;
         } else {
             model.addAttribute("cardList", cardList);
@@ -78,7 +80,7 @@ public class BillInstallmentController extends BaseController {
         try {
             cardNo = Crypt.decode(request.getParameter("cardNo"));
         } catch (Exception e) {
-            logger.warn("@ZDFQ@通过前台获取到的加密卡号解密时出现错误[" + cardNo + "]:" + e);
+            logger.warn("@BillInstallment@通过前台获取到的加密卡号解密时出现错误[" + cardNo + "]:" + e);
         }
         String currencyCode = request.getParameter("currencyCode");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
@@ -86,7 +88,7 @@ public class BillInstallmentController extends BaseController {
         // 根据卡号获取当期账单
         BillingSummary billingSummary = billInstallmentServiceImpl.getCurrentPeriodBill(cardNo);
         if (billingSummary == null) {
-            logger.info("@ZDFQ@接收到账单列表为null,cardNo[{}]", cardNo);
+            logger.info("@BillInstallment@接收到账单列表为null,cardNo[{}]", cardNo);
             return BUSYURL;
         }
 
@@ -107,32 +109,32 @@ public class BillInstallmentController extends BaseController {
             try {
                 model.addAttribute("cardNo", Crypt.cardNoOneEncode(cardNo));
             } catch (Exception e) {
-                logger.info("@ZDFQ@加密卡号失败cardNo[{}] e:{}", cardNo, e.getMessage());
+                logger.warn("@BillInstallment@加密卡号失败cardNo[{}] e:{}", cardNo, e.getMessage());
+                return ERROR;
             }
             return SEARCH;
         }
 
-        logger.info("@ZDFQ@计算账单分期金额上下限，参数：cardNo[{}]currencyCode[{}]", cardNo, currencyCode);
+        logger.info("@BillInstallment@计算账单分期金额上下限，参数：cardNo[{}]currencyCode[{}]", cardNo, currencyCode);
 
         AmountLimit amountLimit = billInstallmentServiceImpl.getAmountLimit(cardNo, currencyCode);
         if (amountLimit == null) {
-            logger.info("@ZDFQ@根据cardNo[{}],currencyCode[{}]获取账单分期金额上下限,获取账单分期金额上下限为null", cardNo, currencyCode);
+            logger.info("@BillInstallment@根据cardNo[{}],currencyCode[{}]获取账单分期金额上下限,获取账单分期金额上下限为null", cardNo, currencyCode);
             return BUSYURL;
         } else {
             if ("+ES10403".equals(amountLimit.getRespCode())) {
-                logger.info("@ZDFQ@根据cardNo[{}],currencyCode[{}]获取账单分期金额上下限,"
-                        + "获取账单分期金额上下限amountLimit[{}]",cardNo,currencyCode,amountLimit.toString());
                 // 页面标识，提示用户账单不满足
                 model.addAttribute("status", "notSatisfied");
                 try {
                     model.addAttribute("cardNo", Crypt.cardNoOneEncode(cardNo));
                 } catch (Exception e) {
-                    logger.info("@ZDFQ@卡号加密出现异常[" + cardNo
+                    logger.warn("@BillInstallment@卡号加密出现异常[" + cardNo
                             + "]:" + e);
+                    return ERROR;
                 }
                 return SEARCH;
             } else if ("Exception".equals(amountLimit.getRespCode())) {
-                logger.info("@ZDFQ@查询账单分期金额上下限，GCS返回错误信息");
+                logger.info("@BillInstallment@cardNo[{}]查询账单分期金额上下限，GCS返回错误", cardNo);
                 return BUSYURL;
             } else if (amountLimit.getRespCode() == null
                     || "".equals(amountLimit.getRespCode())) {
@@ -140,7 +142,7 @@ public class BillInstallmentController extends BaseController {
                     model.addAttribute("amountLimit", amountLimit);
                     model.addAttribute("cardNo", Crypt.cardNoOneEncode(cardNo));
                 } catch (Exception e) {
-                    logger.info("@ZDFQ@卡号加密失败cardNo[{}] e[{}]",cardNo,e.getMessage());
+                    logger.warn("@BillInstallment@卡号加密失败cardNo[{}] e[{}]", cardNo, e.getMessage());
                     return ERROR;
                 }
                 model.addAttribute("currencyCode",
@@ -177,26 +179,27 @@ public class BillInstallmentController extends BaseController {
         try {
             cardNo = Crypt.decode(request.getParameter("cardNo"));
         } catch (Exception e) {
-            logger.info("@ZDFQ@卡号解密出现错误cardNo[{}] e[{}]",cardNo,e.getMessage());
+            logger.warn("@BillInstallment@卡号解密出现错误cardNo[{}] e[{}]", cardNo, e.getMessage());
             return ERROR;
         }
-        BillCost billCost = billInstallmentServiceImpl.getBillCost(accountId,accountNo, currencyCode,
+        logger.info("@BillInstallment@cardNo[{}]进行账单分期授权传入参数[accountId:{},accountNo:{},currencyCode:{}," +
+                        "billLowerAmount:{},billActualAmount:{},installmentsNumber:{},feeInstallmentsFlag:{}",
+                cardNo, accountNo, currencyCode, billLowerAmount, billActualAmount, installmentsNumber, feeInstallmentsFlag);
+
+        BillCost billCost = billInstallmentServiceImpl.getBillCost(accountId, accountNo, currencyCode,
                 billLowerAmount, billActualAmount, installmentsNumber,
                 feeInstallmentsFlag);
         if (billCost == null) {
-            logger.warn("@ZDFQ@根据cardNo[{}],currencyCode[{}],billActualAmount[{}],installmentsNumber[{}]对账单分期进行试算,"
-                    + "账单分期试算结果billCost为null",cardNo, currencyCode,
-                    billLowerAmount,installmentsNumber);
+            logger.warn("@BillInstallment@根据cardNo[{}]对账单分期进行试算,"
+                            + "账单分期试算结果billCost为null", cardNo);
             return BILL_COST;
         }
-        logger.debug("@ZDFQ@根据cardNo[{}],currencyCode[{}],billActualAmount[{}],installmentsNumber[{}]对账单分期进行试算,"
-                + "账单分期试算结果billCost[{}]", cardNo, currencyCode, billLowerAmount, installmentsNumber, billCost.toString());
         model.addAttribute("billCost", billCost);
         model.addAttribute("currencyCode", currencyCode);
         try {
             model.addAttribute("cardNo", Crypt.cardNoOneEncode(cardNo));
         } catch (Exception e) {
-            logger.info("@WDZD@卡号加密出现异常cardNo[{}],e[{}]",cardNo, e.getMessage());
+            logger.warn("@WDZD@卡号加密出现异常cardNo[{}],e[{}]", cardNo, e.getMessage());
             return ERROR;
         }
         model.addAttribute("accountId", accountId);
@@ -227,12 +230,12 @@ public class BillInstallmentController extends BaseController {
         // 分期手续费收取方式
         String feeInstallmentsFlag = request
                 .getParameter("feeInstallmentsFlag");
-        boolean res = billInstallmentServiceImpl.billInstallment(accountId,accountNo,cardNo, currencyCode,
+        logger.info("@BillInstallment@根据cardNo[{}],currencyCode[{}],billLowerAmount[{}],billActualAmount[{}],installmentsNumber["
+                        + "{}],feeInstallmentsFlag[{}]对账单分期进行分期", cardNo, currencyCode, billLowerAmount, billActualAmount, installmentsNumber,
+                feeInstallmentsFlag);
+        boolean res = billInstallmentServiceImpl.billInstallment(accountId, accountNo, cardNo, currencyCode,
                 billLowerAmount, billActualAmount, installmentsNumber,
                 feeInstallmentsFlag);
-        logger.debug("@ZDFQ@根据cardNo[{}],currencyCode[{}],billLowerAmount[{}],billActualAmount[{}],installmentsNumber["
-                        + "{}],feeInstallmentsFlag[{}]对账单分期进行分期,账单分期结果res[{}]", cardNo, currencyCode, billLowerAmount, billActualAmount, installmentsNumber,
-                feeInstallmentsFlag, res);
         if (res) {
             return "wechatbank_pages/BillInstallment/success";
         } else {
@@ -253,17 +256,16 @@ public class BillInstallmentController extends BaseController {
         String mobileNo = request.getParameter("mobileNo");
         String identityNo = getIdentityNo(request);
         String identityType = getIdentityType(request);
-       result= billInstallmentServiceImpl.verificationMobileNo(identityType,identityNo,mobileNo);
-        if(!"".equals(result)){
+        result = billInstallmentServiceImpl.verificationMobileNo(identityType, identityNo, mobileNo);
+        if (!"".equals(result)) {
             return result;
         }
         if (verificationCode != null
                 && verificationCode.equalsIgnoreCase(Randomcode_yz)) {
+            logger.info("@BillInstallment@根据identityNo[{}],手机号[{}]发送账单分期验证短信验证码", identityNo, mobileNo);
             result = Boolean.toString(smsService.sendInstallmentSMS(identityNo, mobileNo, "BillInstallment")).toLowerCase();
-            logger.debug("@ZDFQ@根据identityNo[{}],手机号[{}]发送账单分期验证短信验证码,"
-                    + "发送结果sendResult[{}]",identityNo,mobileNo,result);
-        }else{
-            result="errorCode";
+        } else {
+            result = "errorCode";
         }
         return result;
     }
@@ -271,12 +273,12 @@ public class BillInstallmentController extends BaseController {
     @RequestMapping(value = "checkMagCode_ajax")
     @ResponseBody
     public String checkMagCode_ajax(HttpServletRequest request) throws IOException {
-        String identityNo=getIdentityNo(request);
+        String identityNo = getIdentityNo(request);
         String mobileNo = request.getParameter("mobileNo");
         String code = request.getParameter("code");
+        logger.info("@BillInstallment@identityNo[{}],手机号[{}],code[{}"
+                + "]验证账单分期短信验证码", identityNo, mobileNo);
         String sendResult = Boolean.toString(smsService.checkSMSCode(identityNo, mobileNo, "BillInstallment", code)).toLowerCase();
-        logger.debug("@ZDFQ@identityNo[{}],手机号[{}],code[{}"
-                + "]验证账单分期短信验证码,验证结果sendResult[{}]", identityNo, mobileNo, code);
         return sendResult;
     }
 

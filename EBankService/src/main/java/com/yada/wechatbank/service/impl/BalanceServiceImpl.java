@@ -37,11 +37,12 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
         BalanceResp balanceResp = httpClient.send(getCardBalance, param, BalanceResp.class);
         List<Balance> balanceList=balanceResp==null ? null : balanceResp.getData();
 
-        logger.debug("@WDED@通过卡[{}]获取到的额度集合为[{}]", cardNo, balanceList);
         //判断是否获取到额度数据
         if (balanceList == null) {
+            logger.info("@Balance通过卡[{}]获取到的额度集合为null", cardNo);
             return null;
         } else if (balanceList.size() == 0) {
+            logger.info("@Balance通过卡[{}]获取到的额度集合长度为0", cardNo);
             return new ArrayList<>();
         }
 
@@ -77,7 +78,7 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
                 }
                 return cardList;
             } catch (Exception e) {
-                logger.error("@WDED@将卡号进行展示处理时出现错误[" + cardList
+                logger.error("@Balance将卡号进行展示处理时出现错误[" + cardList
                         + "]", e);
             }
         }

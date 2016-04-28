@@ -70,9 +70,10 @@ public class CardApplyController extends BaseController {
         }
 
         // 预约办卡进度查询
+        logger.info("@CardApply@预约办卡进度查询，参数：[name={},identityType={},identityNo={},currentPage={}]", name, identityType, identityNo, nextPage);
         CardApplyList cardApplyList = cardApplyService.getCrdCardSchedule(name, identityType, identityNo, nextPage);
-        logger.info("@BKJD@调用核心根据name[" + name + "],identityType[" + identityType + "]," +
-                "identityNo[" + identityNo + "],currentPage[" + nextPage + "]");
+        logger.info("@CardApply@预约办卡进度查询，结果：[{}]", cardApplyList);
+
         model.addAttribute("model", cardApplyQuery);
         model.addAttribute("cardApplyList", cardApplyList);
         model.addAttribute("currPage", nextPage);
@@ -93,7 +94,6 @@ public class CardApplyController extends BaseController {
     @RequestMapping(value = "getMsgCode_ajax")
     @ResponseBody
     public String getMsgCode_ajax(HttpServletRequest request, String identityType, String identityNo, String mobileNo, String verificationCode) {
-        String result = "true";
         // Session中存储的验证码
         String randomCode = (String) request.getSession().getAttribute("jcmsrandomchar");
         // 验证图片验证码
@@ -111,13 +111,15 @@ public class CardApplyController extends BaseController {
         }
         // 验证成功后Remove
         TokenUtil.removeCode(request);
+
         // 发送短信验证码
+        logger.info("@CardApply@预约办卡发送短信验证码，参数：[identityType={},identityNo={},mobileNo={}]", identityType, identityNo, mobileNo);
         String sendResult = cardApplyService.sendCardApplySMS(identityType, identityNo, mobileNo);
-        logger.info("@BKJD@调用核心根据identityType[" + identityType + "],identityNo[" + identityNo + "],mobileNo["
-                + mobileNo + "]发送短信验证码,发送结果sendResult[" + sendResult + "]");
+        logger.info("@CardApply@预约办卡发送短信验证码，参数：[identityType={},identityNo={},mobileNo={}]，结果：[{}]", identityType, identityNo, mobileNo, sendResult);
+
         // 重新生成Token并返回
         TokenUtil.addToken(request);
-        result = sendResult + "," + request.getSession().getAttribute("keyInSession");
+        String result = sendResult + "," + request.getSession().getAttribute("keyInSession");
         return result;
     }
 
@@ -132,11 +134,10 @@ public class CardApplyController extends BaseController {
     @RequestMapping(value = "checkMsgCode_ajax")
     @ResponseBody
     public String checkMsgCode_ajax(String identityNo, String mobileNo, String code) {
-        String sendResult = Boolean.toString(
-                cardApplyService.checkCardApplySMSCode(identityNo, mobileNo, code)).toLowerCase();
-        logger.info("@BKJD@调用核心根据identityNo[" + identityNo + "],mobileNo["+mobileNo+"],code["
-                + code + "]验证短信验证码,发送结果sendResult[" + sendResult + "]");
-        return sendResult;
+        logger.info("@CardApply@预约办卡验证短信验证码，参数：[identityNo={},mobileNo={},code={}]", identityNo, mobileNo, code);
+        String result = Boolean.toString(cardApplyService.checkCardApplySMSCode(identityNo, mobileNo, code)).toLowerCase();
+        logger.info("@CardApply@预约办卡验证短信验证码，参数：[identityNo={},mobileNo={},code={}]，结果：[{}]", identityNo, mobileNo, code, result);
+        return result;
     }
 
 }

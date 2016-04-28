@@ -68,7 +68,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 				}
 				return cardList;
 			} catch (Exception e) {
-				logger.error("@ZDFQ@将卡号进行展示处理时出现错误[" + cardList + "]", e);
+				logger.warn("@BillInstallment@将卡号进行展示处理时出现错误[" + cardList + "]", e);
 			}
 		}
 		return cardList;
@@ -95,11 +95,12 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 			try {
 				Date endDate = df.parse(temp.getPeriodEndDate());
 				if (calendar.getTime().getTime() > endDate.getTime()) {
-					throw new RuntimeErrorException(null, "账单日期不在月周期内！");
+					logger.warn("cardNo[{}]账单日期不在月周期内！",cardNo);
+					return null;
 				}
 			} catch (Exception e) {
-				logger.error("账单日期不存在或格式错误！", e);
-				throw new RuntimeErrorException(null, "账单日期不存在或格式错误！");
+				logger.warn("cardNo[{}]账单日期不存在或格式错误！error[{}]",cardNo, e.getMessage());
+				return null;
 			}
 
 			if (temp.getCurrencyCode().equalsIgnoreCase("CNY")) {
@@ -119,9 +120,12 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 				}
 				billingSummary = billingSummaryResp.getData();
 				billingSummary.setCardNo(cardNo);
-				logger.debug("@ZDFQ@调用行内服务根据cardNo[{}]获取当期账单,获取到的当期账单billingSummary[{}]", cardNo, billingSummary);
+				//金额转换
+				billingSummary.setClosingBalance(AmtUtil.procString(billingSummary.getClosingBalance()));
+				billingSummary.setMinPaymentAmount(AmtUtil.procString(billingSummary.getMinPaymentAmount()));
+				billingSummary.setPaymentDueDate(AmtUtil.procString(billingSummary.getPaymentDueDate()));
 			} catch (Exception e) {
-				logger.warn("查询账单错误：" + e.getMessage());
+				logger.warn("cardNo[{}]查询账单错误：[{}]" ,cardNo, e.getMessage());
 				return null;
 			}
 		}
@@ -148,11 +152,21 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 		map.put("accountNumber", accountNo);
 		map.put("currencyCode", currencyCode);
 		map.put("billLowerAmount", billLowerAmount);
-		map.put("billActualAmount", billActualAmount);
+		map.put("billActualAmount",  AmtUtil.procMoneyToString(billActualAmount));
 		map.put("installmentsNumber", installmentsNumber);
 		map.put("feeInstallmentsFlag", feeInstallmentsFlag);
 		BillCostResp billCostResp = httpClient.send(queryBillCost, map, BillCostResp.class);
-		return billCostResp == null ? null : billCostResp.getBizResult();
+		BillCost billCost= billCostResp == null ? null : billCostResp.getData();
+		//金额转换
+		if(billCost!=null)
+		{
+			billCost.setInstallmentsfee(AmtUtil.procString(billCost.getInstallmentsfee()));
+			billCost.setInstallmentsAlsoAmountFirst(AmtUtil.procString(billCost.getInstallmentsAlsoAmountFirst()));
+			billCost.setInstallmentsAlsoAmountEach(AmtUtil.procString(billCost.getInstallmentsAlsoAmountEach()));
+			billCost.setCurrentBillMinimum(AmtUtil.procString(billCost.getCurrentBillMinimum()));
+			billCost.setCurrentBillSurplusAmount(AmtUtil.procString(billCost.getCurrentBillSurplusAmount()));
+		}
+		return billCost;
 	}
 
 	@Transactional
@@ -164,7 +178,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 		map.put("accountNumber", accountNo);
 		map.put("currencyCode", currencyCode);
 		map.put("billLowerAmount", billLowerAmount);
-		map.put("billActualAmount", billActualAmount);
+		map.put("billActualAmount",AmtUtil.procMoneyToString(billActualAmount));
 		map.put("installmentsNumber", installmentsNumber);
 		map.put("feeInstallmentsFlag", feeInstallmentsFlag);
 		String tDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());

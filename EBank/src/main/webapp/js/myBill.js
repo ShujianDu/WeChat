@@ -2,6 +2,7 @@
 	var date=$("#date").val();
 	//当月份发生变化时执行方法
 	$(document).ready(function(){
+		    $(".pay_box").hide();
 			$(".check_box .select_date .date_box li").click(function(){
 			$(".check_box .select_date .date_box li").removeClass("current_mounth");
 			$(this).addClass("current_mounth");
@@ -41,6 +42,7 @@
 	                	messageReveal(json);
 	                }else if(json==""){
 	                	noBillingWarning.text("*很抱歉，没有查询到您当月的账单！");
+	                	$(".pay_box").hide();
 	                }else{
 	                	window.location.href = "../error.html";
 	                }
@@ -48,30 +50,6 @@
 	        });
 		}
 	function messageReveal(json) {
-		if(json[0].closingBalance>0){
-			$(".view_value  #value1").parent(".value").children(".valueState").show();
-				$(".view_value  #value1").css("color","#e05d4f");
-				$(".view_value  #value1").css("font-size","22px");
-				$(".view_value  #value1").parent(".value").parent(".value_box").children("#check_dt1").show();
-				$("#currencyCode1").show();
-				$("#closingBalance1").show();
-				$("#currencyCode3").show();
-				$("#minPaymentAmount1").show();
-			   $("#value1").text(json[0].closingBalance);
-			}else if(json[0].closingBalance==0){
-				$("#currencyCode1").hide();
-				$("#closingBalance1").hide();
-				$("#currencyCode3").hide();
-				$("#minPaymentAmount1").hide();
-				$(".view_value .RMBdebt").show();
-				$("#value1").text("本卡当前月未出"+json[0].currencyCode+"账单");
-				$(".view_value  #value1").parent(".value").children(".valueState").hide();
-				$(".view_value  #value1").css("color","#999999");
-				$(".view_value  #value1").css("font-size","14px");
-				$(".view_value  #value1").parent(".value").parent(".value_box").children("#check_dt1").hide();
-			}else{
-				$(".view_value .RMBdebt").hide();
-			}
 		
 		//分是否为双币单币卡
 		if(json.length>1){
