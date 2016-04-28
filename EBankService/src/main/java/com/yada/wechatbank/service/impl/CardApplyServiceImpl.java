@@ -40,7 +40,7 @@ public class CardApplyServiceImpl extends BaseService implements CardApplyServic
         param.put("currentPage", "" + currentPage);
 
         CardApplyResp cardApplyResp = httpClient.send(cardApplyUrl, param, CardApplyResp.class);
-        return cardApplyResp == null ? null : cardApplyResp.getBizResult();
+        return cardApplyResp == null ? null : cardApplyResp.getData();
     }
 
     @Override

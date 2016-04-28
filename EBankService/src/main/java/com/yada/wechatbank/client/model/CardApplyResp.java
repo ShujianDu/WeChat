@@ -9,13 +9,13 @@ import com.yada.wechatbank.model.CardApplyList;
  */
 public class CardApplyResp extends BaseModel {
 
-    private CardApplyList bizResult;
+    private CardApplyList data;
 
-    public CardApplyList getBizResult() {
-        return bizResult;
+    public CardApplyList getData() {
+        return data;
     }
 
-    public void setBizResult(CardApplyList bizResult) {
-        this.bizResult = bizResult;
+    public void setData(CardApplyList data) {
+        this.data = data;
     }
 }

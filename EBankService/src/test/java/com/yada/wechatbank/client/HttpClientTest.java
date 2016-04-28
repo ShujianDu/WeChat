@@ -39,9 +39,9 @@ public class HttpClientTest {
     public void testSend() {
         CardApplyResp result = httpClient.send(reqUrl, param, CardApplyResp.class);
         Assert.assertNotNull(result);
-        Assert.assertNotNull(result.getBizResult());
+        Assert.assertNotNull(result.getData());
         Assert.assertEquals("00", result.getReturnCode());
-        Assert.assertEquals(true, result.getBizResult().getHasNext());
-        Assert.assertEquals(10, result.getBizResult().getCardApplies().size());
+        Assert.assertEquals(true, result.getData().getHasNext());
+        Assert.assertEquals(10, result.getData().getCardApplies().size());
     }
 }
