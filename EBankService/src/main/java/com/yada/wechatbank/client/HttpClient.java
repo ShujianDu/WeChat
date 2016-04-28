@@ -47,10 +47,10 @@ public class HttpClient {
             result = JSON.parseObject(respStr, targetClass);
             return result;
         } catch (JSONException e) {
-            logger.error("数据转换异常", e);
+            logger.error("HttpClient 数据转换异常", e);
             return result;
         } catch (Exception e) {
-            logger.error("HttpClient通讯时发生错误", e);
+            logger.error("HttpClient 通讯时发生错误", e);
             throw new RuntimeException(e);
         }
     }
@@ -62,14 +62,13 @@ public class HttpClient {
      * @return String
      */
     private String postRequest(String method, String data) {
-
         StringBuffer sb = new StringBuffer();
         HttpURLConnection conn = null;
         OutputStreamWriter writer = null;
         BufferedReader bufferedReader = null;
 
         try {
-            logger.info("HTTP Client请求URL：" + hostAddr + method);
+            logger.info("HttpClient 请求URL：[{}], 参数Data：[{}]", hostAddr + method, data);
             URL url = new URL(hostAddr + method);
             conn = (HttpURLConnection) url.openConnection();
             // 发送Post强求，开启其读写的功能
@@ -102,11 +101,11 @@ public class HttpClient {
                 }
                 return sb.toString();
             } else {
-                logger.info("通讯异常,响应码[" + conn.getResponseCode() + "]");
+                logger.error("HttpClient 通讯异常,响应码[" + conn.getResponseCode() + "]");
                 throw new RuntimeException("通讯异常,响应码[" + conn.getResponseCode() + "]");
             }
         } catch (IOException e) {
-            logger.error("HttpClient通讯异常:", e);
+            logger.error("HttpClient 通讯异常:", e);
             throw new RuntimeException(e);
         } finally {
             if (writer != null) {

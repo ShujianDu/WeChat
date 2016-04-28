@@ -264,4 +264,34 @@ public class AllCustomerInfo {
     public void setRepaymentNotice(String repaymentNotice) {
         this.repaymentNotice = repaymentNotice;
     }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("AllCustomerInfo{");
+        sb.append("id=").append(id);
+        sb.append(", openId='").append(openId).append('\'');
+        sb.append(", identityType='").append(identityType).append('\'');
+        sb.append(", identityNo='").append(identityNo).append('\'');
+        sb.append(", mobilePhone='").append(mobilePhone).append('\'');
+        sb.append(", familyName='").append(familyName).append('\'');
+        sb.append(", firstName='").append(firstName).append('\'');
+        sb.append(", sex='").append(sex).append('\'');
+        sb.append(", bindingDate='").append(bindingDate).append('\'');
+        sb.append(", cardNo='").append(cardNo).append('\'');
+        sb.append(", cardType='").append(cardType).append('\'');
+        sb.append(", cardLastFourNumber='").append(cardLastFourNumber).append('\'');
+        sb.append(", style='").append(style).append('\'');
+        sb.append(", isDefault='").append(isDefault).append('\'');
+        sb.append(", accId='").append(accId).append('\'');
+        sb.append(", notice='").append(notice).append('\'');
+        sb.append(", add1='").append(add1).append('\'');
+        sb.append(", add2='").append(add2).append('\'');
+        sb.append(", add3='").append(add3).append('\'');
+        sb.append(", add4='").append(add4).append('\'');
+        sb.append(", add5='").append(add5).append('\'');
+        sb.append(", billNotice='").append(billNotice).append('\'');
+        sb.append(", repaymentNotice='").append(repaymentNotice).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

@@ -58,7 +58,13 @@ public class CardApply {
 
     @Override
     public String toString() {
-        return "CardApply [applyNo=" + applyNo + ", pdnDes=" + pdnDes + ", passDate=" + passDate + ", phase=" + phase
-                + ", phaseDesc=" + phaseDesc + "]";
+        final StringBuffer sb = new StringBuffer("CardApply{");
+        sb.append("applyNo='").append(applyNo).append('\'');
+        sb.append(", pdnDes='").append(pdnDes).append('\'');
+        sb.append(", passDate='").append(passDate).append('\'');
+        sb.append(", phase='").append(phase).append('\'');
+        sb.append(", phaseDesc='").append(phaseDesc).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 }
