@@ -25,6 +25,9 @@
 			if(detailListLength<onepage){
 				$("#readMore").hide();
 			}
+			if(detailListLength==0){
+				$("#noBillingWarning").text("*很抱歉，没有查询到您当月的账单！");
+			}
 		}
 	</script>
 </head>
