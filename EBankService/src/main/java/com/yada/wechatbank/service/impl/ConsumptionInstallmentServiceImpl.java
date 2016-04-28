@@ -86,14 +86,14 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		// 是否还有更多信息查询，0没有，1有
 		map.put("isFollowUp", consumptionInstallmentsesReceive.isHasNext() ? "1" : "0");
 		for (ConsumptionInstallments consumptionInstallments : consumptionInstallmentsesReceive.getConsumptionInstallmentsList()) {
+			// 对金额字段进行处理
+			consumptionInstallments.setTransactionAmount(AmtUtil.procString(consumptionInstallments.getTransactionAmount()));
+			consumptionInstallments.setOriginalTransactionAmount(AmtUtil.procString(consumptionInstallments.getOriginalTransactionAmount()));
 			// 交易金额---过滤出大于600的数据 借方、贷方---过滤出DEBT表示借方（例如，消费）
 			if (Double.parseDouble(consumptionInstallments.getTransactionAmount()) >= Double.parseDouble(consumptionInstallmentMinAmount)
 					&& "DEBT".equalsIgnoreCase(consumptionInstallments.getDebitCreditCode())) {
 				// 设置币种中文显示
 				consumptionInstallments.setCurrencyChinaCode(CurrencyUtil.translateChinese(consumptionInstallments.getOriginalCurrencyCode()));
-				// 对金额字段进行处理
-				consumptionInstallments.setTransactionAmount(AmtUtil.procString(consumptionInstallments.getTransactionAmount()));
-				consumptionInstallments.setOriginalTransactionAmount(AmtUtil.procString(consumptionInstallments.getOriginalTransactionAmount()));
 				consumptionInstallmentsList.add(consumptionInstallments);
 			}
 		}
