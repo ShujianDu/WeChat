@@ -63,4 +63,17 @@ public class Balance  {
 	public void setPreCashAdvanceCreditLimit(String preCashAdvanceCreditLimit) {
 		this.preCashAdvanceCreditLimit = preCashAdvanceCreditLimit;
 	}
+
+	@Override
+	public String toString() {
+		final StringBuffer sb = new StringBuffer("Balance{");
+		sb.append("cardNo='").append(cardNo).append('\'');
+		sb.append(", currencyCode='").append(currencyCode).append('\'');
+		sb.append(", currencyChinaCode='").append(currencyChinaCode).append('\'');
+		sb.append(", wholeCreditLimit='").append(wholeCreditLimit).append('\'');
+		sb.append(", periodAvailableCreditLimit='").append(periodAvailableCreditLimit).append('\'');
+		sb.append(", preCashAdvanceCreditLimit='").append(preCashAdvanceCreditLimit).append('\'');
+		sb.append('}');
+		return sb.toString();
+	}
 }
