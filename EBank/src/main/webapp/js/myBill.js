@@ -50,35 +50,21 @@
 	        });
 		}
 	function messageReveal(json) {
-		
 		//分是否为双币单币卡
 		if(json.length>1){
-			$(".view_value").show();
-			$(".value_box").eq(0).show();
-			$("value_box").eq(1).show();
 			$(".pay_box .pay_value  .doubleState1").show();
 			$(".pay_box .pay_value  .doubleState").show();
 		}else if(json.length==1){
-			$(".view_value").show();
-			$(".value_box").eq(0).show();
-			$(".value_box").eq(1).hide();
 			$(".pay_box .pay_value  .doubleState1").show();
 			$(".pay_box .pay_value  .doubleState").hide();
-	
-			}else{
-				$(".view_value").hide();
-				$(".value_box").eq(0).hide();
-				$(".value_box").eq(1).hide();
-				$(".pay_box .pay_value  .doubleState1").hide();
-				$(".pay_box .pay_value  .doubleState").hide();
-				}
+		}else{
+			$(".pay_box").hide();
+		}
 		if(json[0].closingBalance==0&&json[1].closingBalance==0){
 			$(".pay_box").hide();
 		}else{
 			$(".pay_box").show();
 		}
-		var n=0;
-		n=document.value_debt.messagePick.selectedIndex;
 		$("#pay_date").text(json[0].paymentDueDate);
 		$("#periodStartDate").text(json[0].periodStartDate);
 		$("#periodEndDate").text(json[0].periodEndDate);
@@ -98,26 +84,6 @@
 			//显示中文币种
 			$("#currencyCode2").text(json[1].currencyChinaCode);
 			$("#currencyCode4").text(json[1].currencyChinaCode);
-		if(json[1].closingBalance>0){
-			$(".view_value  #value2").parent(".value").children(".valueState").show();
-				$(".view_value  #value2").css("color","#e05d4f");
-				$(".view_value  #value2").css("font-size","22px");
-				$(".view_value  #value2").parent(".value").parent(".value_box").children("#check_dt2").show();
-				$("#value2").text(json[1].closingBalance);
-				$("#doubleState3").show();
-				$("#doubleState4").show();
-			}else if(json[1].closingBalance==0){
-				$(".view_value .dollarDebt").show();
-				$("#doubleState3").hide();
-				$("#doubleState4").hide();
-				$("#value2").text("本卡当前月未出"+json[1].currencyCode+"账单");
-				$(".view_value  #value2").parent(".value").children(".valueState").hide();
-				$(".view_value  #value2").css("color","#999999");
-				$(".view_value  #value2").css("font-size","14px");
-				$(".view_value  #value2").parent(".value").parent(".value_box").children("#check_dt2").hide();
-			}else{
-				$(".view_value .dollarDebt").hide();
-			}
 		}
 	}
 	

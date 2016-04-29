@@ -64,7 +64,7 @@
 			<span id="currencyCodeReal2" style='display: none'></span>
 
 		<!--还款形式和信息-->
-		<div class="pay_box">
+		<div class="pay_box" id="pay_box">
 			<div class="pay_date">
 				到期还款日&nbsp;&nbsp;&nbsp;&nbsp;<span id="pay_date"></span>
 			</div>
@@ -80,7 +80,7 @@
 				</div>
 			</div>
 			<div class="lineGray"></div>
-			<div class="pay_value">
+			<div class="pay_value" id="pay_value">
 				最低还款额&nbsp;&nbsp;&nbsp;&nbsp;
 				<div class="doubleState1" id="doubleState6">
 					<span id="currencyCode3" class="currencyCode"></span><span

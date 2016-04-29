@@ -50,7 +50,7 @@
 			"<span class='BillingName'>"+json[i].transactionDescription+"</span>" +
 			"<span class='BillingStage'>"+debitCreditCode+"</span>" +
 			"<span class='periodEndDate'>"+json[i].transactionDate+"</span>" +
-			"<span class='currencyCode'><span >"+json[i].currencyCode+"</span>" +
+			"<span class='currencyCode'><span >"+json[i].currencyChinaCode+"</span>" +
 			"<span >"+json[i].transactionAmount+"</span></span></li>";
 			$("#showMoreNChildren").append(newDiv);
 			$(".BillingName").css({fontSize:'14px',color:'#666666',float:'left',marginLeft:'16px',lineHeight:'40px'});

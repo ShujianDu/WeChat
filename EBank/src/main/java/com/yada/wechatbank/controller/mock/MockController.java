@@ -380,37 +380,30 @@ public class MockController {
 	public String alltBillingDetail() {
 		Map<String, Object> map = mockResult();
 		List<BillingDetail> billingDetailList = new ArrayList<>();
-		if (m != 1) {
+		if (m % 2 != 0) {
 			BillingDetail b1 = new BillingDetail();
 			b1.setCardNo("1111111111111111");
 			b1.setCurrencyCode("CNY");
 			b1.setDebitCreditCode("DEBT");
 			b1.setReturnMsg("成功");
 			b1.setStartnum("1");
-			b1.setTransactionAmount("-00000000001234010");
+			b1.setTransactionAmount("-00000000009999010");
 			b1.setTransactionDate("2016-04-16");
 			b1.setTransactionDescription("京东商城");
 			billingDetailList.add(b1);
 		} else {
-			BillingDetail b = new BillingDetail();
-			b.setCardNo("1111111111111111");
-			b.setCurrencyCode("CNY");
-			b.setDebitCreditCode("DEBT");
-			b.setReturnMsg("成功");
-			b.setStartnum("1");
-			b.setTransactionAmount("-00000000001234010");
-			b.setTransactionDate("2016-04-16");
-			b.setTransactionDescription("京东商城");
-			billingDetailList.add(b);
-			billingDetailList.add(b);
-			billingDetailList.add(b);
-			billingDetailList.add(b);
-			billingDetailList.add(b);
-			billingDetailList.add(b);
-			billingDetailList.add(b);
-			billingDetailList.add(b);
-			billingDetailList.add(b);
-			billingDetailList.add(b);
+			for (int i = 0; i < 10; i++) {
+				BillingDetail b = new BillingDetail();
+				b.setCardNo("1111111111111111");
+				b.setCurrencyCode("CNY");
+				b.setDebitCreditCode("DEBT");
+				b.setReturnMsg("成功");
+				b.setStartnum("1");
+				b.setTransactionAmount("-00000000001234010");
+				b.setTransactionDate("2016-04-16");
+				b.setTransactionDescription("京东商城");
+				billingDetailList.add(b);
+			}
 		}
 		m++;
 		map.put(key, billingDetailList);
@@ -437,30 +430,23 @@ public class MockController {
 			b1.setDebitCreditCode("DEBT");
 			b1.setReturnMsg("成功");
 			b1.setStartnum("1");
-			b1.setTransactionAmount("-00000000001234010");
+			b1.setTransactionAmount("-00000000008888010");
 			b1.setTransactionDate("2016-04-16");
 			b1.setTransactionDescription("京东商城");
 			billingDetailList.add(b1);
 		} else {
-			BillingDetail b = new BillingDetail();
-			b.setCardNo("1111111111111111");
-			b.setCurrencyCode("CNY");
-			b.setDebitCreditCode("DEBT");
-			b.setReturnMsg("成功");
-			b.setStartnum("1");
-			b.setTransactionAmount("-00000000001234010");
-			b.setTransactionDate("2016-04-16");
-			b.setTransactionDescription("京东商城");
-			billingDetailList.add(b);
-			billingDetailList.add(b);
-			billingDetailList.add(b);
-			billingDetailList.add(b);
-			billingDetailList.add(b);
-			billingDetailList.add(b);
-			billingDetailList.add(b);
-			billingDetailList.add(b);
-			billingDetailList.add(b);
-			billingDetailList.add(b);
+			for (int i = 0; i < 10; i++) {
+				BillingDetail b = new BillingDetail();
+				b.setCardNo("1111111111111111");
+				b.setCurrencyCode("CNY");
+				b.setDebitCreditCode("DEBT");
+				b.setReturnMsg("成功");
+				b.setStartnum("1");
+				b.setTransactionAmount("-00000000001234010");
+				b.setTransactionDate("2016-04-16");
+				b.setTransactionDescription("京东商城");
+				billingDetailList.add(b);
+			}
 		}
 		n++;
 		map.put(key, billingDetailList);
@@ -569,22 +555,24 @@ public class MockController {
 		Map<String, Object> map = mockResult();
 		ConsumptionInstallmentsesReceive consumptionInstallmentsesReceive = new ConsumptionInstallmentsesReceive();
 		List<ConsumptionInstallments> consumptionInstallmentsList = new ArrayList<ConsumptionInstallments>();
-		if (o == 1) {
-			ConsumptionInstallments c = new ConsumptionInstallments();
-			c.setAccountedID("01");
-			c.setAccountID("02");
-			c.setAccountNoID("03");
-			c.setCardNo("1111111111111111");
-			c.setDebitCreditCode("DEBT");
-			c.setOriginalCurrencyCode("CNY");
-			c.setOriginalTransactionAmount("+00000000001234010");
-			c.setTransactionAmount("+00000000001234010");
-			c.setTransactionDate("2016-04-25");
-			c.setTransactionDescription("京东");
-			c.setCycleNumber("4");
-			c.setTransactionCurrencyCode("CNY");
-			c.setTransactionNo("5");
-			consumptionInstallmentsList.add(c);
+		if (o % 2 != 0) {
+			for (int i = 0; i < 10; i++) {
+				ConsumptionInstallments c = new ConsumptionInstallments();
+				c.setAccountedID("01");
+				c.setAccountID("02");
+				c.setAccountNoID("03");
+				c.setCardNo("1111111111111111");
+				c.setDebitCreditCode("DEBT");
+				c.setOriginalCurrencyCode("CNY");
+				c.setOriginalTransactionAmount("+00000000001234010");
+				c.setTransactionAmount("+00000000001234010");
+				c.setTransactionDate("2016-04-25");
+				c.setTransactionDescription("京东");
+				c.setCycleNumber("4");
+				c.setTransactionCurrencyCode("CNY");
+				c.setTransactionNo("5");
+				consumptionInstallmentsList.add(c);
+			}
 			consumptionInstallmentsesReceive.setConsumptionInstallmentsList(consumptionInstallmentsList);
 			consumptionInstallmentsesReceive.setHasNext(true);
 			consumptionInstallmentsesReceive.setTransactionNumber("11");
