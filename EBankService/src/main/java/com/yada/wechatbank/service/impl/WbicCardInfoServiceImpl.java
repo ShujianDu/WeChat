@@ -21,11 +21,11 @@ public class WbicCardInfoServiceImpl extends BaseService implements WbicCardInfo
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Value("${url.getWbicCards}")
-    protected String getWbicCards;
+    @Value("${url.getWbicCardInfo}")
+    protected String getWbicCardInfo;
 
-    @Value("${url.wbicCardInfoSendSms}")
-    protected String wbicCardInfoSendSms;
+    @Value("${url.wbicCardSendSMS}")
+    protected String wbicCardSendSMS;
 
     @Override
     public String getWbicCards(String idNum, String idType) {
@@ -34,7 +34,7 @@ public class WbicCardInfoServiceImpl extends BaseService implements WbicCardInfo
         param.put("idNum", idNum);
         param.put("idType", idType);
         //发送请求，查询海淘卡
-        StringResp stringResp = httpClient.send(getWbicCards, param, StringResp.class);
+        StringResp stringResp = httpClient.send(getWbicCardInfo, param, StringResp.class);
         return stringResp == null ? null : stringResp.getData();
     }
 
@@ -44,7 +44,7 @@ public class WbicCardInfoServiceImpl extends BaseService implements WbicCardInfo
         Map<String, String> param = initGcsParam();
         param.put("cardNo", cardNo);
         //发送请求，给海涛用户发送短信
-        BooleanResp booleanResp = httpClient.send(wbicCardInfoSendSms, param, BooleanResp.class);
+        BooleanResp booleanResp = httpClient.send(wbicCardSendSMS, param, BooleanResp.class);
         return (booleanResp == null || booleanResp.getData() == null) ? false : booleanResp.getData();
     }
 }
