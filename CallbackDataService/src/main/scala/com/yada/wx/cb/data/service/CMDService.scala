@@ -1,4 +1,4 @@
-package com.yada.wx.cbs
+package com.yada.wx.cb.data.service
 
 trait CMDService {
 

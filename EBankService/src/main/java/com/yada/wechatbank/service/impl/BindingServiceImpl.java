@@ -105,7 +105,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
             countSMSCacheImpl.put(openId, idCardNo);
             return noCard;
         }
-        Map<String, String> map = initGcsParam();
+        Map<String, String> map = new HashMap<>();
         map.put("cardNo", cardNo);
         map.put("pwd", pwd);
         //使用卡号密码验密
