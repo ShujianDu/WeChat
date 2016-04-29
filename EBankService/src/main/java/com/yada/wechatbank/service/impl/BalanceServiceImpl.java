@@ -20,6 +20,7 @@ import java.util.Map;
 
 /**
  * 我的额度
+ *
  * @author tx
  */
 @Service
@@ -35,7 +36,7 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
         param.put("cardNo", cardNo);
 
         BalanceResp balanceResp = httpClient.send(getCardBalance, param, BalanceResp.class);
-        List<Balance> balanceList=balanceResp==null ? null : balanceResp.getData();
+        List<Balance> balanceList = balanceResp == null ? null : balanceResp.getData();
 
         //判断是否获取到额度数据
         if (balanceList == null) {
@@ -56,7 +57,7 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
             }
         }
         //替换币种显示
-        for(Balance b:newList) {
+        for (Balance b : newList) {
             b.setCurrencyChinaCode(CurrencyUtil.translateChinese(b.getCurrencyCode()));
             b.setPeriodAvailableCreditLimit(AmtUtil.procString(b.getPeriodAvailableCreditLimit()));
             b.setPreCashAdvanceCreditLimit(AmtUtil.procString(b.getPreCashAdvanceCreditLimit()));
@@ -66,14 +67,12 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
     }
 
 
-
     @Override
     public List<CardInfo> getProessCardNoList(String identityType, String identityNo) {
         List<CardInfo> cardList = selectCardNos(identityType, identityNo);
         if (cardList != null && cardList.size() != 0) {
             try {
-                for(CardInfo c:cardList)
-                {
+                for (CardInfo c : cardList) {
                     c.setCardNo(Crypt.cardNoOneEncode(c.getCardNo()));
                 }
                 return cardList;
