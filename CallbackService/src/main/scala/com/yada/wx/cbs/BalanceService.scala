@@ -12,7 +12,6 @@ class BalanceService(customerService: CustomerService) {
     customerService.getCustomerInfo(openID) match {
       case Some(customerInfo) =>
         HttpClient.send(Json.toJson(Balance("sessionID", "channelID", customerInfo.defCardNo)).toString(), BALANCE_URL)
-      case None =>
     }
   }
 }
