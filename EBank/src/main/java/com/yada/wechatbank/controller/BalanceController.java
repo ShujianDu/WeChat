@@ -65,7 +65,7 @@ public class BalanceController extends BaseController{
 		try {
 			cardNo = Crypt.decode(cardNo);
 		} catch (Exception e) {
-			logger.info("@Balance解密cardNo[{}]失败", cardNo);
+			logger.error("@Balance解密cardNo[{}]失败", cardNo);
 			return JSONObject.toJSONString("exception");
 		}
 		List<Balance> newList = balanceServiceImpl.getCardNoBalance(cardNo);
