@@ -102,23 +102,23 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 	}
 
 	@Override
-	public ConsumptionInstallmentCost costConsumptionInstallment(ConsumptionInstallmentAuthorization consumptionInstallmentAuthorization) {
+	public ConsumptionInstallmentCost costConsumptionInstallment(ConsumptionInstallmentAuthorization cia) {
 		Map<String, String> param = initGcsParam();
-		param.put("accountKeyOne", consumptionInstallmentAuthorization.getAccountKeyOne());
-		param.put("accountKeyTwo", consumptionInstallmentAuthorization.getAccountKeyTwo());
-		param.put("currencyCode", consumptionInstallmentAuthorization.getCurrencyCode());
-		param.put("billDateNo", consumptionInstallmentAuthorization.getBillDateNo());
+		param.put("accountKeyOne", cia.getAccountKeyOne());
+		param.put("accountKeyTwo", cia.getAccountKeyTwo());
+		param.put("currencyCode", cia.getCurrencyCode());
+		param.put("billDateNo", cia.getBillDateNo());
+		param.put("transactionNo", cia.getTransactionNo());
 		// 对金额字段进行处理
-		param.put("transactionAmount", AmtUtil.procMoneyToString(consumptionInstallmentAuthorization.getTransactionAmount()));
-		param.put("cardNo", consumptionInstallmentAuthorization.getCardNo());
-		param.put("accountNoID", consumptionInstallmentAuthorization.getAccountNoID());
-		param.put("installmentPeriods", consumptionInstallmentAuthorization.getInstallmentPeriods());
-		param.put("isfeeFlag", consumptionInstallmentAuthorization.getIsfeeFlag());
+		param.put("transactionAmount", AmtUtil.procMoneyToString(cia.getTransactionAmount()));
+		param.put("cardNo", cia.getCardNo());
+		param.put("accountNoID", cia.getAccountNoID());
+		param.put("installmentPeriods", cia.getInstallmentPeriods());
+		param.put("isfeeFlag", cia.getIsfeeFlag());
 		ConsumptionInstallmentCostResp consumptionInstallmentCostResp = httpClient.send(costConsumptionInstallmentUrl, param,
 				ConsumptionInstallmentCostResp.class);
 		if (consumptionInstallmentCostResp == null || consumptionInstallmentCostResp.getData() == null) {
-			logger.error("@ConsumptionInstallment@consumptionInstallmentCostResp or data is null,cardNo[" + consumptionInstallmentAuthorization.getCardNo()
-					+ "]");
+			logger.error("@ConsumptionInstallment@consumptionInstallmentCostResp or data is null,cardNo[" + cia.getCardNo() + "]");
 			return null;
 		}
 		ConsumptionInstallmentCost consumptionInstallmentCost = consumptionInstallmentCostResp.getData();
@@ -138,6 +138,7 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		param.put("accountKeyTwo", cia.getAccountKeyTwo());
 		param.put("currencyCode", cia.getCurrencyCode());
 		param.put("billDateNo", cia.getBillDateNo());
+		param.put("transactionNo", cia.getTransactionNo());
 		// 对金额字段进行处理
 		param.put("transactionAmount", AmtUtil.procMoneyToString(cia.getTransactionAmount()));
 		param.put("cardNo", cia.getCardNo());
