@@ -4,7 +4,7 @@ import javax.persistence.{Column, Entity, Id}
 
 import scala.beans.BeanProperty
 
-@Entity("T_B_NEWS_COM")
+@Entity(name = "T_B_NEWS_COM")
 class NewsCom {
   @Id
   @BeanProperty
