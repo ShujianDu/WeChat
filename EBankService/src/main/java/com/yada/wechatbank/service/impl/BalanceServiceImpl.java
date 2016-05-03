@@ -42,17 +42,21 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
         Map<String, String> param = initGcsParam();
         param.put("cardNo", cardNo);
 
-        messageProducer.send(TopicEnum.EBANK_QUERY, "Balance", param);
+        messageProducer.send(TopicEnum.EBANK_QUERY, "Balance_getCardNoBalance", param);
 
         BalanceResp balanceResp = httpClient.send(getCardBalance, param, BalanceResp.class);
         List<Balance> balanceList = balanceResp == null ? null : balanceResp.getData();
 
         //判断是否获取到额度数据
         if (balanceList == null) {
-            logger.info("@Balance通过卡[{}]获取到的额度集合为null", cardNo);
+            logger.info("@Balance@通过卡[{}]获取到的额度集合为null", cardNo);
+            //kafka事件记录
+            messageProducer.send(TopicEnum.EBANK_QUERY, "Balance", "通过卡["+cardNo+"]获取到的额度集合为null");
             return null;
         } else if (balanceList.size() == 0) {
-            logger.info("@Balance通过卡[{}]获取到的额度集合长度为0", cardNo);
+            logger.info("@Balance@通过卡[{}]获取到的额度集合长度为0", cardNo);
+            //kafka事件记录
+            messageProducer.send(TopicEnum.EBANK_QUERY, "Balance", "通过卡[" + cardNo + "]获取到的额度集合长度为0");
             return new ArrayList<>();
         }
 
@@ -89,7 +93,7 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
                 }
                 return cardList;
             } catch (Exception e) {
-                logger.error("@Balance将卡号进行展示处理时出现错误[" + cardList
+                logger.error("@Balance@将卡号进行展示处理时出现错误[" + cardList
                         + "]", e);
             }
         }
