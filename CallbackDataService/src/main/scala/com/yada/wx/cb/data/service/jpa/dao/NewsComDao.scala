@@ -4,5 +4,5 @@ import com.yada.wx.cb.data.service.jpa.model.NewsCom
 import org.springframework.data.repository.CrudRepository
 
 trait NewsComDao extends CrudRepository[NewsCom, String] {
-
+  def findByMsg_id(msgID: String): List[NewsCom]
 }
