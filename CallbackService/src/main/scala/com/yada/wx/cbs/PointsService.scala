@@ -19,5 +19,5 @@ class PointsService(customerService: CustomerService) {
 case class PointsParams(cardNo: String)
 
 object PointsParams {
-  implicit val pointsCardNoParamsWrites: Writes[PointsParams] = Writes(params => Json.toJson(JsObject(Map("cardNo" -> JsString(params.cardNo)))))
+  implicit val pointsCardNoParamsWrites: Writes[PointsParams] = Writes(params => Json.toJson(JsObject(Seq("cardNo" -> JsString(params.cardNo)))))
 }

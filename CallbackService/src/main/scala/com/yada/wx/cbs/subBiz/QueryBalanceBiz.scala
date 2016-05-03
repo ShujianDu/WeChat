@@ -6,7 +6,7 @@ import com.yada.wx.cb.data.service.jpa.model.{Command, Customer}
 import com.yada.wx.cbs.{NewsCmdRespMessage, _}
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{Json, Reads, _}
-
+import scala.collection.JavaConversions._
 /**
   * 查询余额
   */
@@ -46,7 +46,7 @@ class QueryBalanceBiz(msgComDao: MsgComDao = SpringContext.context.getBean(class
           val des = TemplateUtil.replace(newCom.description, normalReplace, repeatReplace)
           NewsMessageItem(title, des, newCom.picurl, newCom.pic_link_url)
         })
-        NewsCmdRespMessage(itemList)
+        NewsCmdRespMessage(itemList.toList)
     }
   }
 

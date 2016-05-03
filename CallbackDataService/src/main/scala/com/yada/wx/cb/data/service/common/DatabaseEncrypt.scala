@@ -1,6 +1,6 @@
 package com.yada.wx.cb.data.service.common
 
-import java.util.Base64
+import org.apache.commons.codec.binary.Base64
 
 /**
   * 数据库加解密
@@ -14,7 +14,7 @@ class DatabaseEncrypt {
     * @return 加密后的数据
     */
   def encrypt(before: String): String = {
-    Base64.getEncoder.encodeToString(before.getBytes("UTF-8"))
+    Base64.encodeBase64String(before.getBytes("UTF-8"))
   }
 
   /**
@@ -24,6 +24,6 @@ class DatabaseEncrypt {
     * @return 未加密的数据
     */
   def decrypt(after: String): String = {
-    new String(Base64.getDecoder.decode(after), "UTF-8")
+    new String(Base64.decodeBase64(after), "UTF-8")
   }
 }
