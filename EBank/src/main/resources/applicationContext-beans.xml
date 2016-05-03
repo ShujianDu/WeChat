@@ -12,7 +12,7 @@
     </bean>
 
     <bean id="messageProducer" class="com.yada.wechatbank.kafka.MessageProducer">
-        <constructor-arg name="bootstrapServers" value="${bootstrap.Servers}"></constructor-arg>
+        <constructor-arg name="bootstrapServers" value="${kafka.bootstrap.Servers}"></constructor-arg>
     </bean>
 
 </beans>

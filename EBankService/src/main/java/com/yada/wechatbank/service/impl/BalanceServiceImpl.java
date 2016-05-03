@@ -42,6 +42,8 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
         Map<String, String> param = initGcsParam();
         param.put("cardNo", cardNo);
 
+        messageProducer.send(TopicEnum.EBANK_QUERY, "Balance", param);
+
         BalanceResp balanceResp = httpClient.send(getCardBalance, param, BalanceResp.class);
         List<Balance> balanceList = balanceResp == null ? null : balanceResp.getData();
 
@@ -71,7 +73,7 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
             b.setWholeCreditLimit(AmtUtil.procString(b.getWholeCreditLimit()));
         }
 
-        messageProducer.send(TopicEnum.EBANK_QUERY,"Balance",param);
+
 
         return newList;
     }
