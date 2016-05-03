@@ -123,7 +123,6 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 				//金额转换
 				billingSummary.setClosingBalance(AmtUtil.procString(billingSummary.getClosingBalance()));
 				billingSummary.setMinPaymentAmount(AmtUtil.procString(billingSummary.getMinPaymentAmount()));
-				billingSummary.setPaymentDueDate(AmtUtil.procString(billingSummary.getPaymentDueDate()));
 			} catch (Exception e) {
 				logger.warn("cardNo[{}]查询账单错误：[{}]" ,cardNo, e.getMessage());
 				return null;
@@ -133,13 +132,13 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 	}
 
 	public AmountLimit getAmountLimit(String cardNo, String currencyCode) {
-		Map<String, String> map = initDirectSaleParam();
+		Map<String, String> map = initGcsParam();
 		map.put("cardNo", cardNo);
 		map.put("currencyCode", currencyCode);
 		AmountLimitResp amountLimitResp = httpClient.send(getAmountLimit, map, AmountLimitResp.class);
-		AmountLimit amountLimit = amountLimitResp == null ? null : amountLimitResp.getBizResult();
+		AmountLimit amountLimit = amountLimitResp == null ? null : amountLimitResp.getData();
 		if (amountLimit != null && amountLimit.getRespCode() != null && "".equals(amountLimit.getRespCode())) {
-			amountLimit.setMaxAmount(parseString(amountLimit.getMaxAmount()));
+			amountLimit.setMaxAmount(parseString(AmtUtil.procString(amountLimit.getMaxAmount())));
 			amountLimit.setShowMinAmount(parseString(AmtUtil.procString(amountLimit.getMinAmount())));
 		}
 		return amountLimit;
@@ -147,7 +146,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 
 	public BillCost getBillCost(String accountId, String accountNo, String currencyCode, String billLowerAmount, String billActualAmount,
 			String installmentsNumber, String feeInstallmentsFlag) {
-		Map<String, String> map = initDirectSaleParam();
+		Map<String, String> map = initGcsParam();
 		map.put("accountId", accountId);
 		map.put("accountNumber", accountNo);
 		map.put("currencyCode", currencyCode);
@@ -173,7 +172,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 	public boolean billInstallment(String accountId, String accountNo, String cardNo, String currencyCode, String billLowerAmount, String billActualAmount,
 			String installmentsNumber, String feeInstallmentsFlag) {
 		boolean returnRes;
-		Map<String, String> map = initDirectSaleParam();
+		Map<String, String> map = initGcsParam();
 		map.put("accountId", accountId);
 		map.put("accountNumber", accountNo);
 		map.put("currencyCode", currencyCode);
@@ -200,6 +199,8 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 		}
 		try {
 			installmentInfoDao.save(bi);
+
+
 		} catch (Exception e) {
 			logger.error("", e);
 		}

@@ -25,7 +25,7 @@
 <!--bottom-->
 <div class="bottom_box1">
     <span class="hot_line">信用卡热线:(+86)40066-95566</span>
-    <span class="hot_line">2016中国银行&nbsp;&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;IPC许可证10052455号</span>
+    <span class="hot_line">中国银行&nbsp;&nbsp;版权所有</span>
 </div>
 </body>
 </html>

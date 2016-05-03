@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Echo on 2016/4/13.
  */
-public class CardInfoResp extends BaseModel{
+public class CardInfoResp extends BaseModel {
     private List<CardInfo> data;
 
 

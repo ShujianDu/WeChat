@@ -48,16 +48,16 @@
                     <span id="ex6SliderVal" class="text-red" style="font-size:20px;">0</span>
                 </span>
             <input id="ex6" type="text"
-                   data-slider-min="${creditLimit}"
+                   data-slider-min="0"
                    name="eosPreAddLimit"
-                   data-slider-max="${amount }"
+                   data-slider-max="${amounts.amount }"
                    data-slider-step="100"
                    data-slider-value="0" style="width:100%;">
 
             <p>
                 <span class="pull-left text-primary">拖动提升</span> <span
                     id="amountWarning" style="color: red; font-size: 12px;"></span><span
-                    class="pull-right text-primary">提升${amount }</span>
+                    class="pull-right text-primary">提升${amounts.amount }</span>
             </p>
         </div>
         <div style="height: 30px"></div>
@@ -90,9 +90,9 @@
     </div>
     </div>
     <input type="hidden" id="cardNo" name="cardNo" value="${fn:substringAfter(cardNo, ',')}">
-    <input type="hidden" id="cardStyle" name="cardStyle" value="${cardStyle}">
-    <input type="hidden" id="issuingBranchId" name="issuingBranchId" value="${issuingBranchId}">
-    <input type="hidden" id="pmtCreditLimit" name="pmtCreditLimit" value="${pmtCreditLimit}">
+    <input type="hidden" id="cardStyle" name="cardStyle" value="${amounts.cardStyle}">
+    <input type="hidden" id="issuingBranchId" name="issuingBranchId" value="${amounts.issuingBranchId}">
+    <input type="hidden" id="pmtCreditLimit" name="pmtCreditLimit" value="${amounts.pmtCreditLimit}">
     <input type="hidden" id="minExpirationDate" name="minExpirationDate" value="${minExpirationDate}">
     <input type="hidden" id="eosStarLimitDate" name="eosStarLimitDate" value="${eosStarLimitDate}">
     <input type="hidden" id="maxExpirationDate" name="maxExpirationDate" value="${maxExpirationDate}">

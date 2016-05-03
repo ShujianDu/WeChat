@@ -2,6 +2,8 @@ package com.yada.wechatbank.service.impl;
 
 import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.BalanceResp;
+import com.yada.wechatbank.kafka.MessageProducer;
+import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.model.Balance;
 import com.yada.wechatbank.model.CardInfo;
 import com.yada.wechatbank.service.BalanceService;
@@ -10,6 +12,7 @@ import com.yada.wechatbank.util.Crypt;
 import com.yada.wechatbank.util.CurrencyUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +30,10 @@ import java.util.Map;
 public class BalanceServiceImpl extends BaseService implements BalanceService {
     private final Logger logger = LoggerFactory
             .getLogger(this.getClass());
+
+    @Autowired
+    MessageProducer messageProducer;
+
 
     @Value("${url.getCardBalance}")
     private String getCardBalance;
@@ -63,6 +70,9 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
             b.setPreCashAdvanceCreditLimit(AmtUtil.procString(b.getPreCashAdvanceCreditLimit()));
             b.setWholeCreditLimit(AmtUtil.procString(b.getWholeCreditLimit()));
         }
+
+        messageProducer.send(TopicEnum.EBANK_QUERY,"Balance",param);
+
         return newList;
     }
 

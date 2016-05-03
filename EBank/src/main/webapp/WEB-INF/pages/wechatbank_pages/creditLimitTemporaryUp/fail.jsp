@@ -8,13 +8,14 @@
 	<meta name=" format-detection" content= "telephone=no" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
 	<%@include file="../../base_pages/base.jsp" %>
-	<link href="<c:url value="/css/UpgradeYES.css"/>" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="<c:url value="/css/UpgradeYES.css"/>" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="<c:url value="/css/DefaultStyle.css"/>" rel="stylesheet" />
 	<script src="<c:url value="/js/UpgradeYES.js"/>" type="text/javascript"></script>
 </head>
 <body>
 <!--UpgradeYES-->
 <div class="UpgradeYES_content">
-	<div class="UpgradeYES_title">提升额度</div>
+	<div class="cardActivated_title"><span class="hongkuai"></span>提升额度</div>
 	<!--第一种卡信息-->
 	<div class="dynamic_box">
 		<img src="<c:url value="/images/no.png"/>" class="imgyes">

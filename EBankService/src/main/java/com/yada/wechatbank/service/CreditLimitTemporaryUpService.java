@@ -47,12 +47,10 @@ public interface CreditLimitTemporaryUpService {
     CreditLimitTemporaryUpReview getAmount(String certType,String certNum,String cardNo);
     /**
      * 额度提升历史查询
-     * @param certType      证件类型
-     * @param certNum       证件号
      * @param cardNo        卡号
      * @return              历史提升额度信息
      */
-    List<CreditLimitTemporaryUpStatus> getLimitUpHistory(String certType,String certNum,String cardNo);
+    List<CreditLimitTemporaryUpStatus> getLimitUpHistory(String cardNo);
 
     /**
      * 获取用户手机号

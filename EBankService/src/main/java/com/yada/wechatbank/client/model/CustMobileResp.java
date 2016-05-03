@@ -5,7 +5,7 @@ import com.yada.wechatbank.base.BaseModel;
 /**
  * Created by Echo on 2016/4/13.
  */
-public class CustMobileResp extends BaseModel{
+public class CustMobileResp extends BaseModel {
     private String data;
 
     public String getData() {

@@ -39,10 +39,8 @@ public class CreditLimitTemporaryUpServiceTest {
 
     @Test
     public void testGetLimitUpHistory() {
-        String certType="03";
-        String certNum="MOCK01";
         String cardNo="6225888899990001";
-        List<CreditLimitTemporaryUpStatus> list= creditLimitTemporaryUpService.getLimitUpHistory(certType, certNum, cardNo);
+        List<CreditLimitTemporaryUpStatus> list= creditLimitTemporaryUpService.getLimitUpHistory(cardNo);
         Assert.assertNotNull(list);
     }
 

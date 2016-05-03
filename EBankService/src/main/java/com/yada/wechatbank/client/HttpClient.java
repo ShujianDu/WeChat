@@ -3,6 +3,7 @@ package com.yada.wechatbank.client;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.yada.wechatbank.base.BaseModel;
+import com.yada.wechatbank.exception.CommunicationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +50,8 @@ public class HttpClient {
      */
     public <T> T send(String method, Object object, Class<T> targetClass) {
         T result = null;
+        StackTraceElement[] s = new Exception().getStackTrace();
+        logger.info("模块[{}]调用[{}]行内接口，传入参数为[{}]",s[1].getClassName(),method,object.toString());
         try {
             String data = JSON.toJSONString(object);
             String respStr = postRequest(method, data);
@@ -56,15 +59,16 @@ public class HttpClient {
             BaseModel baseMode=(BaseModel)result;
             if(error_code.contains(baseMode.getReturnCode()))
             {
-                throw new RuntimeException("行内服务返回异常,响应码[" +baseMode.getReturnCode() + "]，响应信息["+baseMode.getReturnMsg()+"]");
+                throw new CommunicationException("行内服务返回异常,响应码[" +baseMode.getReturnCode() + "]，响应信息["+baseMode.getReturnMsg()+"]",true);
             }
+             logger.info("模块[{}]调用[{}]行内接口，返回参数为[{}]",s[1].getClassName(),method,respStr);
             return result;
         } catch (JSONException e) {
             logger.error("HttpClient 数据转换异常", e);
             return result;
         } catch (Exception e) {
             logger.error("HttpClient 通讯时发生错误", e);
-            throw new RuntimeException(e);
+            throw new CommunicationException("HttpClient 通讯时发生错误",e,true);
         }
     }
 
@@ -79,9 +83,7 @@ public class HttpClient {
         HttpURLConnection conn = null;
         OutputStreamWriter writer = null;
         BufferedReader bufferedReader = null;
-
         try {
-            logger.info("HttpClient 请求URL：[{}], 参数Data：[{}]", hostAddr + method, data);
             URL url = new URL(hostAddr + method);
             conn = (HttpURLConnection) url.openConnection();
             // 发送Post强求，开启其读写的功能
@@ -115,11 +117,11 @@ public class HttpClient {
                 return sb.toString();
             } else {
                 logger.error("HttpClient 通讯异常,响应码[" + conn.getResponseCode() + "]");
-                throw new RuntimeException("通讯异常,响应码[" + conn.getResponseCode() + "]");
+                throw new CommunicationException("通讯异常,响应码[" + conn.getResponseCode() + "]",true);
             }
         } catch (IOException e) {
             logger.error("HttpClient 通讯异常:", e);
-            throw new RuntimeException(e);
+            throw new CommunicationException("HttpClient 通讯异常:",e,true);
         } finally {
             if (writer != null) {
                 try {

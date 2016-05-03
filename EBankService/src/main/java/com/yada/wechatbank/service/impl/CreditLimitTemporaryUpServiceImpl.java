@@ -62,7 +62,7 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
             creditLimitUpTimes.set(0);
             times = creditLimitUpTimes.getAndIncrement();
         }
-        Map<String, String> mapCardHolderInfo = initDirectSaleParam();
+        Map<String, String> mapCardHolderInfo = initGcsParam();
         mapCardHolderInfo.put("cardNo", cardNo);
 
         //获取用户姓名
@@ -71,14 +71,12 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
         if (cardHolderInfo == null) {
             return null;
         }
-
-        //TODO 流程由原有通过数据库获取的手机号，更换为个人资料查询的手机号（需发出确认）
         String phoneNumber = cardHolderInfo.getMobileNo();
         String eosCustomerName = cardHolderInfo.getFamilyName();
         String eosID = String.format("0602%s%05d", date, times);
         //暂时只可提升人民币
         String eosCurrency = "CNY";
-        Map<String, String> map = initDirectSaleParam();
+        Map<String, String> map = initGcsParam();
         map.put("eosID", eosID);
         map.put("eosCustomerName", eosCustomerName);
         map.put("eosCustomerIdType", IdTypeUtil.numIdTypeTransformToECode(certType));
@@ -107,6 +105,7 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
         map.put("certNum", certNum);
         map.put("cardNo", cardNo);
         map.put("phoneNumber", mobileNo);
+        map.put("currencyNo", "CNY");
         CreditLimitTemporaryUpReviewResp clturr = httpClient.send(creditLimitTemporaryUpReview, map, CreditLimitTemporaryUpReviewResp.class);
         CreditLimitTemporaryUpReview creditLimitTemporaryUpReview= clturr == null ? null : clturr.getData();
         //金额转换
@@ -119,10 +118,8 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
     }
 
     @Override
-    public List<CreditLimitTemporaryUpStatus> getLimitUpHistory(String certType, String certNum, String cardNo) {
+    public List<CreditLimitTemporaryUpStatus> getLimitUpHistory(String cardNo) {
         Map<String, String> map = initGcsParam();
-        map.put("certType", IdTypeUtil.numIdTypeTransformToECode(certType));
-        map.put("certNum", certNum);
         map.put("cardNo", cardNo);
         CreditLimitTemporaryUpStatusResp cltusr = httpClient.send(getTemporaryUpCommitStatus, map, CreditLimitTemporaryUpStatusResp.class);
         List<CreditLimitTemporaryUpStatus> list = cltusr == null ? null : cltusr.getData();
@@ -141,7 +138,7 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
                 // 给申请日期增加6个月
                 eosStarLimitDateCalendar.add(Calendar.MONTH, 6);
             } catch (ParseException e) {
-                logger.warn("@LSTE@转换日期异常certType[{}] certNum[{}] cardNo[{}]", certType, certNum, cardNo);
+                logger.warn("@LSTE@转换日期异常cardNo[{}]",  cardNo);
                 continue;
             }
             // 增额生效开始日期加6个月后与当前日期比较

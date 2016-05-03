@@ -4,6 +4,8 @@ import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.cache.ISMSCache;
 import com.yada.wechatbank.client.HttpClient;
 import com.yada.wechatbank.client.model.BooleanResp;
+import com.yada.wechatbank.kafka.MessageProducer;
+import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.model.SMSCodeManagement;
 import com.yada.wechatbank.service.SmsService;
 import org.slf4j.LoggerFactory;
@@ -25,6 +27,9 @@ public class SmsServiceImpl extends BaseService implements SmsService {
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     protected HttpClient httpClient;
+
+    @Autowired
+    private MessageProducer messageProducer;
 
     @Autowired
     private ISMSCache sMSCacheImpl;
@@ -139,6 +144,8 @@ public class SmsServiceImpl extends BaseService implements SmsService {
         if (result != null && result.getData()) {
             saveSMSCodeToCache(identityNo, mobileNo, bizCode, code);
         }
+        //kafka事件推送
+        messageProducer.send(TopicEnum.EBANK_QUERY,bizCode+"_SMS",param);
         return result == null ? false : result.getData();
     }
 
@@ -192,6 +199,6 @@ public class SmsServiceImpl extends BaseService implements SmsService {
         smsCode.setIdentityNo(identityNo);
         //加入缓存
         sMSCacheImpl.put(identityNo + "_" + mobile + "_" + bizCode, smsCode);
-        logger.debug("为用户identityNo[{}]、手机号[{}]在[{}]渠道生成的验证码[{}]", identityNo, mobile, bizCode, smsCode.getSmsCode());
+        logger.info("为用户identityNo[{}]、手机号[{}]在[{}]渠道生成的验证码[{}]", identityNo, mobile, bizCode, smsCode.getSmsCode());
     }
 }

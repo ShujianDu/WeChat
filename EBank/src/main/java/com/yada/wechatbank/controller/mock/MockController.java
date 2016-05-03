@@ -289,16 +289,16 @@ public class MockController {
 		Balance balance = new Balance();
 		balance.setCardNo("11111111111111111");
 		balance.setCurrencyCode("CNY");
-		balance.setPreCashAdvanceCreditLimit("+000000000000003100");
-		balance.setWholeCreditLimit("+000000000000010100");
-		balance.setPeriodAvailableCreditLimit("+000000000000010000");
+		balance.setPreCashAdvanceCreditLimit("+00000000000031000");
+		balance.setWholeCreditLimit("+00000000000101000");
+		balance.setPeriodAvailableCreditLimit("+00000000000100000");
 
 		Balance balance2 = new Balance();
 		balance2.setCardNo("11111111111111111");
 		balance2.setCurrencyCode("USD");
-		balance2.setPreCashAdvanceCreditLimit("+000000000000003300");
-		balance2.setWholeCreditLimit("+000000000000013000");
-		balance2.setPeriodAvailableCreditLimit("+000000000000010200");
+		balance2.setPreCashAdvanceCreditLimit("+00000000000033000");
+		balance2.setWholeCreditLimit("+00000000000130000");
+		balance2.setPeriodAvailableCreditLimit("+00000000000102000");
 		list.add(balance);
 		list.add(balance2);
 		map.put(key, list);
@@ -479,8 +479,8 @@ public class MockController {
 		amountLimit.setAccountId(accountId);
 		amountLimit.setAccountNo(accountNo);
 		amountLimit.setCurrencyCode("CNY");
-		amountLimit.setMaxAmount("10000");
-		amountLimit.setMinAmount("1000");
+		amountLimit.setMaxAmount("+00000000001000000");
+		amountLimit.setMinAmount("+00000000000100000");
 		amountLimit.setRespCode("");
 		map.put(key, amountLimit);
 		return JSON.toJSONString(map);
@@ -499,11 +499,11 @@ public class MockController {
 	public String creditLimitTemporaryUpReview() {
 		Map<String, Object> map = mockResult();
 		CreditLimitTemporaryUpReview cltur = new CreditLimitTemporaryUpReview();
-		cltur.setAmount("30000");
+		cltur.setAmount("+00000000030000000");
 		cltur.setCardStyle("1");
-		cltur.setCreditLimit("10000");
+		cltur.setCreditLimit("+00000000010000000");
 		cltur.setIssuingBranchId("0000000111");
-		cltur.setPmtCreditLimit("10000");
+		cltur.setPmtCreditLimit("+00000000010000000");
 		cltur.setPrincipalResultID("A");
 		map.put(key, cltur);
 		return JSON.toJSONString(map);
@@ -518,7 +518,7 @@ public class MockController {
 		cltur1.setEosEndLimitDate("2016-11-30");
 		cltur1.setEosId("060220160425123456");
 		cltur1.setEosImpTime("2016-04-24");
-		cltur1.setEosLimit("30000");
+		cltur1.setEosLimit("+00000000003000000");
 		cltur1.setEosStarLimitDate("2016-04-25");
 		cltur1.setEosState("50");
 		list.add(cltur1);
@@ -526,7 +526,7 @@ public class MockController {
 		cltur2.setEosEndLimitDate("2016-11-30");
 		cltur2.setEosId("060220160425123456");
 		cltur2.setEosImpTime("2016-04-24");
-		cltur2.setEosLimit("22000");
+		cltur2.setEosLimit("+00000000002200000");
 		cltur2.setEosStarLimitDate("2016-04-25");
 		cltur2.setEosState("50");
 		list.add(cltur2);
@@ -534,7 +534,7 @@ public class MockController {
 		cltur3.setEosEndLimitDate("2015-09-30");
 		cltur3.setEosId("060220150325123422");
 		cltur3.setEosImpTime("2015-04-24");
-		cltur3.setEosLimit("12000");
+		cltur3.setEosLimit("+00000000001200000");
 		cltur3.setEosStarLimitDate("2015-03-25");
 		cltur3.setEosState("50");
 		list.add(cltur3);
@@ -653,11 +653,11 @@ public class MockController {
 		Map<String, Object> map = mockResult();
 		BillCost b = new BillCost();
 		b.setBillFeeMeans("1");
-		b.setCurrentBillMinimum("200.00");
-		b.setCurrentBillSurplusAmount("123.00");
-		b.setInstallmentsAlsoAmountEach("100.00");
-		b.setInstallmentsAlsoAmountFirst("3.00");
-		b.setInstallmentsfee("1.00");
+		b.setCurrentBillMinimum("+00000000000200000");
+		b.setCurrentBillSurplusAmount("+00000000000123000");
+		b.setInstallmentsAlsoAmountEach("+00000000000100000");
+		b.setInstallmentsAlsoAmountFirst("+00000000000030000");
+		b.setInstallmentsfee("+00000000000001000");
 		b.setInstallmentsNumber("3");
 		map.put(key, b);
 		return JSON.toJSONString(map);

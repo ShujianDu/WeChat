@@ -5,19 +5,18 @@ import com.yada.wechatbank.model.BillingSummary;
 
 /**
  * 账单摘要返回实体
- * 
- * @author liangtieluan
  *
+ * @author liangtieluan
  */
 public class BillingSummaryResp extends BaseModel {
-	private BillingSummary data;
+    private BillingSummary data;
 
-	public BillingSummary getData() {
-		return data;
-	}
+    public BillingSummary getData() {
+        return data;
+    }
 
-	public void setData(BillingSummary data) {
-		this.data = data;
-	}
+    public void setData(BillingSummary data) {
+        this.data = data;
+    }
 
 }

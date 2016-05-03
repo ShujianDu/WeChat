@@ -21,7 +21,7 @@
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<property name="loginUrl" value="/login/list.do" />
-		<!-- 配置过滤地址链 -->
+		<!-- 配置过滤地址链
 		<property name="filterChainDefinitions">
 			<value>
 				#anon是匿名过滤器，用户不必登录即可访问的地址，必须放在其他过滤器前面
@@ -43,7 +43,7 @@
 				/wbicCardInfo/list.do = myAuthc
 				/*/*.do = anon
 			</value>
-		</property>
+		</property>-->
 	</bean>
 	<!-- 自定义的认证过滤器 -->
 	<bean id="myAuthc" class="com.yada.wechatbank.shiro.MyAuthcFilter"/>

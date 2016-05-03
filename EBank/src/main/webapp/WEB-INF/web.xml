@@ -61,7 +61,7 @@
     </filter-mapping>
     <error-page>
         <error-code>500</error-code>
-        <location>/WEB-INF/pages/wechatbank_pages/500.jsp</location>
+        <location>/WEB-INF/pages/wechatbank_pages/error.jsp</location>
     </error-page>
     <!-- SiteMesh web页面布局 filter -->
     <filter>

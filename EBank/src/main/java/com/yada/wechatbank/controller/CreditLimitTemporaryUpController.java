@@ -73,25 +73,24 @@ public class CreditLimitTemporaryUpController extends BaseController {
             amounts = creditLimitTemporaryUpService.getAmount(identityType, identityNo, cardNo);
             cardNo = Crypt.cardNoOneEncode(cardNo);
         } catch (Exception e) {
-            logger.info("@LSTE@卡号解密出现错误cardNo:[" + cardNo + "]" + e);
+            logger.info("@creditLimitTemporaryUp@卡号解密出现错误cardNo:[" + cardNo + "]" + e);
             return ERRORURL;
         }
         if (amounts == null) {
-            logger.info("@LSTE@额度测评结果返回为空  cardNo:[{}]", cardNo);
+            logger.info("@creditLimitTemporaryUp@额度测评结果返回为空  cardNo:[{}]", cardNo);
             return ERRORURL;
         }
         // 可以提升的额度值
         String amount = amounts.getAmount();
         if (amount == null || "".equals(amount)) {
-            logger.info("@LSTE@用户卡cardNo[{}]可提升的额度返回为null", cardNo);
+            logger.info("@creditLimitTemporaryUp@用户卡cardNo[{}]可提升的额度返回为null", cardNo);
             return ERRORURL;
         }
         if ("B".equals(amounts.getPrincipalResultID())) {
-            logger.info("@LSTE@额度测评接口返回（拒绝） B,cardNo:[{}]", cardNo);
+            logger.info("@creditLimitTemporaryUp@额度测评接口返回（拒绝） B,cardNo:[{}]", cardNo);
             model.addAttribute("failMsg", "很抱歉，您目前暂不符合我行的临时额度提升条件！");
             return FAILURL;
         }
-        model.addAttribute("amount", amount);
         // 生效日期
         String effectiveDate = DateTimeUtil.getDate();
         // 失效最小日期
@@ -102,9 +101,7 @@ public class CreditLimitTemporaryUpController extends BaseController {
         model.addAttribute("maxExpirationDate", maxExpirationDate);
         model.addAttribute("effectiveDate", effectiveDate);
         model.addAttribute("cardNo", cardNo);
-        model.addAttribute("cardStyle", amounts.getCardStyle());
-        model.addAttribute("issuingBranchId", amounts.getIssuingBranchId());
-        model.addAttribute("pmtCreditLimit", amounts.getPmtCreditLimit());
+        model.addAttribute("amounts", amounts);
         return TEMPORARYUPURL;
     }
 
@@ -115,14 +112,21 @@ public class CreditLimitTemporaryUpController extends BaseController {
     public String temporaryUp(HttpServletRequest request, String cardNo,
                               Model model, String eosPreAddLimit, String eosStarLimitDate,
                               String eosEndlimitdate, String cardStyle, String issuingBranchId, String pmtCreditLimit) {
+
         try {
             cardNo = Crypt.decode(cardNo);
         } catch (Exception e) {
-            logger.info("@LSTE@卡号解密出现错误cardNo:[" + cardNo + "]" + e);
+            logger.info("@creditLimitTemporaryUp@卡号解密出现错误cardNo:[" + cardNo + "]" + e);
             return ERRORURL;
         }
         String identityNo = getIdentityNo(request);
         String identityType = getIdentityType(request);
+
+        logger.info("@creditLimitTemporaryUp@cardNo[{}]额度提升传入参数：identityNo:[{}],eosPreAddLimit[{}],eosStarLimitDate[{}],eosStarLimitDate[{}]," +
+                        "eosEndlimitdate[{}],cardStyle[{}],issuingBranchId[{}],pmtCreditLimit[{}]", cardNo,
+                identityNo, eosPreAddLimit,
+                eosStarLimitDate, eosEndlimitdate, cardStyle,
+                issuingBranchId, pmtCreditLimit);
 
         // 提交申请信息
         boolean result = creditLimitTemporaryUpService.temporaryUpCommit(
@@ -130,7 +134,7 @@ public class CreditLimitTemporaryUpController extends BaseController {
                 eosStarLimitDate, eosEndlimitdate, cardStyle,
                 issuingBranchId, pmtCreditLimit);
         if (!result) {
-            logger.info("@LSTE@cardNo[{}]额度提升授权失败结果：[{}]", cardNo, false);
+            logger.info("@creditLimitTemporaryUp@cardNo[{}]额度提升授权失败结果：[{}]", cardNo, false);
             model.addAttribute("failMsg", "很抱歉，提交申请失败！");
             return FAILURL;
         }
@@ -141,22 +145,19 @@ public class CreditLimitTemporaryUpController extends BaseController {
      * 查询临时提升额度历史信息
      */
     @RequestMapping(value = "showHistory")
-    public String queryHistory(String cardNo, Model model,
-                               HttpServletRequest request) {
+    public String queryHistory(String cardNo, Model model) {
         String decodeCardNo;
         try {
             decodeCardNo = Crypt.decode(cardNo);
         } catch (Exception e) {
-            logger.info("@LSTE@卡号解密出现错误cardNo:[" + cardNo + "]" + e);
+            logger.info("@creditLimitTemporaryUp@卡号解密出现错误cardNo:[" + cardNo + "]" + e);
             return ERRORURL;
         }
+        logger.info("@creditLimitTemporaryUp@卡cardNo[{}]查询历史额度提升信息", cardNo);
         // 查询临时额度提升历史信息
-        String identityNo = getIdentityNo(request);
-        String identityType = getIdentityType(request);
-        List<CreditLimitTemporaryUpStatus> creditLimitTemporaryUpStatusList = creditLimitTemporaryUpService.getLimitUpHistory(
-                identityType, identityNo, decodeCardNo);
+        List<CreditLimitTemporaryUpStatus> creditLimitTemporaryUpStatusList = creditLimitTemporaryUpService.getLimitUpHistory(decodeCardNo);
         if (creditLimitTemporaryUpStatusList == null || creditLimitTemporaryUpStatusList.size() == 0) {
-            logger.info("@LSTE@未查询到cardNo[{}]的历史额度提升信息，返回为null", cardNo);
+            logger.info("@creditLimitTemporaryUp@未查询到cardNo[{}]的历史额度提升信息，返回为null", cardNo);
             model.addAttribute("failMsg", "未查询到您近期的申请记录！");
             return FAILURL;
         }
@@ -175,8 +176,8 @@ public class CreditLimitTemporaryUpController extends BaseController {
         String identityNo=getIdentityNo(request);
         String identityType=getIdentityType(request);
         String mobileNo = creditLimitTemporaryUpService.getCustMobileNo(identityType, identityNo);
+        logger.info("@creditLimitTemporaryUp@向用户[{}]发送短信验证码",identityNo);
         String sendResult =  Boolean.toString(smsService.sendCreditLimitTemporaryUpSMS(identityNo, mobileNo, BIZ_CODE)).toLowerCase();
-        logger.info("@LSTE@向用户[{}]发送短信验证码，发送结果[{}]",identityNo,sendResult);
        if ("true".equals(sendResult)) {
             result = "true";
         } else {
@@ -195,6 +196,7 @@ public class CreditLimitTemporaryUpController extends BaseController {
         String result ;
         String identityNo=getIdentityNo(request);
         String identityType=getIdentityType(request);
+        logger.info("@creditLimitTemporaryUp@用户[{}]临增额度短信验证传入code[{}]",identityNo,code);
         String mobileNo = creditLimitTemporaryUpService.getCustMobileNo(identityType, identityNo);
         String sendResult = Boolean.toString(smsService.checkSMSCode(identityNo, mobileNo, BIZ_CODE, code)).toLowerCase();
         if ("true".equals(sendResult)) {

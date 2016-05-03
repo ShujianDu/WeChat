@@ -63,7 +63,7 @@
         <!--HttpClient及行内返回的01 99 抛出的RuntimeException统一处理到指定页面 -->
         <property name="exceptionMappings">
             <props>
-                <prop key="java.lang.RuntimeException">wechatbank_pages/error</prop>
+                <prop key="com.yada.wechatbank.exception.CommunicationException">wechatbank_pages/error</prop>
             </props>
         </property>
     </bean>

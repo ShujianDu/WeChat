@@ -339,7 +339,7 @@ header span:last-child {
 .twoSub{border-radius: 5px 5px 5px 5px; background:#C33; border:0; color:#fff; font-size:12px;}
 .sub-blue{
 	display:block;
-	background-image:url(../../images/applyactivity/bluebtn.jpg);
+	background-image:url(../images/bluebtn.jpg);
 	font-weight:900;  
 	border:none;
 	border-radius:8px;  
@@ -351,7 +351,7 @@ header span:last-child {
 }
 .sub-a-blue{
 	display:block;
-	background-image:url(../../images/applyactivity/bluebtn.jpg);
+	background-image:url(../images/bluebtn.jpg);
 	font-weight:900;  
 	border:none;
 	border-radius:8px;  

@@ -56,6 +56,9 @@
         <slf4j.api.version>1.7.5</slf4j.api.version>
         <slf4j.log4j12.version>1.7.5</slf4j.log4j12.version>
         <kafka.version>0.9.0.1</kafka.version>
+        <WeChat.DBService>1.0-SNAPSHOT</WeChat.DBService>
+        <WeChat.EBankService>1.0-SNAPSHOT</WeChat.EBankService>
+
     </properties>
 
     <dependencyManagement>
@@ -319,11 +322,20 @@
                 <artifactId>jstl</artifactId>
                 <version>${jstl.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-log4j12</artifactId>
                 <version>${slf4j.log4j12.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>WeChat</groupId>
+                <artifactId>DBService</artifactId>
+                <version>${WeChat.DBService}</version>
+            </dependency>
+            <dependency>
+                <groupId>WeChat</groupId>
+                <artifactId>EBankService</artifactId>
+                <version>${WeChat.EBankService}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.kafka</groupId>

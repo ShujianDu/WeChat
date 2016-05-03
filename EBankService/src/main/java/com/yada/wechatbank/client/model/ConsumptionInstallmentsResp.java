@@ -5,19 +5,18 @@ import com.yada.wechatbank.model.ConsumptionInstallmentsesReceive;
 
 /**
  * 行内service返回消费分期查询信息
- * 
- * @author liangtieluan
  *
+ * @author liangtieluan
  */
 public class ConsumptionInstallmentsResp extends BaseModel {
-	private ConsumptionInstallmentsesReceive data;
+    private ConsumptionInstallmentsesReceive data;
 
-	public ConsumptionInstallmentsesReceive getData() {
-		return data;
-	}
+    public ConsumptionInstallmentsesReceive getData() {
+        return data;
+    }
 
-	public void setData(ConsumptionInstallmentsesReceive data) {
-		this.data = data;
-	}
+    public void setData(ConsumptionInstallmentsesReceive data) {
+        this.data = data;
+    }
 
 }
