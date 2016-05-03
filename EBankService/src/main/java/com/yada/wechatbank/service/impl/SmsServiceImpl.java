@@ -8,6 +8,7 @@ import com.yada.wechatbank.kafka.MessageProducer;
 import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.model.SMSCodeManagement;
 import com.yada.wechatbank.service.SmsService;
+import com.yada.wechatbank.util.LogUtil;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -144,6 +145,7 @@ public class SmsServiceImpl extends BaseService implements SmsService {
         if (result != null && result.getData()) {
             saveSMSCodeToCache(identityNo, mobileNo, bizCode, code);
         }
+        logger.info("为用户identityNo[{}]、手机号[{}]在[{}]渠道发送短信[{}]", identityNo, mobileNo, bizCode, content);
         //kafka事件推送
         messageProducer.send(TopicEnum.EBANK_QUERY,bizCode+"_SMS",param);
         return result == null ? false : result.getData();

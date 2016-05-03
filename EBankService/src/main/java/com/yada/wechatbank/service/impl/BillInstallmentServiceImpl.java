@@ -10,6 +10,8 @@ import java.util.Map;
 
 import javax.management.RuntimeErrorException;
 
+import com.yada.wechatbank.kafka.MessageProducer;
+import com.yada.wechatbank.kafka.TopicEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +45,9 @@ import com.yada.wx.db.service.model.InstallmentInfo;
 @Transactional
 public class BillInstallmentServiceImpl extends BaseService implements BillInstallmentService {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	@Autowired
+	MessageProducer messageProducer;
 
 	@Value("${url.getBillingPeriod}")
 	private String getBillingPeriod;
@@ -80,10 +85,14 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 		BillingSummary billingSummary = null;
 		Map<String, String> map = initGcsParam();
 		map.put("cardNo", cardNo);
+		//kafka事件记录
+		messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummary_getCurrentPeriodBill", map);
 		// 查询卡片账期
 		BillingPeriodResp billingPeriodResp = httpClient.send(getBillingPeriod, map, BillingPeriodResp.class);
 		List<BillingPeriod> billingPeriods = billingPeriodResp == null ? null : billingPeriodResp.getData();
 		if (billingPeriods == null) {
+			logger.warn("@BillingSummary@通过后台根据用户卡[{}]获取用户账单周期时返回为null",cardNo);
+			messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummary_getCurrentPeriodBill", "通过后台根据用户卡["+cardNo+"]获取用户账单周期时返回为null");
 			return null;
 		}
 		// 循环遍历查找可用账期
@@ -96,10 +105,12 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 				Date endDate = df.parse(temp.getPeriodEndDate());
 				if (calendar.getTime().getTime() > endDate.getTime()) {
 					logger.warn("cardNo[{}]账单日期不在月周期内！",cardNo);
+					messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummary_getCurrentPeriodBill", "cardNo["+cardNo+"]账单日期不在月周期内！");
 					return null;
 				}
 			} catch (Exception e) {
 				logger.warn("cardNo[{}]账单日期不存在或格式错误！error[{}]",cardNo, e.getMessage());
+				messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummary_getCurrentPeriodBill", "cardNo[" + cardNo + "]账单日期不存在或格式错误！");
 				return null;
 			}
 
@@ -125,6 +136,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 				billingSummary.setMinPaymentAmount(AmtUtil.procString(billingSummary.getMinPaymentAmount()));
 			} catch (Exception e) {
 				logger.warn("cardNo[{}]查询账单错误：[{}]" ,cardNo, e.getMessage());
+				messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummary_getCurrentPeriodBill", "cardNo[" + cardNo + "]查询账单错误！");
 				return null;
 			}
 		}
@@ -135,6 +147,8 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 		Map<String, String> map = initGcsParam();
 		map.put("cardNo", cardNo);
 		map.put("currencyCode", currencyCode);
+		//kafka事件记录
+		messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummary_getAmountLimit", map);
 		AmountLimitResp amountLimitResp = httpClient.send(getAmountLimit, map, AmountLimitResp.class);
 		AmountLimit amountLimit = amountLimitResp == null ? null : amountLimitResp.getData();
 		if (amountLimit != null && amountLimit.getRespCode() != null && "".equals(amountLimit.getRespCode())) {
@@ -154,6 +168,8 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 		map.put("billActualAmount",  AmtUtil.procMoneyToString(billActualAmount));
 		map.put("installmentsNumber", installmentsNumber);
 		map.put("feeInstallmentsFlag", feeInstallmentsFlag);
+		//kafka事件记录
+		messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummary_getBillCost", map);
 		BillCostResp billCostResp = httpClient.send(queryBillCost, map, BillCostResp.class);
 		BillCost billCost= billCostResp == null ? null : billCostResp.getData();
 		//金额转换
@@ -181,6 +197,8 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 		map.put("installmentsNumber", installmentsNumber);
 		map.put("feeInstallmentsFlag", feeInstallmentsFlag);
 		String tDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		//kafka事件记录
+		messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummary_billInstallment", map);
 		InstallmentInfo bi = new InstallmentInfo(cardNo, "账单分期", currencyCode, billActualAmount, installmentsNumber, feeInstallmentsFlag, tDate);
 		StringResp stringResp = httpClient.send(billInstallment, bi, StringResp.class);
 		String resultCode = stringResp == null ? null : stringResp.getData();
@@ -199,8 +217,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 		}
 		try {
 			installmentInfoDao.save(bi);
-
-
+			messageProducer.send(TopicEnum.EBANK_DO, "BillingSummary_billInstallment", bi);
 		} catch (Exception e) {
 			logger.error("", e);
 		}
@@ -210,14 +227,16 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 	@Override
 	public String verificationMobileNo(String identityType, String identityNo, String mobileNo) {
 		String mobile = getCustMobileNo(identityType, identityNo);
+		String result="";
 		if (mobile == null) {
-			return "exception";
+			result= "exception";
 		} else if ("".equals(mobile.trim())) {
-			return "noMobileNumber";
+			result= "noMobileNumber";
 		} else if (!mobile.equals(mobileNo)) {
-			return "wrongMobilNo";
+			result= "wrongMobilNo";
 		}
-		return "";
+		messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummary_verificationMobileNo", result);
+		return result;
 	}
 
 	/**

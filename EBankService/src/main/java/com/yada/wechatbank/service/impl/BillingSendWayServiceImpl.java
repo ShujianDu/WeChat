@@ -3,12 +3,15 @@ package com.yada.wechatbank.service.impl;
 import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.BillSendTypeResp;
 import com.yada.wechatbank.client.model.BooleanResp;
+import com.yada.wechatbank.kafka.MessageProducer;
+import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.model.BillSendType;
 import com.yada.wechatbank.model.CardInfo;
 import com.yada.wechatbank.service.BillingSendWayService;
 import com.yada.wechatbank.util.Crypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +24,9 @@ public class BillingSendWayServiceImpl extends BaseService implements BillingSen
     private final Logger logger = LoggerFactory
             .getLogger(this.getClass());
 
+    @Autowired
+    MessageProducer messageProducer;
+
     // 账单寄送方式查询
     @Value("${url.getBillSendType}")
     protected String getBillSendType;
@@ -32,6 +38,7 @@ public class BillingSendWayServiceImpl extends BaseService implements BillingSen
     @Override
     public List<BillSendType> getBillSendType(String identityType, String identityNo) {
 
+        messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSendWay_getBillSendType","证件类型["+identityType+"]证件号["+identityNo+"]查询卡列表" );
         List<CardInfo> cardNos = selectCardNos(identityType, identityNo);
 
         List<BillSendType> list = new ArrayList<>();
@@ -66,6 +73,7 @@ public class BillingSendWayServiceImpl extends BaseService implements BillingSen
             logger.error("@ZDJSFSCX@卡号加密过程中出现错误", e);
             return null;
         }
+        messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSendWay_getBillSendType",list);
         return list;
     }
 
@@ -74,6 +82,7 @@ public class BillingSendWayServiceImpl extends BaseService implements BillingSen
         Map<String, String> map = initGcsParam();
         map.put("cardNo", cardNo);
         map.put("billSendType", billSendType);
+        messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSendWay_updateBillSendType", map);
         BooleanResp booleanResp = httpClient.send(updateBillSendType, map, BooleanResp.class);
         Boolean b = booleanResp == null ? null : booleanResp.getData();
         return b == null ? false : b;

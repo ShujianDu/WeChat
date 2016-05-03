@@ -2,6 +2,8 @@ package com.yada.wechatbank.service.impl;
 
 import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.*;
+import com.yada.wechatbank.kafka.MessageProducer;
+import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.model.*;
 import com.yada.wechatbank.service.CreditLimitTemporaryUpService;
 import com.yada.wechatbank.util.AmtUtil;
@@ -9,6 +11,7 @@ import com.yada.wechatbank.util.Crypt;
 import com.yada.wechatbank.util.IdTypeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +31,9 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
             .getLogger(this.getClass());
 
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    @Autowired
+    MessageProducer messageProducer;
 
     // 信用卡提额的尝试次数
     private AtomicInteger creditLimitUpTimes = new AtomicInteger(0);
@@ -64,11 +70,12 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
         }
         Map<String, String> mapCardHolderInfo = initGcsParam();
         mapCardHolderInfo.put("cardNo", cardNo);
-
+        messageProducer.send(TopicEnum.EBANK_QUERY, "CreditLimitTemporaryUp_temporaryUpCommit", mapCardHolderInfo);
         //获取用户姓名
         CardHolderInfoResp cardHolderInfoResp = httpClient.send(getCardHolderInfo, mapCardHolderInfo, CardHolderInfoResp.class);
         CardHolderInfo cardHolderInfo = cardHolderInfoResp == null ? null : cardHolderInfoResp.getData();
         if (cardHolderInfo == null) {
+            messageProducer.send(TopicEnum.EBANK_QUERY, "CreditLimitTemporaryUp_temporaryUpCommit", "通过卡号["+cardNo+"]获取用户信息返回结果为null");
             return null;
         }
         String phoneNumber = cardHolderInfo.getMobileNo();
@@ -98,6 +105,7 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
     public CreditLimitTemporaryUpReview getAmount(String certType, String certNum, String cardNo) {
         String mobileNo = getCustMobileNo(certType, certNum);
         if (mobileNo == null || "".equals(mobileNo)) {
+            messageProducer.send(TopicEnum.EBANK_QUERY, "Balance_CreditLimitTemporaryUp", "通过证件类型["+certType+"]证件号["+certNum+"]获取用户手机号返回结果为null");
             return null;
         }
         Map<String, String> map = initGcsParam();
@@ -106,6 +114,7 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
         map.put("cardNo", cardNo);
         map.put("phoneNumber", mobileNo);
         map.put("currencyNo", "CNY");
+        messageProducer.send(TopicEnum.EBANK_QUERY, "CreditLimitTemporaryUp_getAmount",map);
         CreditLimitTemporaryUpReviewResp clturr = httpClient.send(creditLimitTemporaryUpReview, map, CreditLimitTemporaryUpReviewResp.class);
         CreditLimitTemporaryUpReview creditLimitTemporaryUpReview= clturr == null ? null : clturr.getData();
         //金额转换
@@ -121,6 +130,7 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
     public List<CreditLimitTemporaryUpStatus> getLimitUpHistory(String cardNo) {
         Map<String, String> map = initGcsParam();
         map.put("cardNo", cardNo);
+        messageProducer.send(TopicEnum.EBANK_QUERY, "CreditLimitTemporaryUp_getLimitUpHistory", cardNo);
         CreditLimitTemporaryUpStatusResp cltusr = httpClient.send(getTemporaryUpCommitStatus, map, CreditLimitTemporaryUpStatusResp.class);
         List<CreditLimitTemporaryUpStatus> list = cltusr == null ? null : cltusr.getData();
         Calendar eosStarLimitDateCalendar = Calendar.getInstance();
@@ -129,6 +139,7 @@ public class CreditLimitTemporaryUpServiceImpl extends BaseService implements Cr
 
         if(list==null)
         {
+            messageProducer.send(TopicEnum.EBANK_QUERY, "CreditLimitTemporaryUp_getLimitUpHistory", "根据卡号["+cardNo+"]查询客户历史提额为null");
             return null;
         }
 
