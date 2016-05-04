@@ -18,6 +18,8 @@ import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.ConsumerAuthorizationResultResp;
 import com.yada.wechatbank.client.model.ConsumptionInstallmentCostResp;
 import com.yada.wechatbank.client.model.ConsumptionInstallmentsResp;
+import com.yada.wechatbank.kafka.MessageProducer;
+import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.model.ConsumptionInstallmentAuthorization;
 import com.yada.wechatbank.model.ConsumptionInstallmentCost;
 import com.yada.wechatbank.model.ConsumptionInstallments;
@@ -38,6 +40,8 @@ import com.yada.wx.db.service.model.InstallmentInfo;
 @Transactional
 public class ConsumptionInstallmentServiceImpl extends BaseService implements ConsumptionInstallmentService {
 	private final Logger logger = LoggerFactory.getLogger(ConsumptionInstallmentServiceImpl.class);
+	@Autowired
+	MessageProducer messageProducer;
 	// 查询所有可分期的消费交易
 	@Value(value = "${url.queryConsumptionInstallments}")
 	protected String queryConsumptionInstallmentsUrl;
@@ -70,13 +74,20 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		param.put("currencyCode", currencyCode);
 		param.put("startNumber", startNumber);
 		param.put("selectNumber", selectNumber);
+		messageProducer.send(TopicEnum.EBANK_QUERY, "consumptionInstallmentQueryConsumptionInstallments", param);
 		ConsumptionInstallmentsResp consumptionInstallmentsResp = httpClient.send(queryConsumptionInstallmentsUrl, param, ConsumptionInstallmentsResp.class);
 		// 判断查询信息是否为空
 		if (consumptionInstallmentsResp == null) {
 			logger.error("@ConsumptionInstallment@consumptionInstallmentsResp is null,cardNo[" + cardNo + "]");
+			// kafka事件记录
+			messageProducer.send(TopicEnum.EBANK_QUERY, "consumptionInstallmentQueryConsumptionInstallments", "consumptionInstallmentsResp is null,cardNo["
+					+ cardNo + "]");
 			return null;
 		} else if (consumptionInstallmentsResp.getData() == null) {
 			logger.info("@ConsumptionInstallment@consumptionInstallmentsResp's data is null,cardNo[" + cardNo + "]");
+			// kafka事件记录
+			messageProducer.send(TopicEnum.EBANK_QUERY, "consumptionInstallmentQueryConsumptionInstallments",
+					"consumptionInstallmentsResp's data is null,cardNo[" + cardNo + "]");
 			map.put("consumptionInstallmentsList", consumptionInstallmentsList);
 			map.put("isFollowUp", "0");
 			return map;
@@ -115,10 +126,15 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		param.put("accountNoID", cia.getAccountNoID());
 		param.put("installmentPeriods", cia.getInstallmentPeriods());
 		param.put("isfeeFlag", cia.getIsfeeFlag());
+		// kafka事件记录
+		messageProducer.send(TopicEnum.EBANK_QUERY, "consumptionInstallmentCostConsumptionInstallment", param);
 		ConsumptionInstallmentCostResp consumptionInstallmentCostResp = httpClient.send(costConsumptionInstallmentUrl, param,
 				ConsumptionInstallmentCostResp.class);
 		if (consumptionInstallmentCostResp == null || consumptionInstallmentCostResp.getData() == null) {
 			logger.error("@ConsumptionInstallment@consumptionInstallmentCostResp or data is null,cardNo[" + cia.getCardNo() + "]");
+			// kafka事件记录
+			messageProducer.send(TopicEnum.EBANK_QUERY, "consumptionInstallmentCostConsumptionInstallment",
+					"consumptionInstallmentCostResp or data is null,cardNo[" + cia.getCardNo() + "]");
 			return null;
 		}
 		ConsumptionInstallmentCost consumptionInstallmentCost = consumptionInstallmentCostResp.getData();
@@ -148,10 +164,15 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		String tDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 		InstallmentInfo bi = new InstallmentInfo(cia.getCardNo(), "消费分期", cia.getCurrencyCode(), cia.getTransactionAmount(), cia.getInstallmentPeriods(),
 				cia.getIsfeeFlag(), tDate);
+		// kafka事件记录
+		messageProducer.send(TopicEnum.EBANK_QUERY, "consumptionInstallmentCostAuthorizationConsumptionInstallment", param);
 		ConsumerAuthorizationResultResp consumerAuthorizationResultResp = httpClient.send(authorizationConsumptionInstallmentUrl, param,
 				ConsumerAuthorizationResultResp.class);
 		if (consumerAuthorizationResultResp == null || consumerAuthorizationResultResp.getData() == null) {
 			logger.error("@ConsumptionInstallment@consumerAuthorizationResultResp or data is null,cardNo[" + cia.getCardNo() + "]");
+			// kafka事件记录
+			messageProducer.send(TopicEnum.EBANK_QUERY, "consumptionInstallmentCostAuthorizationConsumptionInstallment",
+					"consumerAuthorizationResultResp or data is null,cardNo[" + cia.getCardNo() + "]");
 			return false;
 		}
 		String resultCode = consumerAuthorizationResultResp.getData();
@@ -164,6 +185,8 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		}
 		try {
 			installmentInfoDao.save(bi);
+			// kafka事件记录
+			messageProducer.send(TopicEnum.EBANK_DO, "consumptionInstallmentCostAuthorizationConsumptionInstallment", bi);
 		} catch (Exception e) {
 			logger.error("@ConsumptionInstallment@db error:cardNo[" + cia.getCardNo() + "e[", e + "]");
 		}

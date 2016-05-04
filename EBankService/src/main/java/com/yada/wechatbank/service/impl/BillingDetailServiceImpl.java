@@ -6,11 +6,14 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.BillingDetailResp;
+import com.yada.wechatbank.kafka.MessageProducer;
+import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.model.BillingDetail;
 import com.yada.wechatbank.service.BillingDetailService;
 import com.yada.wechatbank.util.AmtUtil;
@@ -25,6 +28,8 @@ import com.yada.wechatbank.util.CurrencyUtil;
 @Service
 public class BillingDetailServiceImpl extends BaseService implements BillingDetailService {
 	private final static Logger logger = LoggerFactory.getLogger(BillingDetailServiceImpl.class);
+	@Autowired
+	MessageProducer messageProducer;
 	// 已出账单明细查询
 	@Value(value = "${url.alltBillingDetail}")
 	protected String alltBillingDetailUrl;
@@ -48,16 +53,24 @@ public class BillingDetailServiceImpl extends BaseService implements BillingDeta
 			param.put("currencyCode", currencyCode);
 			param.put("startDate", periodStartDate);
 			param.put("endDate", periodEndDate);
+			// kafka事件记录
+			messageProducer.send(TopicEnum.EBANK_QUERY, "billingDetailGetALLTBillingDetail", param);
 			billingDetailResp = httpClient.send(alltBillingDetailUrl, param, BillingDetailResp.class);
 		} else {
+			// kafka事件记录
+			messageProducer.send(TopicEnum.EBANK_QUERY, "billingDetailGetUNSMBillingDetail", param);
 			// 未出账单查询
 			billingDetailResp = httpClient.send(unsmBillingDetailUrl, param, BillingDetailResp.class);
 		}
 		if (billingDetailResp == null) {
 			logger.error("@BillingDetail@billingDetailResp is null,cardNo[" + cardNo + "]");
+			// kafka事件记录
+			messageProducer.send(TopicEnum.EBANK_QUERY, "billingDetailGetBillingDetail", "billingDetailResp is null,cardNo[" + cardNo + "]");
 			return null;
 		} else if (billingDetailResp.getData() == null) {
 			logger.info("@BillingDetail@billingDetailResp's data is null,cardNo[" + cardNo + "]");
+			// kafka事件记录
+			messageProducer.send(TopicEnum.EBANK_QUERY, "getBillingDetail", "billingDetailResp's data is null,cardNo[" + cardNo + "]");
 			return billingDetailList;
 		} else {
 			billingDetailList = billingDetailResp.getData();

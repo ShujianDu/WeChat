@@ -9,12 +9,15 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.BillingPeriodResp;
 import com.yada.wechatbank.client.model.BillingSummaryResp;
+import com.yada.wechatbank.kafka.MessageProducer;
+import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.model.BillingPeriod;
 import com.yada.wechatbank.model.BillingSummary;
 import com.yada.wechatbank.service.BillingSummaryService;
@@ -31,6 +34,8 @@ import com.yada.wechatbank.util.DateUtil;
 @Service
 public class BillingSummaryServiceImpl extends BaseService implements BillingSummaryService {
 	private final static Logger logger = LoggerFactory.getLogger(BillingSummaryServiceImpl.class);
+	@Autowired
+	MessageProducer messageProducer;
 	// 账期查询
 	@Value(value = "${url.billingPeriod}")
 	protected String billingPeriodUrl;
@@ -51,13 +56,18 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 		// 根据卡号获取查询账期需要数据
 		Map<String, String> paramPeriods = initGcsParam();
 		paramPeriods.put("cardNo", cardNo);
+		// kafka事件记录
+		messageProducer.send(TopicEnum.EBANK_QUERY, "summaryGetbillingPeriod", paramPeriods);
 		BillingPeriodResp billingPeriodResp = httpClient.send(billingPeriodUrl, paramPeriods, BillingPeriodResp.class);
 		// 判断账期
 		if (billingPeriodResp == null) {
 			logger.info("@BillingPeriods@billingPeriodResp is null,cardNo[" + cardNo + "]");
+			// kafka事件记录
+			messageProducer.send(TopicEnum.EBANK_QUERY, "summaryGetbillingPeriod", "billingPeriodResp is null,cardNo[" + cardNo + "]");
 			return null;
 		} else if (billingPeriodResp.getData() == null) {
 			logger.info("@BillingPeriods@billingPeriodResp's data is null,cardNo[" + cardNo + "]");
+			messageProducer.send(TopicEnum.EBANK_QUERY, "summaryGetbillingPeriod", "billingPeriodResp's data is null,cardNo[" + cardNo + "]");
 			// 没有账期
 			return billingSummaries;
 		}
@@ -78,12 +88,17 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 			for (BillingPeriod billingPeriod : usableBillPeriods) {
 				paramBillingSummary.put("statementNo", billingPeriod.getStatementNo());
 				paramBillingSummary.put("accountId", billingPeriod.getAccountId());
+				messageProducer.send(TopicEnum.EBANK_QUERY, "summaryGetBillingSummary", paramBillingSummary);
 				BillingSummaryResp billingSummaryResp = httpClient.send(billingSummaryUrl, paramBillingSummary, BillingSummaryResp.class);
 				if (billingSummaryResp == null) {
 					logger.info("@BillingSummary@billingSummaryResp is null,cardNo[" + cardNo + "]billingPeriod[" + billingPeriod + "]");
+					// kafka事件记录
+					messageProducer.send(TopicEnum.EBANK_QUERY, "summaryGetBillingSummary", "billingSummaryResp is null,cardNo[" + cardNo + "]");
 					return null;
 				} else if (billingSummaryResp.getData() == null) {
 					logger.info("@BillingSummary@billingSummaryResp'data is null,cardNo[" + cardNo + "]billingPeriod[" + billingPeriod + "]");
+					// kafka事件记录
+					messageProducer.send(TopicEnum.EBANK_QUERY, "summaryGetBillingSummary", "billingSummaryResp'data is null,cardNo[" + cardNo + "]");
 					billingSummary = new BillingSummary();
 					billingSummary.setClosingBalance("0");
 				} else {
