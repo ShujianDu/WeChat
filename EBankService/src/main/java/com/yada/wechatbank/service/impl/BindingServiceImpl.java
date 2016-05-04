@@ -6,6 +6,8 @@ import com.yada.wechatbank.cache.ILockCache;
 import com.yada.wechatbank.client.HttpClient;
 import com.yada.wechatbank.client.model.BooleanResp;
 import com.yada.wechatbank.client.model.CustMobileResp;
+import com.yada.wechatbank.kafka.MessageProducer;
+import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.model.*;
 import com.yada.wechatbank.service.BindingService;
 import com.yada.wechatbank.util.IdTypeUtil;
@@ -48,6 +50,8 @@ public class BindingServiceImpl extends BaseService implements BindingService {
     private ICountSMSCache countSMSCacheImpl;
     @Autowired
     private ILockCache LockCacheImpl;
+    @Autowired
+    private MessageProducer messageProducer;
 
     /**
      * 验证是否已经绑定，返回 成功/失败
@@ -96,69 +100,73 @@ public class BindingServiceImpl extends BaseService implements BindingService {
     @Override
     public String custBinding(String openId, String idType, String idCardNo, String pwd) {
         String cardNo;
-        List<CardInfo> cardInfoList = selectCardNOs(IdTypeUtil.numIdTypeTransformToECode(idType), idCardNo);
+        String result;
+        CustomerInfo customerInfo = new CustomerInfo();
+        List<CardInfo> cardInfoList = selectCardNOs(idType, idCardNo);
         if (cardInfoList != null && cardInfoList.size() != 0) {
             cardNo = cardInfoList.get(0).getCardNo();
             logger.info("@BD@用户身份绑定,根据证件号idCardNo[{}]证件类型idType[{}]获取到的卡号cardNo[{}]", idCardNo, idType, cardNo);
+            Map<String, String> map = new HashMap<>();
+            map.put("cardNo", cardNo);
+            map.put("pwd", pwd);
+            //使用卡号密码验密
+            BooleanResp booleanResp = httpClient.send(verificationPWD, map, BooleanResp.class);
+            if (booleanResp == null) {
+                result = "exception";
+            } else if (!"00".equals(booleanResp.getReturnCode())) {
+                logger.warn("@BD@验证密码返回错误错误码[{}]", booleanResp.getReturnCode());
+                result = "exception";
+            } else if (!booleanResp.getData()) {
+                logger.info("@BD@用户身份绑定,使用卡号查询密码验密失败,idCardNo[{}]证件类型idType[{}]卡号cardNo[{}]", idCardNo, idType, cardNo);
+                countSMSCacheImpl.put(openId, idCardNo);
+                result = pwdFiled;
+            } else {
+                logger.info("@BD@用户身份绑定,使用卡号查询密码验密成功,idCardNo[{}]证件类型idType[{}]卡号cardNo[{}]", idCardNo, idType, cardNo);
+                countSMSCacheImpl.remove(openId);
+                Map<String, String> mobileMap = initGcsParam();
+                mobileMap.put("idType", IdTypeUtil.numIdTypeTransformToECode(idType));
+                mobileMap.put("idNum", idCardNo);
+                //根据证件号和证件类型获取手机号
+                CustMobileResp custMobileResp = httpClient.send(getCustMobile, mobileMap, CustMobileResp.class);
+                if (custMobileResp == null) {
+                    result = "exception";
+                } else if (!"00".equals(custMobileResp.getReturnCode())) {
+                    result = "exception";
+                } else {
+                    //删除数据库中已绑定此证件号的记录
+                    List<String> openIds = customerInfoDao.getOpenIdByidentityNo(idCardNo);
+                    if (openIds != null && openIds.size() != 0) {
+                        logger.info("@BD@用户身份绑定,使用openId删除已绑定数据,idCardNo[{}]", idCardNo);
+                        for (String bindedOpenId : openIds) {
+                            customerInfoDao.deleteByOpenId(bindedOpenId);
+                        }
+                    }
+                    // 开始插入绑定信息
+                    customerInfo.setOpenId(openId);
+                    customerInfo.setIdentityType(idType);
+                    customerInfo.setIdentityNo(idCardNo);
+                    customerInfo.setMobilePhone(custMobileResp.getData());
+                    Calendar cal = Calendar.getInstance();
+                    String dateStr = new SimpleDateFormat("yyyyMMdd").format(cal.getTime());
+                    customerInfo.setBindingDate(dateStr);
+                    if (validateIsBinding(openId)) {
+                        customerInfoDao.deleteByOpenId(openId);
+                    }
+                    logger.info("@BD@用户身份绑定,往数据库保存信息" + customerInfo.toString());
+                    customerInfoDao.save(customerInfo);
+                    result = success;
+                }
+            }
         } else {
             logger.info("@BD@用户身份绑定,根据证件号idCardNo[{}]证件类型idType[{}]获取卡列表失败", idCardNo, idType);
             countSMSCacheImpl.put(openId, idCardNo);
-            return noCard;
+            result = noCard;
         }
-        Map<String, String> map = new HashMap<>();
-        map.put("cardNo", cardNo);
-        map.put("pwd", pwd);
-        //使用卡号密码验密
-        BooleanResp booleanResp = httpClient.send(verificationPWD, map, BooleanResp.class);
-        if (booleanResp == null) {
-            return "exception";
-        }
-        if (!"00".equals(booleanResp.getReturnCode())) {
-            logger.warn("@BD@验证密码返回错误错误码[{}]", booleanResp.getReturnCode());
-            return "exception";
-        }
-        if (!booleanResp.getData()) {
-            logger.info("@BD@用户身份绑定,使用卡号查询密码验密失败,idCardNo[{}]证件类型idType[{}]卡号cardNo[{}]", idCardNo, idType, cardNo);
-            countSMSCacheImpl.put(openId, idCardNo);
-            return pwdFiled;
-        } else {
-            logger.info("@BD@用户身份绑定,使用卡号查询密码验密成功,idCardNo[{}]证件类型idType[{}]卡号cardNo[{}]", idCardNo, idType, cardNo);
-            countSMSCacheImpl.remove(openId);
-        }
-        Map<String, String> mobileMap = initGcsParam();
-        mobileMap.put("idType", IdTypeUtil.numIdTypeTransformToECode(idType));
-        mobileMap.put("idNum", idCardNo);
-        //根据证件号和证件类型获取手机号
-        CustMobileResp custMobileResp = httpClient.send(getCustMobile, mobileMap, CustMobileResp.class);
-        if (custMobileResp == null) {
-            return "exception";
-        }
-        if (!"00".equals(custMobileResp.getReturnCode())) {
-            return "exception";
-        }
-        //删除数据库中已绑定此证件号的记录
-        List<String> openIds = customerInfoDao.getOpenIdByidentityNo(idCardNo);
-        if (openIds != null && openIds.size() != 0) {
-            logger.info("@BD@用户身份绑定,使用openId删除已绑定数据,idCardNo[{}]", idCardNo);
-            for (String bindedOpenId : openIds) {
-                customerInfoDao.deleteByOpenId(bindedOpenId);
-            }
-        }
-        // 开始插入绑定信息
-        CustomerInfo customerInfo = new CustomerInfo();
-        customerInfo.setOpenId(openId);
-        customerInfo.setIdentityType(idType);
-        customerInfo.setIdentityNo(idCardNo);
-        customerInfo.setMobilePhone(custMobileResp.getData());
-        Calendar cal = Calendar.getInstance();
-        String dateStr = new SimpleDateFormat("yyyyMMdd").format(cal.getTime());
-        customerInfo.setBindingDate(dateStr);
-        if (validateIsBinding(openId)) {
-            customerInfoDao.deleteByOpenId(openId);
-        }
-        logger.info("@BD@用户身份绑定,往数据库保存信息" + customerInfo.toString());
-        customerInfoDao.save(customerInfo);
-        return success;
+        Map<String,Object> map = new HashMap<>();
+        map.put("customerInfo",customerInfo);
+        map.put("result",result);
+        messageProducer.send(TopicEnum.EBANK_DO, "BindingCustBinding", customerInfo);
+        return result;
     }
 
     /**
@@ -170,7 +178,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      */
     @Override
     public List<CardInfo> selectCardNOs(String identityType, String identityNo) {
-        return selectCardNos(identityType, identityNo);
+        return selectCardNos(IdTypeUtil.numIdTypeTransformToECode(identityType), identityNo);
     }
 
     /**
@@ -226,11 +234,17 @@ public class BindingServiceImpl extends BaseService implements BindingService {
             return false;
         }
         customerInfo.setDefCardNo(defCardNO);
-        customerInfoDao.save(customerInfo);
+        CustomerInfo res = customerInfoDao.save(customerInfo);
+        if (res == null) {
+            return false;
+        }
         //获取卡列表
-        //TODO
+        List<CardInfo> cardInfoList = selectCardNOs(customerInfo.getIdentityType(), customerInfo.getDefCardNo());
+        Map<String, Object> map = new HashMap<>();
+        map.put("cardList", cardInfoList);
+        map.put("customerInfo", customerInfo);
         //发事件给动户通知
-        //TODO
+        messageProducer.send(TopicEnum.EBANK_DO, "BindingBindingDef", map);
         return true;
     }
 
@@ -239,11 +253,12 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      *
      * @param identityType 证件类型
      * @param identityNo   证件号
-     * @param mobilNo      手机号
+     * @param mobileNo     手机号
      * @return String
      */
     @Override
-    public String vaidateMobilNo(String openId, String identityNo, String identityType, String mobilNo) {
+    public String vaidateMobilNo(String openId, String identityNo, String identityType, String mobileNo) {
+        String result;
         //判断账户是否锁定
         if (LockCacheImpl.get(openId) != null || LockCacheImpl.get(identityNo) != null) {
             logger.info("@BD@验证手机号码,用户已锁定openId[{}]identityNo[{}]", openId, identityNo);
@@ -253,32 +268,37 @@ public class BindingServiceImpl extends BaseService implements BindingService {
         map.put("idType", identityType);
         map.put("idNum", identityNo);
         CustMobileResp custMobileResp = httpClient.send(getCustMobile, map, CustMobileResp.class);
-        String mobile = null;
-        if (custMobileResp != null) {
+        if (custMobileResp == null) {
+            result = "exception";
+        } else {
+
             if (!"00".equals(custMobileResp.getReturnCode())) {
-                return "exception";
+                result = "exception";
             } else {
-                mobile = custMobileResp.getData();
+                String mobile = custMobileResp.getData();
+                if (mobile == null) {
+                    logger.info("@BD@验证手机号码,后台获取手机号为空openId[{}]identityNo[{}]identityType[{}]", openId, identityNo, identityType);
+                    countSMSCacheImpl.put(openId, identityNo);
+                    result = "exception";
+                } else if ("".equals(mobile.trim())) {
+                    logger.info("@BD@验证手机号码,后台获取手机号为值错误openId[{}]identityNo[{}]identityType[{}]", openId, identityNo, identityType);
+                    countSMSCacheImpl.put(openId, identityNo);
+                    result = "noMobileNumber";
+                } else if (!mobile.equals(mobileNo)) {
+                    logger.info("@BD@验证手机号码,与后台获取手机号不符openId[{}]identityNo[{}]identityType[{}]", openId, identityNo, identityType);
+                    countSMSCacheImpl.put(openId, identityNo);
+                    result = "wrongMobilNo";
+                } else {
+                    //证件号手机号输入正确，次数清零
+                    countSMSCacheImpl.remove(openId);
+                    result = "true";
+                }
             }
         }
-        if (mobile == null) {
-            logger.info("@BD@验证手机号码,后台获取手机号为空openId[{}]identityNo[{}]identityType[{}]", openId, identityNo, identityType);
-            countSMSCacheImpl.put(openId, identityNo);
-            return "exception";
-        }
-        if ("".equals(mobile.trim())) {
-            logger.info("@BD@验证手机号码,后台获取手机号为值错误openId[{}]identityNo[{}]identityType[{}]", openId, identityNo, identityType);
-            countSMSCacheImpl.put(openId, identityNo);
-            return "noMobileNumber";
-        }
-        if (!mobile.equals(mobilNo)) {
-            logger.info("@BD@验证手机号码,与后台获取手机号不符openId[{}]identityNo[{}]identityType[{}]", openId, identityNo, identityType);
-            countSMSCacheImpl.put(openId, identityNo);
-            return "wrongMobilNo";
-        }
-        //证件号手机号输入正确，次数清零
-        countSMSCacheImpl.remove(openId);
-        return "true";
+        map.put("result", result);
+        messageProducer.send(TopicEnum.EBANK_QUERY, "BindingVaidateMobilNo", map);
+        return result;
+
     }
 
     /**
@@ -303,6 +323,10 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      */
     public boolean fillIdentityType(String identityType, String identityNo) {
         int result = customerInfoDao.updateIdentityTypeByIdentityNo(identityType, identityNo);
+        Map<String, String> map = new HashMap<>();
+        map.put("identityType", identityType);
+        map.put("identityNo", identityNo);
+        messageProducer.send(TopicEnum.EBANK_DO, "BindingFillIdentityType", map);
         return result != 0;
     }
 

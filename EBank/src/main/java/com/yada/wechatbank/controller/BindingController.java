@@ -123,7 +123,7 @@ public class BindingController extends BaseController {
             logger.info("@BD@验密失败openId[{}]idNumber[{}]idType[{}]mobilNo[{}]", bindingQuery.getOpenId(), bindingQuery.getIdNumber(), bindingQuery.getIdType(), bindingQuery.getMobilNo());
         } else if ("0".equals(bindingResult)) { // 成功
             // 获取卡列表
-            List<CardInfo> cardList = bindingServiceImpl.selectCardNOs(IdTypeUtil.numIdTypeTransformToECode(bindingQuery.getIdType()), bindingQuery.getIdNumber());
+            List<CardInfo> cardList = bindingServiceImpl.selectCardNOs(bindingQuery.getIdType(), bindingQuery.getIdNumber());
             // 返回值为空或没有数据
             if (cardList == null) {
                 logger.warn("@BD@查不到卡号idNumber[{}]idType[{}]", bindingQuery.getIdNumber(), bindingQuery.getIdType());
@@ -188,7 +188,7 @@ public class BindingController extends BaseController {
             logger.warn("@BD@绑定默认卡,根据openId获取客户信息为空openId[{}]", openId);
             return BUSYURL;
         }
-        List<CardInfo> cardList = bindingServiceImpl.selectCardNOs(IdTypeUtil.numIdTypeTransformToECode(customerInfo.getIdentityType()), customerInfo.getIdentityNo());
+        List<CardInfo> cardList = bindingServiceImpl.selectCardNOs(customerInfo.getIdentityType(), customerInfo.getIdentityNo());
         if (cardList == null) {
             logger.warn("@BD@绑定默认卡,根据openId获取客户信息为空openId[{}]", openId);
             return BUSYURL;
@@ -317,7 +317,7 @@ public class BindingController extends BaseController {
             }
             logger.info("@BD@补充证件类型获取卡列表openId[{}]identityNo[{}]identityType[{}]", openId, identityNo, identityType);
             //获得卡号列表
-            List<CardInfo> cardList = bindingServiceImpl.selectCardNOs(IdTypeUtil.numIdTypeTransformToECode(identityType), identityNo);
+            List<CardInfo> cardList = bindingServiceImpl.selectCardNOs(identityType, identityNo);
             //返回值为空或没有数据
             if (cardList == null) {
                 logger.info("@BD@补充证件类型获取卡列表为null或没有数据openId[{}]identityNo[{}]identityType[{}]", openId, identityNo, identityType);

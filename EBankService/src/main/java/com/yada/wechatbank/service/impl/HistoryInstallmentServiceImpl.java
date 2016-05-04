@@ -3,6 +3,8 @@ package com.yada.wechatbank.service.impl;
 import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.HttpClient;
 import com.yada.wechatbank.client.model.HistoryInstallmentResp;
+import com.yada.wechatbank.kafka.MessageProducer;
+import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.model.CardInfo;
 import com.yada.wechatbank.model.HistoryInstallment;
 import com.yada.wechatbank.model.HistoryInstallmentList;
@@ -29,6 +31,8 @@ public class HistoryInstallmentServiceImpl extends BaseService implements Histor
     private HttpClient httpClient;
     @Value("${url.getHistoryInstallment}")
     private String getHistoryInstallment;
+    @Autowired
+    private MessageProducer messageProducer;
 
     @Override
     public HistoryInstallmentList queryHistoryInstallment(String cardNo, String startNumber, String selectNumber) {
@@ -63,6 +67,7 @@ public class HistoryInstallmentServiceImpl extends BaseService implements Histor
             setList.add(historyInstallment);
         }
         historyInstallmentList.setHistoryInstallmentList(setList);
+        messageProducer.send(TopicEnum.EBANK_QUERY,"queryHistoryInstallment",map);
         return historyInstallmentList;
     }
 
