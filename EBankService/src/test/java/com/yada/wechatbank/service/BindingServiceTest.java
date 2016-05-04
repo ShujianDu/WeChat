@@ -1,6 +1,9 @@
 package com.yada.wechatbank.service;
 
 import com.yada.wechatbank.model.CardInfo;
+import com.yada.wechatbank.util.IdTypeUtil;
+import com.yada.wx.db.service.dao.CustomerInfoDao;
+import com.yada.wx.db.service.model.CustomerInfo;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +25,8 @@ public class BindingServiceTest {
 
     @Autowired
     private BindingService bindingService;
+    @Autowired
+    private CustomerInfoDao customerInfoDao;
 
     private String openId;
     private String idType;
@@ -33,8 +38,8 @@ public class BindingServiceTest {
     @Before
     public void init(){
         this.openId="123456";
-        this.idType = "01";
-        this.idNo = "12345678912234";
+        this.idType = "03";
+        this.idNo = "MOCK01";
         this.pwd = "111111";
         this.mobileNo = "18888888888";
     }
@@ -47,6 +52,11 @@ public class BindingServiceTest {
 
     @Test
     public void testCustBinding(){
+        CustomerInfo customerInfo = new CustomerInfo();
+        customerInfo.setOpenId("123456");
+        customerInfo.setIdentityNo(idNo);
+        customerInfo.setIdentityType(idType);
+        customerInfoDao.save(customerInfo);
         String result = bindingService.custBinding(openId,idType,idNo,pwd);
         Assert.assertEquals("0",result);
     }
@@ -85,12 +95,12 @@ public class BindingServiceTest {
     @Test
     public void testFillIdentityType(){
         boolean result = bindingService.fillIdentityType(idType,idNo);
-        Assert.assertEquals(true,result);
+        Assert.assertEquals(false,result);
     }
 
     @Test
     public void testSelectCardNOs(){
-        List<CardInfo> result = bindingService.selectCardNOs(idNo,idType);
+        List<CardInfo> result = bindingService.selectCardNOs(idType ,idNo);
         Assert.assertNotNull(result);
     }
 
@@ -103,5 +113,10 @@ public class BindingServiceTest {
     @Test
     public void testAddCountCache(){
         bindingService.addCountCache(openId,idNo);
+    }
+
+    @Test
+    public void testFindCustomerInfoByOpenId(){
+        bindingService.findCustomerInfoByOpenId(openId);
     }
 }

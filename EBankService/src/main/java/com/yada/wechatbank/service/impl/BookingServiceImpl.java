@@ -2,6 +2,8 @@ package com.yada.wechatbank.service.impl;
 
 import java.util.List;
 
+import com.yada.wechatbank.kafka.MessageProducer;
+import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.service.BookingService;
 import com.yada.wx.db.service.dao.BookingDao;
 import com.yada.wx.db.service.dao.NuwOrgDao;
@@ -25,6 +27,8 @@ public class BookingServiceImpl implements BookingService {
     private BookingDao bookingDao;
     @Autowired
     private NuwOrgDao nuwOrgDao;
+    @Autowired
+    private MessageProducer messageProducer;
 
     /**
      * 获取客户ID的Sequences，前置处理
@@ -48,6 +52,7 @@ public class BookingServiceImpl implements BookingService {
             bookingDao.deleteByClientNameAndMobilePhone(booking.getClientName(), booking.getMobilePhone());
         }
         Booking res = bookingDao.save(booking);
+        messageProducer.send(TopicEnum.EBANK_DO,"booking",booking);
         return res != null;
     }
 

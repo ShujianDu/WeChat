@@ -48,7 +48,7 @@ public class MyHttpClient extends HttpClient {
     private final String authorizationConsumptionInstallment = "/authorizationConsumptionInstallment.do";// 消费分期授权
 
     protected final String pubilcMobileNo = "18888888888";//手机号
-    protected final String idType = "03";//证件类型-护照
+    protected final String idType = "SSNO";//证件类型-护照
     protected final String idNo = "MOCK01";//证件号
     // 测试一卡数据
     protected final String cardNo1 = "6225888899990001"; // 测试卡1
@@ -445,8 +445,7 @@ public class MyHttpClient extends HttpClient {
     }
 
     private void verificationPWD(Map<String, Object> map) {
-        String res = "true";
-        map.put(key, res);
+        map.put(key, true);
     }
 
     private void getHistoryInstallment(Map<String, Object> map) {

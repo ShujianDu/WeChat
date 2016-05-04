@@ -5,6 +5,8 @@ import com.yada.wechatbank.client.HttpClient;
 import com.yada.wechatbank.client.model.PointsBalanceResp;
 import com.yada.wechatbank.client.model.PointsValidatesResp;
 import com.yada.wechatbank.client.model.VerificationCardNoResultResp;
+import com.yada.wechatbank.kafka.MessageProducer;
+import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.model.*;
 import com.yada.wechatbank.client.model.PointsDetailResp;
 import com.yada.wechatbank.service.PointsService;
@@ -37,6 +39,8 @@ public class PointsServiceImpl extends BaseService implements PointsService {
     private String getBalance;
     @Value("${url.verificationCardNo}")
     private String verificationCardNo;
+    @Autowired
+    private MessageProducer messageProducer;
 
     /**
      * 获取账户积分余额
@@ -65,6 +69,9 @@ public class PointsServiceImpl extends BaseService implements PointsService {
             logger.info("@JF@查询积分余额返回错误码returnCode[{}]cardNo[{}]", pointsBlanceResp.getReturnCode(), cardNo);
             return null;
         }
+        map.put("identityType",identityType);
+        map.put("identityNo",identityNo);
+        messageProducer.send(TopicEnum.EBANK_QUERY,"PointsGetPointsBlance",map);
         return pointsBlanceResp.getData();
     }
 
@@ -95,6 +102,9 @@ public class PointsServiceImpl extends BaseService implements PointsService {
             logger.warn("@JFMX@积分明细查询返回错误码returnCode[{}]cardNo[{}]", pointsDetailResp.getReturnCode(), cardNo);
             return null;
         }
+        map.put("identityType",identityType);
+        map.put("identityNo",identityNo);
+        messageProducer.send(TopicEnum.EBANK_QUERY,"PointsGetPointsDetail",map);
         return pointsDetailResp.getData();
     }
 
@@ -153,6 +163,8 @@ public class PointsServiceImpl extends BaseService implements PointsService {
             logger.warn("@JFDQR@查询积分到期日返回错误码returnCode[{}]cardNo[{}]", pointsValidatesResp.getReturnCode(), cardNo);
             return null;
         }
+
+        messageProducer.send(TopicEnum.EBANK_QUERY,"PointsGetPointsValidates",map);
         return pointsValidatesResp.getData();
     }
 
@@ -191,6 +203,7 @@ public class PointsServiceImpl extends BaseService implements PointsService {
             logger.warn("@JFDH@积分兑换加密返回错误码returnCode[{}]cardNo[{}]", verificationCardNoResultResp.getReturnCode(), cardNo);
             return null;
         }
+        messageProducer.send(TopicEnum.EBANK_QUERY,"PointsVerificationCardNo",map);
         return verificationCardNoResultResp.getData();
     }
 

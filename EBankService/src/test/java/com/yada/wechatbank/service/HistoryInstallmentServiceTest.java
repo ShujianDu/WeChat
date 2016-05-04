@@ -25,8 +25,8 @@ public class HistoryInstallmentServiceTest {
     private String cardNo = "1234567891234";
     private String startNumber = "1";
     private String selectNumber = "10";
-    private String idNo = "1234567891234";
-    private String idType = "01";
+    private String idNo = "MOCK01";
+    private String idType = "SSNO";
 
     @Test
     public void testQueryHistoryInstallment(){
@@ -36,7 +36,7 @@ public class HistoryInstallmentServiceTest {
 
     @Test
     public void testSelectCardNOs(){
-        List<CardInfo> result =  historyInstallmentService.selectCardNOs(idNo,idType);
+        List<CardInfo> result =  historyInstallmentService.selectCardNOs(idType,idNo);
         Assert.assertNotNull(result);
     }
 }
