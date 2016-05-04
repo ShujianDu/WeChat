@@ -24,7 +24,7 @@ public class WbicCardInfoServiceTest {
     @Test
     public void testGetWbicCardsBackNormal(){
         String idNum = "110625199301280000";
-        String idType = "01";
+        String idType = "IDCD";
         String cardNo = wbicCardInfoService.getWbicCards(idNum, idType);
         Assert.assertNotNull(cardNo);
     }
@@ -34,8 +34,8 @@ public class WbicCardInfoServiceTest {
      */
     @Test
     public void testGetWbicCardsBackNull(){
-        String idNum = "110625199301280000";
-        String idType = "02";
+        String idNum = "MOCK01";
+        String idType = "01";
         String cardNo = wbicCardInfoService.getWbicCards(idNum, idType);
         Assert.assertNull(cardNo);
     }

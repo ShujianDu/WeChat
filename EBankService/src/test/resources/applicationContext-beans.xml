@@ -11,10 +11,9 @@
         <constructor-arg name="readTimeout" value="${httpClient.readTimeout}"></constructor-arg>
     </bean>
 
-    <bean id="messageProducer" class="com.yada.wechatbank.kafka.MessageProducer">
-        <constructor-arg name="bootstrapServers" value="${kafka.bootstrap.Servers}"></constructor-arg>
+    <bean id="messageProducer" class="com.yada.wechatbank.kafka.MyMessageProducer">
     </bean>
 
-    <bean id="exceptionHandler" class="com.yada.wechatbank.exception.ExceptionHandler"/>
+    <!-- <bean id="exceptionHandler" class="com.yada.wechatbank.exception.ExceptionHandler"/> -->
 
 </beans>

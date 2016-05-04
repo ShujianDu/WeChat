@@ -42,7 +42,7 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
         Map<String, String> param = initGcsParam();
         param.put("cardNo", cardNo);
 
-        messageProducer.send(TopicEnum.EBANK_QUERY, "Balance_getCardNoBalance", param);
+        messageProducer.send(TopicEnum.EBANK_QUERY, "BalanceGetCardNoBalance", param);
 
         BalanceResp balanceResp = httpClient.send(getCardBalance, param, BalanceResp.class);
         List<Balance> balanceList = balanceResp == null ? null : balanceResp.getData();
