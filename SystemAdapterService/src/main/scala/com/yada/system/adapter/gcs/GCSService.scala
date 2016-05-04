@@ -44,6 +44,7 @@ trait GCSService {
     * @return BillingDetailResult列表
     */
   def getBillingDetailsUnSettlement(billingDetailsParams: BillingDetailsUnSettlementParams): List[BillingDetailResult]
+
   /**
     * 币种查询
     *
@@ -298,7 +299,7 @@ object CardNoParams {
 case class CardNoResult(cardNo: String)
 
 object CardNoResult {
-  implicit val cardNoResultWrites: Writes[CardNoResult] = Writes(cardNoResult => Json.toJson(JsObject(Map("cardNo" -> JsString(cardNoResult.cardNo)))))
+  implicit val cardNoResultWrites: Writes[CardNoResult] = Writes(cardNoResult => Json.toJson(JsObject(Map("cardNo" -> JsString(cardNoResult.cardNo)).toSeq)))
 }
 
 /**
@@ -498,7 +499,7 @@ object GCSConsumptionInstallmentsEntity {
     (__ \ "cardNo").read[String] ~ (__ \ "transactionDate").read[String] ~ (__ \ "transactionAmount").read[String] ~ (__ \ "debitCreditCode").read[String]
       ~ (__ \ "transactionDescription").read[String] ~ (__ \ "accountID").read[String] ~ (__ \ "accountedID").read[String] ~ (__ \ "accountNoID").read[String]
       ~ (__ \ "originalCurrencyCode").read[String] ~ (__ \ "originalTransactionAmount").read[String] ~ (__ \ "transactionCurrencyCode").read[String]
-      ~ (__ \ "cycleNumber").read[String]~ (__ \ "transactionNo").read[String]
+      ~ (__ \ "cycleNumber").read[String] ~ (__ \ "transactionNo").read[String]
     ) (GCSConsumptionInstallmentsEntity.apply _)
 
   implicit val gcsConsumptionInstallmentsEntityWrites: Writes[GCSConsumptionInstallmentsEntity] = (
@@ -758,7 +759,7 @@ object BillingDetailsSettlementParams {
   * @param totalNum      显示条数
   */
 case class BillingDetailsUnSettlementParams(tranSessionID: String, reqChannelID: String, cardNo: String, queryType: String, startNum: String,
-                                          totalNum: String)
+                                            totalNum: String)
 
 object BillingDetailsUnSettlementParams {
   implicit val billingDetailsSettlementParamsReads: Reads[BillingDetailsUnSettlementParams] = (
@@ -779,7 +780,7 @@ object BillingDetailsUnSettlementParams {
 case class CurrencyCodeResult(currencyCode: String)
 
 object CurrencyCodeResult {
-  implicit val currencyCodeResultWrites: Writes[CurrencyCodeResult] = Writes(currencyCodeResult => Json.toJson(JsObject(Map("currencyCode" -> JsString(currencyCodeResult.currencyCode)))))
+  implicit val currencyCodeResultWrites: Writes[CurrencyCodeResult] = Writes(currencyCodeResult => Json.toJson(JsObject(Map("currencyCode" -> JsString(currencyCodeResult.currencyCode)).toSeq)))
 }
 
 /**
@@ -826,7 +827,7 @@ object BillSendTypeResult {
 case class BooleanResult(isSuccess: Boolean)
 
 object BooleanResult {
-  implicit val booleanResultWrites: Writes[BooleanResult] = Writes(booleanResult => Json.toJson(JsObject(Map("isSuccess" -> JsBoolean(booleanResult.isSuccess)))))
+  implicit val booleanResultWrites: Writes[BooleanResult] = Writes(booleanResult => Json.toJson(JsObject(Map("isSuccess" -> JsBoolean(booleanResult.isSuccess)).toSeq)))
 }
 
 /**
@@ -928,7 +929,7 @@ object MobilePhoneParams {
 case class MobilePhoneResult(mobilePhoneNo: String)
 
 object MobilePhoneResult {
-  implicit val mobilePhoneResultWrites: Writes[MobilePhoneResult] = Writes(mobilePhoneNoResult => Json.toJson(JsObject(Map("mobilePhoneNo" -> JsString(mobilePhoneNoResult.mobilePhoneNo)))))
+  implicit val mobilePhoneResultWrites: Writes[MobilePhoneResult] = Writes(mobilePhoneNoResult => Json.toJson(JsObject(Map("mobilePhoneNo" -> JsString(mobilePhoneNoResult.mobilePhoneNo)).toSeq)))
 }
 
 /**
@@ -963,7 +964,7 @@ object WbicCardInfoResult {
   implicit val wbicCardInfoResultWrites: Writes[WbicCardInfoResult] = Writes(wbicCardInfoResult => Json.toJson(JsObject(Map("wbicCardNo" -> JsString(wbicCardInfoResult.wbicCardNo match {
     case Some(x) => x
     case None => ""
-  })))))
+  })).toSeq)))
 }
 
 /**
@@ -1079,7 +1080,7 @@ object ConsumptionInstallmentsResult {
 case class GCSReturnCodeResult(returnCode: String)
 
 object GCSReturnCodeResult {
-  implicit val gcsReturnCodeResultWrites: Writes[GCSReturnCodeResult] = Writes(gcsReturnCodeResult => Json.toJson(JsObject(Map("returnCode" -> JsString(gcsReturnCodeResult.returnCode)))))
+  implicit val gcsReturnCodeResultWrites: Writes[GCSReturnCodeResult] = Writes(gcsReturnCodeResult => Json.toJson(JsObject(Map("returnCode" -> JsString(gcsReturnCodeResult.returnCode)).toSeq)))
 }
 
 /**

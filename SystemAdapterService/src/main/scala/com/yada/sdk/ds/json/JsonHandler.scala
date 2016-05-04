@@ -16,12 +16,12 @@ class JsonHandler {
   }
 
   def mapToJsObject(props: Map[String, String]) = {
-    JsObject(props.map(prop => prop._1 -> JsString(prop._2)))
+    JsObject(props.map(prop => prop._1 -> JsString(prop._2)).toSeq)
   }
 
   def fromJSON(data: String): Data = {
     val json = Json.parse(data)
-    Data((json \ "head").get, (json \ "body").get)
+    Data(json \ "head", json \ "body")
   }
 
 }

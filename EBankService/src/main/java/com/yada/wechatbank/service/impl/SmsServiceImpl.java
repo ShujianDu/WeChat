@@ -8,7 +8,6 @@ import com.yada.wechatbank.kafka.MessageProducer;
 import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.model.SMSCodeManagement;
 import com.yada.wechatbank.service.SmsService;
-import com.yada.wechatbank.util.LogUtil;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

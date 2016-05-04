@@ -38,5 +38,5 @@ object BCSPSendSMSParams {
 case class BCSPBooleanResult(isSuccess: Boolean)
 
 object BCSPBooleanResult {
-  implicit val bcspBooleanResultWrites: Writes[BCSPBooleanResult] = Writes(bcspBooleanResult => Json.toJson(JsObject(Map("isSuccess" -> JsBoolean(bcspBooleanResult.isSuccess)))))
+  implicit val bcspBooleanResultWrites: Writes[BCSPBooleanResult] = Writes(bcspBooleanResult => Json.toJson(JsObject(Map("isSuccess" -> JsBoolean(bcspBooleanResult.isSuccess)).toSeq)))
 }

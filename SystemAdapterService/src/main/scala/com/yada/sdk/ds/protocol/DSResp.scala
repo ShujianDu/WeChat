@@ -17,7 +17,10 @@ class DSResp(data: Data) {
     * @param key json头中的key
     * @return
     */
-  def headValue(key: String): String = (data.head \ key).getOrElse(JsString("")).as[String]
+  def headValue(key: String): String = (data.head \ key).asOpt[String] match {
+    case None => ""
+    case Some(x) => x
+  }
 
   /**
     * 响应正文的值
@@ -25,7 +28,10 @@ class DSResp(data: Data) {
     * @param key json正文中的key
     * @return
     */
-  def bodyValue(key: String): String = (data.body \ key).getOrElse(JsString("")).as[String]
+  def bodyValue(key: String): String = (data.body \ key).asOpt[String] match {
+    case None => ""
+    case Some(x) => x
+  }
 
   /**
     * 响应内容list的值
@@ -39,7 +45,10 @@ class DSResp(data: Data) {
     val list = data.body \\ "applyList"
     list.map(item => {
       val values = keys.map(key => {
-        (item \ key).getOrElse(JsString("")).as[String]
+        (item \ key).asOpt[String] match {
+          case None => ""
+          case Some(x) => x
+        }
       })
       valuesToObj(values)
     }).toList
