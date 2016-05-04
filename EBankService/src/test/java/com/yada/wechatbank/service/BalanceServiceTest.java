@@ -68,7 +68,7 @@ public class BalanceServiceTest {
      */
     @Test
     public void testGetProessCardNoList() {
-        String idType = "03";
+        String idType = "SSNO";
         String idNo = "MOCK01";
         List<CardInfo> list = balanceServiceImpl.getProessCardNoList(idType, idNo);
         for (int i = 0; i < list.size(); i++) {

@@ -46,7 +46,9 @@ public class MyHttpClient extends HttpClient {
     private final String queryConsumptionInstallments = "/queryConsumptionInstallments.do";// 可消费分期信息查询
     private final String costConsumptionInstallment = "/costConsumptionInstallment.do";// 消费分期试算
     private final String authorizationConsumptionInstallment = "/authorizationConsumptionInstallment.do";// 消费分期授权
-
+    private final String tempCreditCardReportLost = "/tempCreditCardReportLost.do";
+    private final String creditCardReportLost = "/creditCardReportLost.do";
+    private final String relieveCreditCardTempReportLost = "/relieveCreditCardTempReportLost.do";
     protected final String pubilcMobileNo = "18888888888";//手机号
     protected final String idType = "SSNO";//证件类型-护照
     protected final String idNo = "MOCK01";//证件号
@@ -223,6 +225,18 @@ public class MyHttpClient extends HttpClient {
                 getAuthorizationConsumptionInstallment(map, object);
                 break;
             }
+            case tempCreditCardReportLost: {
+                tempCreditCardReportLost(map);
+                break;
+            }
+            case creditCardReportLost: {
+                creditCardReportLost(map);
+                break;
+            }
+            case relieveCreditCardTempReportLost: {
+                relieveCreditCardTempReportLost(map);
+                break;
+            }
             default: {
                 break;
             }
@@ -230,6 +244,16 @@ public class MyHttpClient extends HttpClient {
         String mapJson = JSON.toJSONString(map);
         T result = JSON.parseObject(mapJson, targetClass);
         return result;
+    }
+
+    private void relieveCreditCardTempReportLost(Map<String, Object> map){
+        map.put(key,true);
+    }
+    private void creditCardReportLost(Map<String, Object> map){
+        map.put(key,true);
+    }
+    private void tempCreditCardReportLost(Map<String, Object> map){
+        map.put(key,true);
     }
 
     // 获取预约办卡手机号

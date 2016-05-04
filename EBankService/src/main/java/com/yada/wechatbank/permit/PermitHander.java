@@ -9,6 +9,7 @@ import com.yada.wechatbank.client.model.BooleanResp;
 import com.yada.wechatbank.kafka.MessageProducer;
 import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.model.CardInfo;
+import com.yada.wechatbank.util.IdTypeUtil;
 import com.yada.wx.db.service.dao.CustomerInfoDao;
 import com.yada.wx.db.service.model.CustomerInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class PermitHander  extends BaseService{
 		String cardNo ="";
 		boolean result;
 		//通过证件号和证件类型去后台查询卡号
-		List<CardInfo> cardInfoList = selectCardNos(identityNo,identityType);
+		List<CardInfo> cardInfoList = selectCardNos(IdTypeUtil.numIdTypeTransformToECode(identityType),identityNo);
 		if(cardInfoList!=null && cardInfoList.size()!=0) {
 			cardNo = cardInfoList.get(0).getCardNo();
 		}

@@ -60,7 +60,7 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
         param.put("idNum", identityNo);
         param.put("familyName", familyName);
         param.put("lostReason", lostReason);
-        messageProducer.send(TopicEnum.EBANK_QUERY, "ReportLost", param);
+        messageProducer.send(TopicEnum.EBANK_QUERY, "ReportLostTempCreditCardReportLost", param);
         BooleanResp resp = httpClient.send(tempCreditCardReportLost, param, BooleanResp.class);
         return resp == null ? false : resp.getData();
     }
@@ -77,6 +77,7 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
         param.put("idNum", identityNo);
         param.put("familyName", familyName);
         param.put("lostReason", lostReason);
+        messageProducer.send(TopicEnum.EBANK_QUERY, "ReportLostCreditCardReportLost", param);
         BooleanResp resp = httpClient.send(creditCardReportLost, param, BooleanResp.class);
         return resp == null ? false : resp.getData();
     }
@@ -89,6 +90,7 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
         param.put("idType", identityType);
         param.put("idNum", identityNo);
         param.put("familyName", familyName);
+        messageProducer.send(TopicEnum.EBANK_QUERY, "ReportLostRelieveCreditCardTempReportLost", param);
         BooleanResp resp = httpClient.send(relieveCreditCardTempReportLost, param, BooleanResp.class);
         return resp == null ? false : resp.getData();
     }
@@ -103,8 +105,9 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
         Map<String, String> param = initGcsParam();
         param.put("cardNo", cardNo);
         // 调用HttpClient完成持卡人信息查询
+        messageProducer.send(TopicEnum.EBANK_QUERY, "ReportLostGetFamilyName", param);
         CardHolderInfoResp resp = httpClient.send(getCardHolderInfo, param, CardHolderInfoResp.class);
-        if (resp != null && resp.getData() == null) {
+        if (resp != null && resp.getData() != null) {
             name = resp.getData().getFamilyName() + resp.getData().getFirstName();
         }
         return name;
@@ -114,8 +117,11 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
     public String sendSMS(String identityType, String identityNo, String mobileNo) {
         // 通过证件类型证件号获取手机号
         String respMobileNo = getCustMobileNo(identityType, identityNo);
+        messageProducer.send(TopicEnum.EBANK_QUERY, "ReportLostSendSMS", "用户通过证件类型["+identityType+"]和证件号["+identityNo+"]获取手机号");
         // 验证手机号的正确性
         if (respMobileNo == null || !respMobileNo.equals(mobileNo)) {
+            messageProducer.send(TopicEnum.EBANK_QUERY, "ReportLostSendSMS", "用户["+identityNo
+                    +"]通过后台获取手机号["+mobileNo+"]与后台返回的手机号匹配失败");
             return "wrongMobilNo";
         }
         // 发送短信验证码

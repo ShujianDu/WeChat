@@ -41,9 +41,7 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
     public List<Balance> getCardNoBalance(String cardNo) {
         Map<String, String> param = initGcsParam();
         param.put("cardNo", cardNo);
-
         messageProducer.send(TopicEnum.EBANK_QUERY, "BalanceGetCardNoBalance", param);
-
         BalanceResp balanceResp = httpClient.send(getCardBalance, param, BalanceResp.class);
         List<Balance> balanceList = balanceResp == null ? null : balanceResp.getData();
 
@@ -51,12 +49,12 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
         if (balanceList == null) {
             logger.info("@Balance@通过卡[{}]获取到的额度集合为null", cardNo);
             //kafka事件记录
-            messageProducer.send(TopicEnum.EBANK_QUERY, "Balance", "通过卡["+cardNo+"]获取到的额度集合为null");
+            messageProducer.send(TopicEnum.EBANK_QUERY, "BalanceGetCardNoBalance", "通过卡["+cardNo+"]获取到的额度集合为null");
             return null;
         } else if (balanceList.size() == 0) {
             logger.info("@Balance@通过卡[{}]获取到的额度集合长度为0", cardNo);
             //kafka事件记录
-            messageProducer.send(TopicEnum.EBANK_QUERY, "Balance", "通过卡[" + cardNo + "]获取到的额度集合长度为0");
+            messageProducer.send(TopicEnum.EBANK_QUERY, "BalanceGetCardNoBalance", "通过卡[" + cardNo + "]获取到的额度集合长度为0");
             return new ArrayList<>();
         }
 

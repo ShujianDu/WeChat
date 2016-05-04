@@ -49,7 +49,7 @@ public class MyRealm extends AuthorizingRealm {
         String identityType = myToken.getIdentityType();
         String randomCode = (String) session.getAttribute("jcmsrandomchar");
         if (randomCode.equals(verification)) {
-            boolean hasPermit = permitHander.hasPermits(username, password, identityType);
+            boolean hasPermit = permitHander.hasPermits(username, password,identityType);
             if (hasPermit) {
                 session.setAttribute("identityNo", username);
                 session.setAttribute("identityType", identityType);

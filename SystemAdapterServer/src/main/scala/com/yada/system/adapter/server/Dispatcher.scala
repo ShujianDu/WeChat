@@ -28,29 +28,32 @@ class Dispatcher {
           val data = x.execute(json)
           Response("00", "处理成功", Some(data))
         } catch {
-          case e:SystemIOException =>
+          case e: SystemIOException =>
             //TODO 发送Event
-            Response("98",e.channelName +"发生异常",None)
+            Response("98", e.channelName + "发生异常", None)
           case e: Exception => Response("99", "未知异常", None)
         }
       case None =>
-        Response("97",f"请求地址:$path,不存在",None)
+        Response("97", f"请求地址:$path,不存在", None)
     }
     Json.toJson(rs).toString()
   }
 
   private def init(): Map[String, Route] = {
     ConfigFactory.load().getStringList("systemAdapter.server.routeClasses").asScala.map(
-      className => (className,Class.forName(className).newInstance().asInstanceOf[Route])
+      className => {
+        val temps = className.split(".")
+        (temps(temps.length - 2).toLowerCase + "/" + temps.last, Class.forName(className).newInstance().asInstanceOf[Route])
+      }
     ).toMap
   }
 }
 
 object Dispatcher extends Dispatcher
 
-case class Response(returnCode:String,returnMsg:String,data:Option[String])
+case class Response(returnCode: String, returnMsg: String, data: Option[String])
 
-object Response{
+object Response {
   implicit val responseWrites: Writes[Response] = (
     (__ \ "returnCode").write[String] ~ (__ \ "returnMsg").write[String] ~ (__ \ "data").writeNullable[String]
     ) (unlift(Response.unapply))

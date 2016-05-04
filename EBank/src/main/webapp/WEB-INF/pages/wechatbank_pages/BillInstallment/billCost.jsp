@@ -269,7 +269,7 @@
             success: function (result) {
                 if (result != null && result != "") {
                     if (result == "exception" || result == "false") {
-                        window.location.href = "../error.html";
+                        window.location.href = "../error.jsp";
                     } else if (result == "errorCode" ) {
                         $("#verificationCodeWarning").text("您填写的验证码有误，请重新输入!");
                     }else if ( result == "wrongMobilNo") {
