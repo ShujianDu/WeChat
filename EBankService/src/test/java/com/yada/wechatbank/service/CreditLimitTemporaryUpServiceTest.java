@@ -60,7 +60,7 @@ public class CreditLimitTemporaryUpServiceTest {
      */
     @Test
     public void testGetProessCardNoList() {
-        String idType = "03";
+        String idType = "SSNO";
         String idNo = "MOCK01";
         List<String> list = creditLimitTemporaryUpService.getProessCardNoList(idType, idNo);
         for (int i = 0; i < list.size(); i++) {

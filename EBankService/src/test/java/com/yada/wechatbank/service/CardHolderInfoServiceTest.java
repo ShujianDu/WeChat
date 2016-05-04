@@ -22,7 +22,7 @@ public class CardHolderInfoServiceTest {
 
     @Test
     public void testGetBillSendTypeNull(){
-        String idType = "03";
+        String idType = "SSNO";
         String idNum = "MOCK01";
         CardHolderInfo cardHolder=cardHolderInfoService.getCardHolderInfo(idType,idNum);
         Assert.assertNotNull(cardHolder);
