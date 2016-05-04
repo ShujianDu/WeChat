@@ -59,7 +59,7 @@ public class HttpClient {
             BaseModel baseMode=(BaseModel)result;
             if(error_code.contains(baseMode.getReturnCode()))
             {
-                throw new CommunicationException("行内服务返回异常,响应码[" +baseMode.getReturnCode() + "]，响应信息["+baseMode.getReturnMsg()+"]",true);
+                throw new CommunicationException("行内服务返回异常,响应码[" +baseMode.getReturnCode() + "]，响应信息["+baseMode.getReturnMsg()+"]");
             }
              logger.info("模块[{}]调用[{}]行内接口，返回参数为[{}]",s[1].getClassName(),method,respStr);
             return result;
@@ -68,7 +68,7 @@ public class HttpClient {
             return result;
         } catch (Exception e) {
             logger.error("HttpClient 通讯时发生错误", e);
-            throw new CommunicationException("HttpClient 通讯时发生错误",e,true);
+            throw new CommunicationException("HttpClient 通讯时发生错误",e);
         }
     }
 
@@ -117,11 +117,11 @@ public class HttpClient {
                 return sb.toString();
             } else {
                 logger.error("HttpClient 通讯异常,响应码[" + conn.getResponseCode() + "]");
-                throw new CommunicationException("通讯异常,响应码[" + conn.getResponseCode() + "]",true);
+                throw new CommunicationException("通讯异常,响应码[" + conn.getResponseCode() + "]");
             }
         } catch (IOException e) {
             logger.error("HttpClient 通讯异常:", e);
-            throw new CommunicationException("HttpClient 通讯异常:",e,true);
+            throw new CommunicationException("HttpClient 通讯异常:",e);
         } finally {
             if (writer != null) {
                 try {
