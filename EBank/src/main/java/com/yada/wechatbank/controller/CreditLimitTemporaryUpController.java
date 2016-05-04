@@ -35,7 +35,6 @@ public class CreditLimitTemporaryUpController extends BaseController {
     private static final String TEMPORARYUPURL = "wechatbank_pages/creditLimitTemporaryUp/temporaryUp";
     private static final String SHOWHISTORY = "wechatbank_pages/creditLimitTemporaryUp/showHistory";
     private static final String SUCCESS = "wechatbank_pages/creditLimitTemporaryUp/success";
-    private static final String ERRORURL = "wechatbank_pages/error";
     private static final String FAILURL = "wechatbank_pages/creditLimitTemporaryUp/fail";
     private static final String BIZ_CODE="CreditLimitTemporaryUp";
 
@@ -74,17 +73,17 @@ public class CreditLimitTemporaryUpController extends BaseController {
             cardNo = Crypt.cardNoOneEncode(cardNo);
         } catch (Exception e) {
             logger.info("@creditLimitTemporaryUp@卡号解密出现错误cardNo:[" + cardNo + "]" + e);
-            return ERRORURL;
+            return ERROR;
         }
         if (amounts == null) {
             logger.info("@creditLimitTemporaryUp@额度测评结果返回为空  cardNo:[{}]", cardNo);
-            return ERRORURL;
+            return ERROR;
         }
         // 可以提升的额度值
         String amount = amounts.getAmount();
         if (amount == null || "".equals(amount)) {
             logger.info("@creditLimitTemporaryUp@用户卡cardNo[{}]可提升的额度返回为null", cardNo);
-            return ERRORURL;
+            return ERROR;
         }
         if ("B".equals(amounts.getPrincipalResultID())) {
             logger.info("@creditLimitTemporaryUp@额度测评接口返回（拒绝） B,cardNo:[{}]", cardNo);
@@ -117,7 +116,7 @@ public class CreditLimitTemporaryUpController extends BaseController {
             cardNo = Crypt.decode(cardNo);
         } catch (Exception e) {
             logger.info("@creditLimitTemporaryUp@卡号解密出现错误cardNo:[" + cardNo + "]" + e);
-            return ERRORURL;
+            return ERROR;
         }
         String identityNo = getIdentityNo(request);
         String identityType = getIdentityType(request);
@@ -151,7 +150,7 @@ public class CreditLimitTemporaryUpController extends BaseController {
             decodeCardNo = Crypt.decode(cardNo);
         } catch (Exception e) {
             logger.info("@creditLimitTemporaryUp@卡号解密出现错误cardNo:[" + cardNo + "]" + e);
-            return ERRORURL;
+            return ERROR;
         }
         logger.info("@creditLimitTemporaryUp@卡cardNo[{}]查询历史额度提升信息", cardNo);
         // 查询临时额度提升历史信息
