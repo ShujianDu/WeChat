@@ -13,7 +13,7 @@ class CmdProc(cmdService: CMDService, cmdBiz: CmdBiz) extends MessageProc[JsValu
 
 
   override val filter: (JsValue) => Boolean = jv => {
-    cmdService.exist((jv \ "Content").as[String])
+    (jv \ "MsgType").as[String] == "text" && cmdService.exist((jv \ "Content").as[String])
   }
   override val requestCreator: (JsValue) => JsValue = jv => jv
   override val process: (JsValue) => Future[CmdRespMessage] = jv => Future.successful {
@@ -51,11 +51,31 @@ class CmdProc(cmdService: CMDService, cmdBiz: CmdBiz) extends MessageProc[JsValu
   }
 }
 
-
+/**
+  * 命令响应信息
+  */
 trait CmdRespMessage
 
+/**
+  * 文本类型响应
+  *
+  * @param content 文本内容
+  */
 case class TextCmdRespMessage(content: String) extends CmdRespMessage
 
+/**
+  * 图文信息响应
+  *
+  * @param items 图文信息列表
+  */
 case class NewsCmdRespMessage(items: List[NewsMessageItem]) extends CmdRespMessage
 
+/**
+  * 图文信息
+  *
+  * @param title  图文消息标题
+  * @param des    图文消息描述
+  * @param picUrl 图片链接
+  * @param url    点击图文消息跳转链接
+  */
 case class NewsMessageItem(title: String, des: String, picUrl: String, url: String)

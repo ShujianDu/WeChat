@@ -2,11 +2,13 @@ package com.yada.wx.cbs.subBiz
 
 import com.yada.wx.cb.data.service.SpringContext
 import com.yada.wx.cb.data.service.jpa.dao.{MsgComDao, NewsComDao}
-import com.yada.wx.cb.data.service.jpa.model.{Command, Customer}
-import com.yada.wx.cbs.{NewsCmdRespMessage, _}
+import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
+import com.yada.wx.cbs._
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{Json, Reads, _}
-import scala.collection.JavaConversions._
+
+import scala.collection.convert.WrapAsScala
+
 /**
   * 查询余额
   */
@@ -22,8 +24,8 @@ class QueryBalanceBiz(msgComDao: MsgComDao = SpringContext.context.getBean(class
     val respJv = Json.parse(resp)
     // 获取余额列表
     val bs = (respJv \ "data").as[List[BalanceResp]]
-    // 查询模板信息
-    val msgCom = msgComDao.findOne(command.success_msg_id)
+    val findMsgCom: () => MsgCom = () => msgComDao.findOne(command.success_msg_id)
+    val findNewsCom: String => List[NewsCom] = msgID => WrapAsScala.asScalaBuffer(newsComDao.findByMsg_id(msgID)).toList
     // 普通模板替换
     val normalReplace: String => String = _.replace("$_{cardNo}", customer.defCardNo)
     // 重复模板替换
@@ -35,19 +37,7 @@ class QueryBalanceBiz(msgComDao: MsgComDao = SpringContext.context.getBean(class
           .replace("$_{currencyCode}", b.currencyCode)
       })
     }
-    msgCom.msg_type match {
-      case "1" => // 文本信息
-        val content = TemplateUtil.replace(msgCom.content, normalReplace, repeatReplace)
-        TextCmdRespMessage(content)
-      case "3" => // 图文信息
-        val newsList = newsComDao.findByMsg_id(msgCom.msg_id)
-        val itemList = newsList.map(newCom => {
-          val title = TemplateUtil.replace(newCom.title, normalReplace, repeatReplace)
-          val des = TemplateUtil.replace(newCom.description, normalReplace, repeatReplace)
-          NewsMessageItem(title, des, newCom.picurl, newCom.pic_link_url)
-        })
-        NewsCmdRespMessage(itemList.toList)
-    }
+    createRespMsg(findMsgCom, findNewsCom, normalReplace, repeatReplace)
   }
 
   // json 打包
