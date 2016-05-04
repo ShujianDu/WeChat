@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository
 
 trait CommandDao extends CrudRepository[Command, String] {
 
-  def findByCommand_value(cmd: String): Command
+  def findByCommandValue(cmd: String): Command
 }

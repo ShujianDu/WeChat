@@ -1,5 +1,6 @@
 package com.yada.wx.cbs
 
+import com.yada.wx.cb.data.service.SpringContext
 import com.yada.wx.cb.data.service.jpa.dao._
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
 import com.yada.wx.cbs.subBiz._
@@ -7,7 +8,9 @@ import com.yada.wx.cbs.subBiz._
 /**
   * 微信命令业务
   */
-class CmdBiz(commandDao: CommandDao, customerDao: CustomerDao, bizDao: BizDao) {
+class CmdBiz(commandDao: CommandDao = SpringContext.context.getBean(classOf[CommandDao]),
+             customerDao: CustomerDao = SpringContext.context.getBean(classOf[CustomerDao]),
+             bizDao: BizDao = SpringContext.context.getBean(classOf[BizDao])) {
 
   private val cmdMap: Map[String, ICmdSubBiz] = {
     //   selectLimit	查询默认卡额度
@@ -33,7 +36,7 @@ class CmdBiz(commandDao: CommandDao, customerDao: CustomerDao, bizDao: BizDao) {
   }
 
   def handle(cmd: String, openID: String): CmdRespMessage = {
-    val command = commandDao.findByCommand_value(cmd)
+    val command = commandDao.findByCommandValue(cmd)
     val customer = customerDao.findOne(openID)
     if (command.flag == "0" && customer == null) {
       // 提示用户绑定 TODO

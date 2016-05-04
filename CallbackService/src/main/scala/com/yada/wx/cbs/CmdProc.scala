@@ -1,7 +1,8 @@
 package com.yada.wx.cbs
 
 import com.yada.weixin.cb.server.MessageProc
-import com.yada.wx.cb.data.service.CMDService
+import com.yada.wx.cb.data.service.{CMDService, SpringContext}
+import com.yada.wx.cb.data.service.jpa.dao.CommandDao
 import play.api.libs.json.{JsValue, Json}
 
 import scala.concurrent.Future
@@ -9,11 +10,12 @@ import scala.concurrent.Future
 /**
   * 命令处理
   */
-class CmdProc(cmdService: CMDService, cmdBiz: CmdBiz) extends MessageProc[JsValue, CmdRespMessage] {
-
+class CmdProc() extends MessageProc[JsValue, CmdRespMessage] {
+  private[cbs] var cmdDao: CommandDao = SpringContext.context.getBean(classOf[CommandDao])
+  private[cbs] var cmdBiz: CmdBiz = new CmdBiz()
 
   override val filter: (JsValue) => Boolean = jv => {
-    (jv \ "MsgType").as[String] == "text" && cmdService.exist((jv \ "Content").as[String])
+    (jv \ "MsgType").as[String] == "text" && cmdDao.exists((jv \ "Content").as[String])
   }
   override val requestCreator: (JsValue) => JsValue = jv => jv
   override val process: (JsValue) => Future[CmdRespMessage] = jv => Future.successful {

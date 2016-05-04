@@ -15,7 +15,7 @@ class CloseSpreadBiz(msgComDao: MsgComDao = SpringContext.context.getBean(classO
   override def subHandle(command: Command, customer: Customer): CmdRespMessage = {
     // TODO 操作数据库
     val findMsgCom: () => MsgCom = () => msgComDao.findOne(command.success_msg_id)
-    val findNewsCom: String => List[NewsCom] = msgID => WrapAsScala.asScalaBuffer(newsComDao.findByMsg_id(msgID)).toList
+    val findNewsCom: String => List[NewsCom] = msgID => WrapAsScala.asScalaBuffer(newsComDao.findByMsgID(msgID)).toList
     val np: String => String = t => t
     val rp: String => List[String] = t => List(t)
     createRespMsg(findMsgCom, findNewsCom, np, rp)
