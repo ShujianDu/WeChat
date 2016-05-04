@@ -15,4 +15,6 @@
         <constructor-arg name="bootstrapServers" value="${kafka.bootstrap.Servers}"></constructor-arg>
     </bean>
 
+    <bean id="exceptionHandler" class="com.yada.wechatbank.exception.ExceptionHandler"/>
+
 </beans>

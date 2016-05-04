@@ -10,4 +10,10 @@
         <constructor-arg name="conTimeout" value="${httpClient.conTimeout}"></constructor-arg>
         <constructor-arg name="readTimeout" value="${httpClient.readTimeout}"></constructor-arg>
     </bean>
+
+    <bean id="messageProducer" class="com.yada.wechatbank.kafka.MyMessageProducer">
+    </bean>
+
+    <!-- <bean id="exceptionHandler" class="com.yada.wechatbank.exception.ExceptionHandler"/> -->
+
 </beans>

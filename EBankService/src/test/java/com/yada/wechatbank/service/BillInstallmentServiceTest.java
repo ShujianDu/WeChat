@@ -3,12 +3,16 @@ package com.yada.wechatbank.service;
 import com.yada.wechatbank.model.AmountLimit;
 import com.yada.wechatbank.model.BillCost;
 import com.yada.wechatbank.model.BillingSummary;
+import com.yada.wechatbank.model.CardInfo;
+import com.yada.wechatbank.util.Crypt;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 /**
  * Created by Tx on 2016/4/27.
@@ -58,7 +62,7 @@ public class BillInstallmentServiceTest {
         String installmentsNumber = "3";
         String feeInstallmentsFlag = "1";
         String cardNo = "6225888899990001";
-        Boolean bool = billInstallmentService.billInstallment(accountId, accountNumber, cardNo,currencyCode, billLowerAmount, billActualAmount, installmentsNumber, feeInstallmentsFlag);
+        Boolean bool = billInstallmentService.billInstallment(accountId, accountNumber, cardNo, currencyCode, billLowerAmount, billActualAmount, installmentsNumber, feeInstallmentsFlag);
         Assert.assertTrue(bool);
     }
     @Test
@@ -66,9 +70,32 @@ public class BillInstallmentServiceTest {
         String idType = "01";
         String idNum = "MOCK01";
         String mobileNo="18888888888";
-        String result = billInstallmentService.verificationMobileNo(idType,idNum,mobileNo);
-        Assert.assertEquals("",result);
+        String result = billInstallmentService.verificationMobileNo(idType, idNum, mobileNo);
+        Assert.assertEquals("", result);
     }
 
+    /**
+     * 查询卡列表，返回正常情况
+     */
+    @Test
+    public void testGetProessCardNoList() {
+        String idType = "03";
+        String idNo = "MOCK01";
+        List<CardInfo> list = billInstallmentService.getProessCardNoList(idType, idNo);
+        for (int i = 0; i < list.size(); i++) {
+            //得到加密后的卡号
+            String cardNo = list.get(i).getCardNo();
+            //获得解密后卡号
+            try {
+                String decodeCardNo = Crypt.decode(cardNo.substring(cardNo.indexOf(",") + 1));
+                //断言加密后的卡号是
+                Assert.assertEquals(cardNo.substring(0, cardNo.indexOf(",") ), decodeCardNo.substring(0, 4) + "********" +
+                        decodeCardNo.substring(decodeCardNo.length() - 4, decodeCardNo.length()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
 
 }
