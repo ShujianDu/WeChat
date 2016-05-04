@@ -1,11 +1,13 @@
 package com.yada.weixin.cb.server
 
-import play.api.libs.json.JsValue
+import com.yada.weixin.api.message.CallbackMessage
+import play.api.libs.json.{JsValue, Json}
 
 import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
+import com.yada.weixin._
+
 /**
-  * 信息处理类，暂时放在这里，等引入包后删除
+  * Created by Cuitao on 2016/3/6.
   */
 trait MessageProc[T, U] {
   val filter: JsValue => Boolean
@@ -15,5 +17,22 @@ trait MessageProc[T, U] {
 
   def proc(jsValue: JsValue)(op: Option[JsValue] => String): Future[String] = {
     process(requestCreator(jsValue)).map(m => op(responseCreator(jsValue, m)))
+  }
+}
+
+class SimpleMessageProc extends MessageProc[JsValue, String] {
+  override val filter: (JsValue) => Boolean = (jv) => (jv \ CallbackMessage.Names.MsgType).as[String] == CallbackMessage.Names.MSG_TYPE.Text
+  override val requestCreator: (JsValue) => JsValue = jv => jv
+  override val process: (JsValue) => Future[String] = req => Future.successful {
+    "you say:" + (req \ CallbackMessage.Names.Content).as[String]
+  }
+  override val responseCreator: (JsValue, String) => Option[JsValue] = (req, str) => Option {
+    Json.obj(
+      CallbackMessage.Names.ToUserName -> (req \ CallbackMessage.Names.FromUserName).as[String],
+      CallbackMessage.Names.FromUserName -> (req \ CallbackMessage.Names.ToUserName).as[String],
+      CallbackMessage.Names.CreateTime -> System.currentTimeMillis() / 1000,
+      CallbackMessage.Names.MsgType -> CallbackMessage.Names.MSG_TYPE.Text,
+      CallbackMessage.Names.Content -> str
+    )
   }
 }
