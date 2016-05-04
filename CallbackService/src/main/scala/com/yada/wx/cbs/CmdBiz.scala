@@ -2,7 +2,7 @@ package com.yada.wx.cbs
 
 import com.yada.wx.cb.data.service.jpa.dao._
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
-import com.yada.wx.cbs.subBiz.QueryBalanceBiz
+import com.yada.wx.cbs.subBiz._
 
 /**
   * 微信命令业务
@@ -21,7 +21,15 @@ class CmdBiz(commandDao: CommandDao, customerDao: CustomerDao, bizDao: BizDao) {
     //    findNearbyBankOfChina	查询附近中国银行
     //    findNearByMerchant	查询附近特约商户
 
-    Map("selectLimit" -> new QueryBalanceBiz())
+    Map("selectLimit" -> new QueryBalanceBiz(),
+      "selectBillSum" -> new QueryBillSumBiz(),
+      "selectIntegral" -> new QueryPointBiz(),
+      "localProc" -> new DirectReturnBiz(),
+      "unBinding" -> new UnBindingBiz(),
+      "selectBillSendType" -> new QueryBillSendTypeBiz(),
+      "openSpread" -> new OpenSpreadBiz(),
+      "closeSpread" -> new CloseSpreadBiz(),
+      "findNearbyBankOfChina" -> new QueryNearBankBiz())
   }
 
   def handle(cmd: String, openID: String): CmdRespMessage = {
@@ -33,25 +41,25 @@ class CmdBiz(commandDao: CommandDao, customerDao: CustomerDao, bizDao: BizDao) {
     } else {
       val biz = bizDao.findOne(command.biz_id)
       cmdMap(biz.method).subHandle(command, customer)
-      //      val respMsg: String = biz.method match {
-      //        case "localProc" => ???
-      //        case "selectLimit" => ???
-      //        case "selectBillSum" => ???
-      //        case "selectIntegral" => ???
-      //        case "unBinding" => ???
-      //        case "selectBillSendType" => ???
-      //        case "openSpread" => ???
-      //        case "closeSpread" => ???
-      //        case "findNearbyBankOfChina" => ???
-      //      }
-      ???
     }
   }
 }
 
+/**
+  * 子业务处理
+  */
 trait ICmdSubBiz {
   def subHandle(command: Command, customer: Customer): CmdRespMessage
 
+  /**
+    * 创建响应信息
+    *
+    * @param findMsgCom    查询MsgCom
+    * @param findNewsCom   查询NewsCom
+    * @param normalReplace 普通的字符替换
+    * @param repeatReplace 重复的字符替换
+    * @return
+    */
   protected def createRespMsg(findMsgCom: () => MsgCom, findNewsCom: String => List[NewsCom], normalReplace: String => String, repeatReplace: String => List[String]): CmdRespMessage = {
     val msgCom = findMsgCom()
     msgCom.msg_type match {
