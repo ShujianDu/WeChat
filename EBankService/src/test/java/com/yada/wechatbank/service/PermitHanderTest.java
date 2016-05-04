@@ -19,9 +19,9 @@ public class PermitHanderTest {
     @Autowired
     private PermitHander permitHander;
 
-    private String identityNo = "123456";
+    private String identityNo = "MOCK01";
     private String password = "147852";
-    private String identityType = "01";
+    private String identityType = "03";
 
     @Test
     public void testHasPermits(){
