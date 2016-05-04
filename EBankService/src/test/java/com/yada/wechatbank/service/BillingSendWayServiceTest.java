@@ -33,7 +33,7 @@ public class BillingSendWayServiceTest {
 
     @Test
     public void testGetBillSendTypeNotNull(){
-        this.idType = "01";
+        this.idType = "SSNO";
         this.idNum = "MOCK01";
         List<BillSendType> billSendType = billingSendWayService.getBillSendType(idType, idNum);
         Assert.assertNotNull(billSendType);

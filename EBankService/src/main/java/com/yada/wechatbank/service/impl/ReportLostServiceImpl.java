@@ -107,7 +107,7 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
         // 调用HttpClient完成持卡人信息查询
         messageProducer.send(TopicEnum.EBANK_QUERY, "ReportLostGetFamilyName", param);
         CardHolderInfoResp resp = httpClient.send(getCardHolderInfo, param, CardHolderInfoResp.class);
-        if (resp != null && resp.getData() == null) {
+        if (resp != null && resp.getData() != null) {
             name = resp.getData().getFamilyName() + resp.getData().getFirstName();
         }
         return name;
