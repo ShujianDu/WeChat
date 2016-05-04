@@ -6,11 +6,10 @@ import java.util.Calendar
 import com.yada.wx.cb.data.service.SpringContext
 import com.yada.wx.cb.data.service.jpa.dao.{MsgComDao, NewsComDao}
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
-import com.yada.wx.cbs.{CmdRespMessage, HttpClient, ICmdSubBiz, TextCmdRespMessage}
-import play.api.libs.json._
+import com.yada.wx.cbs.{CmdRespMessage, HttpClient, ICmdSubBiz}
 import play.api.libs.functional.syntax._
+import play.api.libs.json._
 
-import scala.collection.JavaConversions._
 import scala.collection.convert.WrapAsScala
 
 /**
