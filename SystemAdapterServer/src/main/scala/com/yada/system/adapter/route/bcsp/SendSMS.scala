@@ -6,7 +6,7 @@ import play.api.libs.json.Json
 
 class SendSMS extends Route{
   override def execute(json: String): String = {
-    val params = Json.toJson(json).as[BCSPSendSMSParams]
+    val params = Json.parse(json).as[BCSPSendSMSParams]
     val rs = BCSPServiceImpl.sendSMS(params)
     Json.toJson(rs).toString()
   }

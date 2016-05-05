@@ -6,7 +6,7 @@ import play.api.libs.json.Json
 
 class AmountLimitRoute extends Route {
   override def execute(json: String): String = {
-    val params = Json.toJson(json).as[AmountLimitParams]
+    val params = Json.parse(json).as[AmountLimitParams]
     val rs = GCSServiceImpl.getAmountLimit(params)
     Json.toJson(rs).toString()
   }

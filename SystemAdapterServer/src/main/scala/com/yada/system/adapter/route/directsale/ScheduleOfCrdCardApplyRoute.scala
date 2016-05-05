@@ -6,7 +6,7 @@ import play.api.libs.json.Json
 
 class ScheduleOfCrdCardApplyRoute extends Route {
   override def execute(json: String): String = {
-    val params = Json.toJson(json).as[ScheduleOfCrdCardApplyParams]
+    val params = Json.parse(json).as[ScheduleOfCrdCardApplyParams]
     val rs = DirectSaleImpl.getScheduleOfCrdCardApply(params)
     Json.toJson(rs).toString()
   }

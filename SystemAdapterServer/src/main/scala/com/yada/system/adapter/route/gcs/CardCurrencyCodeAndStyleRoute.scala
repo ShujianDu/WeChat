@@ -6,7 +6,7 @@ import play.api.libs.json.Json
 
 class CardCurrencyCodeAndStyleRoute extends Route {
   override def execute(json: String): String = {
-    val params = Json.toJson(json).as[CardNoParams]
+    val params = Json.parse(json).as[CardNoParams]
     val rs = GCSServiceImpl.getCardCurrencyCodeAndStyle(params)
     Json.toJson(rs).toString()
   }

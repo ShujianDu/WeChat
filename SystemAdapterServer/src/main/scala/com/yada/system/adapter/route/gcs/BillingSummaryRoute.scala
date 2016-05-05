@@ -6,7 +6,7 @@ import play.api.libs.json.Json
 
 class BillingSummaryRoute extends Route {
   override def execute(json: String): String = {
-    val billingSummaryParams = Json.toJson(json).as[BillingSummaryParams]
+    val billingSummaryParams = Json.parse(json).as[BillingSummaryParams]
     val rs = GCSServiceImpl.getBillingSummary(billingSummaryParams)
     Json.toJson(rs).toString()
   }

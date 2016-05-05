@@ -58,7 +58,7 @@ class CmdBiz(commandDao: CommandDao = SpringContext.context.getBean(classOf[Comm
 trait ICmdSubBiz {
   def subHandle(command: Command, customer: Customer): CmdRespMessage
 
-  private val (impageDomain, ebankDomain, applyActivityDomain) = {
+  private val (imageDomain, eBankDomain, applyActivityDomain) = {
     val cf = ConfigFactory.load()
     (cf.getString("domain.image"), cf.getString("domain.ebank"), cf.getString("domain.applyActivity"))
   }
@@ -76,14 +76,14 @@ trait ICmdSubBiz {
     val msgCom = findMsgCom()
     msgCom.msg_type match {
       case "1" => // 文本信息
-        val c = replace(msgCom.content, normalReplace, repeatReplace).replace("$_{realmName}", ebankDomain)
+        val c = replace(msgCom.content, normalReplace, repeatReplace).replace("$_{realmName}", eBankDomain)
         TextCmdRespMessage(c)
       case "3" => // 图文信息
         val newsList = findNewsCom(msgCom.msg_id)
         val itemList = newsList.map(newCom => {
           val title = replace(newCom.title, normalReplace, repeatReplace)
-          val des = replace(newCom.description, normalReplace, repeatReplace).replace("$_{realmName}", ebankDomain)
-          NewsMessageItem(title, des, newCom.picurl.replace("$_{realmName}", impageDomain), newCom.pic_link_url.replace("$_{realmName}", ebankDomain))
+          val des = replace(newCom.description, normalReplace, repeatReplace).replace("$_{realmName}", eBankDomain).replace("$_{applyactivity}", applyActivityDomain)
+          NewsMessageItem(title, des, newCom.picurl.replace("$_{realmName}", imageDomain), newCom.pic_link_url.replace("$_{realmName}", eBankDomain))
         })
         NewsCmdRespMessage(itemList)
     }

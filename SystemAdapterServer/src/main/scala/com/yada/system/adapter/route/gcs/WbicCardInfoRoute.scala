@@ -7,7 +7,7 @@ import play.api.libs.json.Json
 
 class WbicCardInfoRoute extends Route {
   override def execute(json: String): String = {
-    val params = Json.toJson(json).as[WbicCardInfoParams]
+    val params = Json.parse(json).as[WbicCardInfoParams]
     val rs = GCSServiceImpl.getWbicCardInfo(params)
     Json.toJson(rs).toString()
   }

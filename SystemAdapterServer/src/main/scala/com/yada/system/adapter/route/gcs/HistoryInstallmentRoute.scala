@@ -6,7 +6,7 @@ import play.api.libs.json.Json
 
 class HistoryInstallmentRoute extends Route {
   override def execute(json: String): String = {
-    val params = Json.toJson(json).as[HistoryInstallmentParams]
+    val params = Json.parse(json).as[HistoryInstallmentParams]
     val rs = GCSServiceImpl.getHistoryInstallment(params)
     Json.toJson(rs).toString()
   }
