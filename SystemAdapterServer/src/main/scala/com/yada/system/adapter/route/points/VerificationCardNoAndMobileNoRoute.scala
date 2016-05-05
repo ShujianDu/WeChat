@@ -6,7 +6,7 @@ import play.api.libs.json.Json
 
 class VerificationCardNoAndMobileNoRoute extends Route {
   override def execute(json: String): String = {
-    val params = Json.toJson(json).as[VerificationCardNoAndMobileNoParams]
+    val params = Json.parse(json).as[VerificationCardNoAndMobileNoParams]
     val rs = PointsServiceImpl.verificationCardNoAndMobileNo(params)
     Json.toJson(rs).toString()
   }

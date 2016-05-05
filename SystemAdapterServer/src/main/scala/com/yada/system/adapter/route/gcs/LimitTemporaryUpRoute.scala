@@ -7,7 +7,7 @@ import play.api.libs.json.Json
 
 class LimitTemporaryUpRoute extends Route {
   override def execute(json: String): String = {
-    val params = Json.toJson(json).as[CreditLimitTemporaryUpReviewParams]
+    val params = Json.parse(json).as[CreditLimitTemporaryUpReviewParams]
     val rs = GCSServiceImpl.creditLimitTemporaryUpReview(params)
     Json.toJson(rs).toString()
   }

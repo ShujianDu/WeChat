@@ -38,9 +38,9 @@ public class BillingSendWayController extends BaseController {
      * 寄送方式查询
      */
     @RequestMapping(value = "list")
-    public String list(Model model) {
-        String identityType = "";
-        String identityNo = "";
+    public String list(Model model,HttpServletRequest request) {
+        String identityType = getIdentityType(request);
+        String identityNo = getIdentityNo(request);
         List<BillSendType> list = billingSendWayServiceImpl.getBillSendType(identityType, identityNo);
         logger.info("@BillingSendWay@通过identityType[{}],identityNo[{}]获取账单寄送方式集合为[{}]", identityType, identityNo, list);
         if (list == null || list.size() == 0) {

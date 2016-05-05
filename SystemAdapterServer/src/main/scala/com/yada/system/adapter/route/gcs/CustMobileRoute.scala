@@ -7,7 +7,7 @@ import play.api.libs.json.Json
 
 class CustMobileRoute extends Route {
   override def execute(json: String): String = {
-    val params = Json.toJson(json).as[CustMobileParams]
+    val params = Json.parse(json).as[CustMobileParams]
     val rs = GCSServiceImpl.getCustMobile(params)
     Json.toJson(rs).toString()
   }

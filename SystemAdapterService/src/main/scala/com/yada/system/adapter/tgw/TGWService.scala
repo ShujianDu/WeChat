@@ -11,7 +11,7 @@ trait TGWService {
     * @param verificationPWDParams VerificationPWDParams
     * @return 返回是否验证成功    true/false
     */
-  def verificationPWD(verificationPWDParams: TGWVerificationPWDParams): TGWBooleanResult
+  def verificationPWD(verificationPWDParams: TGWVerificationPWDParams): Boolean
 }
 
 /**

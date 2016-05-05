@@ -27,6 +27,7 @@ class QueryBalanceBiz(msgComDao: MsgComDao = SpringContext.context.getBean(class
     val resp = httpClient.send(Json.toJson(BalanceReq(gcsTranSessionID, gcsReqChannelID, customer.defCardNo)).toString(), BALANCE_URL)
     // 解析响应
     val respJv = Json.parse(resp)
+    if ((respJv \ "returnCode").as[String] != "00") throw new RuntimeException(s"error resp: $respJv")
     // 获取余额列表
     val bs = (respJv \ "data").as[List[BalanceResp]]
     val findMsgCom: () => MsgCom = () => msgComDao.findOne(command.success_msg_id)
@@ -55,6 +56,7 @@ class QueryBalanceBiz(msgComDao: MsgComDao = SpringContext.context.getBean(class
     (__ \ "cardNo").read[String] ~ (__ \ "currencyCode").read[String] ~ (__ \ "wholeCreditLimit").read[String] ~ (__ \ "periodAvailableCreditLimit").read[String] ~ (__ \ "preCashAdvanceCreditLimit").read[String]
     ) (BalanceResp.apply _)
 }
+
 case class BalanceReq(tranSessionID: String, reqChannelID: String, cardNo: String)
 
 case class BalanceResp(cardNo: String,

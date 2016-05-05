@@ -7,7 +7,7 @@ import play.api.libs.json.Json
 
 class CostConsumptionInstallmentRoute extends Route {
   override def execute(json: String): String = {
-    val params = Json.toJson(json).as[GCSConsumptionInstallmentParams]
+    val params = Json.parse(json).as[GCSConsumptionInstallmentParams]
     val rs = GCSServiceImpl.costConsumptionInstallment(params)
     Json.toJson(rs).toString()
   }

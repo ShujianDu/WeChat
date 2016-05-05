@@ -7,7 +7,7 @@ import play.api.libs.json.Json
 
 class CreditCardReportLostRoute extends Route {
   override def execute(json: String): String = {
-    val params = Json.toJson(json).as[CreditCardReportLostParams]
+    val params = Json.parse(json).as[CreditCardReportLostParams]
     val rs = GCSServiceImpl.creditCardReportLost(params)
     Json.toJson(rs).toString()
   }
