@@ -52,6 +52,8 @@ public class BindingServiceImpl extends BaseService implements BindingService {
     private ILockCache LockCacheImpl;
     @Autowired
     private MessageProducer messageProducer;
+    @Value("${url.getCardHolderInfo}")
+    private String getCardHolderInfo;
 
     /**
      * 验证是否已经绑定，返回 成功/失败
@@ -162,9 +164,9 @@ public class BindingServiceImpl extends BaseService implements BindingService {
             countSMSCacheImpl.put(openId, idCardNo);
             result = noCard;
         }
-        Map<String,Object> map = new HashMap<>();
-        map.put("customerInfo",customerInfo);
-        map.put("result",result);
+        Map<String, Object> map = new HashMap<>();
+        map.put("customerInfo", customerInfo);
+        map.put("result", result);
         messageProducer.send(TopicEnum.EBANK_DO, "BindingCustBinding", customerInfo);
         return result;
     }
@@ -238,13 +240,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
         if (res == null) {
             return false;
         }
-        //获取卡列表
-        List<CardInfo> cardInfoList = selectCardNOs(customerInfo.getIdentityType(), customerInfo.getDefCardNo());
-        Map<String, Object> map = new HashMap<>();
-        map.put("cardList", cardInfoList);
-        map.put("customerInfo", customerInfo);
-        //发事件给动户通知
-        messageProducer.send(TopicEnum.EBANK_DO, "BindingBindingDef", map);
+        messageProducer.send(TopicEnum.EBANK_DO, "BindingBindingDef", customerInfo);
         return true;
     }
 
