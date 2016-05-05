@@ -30,7 +30,7 @@ class Dispatcher {
           log.info(s"$x handle msg...\r\n$json")
           val data = x.execute(json)
           log.info(s"$x handle complete data...$data")
-          Response("00", "处理成功", Some(data))
+          Response("00", "处理成功", Some(Json.parse(data)))
         } catch {
           case e: SystemIOException =>
             log.error("", e)
@@ -58,10 +58,10 @@ class Dispatcher {
 
 object Dispatcher extends Dispatcher
 
-case class Response(returnCode: String, returnMsg: String, data: Option[String])
+case class Response(returnCode: String, returnMsg: String, data: Option[JsValue])
 
 object Response {
   implicit val responseWrites: Writes[Response] = (
-    (__ \ "returnCode").write[String] ~ (__ \ "returnMsg").write[String] ~ (__ \ "data").writeNullable[String]
+    (__ \ "returnCode").write[String] ~ (__ \ "returnMsg").write[String] ~ (__ \ "data").writeNullable[JsValue]
     ) (unlift(Response.unapply))
 }

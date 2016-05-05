@@ -46,16 +46,15 @@ class QueryBalanceBiz(msgComDao: MsgComDao = SpringContext.context.getBean(class
   }
 
   // json 打包
-  implicit val balanceReqWrites: Writes[BalanceReq] = (
+  implicit val writes: Writes[BalanceReq] = (
     (__ \ "tranSessionID").write[String] ~ (__ \ "reqChannelID").write[String] ~ (__ \ "cardNo").write[String]
     ) (unlift(BalanceReq.unapply))
 
   // json 解包
-  implicit val respReads: Reads[BalanceResp] = (
+  implicit val reads: Reads[BalanceResp] = (
     (__ \ "cardNo").read[String] ~ (__ \ "currencyCode").read[String] ~ (__ \ "wholeCreditLimit").read[String] ~ (__ \ "periodAvailableCreditLimit").read[String] ~ (__ \ "preCashAdvanceCreditLimit").read[String]
     ) (BalanceResp.apply _)
 }
-
 case class BalanceReq(tranSessionID: String, reqChannelID: String, cardNo: String)
 
 case class BalanceResp(cardNo: String,
