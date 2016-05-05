@@ -260,8 +260,6 @@
                         spanMess.text("证件号错误，请核对证件号！");
                     } else if (result == "locked") {
                         window.location.href = "./locked.do";
-                    } else if (result == "keycodeexception") {
-                        window.location.href = "../error.html";
                     } else if (result == "noMobileNumber") {
                         failureSendSMS = "false";
                         i = 0;

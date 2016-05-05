@@ -221,9 +221,7 @@
 							spanWarning.text("证件号错误，请核对证件号！");
 						} else if (result == "locked") {
 							window.location.href = "./locked.do";
-						} else if (result == "keycodeexception") {
-							window.location.href = "../error.html";
-						}  else if (result == "errorCode") {
+						} else if (result == "errorCode") {
 							spanWarning.text("您填写的验证码有误，请重新输入！");
 						} else {
 							buttonTimeOut();
