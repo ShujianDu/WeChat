@@ -39,16 +39,21 @@ public class BindingServiceTest {
 
 
     @Before
-    public void init(){
-        this.openId="123456";
+    public void init() {
+        this.openId = "123456";
         this.idType = "03";
         this.idNo = "MOCK01";
         this.pwd = "111111";
         this.mobileNo = "18888888888";
+        CustomerInfo customerInfo = new CustomerInfo();
+        customerInfo.setOpenId(openId);
+        customerInfo.setIdentityNo(idNo);
+        customerInfo.setIdentityType(idType);
+        customerInfoDao.delete(customerInfo);
     }
 
     @Test
-    public void testValidateIsBinding(){
+    public void testValidateIsBinding() {
         boolean result = bindingService.validateIsBinding(openId);
         Assert.assertEquals(false, result);
         CustomerInfo customerInfo = new CustomerInfo();
@@ -62,29 +67,28 @@ public class BindingServiceTest {
     }
 
 
-
     @Test
-    public void testCustBinding(){
+    public void testCustBinding() {
         CustomerInfo customerInfo = new CustomerInfo();
         customerInfo.setOpenId("123456");
         customerInfo.setIdentityNo(idNo);
         customerInfo.setIdentityType(idType);
         customerInfoDao.save(customerInfo);
-        String result = bindingService.custBinding(openId,idType,"111",pwd);
-        Assert.assertEquals("1",result);
+        String result = bindingService.custBinding(openId, idType, "111", pwd);
+        Assert.assertEquals("1", result);
         customerInfoDao.delete(customerInfo);
         customerInfo.setOpenId("123456");
         customerInfo.setIdentityNo(idNo);
         customerInfo.setIdentityType(idType);
         customerInfoDao.save(customerInfo);
-        result = bindingService.custBinding(openId,idType,idNo,pwd);
-        Assert.assertEquals("0",result);
+        result = bindingService.custBinding(openId, idType, idNo, pwd);
+        Assert.assertEquals("0", result);
         customerInfoDao.delete(customerInfo);
     }
 
 
     @Test
-    public void testIsExistIdType(){
+    public void testIsExistIdType() {
         CustomerInfo customerInfo = new CustomerInfo();
         customerInfo.setOpenId("111");
         customerInfo.setIdentityNo(idNo);
@@ -92,12 +96,12 @@ public class BindingServiceTest {
         customerInfoDao.save(customerInfo);
         Map<String, String> result = bindingService.isExistIdType("111");
         String res = result.get("isexist");
-        Assert.assertEquals("true",res);
+        Assert.assertEquals("true", res);
         customerInfoDao.delete(customerInfo);
     }
 
     @Test
-    public void testGetDefCardNo(){
+    public void testGetDefCardNo() {
         String result = bindingService.getDefCardNo("222");
         Assert.assertNull(result);
         CustomerInfo customerInfo = new CustomerInfo();
@@ -113,77 +117,76 @@ public class BindingServiceTest {
 
 
     @Test
-    public void testDefCardBinding(){
-        boolean result = bindingService.defCardBinding(openId,idNo);
-        Assert.assertEquals(false,result);
+    public void testDefCardBinding() {
+        boolean result = bindingService.defCardBinding(openId, idNo);
+        Assert.assertEquals(false, result);
         CustomerInfo customerInfo = new CustomerInfo();
         customerInfo.setOpenId(openId);
         customerInfo.setIdentityNo(idNo);
         customerInfo.setIdentityType(idType);
         customerInfo.setDefCardNo("651234567895");
         customerInfoDao.save(customerInfo);
-        result = bindingService.defCardBinding(openId,idNo);
-        Assert.assertEquals(true,result);
+        result = bindingService.defCardBinding(openId, idNo);
+        Assert.assertEquals(true, result);
         customerInfoDao.delete(customerInfo);
     }
 
 
-
     @Test
-    public void testVaidateMobilNo(){
-        String result = bindingService.vaidateMobilNo(openId,idNo,idType,mobileNo);
-        Assert.assertEquals("true",result);
-        for (int i = 0;i< 5; i++){
-            bindingService.addCountCache(openId,idNo);
+    public void testVaidateMobilNo() {
+        String result = bindingService.vaidateMobilNo(openId, idNo, idType, mobileNo);
+        Assert.assertEquals("true", result);
+        for (int i = 0; i < 5; i++) {
+            bindingService.addCountCache(openId, idNo);
         }
-        result = bindingService.vaidateMobilNo(openId,idNo,idType,mobileNo);
-        Assert.assertEquals("locked",result);
+        result = bindingService.vaidateMobilNo(openId, idNo, idType, mobileNo);
+        Assert.assertEquals("locked", result);
         countSMSCache.remove(openId);
     }
 
 
     @Test
-    public void testIsCorrectIdentityType(){
-        boolean result = bindingService.isCorrectIdentityType(idNo,idType);
-        Assert.assertEquals(false,result);
+    public void testIsCorrectIdentityType() {
+        boolean result = bindingService.isCorrectIdentityType(idNo, idType);
+        Assert.assertEquals(false, result);
     }
 
     @Test
-    public void testFillIdentityType(){
+    public void testFillIdentityType() {
         CustomerInfo customerInfo = new CustomerInfo();
         customerInfo.setOpenId("123456");
         customerInfo.setIdentityNo(idNo);
         customerInfo.setIdentityType(idType);
         customerInfoDao.save(customerInfo);
-        boolean result = bindingService.fillIdentityType(idType,idNo);
-        Assert.assertEquals(true,result);
+        boolean result = bindingService.fillIdentityType(idType, idNo);
+        Assert.assertEquals(true, result);
         customerInfoDao.delete(customerInfo);
     }
 
     @Test
-    public void testSelectCardNOs(){
-        List<CardInfo> result = bindingService.selectCardNOs(idType ,idNo);
+    public void testSelectCardNOs() {
+        List<CardInfo> result = bindingService.selectCardNOs(idType, idNo);
         Assert.assertNotNull(result);
     }
 
     @Test
-    public void testIsLocked(){
-        for (int i = 0;i<5;i++){
-            bindingService.addCountCache(openId,idNo);
+    public void testIsLocked() {
+        for (int i = 0; i < 5; i++) {
+            bindingService.addCountCache(openId, idNo);
         }
-        boolean result = bindingService.isLocked(openId,idNo);
-        Assert.assertEquals(true,result);
+        boolean result = bindingService.isLocked(openId, idNo);
+        Assert.assertEquals(true, result);
         countSMSCache.remove(openId);
     }
 
 
     @Test
-    public void testAddCountCache(){
-        bindingService.addCountCache(openId,idNo);
+    public void testAddCountCache() {
+        bindingService.addCountCache(openId, idNo);
     }
 
     @Test
-    public void testFindCustomerInfoByOpenId(){
+    public void testFindCustomerInfoByOpenId() {
         bindingService.findCustomerInfoByOpenId(openId);
     }
 }

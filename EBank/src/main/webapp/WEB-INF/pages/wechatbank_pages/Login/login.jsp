@@ -122,31 +122,35 @@
 		var isClicked = false;
 		function validate_form() {
 			if (isClicked == false) {
-				var idNumber = document.getElementById("username");
-				var passwordQuery = document.getElementById("password");
-				var verificationCode = document
-						.getElementById("verificationCode");
-				var spanWarning = document.getElementById("spanWarning");
-				if (idNumber.value == null || idNumber.value == "") {
-					spanWarning.innerHTML = "证件号不能为空，请输入！";
+				var identityType = $("#identityType").val();
+				var idNumber = $("#username").val();
+				var passwordQuery = $("#password").val();
+				var verificationCode = $("#verificationCode").val();
+				var spanWarning = $("#spanWarning");
+				if (identityType == null || identityType == "") {
+					spanWarning.text("证件类型不能为空，请选择！");
 					return false;
 				}
-				if (passwordQuery.value == null || passwordQuery.value == "") {
-					spanWarning.innerHTML = "查询密码不能为空，请输入！";
+				if (idNumber == null || idNumber == "") {
+					spanWarning.text("证件号不能为空，请输入！");
 					return false;
 				}
-				if (verificationCode.value == null
-						|| verificationCode.value == "") {
-					spanWarning.innerHTML = "验证码不能为空，请输入！";
+				if (passwordQuery == null || passwordQuery == "") {
+					spanWarning.text("查询密码不能为空，请输入！");
+					return false;
+				}
+				if (verificationCode == null
+						|| verificationCode == "") {
+					spanWarning.text("验证码不能为空，请输入！");
 					return false;
 				}
 				var pswReg = /(^\d{6}$)/;
-				if (pswReg.test(passwordQuery.value) == false) {
-					spanWarning.innerHTML = "查询密码格式不正确，请重新输入！";
+				if (pswReg.test(passwordQuery()) == false) {
+					spanWarning.text("查询密码格式不正确，请重新输入！");
 					return false;
 				}
-				var sending = document.getElementById("sending");
-				sending.style.visibility = "visible";
+				var sending = $("#sending");
+				sending.css("visibility","visible");
 				isClicked = true;
 				return true;
 			} else {
@@ -156,8 +160,8 @@
 		}
 
 		function changeWarning() {
-			document.getElementById("spanWarning").innerHTML = "";
-			document.getElementById("bindWarning").style.display="none";
+			$("#spanWarning").text("");
+			$("#bindWarning").css("display","none");
 		}
 	</script>
 </body>
