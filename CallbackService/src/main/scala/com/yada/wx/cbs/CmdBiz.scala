@@ -1,5 +1,7 @@
 package com.yada.wx.cbs
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.ConfigFile
+import com.typesafe.config.ConfigFactory
 import com.yada.wx.cb.data.service.SpringContext
 import com.yada.wx.cb.data.service.jpa.dao._
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
@@ -54,6 +56,11 @@ class CmdBiz(commandDao: CommandDao = SpringContext.context.getBean(classOf[Comm
 trait ICmdSubBiz {
   def subHandle(command: Command, customer: Customer): CmdRespMessage
 
+  private val (impageDomain, ebankDomain, applyActivityDomain) = {
+    val cf = ConfigFactory.load()
+    (cf.getString("domain.image"), cf.getString("domain.ebank"), cf.getString("domain.applyActivity"))
+  }
+
   /**
     * 创建响应信息
     *
@@ -67,14 +74,14 @@ trait ICmdSubBiz {
     val msgCom = findMsgCom()
     msgCom.msg_type match {
       case "1" => // 文本信息
-        val c = replace(msgCom.content, normalReplace, repeatReplace)
+        val c = replace(msgCom.content, normalReplace, repeatReplace).replace("$_{realmName}", ebankDomain)
         TextCmdRespMessage(c)
       case "3" => // 图文信息
         val newsList = findNewsCom(msgCom.msg_id)
         val itemList = newsList.map(newCom => {
           val title = replace(newCom.title, normalReplace, repeatReplace)
-          val des = replace(newCom.description, normalReplace, repeatReplace)
-          NewsMessageItem(title, des, newCom.picurl, newCom.pic_link_url)
+          val des = replace(newCom.description, normalReplace, repeatReplace).replace("$_{realmName}", ebankDomain)
+          NewsMessageItem(title, des, newCom.picurl.replace("$_{realmName}", impageDomain), newCom.pic_link_url.replace("$_{realmName}", ebankDomain))
         })
         NewsCmdRespMessage(itemList)
     }

@@ -9,7 +9,15 @@
             </pattern>
         </layout>
     </appender>
+    <appender name="file" class="ch.qos.logback.core.FileAppender">
+        <file>myApp.log</file>
+        <encoder>
+            <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
     <root level="INFO">
         <appender-ref ref="stdout"/>
+        <appender-ref ref="file"/>
     </root>
 </configuration>

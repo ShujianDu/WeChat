@@ -22,6 +22,8 @@ import scala.util.Try
 class WeixinChannelHandler extends SimpleChannelInboundHandler[FullHttpRequest] with LazyLogging {
   private val weixinSignature = WeixinSignature()
   private val callbackPath = ConfigFactory.load().getString("weixin.callbackServer.callbackPath")
+  private val isCheckTimestamp = ConfigFactory.load().getBoolean("weixin.isCheckTimestamp")
+  private val isCheckSignature = ConfigFactory.load().getBoolean("weixin.isCheckSignature")
   private val isEncrypt = ConfigFactory.load().getInt("weixin.encryption") == 1
   private var _f = Future.successful[Any](())
 
@@ -41,10 +43,10 @@ class WeixinChannelHandler extends SimpleChannelInboundHandler[FullHttpRequest] 
         val echoStr = queryParam.getOrElse("echostr", "")
         val msgSignature = queryParam.getOrElse("msg_signature", "")
 
-        if (!weixinSignature.checkTimestamp(timestamp)) {
+        if (isCheckTimestamp && !weixinSignature.checkTimestamp(timestamp)) {
           logger.warn("无效时间戳, 关闭信道[" + channelHandlerContext.channel().remoteAddress() + "]")
           channelHandlerContext.close()
-        } else if (!weixinSignature.verify(signature, timestamp, nonce)) {
+        } else if (isCheckSignature && !weixinSignature.verify(signature, timestamp, nonce)) {
           logger.warn("无效签名, 关闭信道[" + channelHandlerContext.channel().remoteAddress() + "]")
           channelHandlerContext.close()
         } else {
