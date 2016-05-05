@@ -35,7 +35,7 @@ public class PermitHander  extends BaseService{
 		String cardNo ="";
 		boolean result;
 		//通过证件号和证件类型去后台查询卡号
-		List<CardInfo> cardInfoList = selectCardNos(IdTypeUtil.numIdTypeTransformToECode(identityType),identityNo);
+		List<CardInfo> cardInfoList = selectCardNos(identityType,identityNo);
 		if(cardInfoList!=null && cardInfoList.size()!=0) {
 			cardNo = cardInfoList.get(0).getCardNo();
 		}
