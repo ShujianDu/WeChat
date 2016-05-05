@@ -76,37 +76,9 @@
                             <mainClass>com.yada.Main</mainClass>
                         </manifest>
                     </archive>
-                    <!--<excludes>-->
-                    <!--<exclude>**/*.xml</exclude>-->
-                    <!--<exclude>**/*.conf</exclude>-->
-                    <!--</excludes>-->
                 </configuration>
             </plugin>
-            <!-- maven资源文件复制插件 -->
-            <!--<plugin>-->
-            <!--<groupId>org.apache.maven.plugins</groupId>-->
-            <!--<artifactId>maven-resources-plugin</artifactId>-->
-            <!--<version>2.7</version>-->
-            <!--<executions>-->
-            <!--<execution>-->
-            <!--<id>copy-resources</id>-->
-            <!--&lt;!&ndash; here the phase you need &ndash;&gt;-->
-            <!--<phase>package</phase>-->
-            <!--<goals>-->
-            <!--<goal>copy-resources</goal>-->
-            <!--</goals>-->
-            <!--<configuration>-->
-            <!--<outputDirectory>${project.build.directory}</outputDirectory>-->
-            <!--<resources>-->
-            <!--<resource>-->
-            <!--<directory>src/main/resources</directory>-->
-            <!--<filtering>true</filtering>-->
-            <!--</resource>-->
-            <!--</resources>-->
-            <!--</configuration>-->
-            <!--</execution>-->
-            <!--</executions>-->
-            <!--</plugin>-->
+
             <!-- 依赖包插件 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
