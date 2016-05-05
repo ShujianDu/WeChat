@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.slf4j.Logger
 import com.yada.sdk.commons.SystemIOException
+import com.yada.sdk.gcs.protocol.ErrorGCSReturnCodeException
 import com.yada.system.adapter.route.Route
 import io.netty.handler.codec.http.FullHttpRequest
 import org.slf4j.LoggerFactory
@@ -36,6 +37,8 @@ class Dispatcher {
             log.error("", e)
             //TODO 发送Event
             Response("98", e.channelName + "发生异常", None)
+          case e :ErrorGCSReturnCodeException  =>
+            Response("97","GCS返回码错误:"+ e.returnCode + ":" +e.returnMessage, None)
           case e: Exception =>
             log.error("", e)
             Response("99", "未知异常", None)
