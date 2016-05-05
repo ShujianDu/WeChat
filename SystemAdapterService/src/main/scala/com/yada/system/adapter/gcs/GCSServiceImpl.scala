@@ -453,7 +453,7 @@ class GCSServiceImpl extends GCSService {
 
     // 循环查询所有的数据
     def query(startNum: String): List[CardInfosResult] = {
-      val ts011005 = new TS011005(cardInfosParams.tranSessionID, cardInfosParams.reqChannelID, None, Some(cardInfosParams.idType), Some(cardInfosParams.idNum), startNum, "10")()
+      val ts011005 = new TS011005(cardInfosParams.tranSessionID, cardInfosParams.reqChannelID, None, Some(cardInfosParams.idType), Some(cardInfosParams.idNum), startNum, "100")()
       val result = ts011005.send
       listBuffer ++= result.pageListValues(m => {
         (m("cardNo"), m("cardStatus"), m("mainFlag"))
