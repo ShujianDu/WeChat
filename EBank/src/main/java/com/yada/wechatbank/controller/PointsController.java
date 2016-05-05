@@ -57,7 +57,7 @@ public class PointsController extends BaseController {
     @RequestMapping(value = "pointsDetail")
     public String pointsDetail(@ModelAttribute("formBean") PointsQuery pointsQuery, HttpServletRequest request, Model model) {
         //获取积分明细列表
-        List<PointsDetail> pointsDetailList = pointsServiceImpl.getPointsDetail(getGcsIdentityType(request), getIdentityNo(request));
+        List<PointsDetail> pointsDetailList = pointsServiceImpl.getPointsDetail(getIdentityType(request), getIdentityNo(request));
         List<List<PointsDetail>> newList = new ArrayList<>();
         //返回值为空或没有数据
         if (pointsDetailList == null || pointsDetailList.size() == 0) {

@@ -42,7 +42,7 @@ public class BalanceController extends BaseController {
     public String list(HttpServletRequest request, @ModelAttribute("formBean") BalanceQuery balanceQuery, Model model) {
         request.getSession().setAttribute("menuId", "2");
         String identityNo = getIdentityNo(request);
-        String identityType = getGcsIdentityType(request);
+        String identityType = getIdentityType(request);
         List<CardInfo> cardList = balanceServiceImpl.getProessCardNoList(identityType, identityNo);
         if (cardList == null) {
             logger.info("@Balance根据证件类型[{}]证件号[{}]获取到的卡列表为null", identityType, identityNo);

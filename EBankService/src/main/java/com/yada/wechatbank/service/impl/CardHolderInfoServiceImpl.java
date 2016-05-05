@@ -43,7 +43,7 @@ public class CardHolderInfoServiceImpl extends BaseService implements CardHolder
      */
     public CardHolderInfo getCardHolderInfo(String identityType, String identityNo) {
 
-        messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSendWay_getCardHolderInfo", "证件类型[" + identityType + "]证件号[" + identityNo + "]查询卡列表");
+        messageProducer.send(TopicEnum.EBANK_QUERY, "CardHolderGetCardHolderInfo", "证件类型[" + identityType + "]证件号[" + identityNo + "]查询卡列表");
 
         List<CardInfo> cardInfos = selectCardNos(identityType, identityNo);
         CardHolderInfo cardHolderInfo;
