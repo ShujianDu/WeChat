@@ -8,6 +8,11 @@
             </pattern>
         </layout>
     </appender>
+    <logger name="com.yada.sdk.point.PointClient" level="DEBUG"/>
+    <logger name="com.yada.sdk.bcsp.BCSPClient" level="DEBUG"/>
+    <logger name="com.yada.sdk.tgw.TGWClient" level="DEBUG"/>
+    <logger name="com.yada.sdk.ds.DirectSaleClient" level="DEBUG"/>
+    <logger name="com.yada.sdk.gcs.GCSClient" level="DEBUG"/>
     <root level="INFO">
         <appender-ref ref="stdout"/>
     </root>

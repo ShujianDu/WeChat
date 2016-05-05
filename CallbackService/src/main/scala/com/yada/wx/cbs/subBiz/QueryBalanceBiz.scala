@@ -1,5 +1,6 @@
 package com.yada.wx.cbs.subBiz
 
+import com.typesafe.config.ConfigFactory
 import com.yada.wx.cb.data.service.SpringContext
 import com.yada.wx.cb.data.service.jpa.dao.{MsgComDao, NewsComDao}
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
@@ -15,11 +16,15 @@ import scala.collection.convert.WrapAsScala
 class QueryBalanceBiz(msgComDao: MsgComDao = SpringContext.context.getBean(classOf[MsgComDao]),
                       newsComDao: NewsComDao = SpringContext.context.getBean(classOf[NewsComDao]),
                       httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
-  private val BALANCE_URL = "/balance"
+  private val BALANCE_URL = "/gcs/BalanceRoute"
+  private val (gcsTranSessionID, gcsReqChannelID) = {
+    val config = ConfigFactory.load()
+    config.getString("systemAdapter.gcsTranSessionID") -> config.getString("systemAdapter.gcsReqChannelID")
+  }
 
   override def subHandle(command: Command, customer: Customer): CmdRespMessage = {
     // 去后台请求余额信息
-    val resp = httpClient.send(Json.toJson(BalanceReq("sessionID", "channelID", customer.defCardNo)).toString(), BALANCE_URL)
+    val resp = httpClient.send(Json.toJson(BalanceReq(gcsTranSessionID, gcsReqChannelID, customer.defCardNo)).toString(), BALANCE_URL)
     // 解析响应
     val respJv = Json.parse(resp)
     // 获取余额列表

@@ -15,7 +15,7 @@ class CmdProc() extends MessageProc[JsValue, CmdRespMessage] {
   private[cbs] var cmdBiz: CmdBiz = new CmdBiz()
 
   override val filter: (JsValue) => Boolean = jv => {
-    (jv \ "MsgType").as[String] == "text" && cmdDao.exists((jv \ "Content").as[String])
+    (jv \ "MsgType").as[String] == "text" && (cmdDao.findByCommandValue((jv \ "Content").as[String]) != null)
   }
   override val requestCreator: (JsValue) => JsValue = jv => jv
   override val process: (JsValue) => Future[CmdRespMessage] = jv => Future.successful {
