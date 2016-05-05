@@ -1,6 +1,5 @@
 package com.yada.wx.cbs
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.ConfigFile
 import com.typesafe.config.ConfigFactory
 import com.yada.wx.cb.data.service.SpringContext
 import com.yada.wx.cb.data.service.jpa.dao._
@@ -38,15 +37,18 @@ class CmdBiz(commandDao: CommandDao = SpringContext.context.getBean(classOf[Comm
   }
 
   def handle(cmd: String, openID: String): CmdRespMessage = {
+    // 查询命令
     val command = commandDao.findByCommandValue(cmd)
+    // 获取用户信息
     val customer = customerDao.findOne(openID)
-    if (command.flag == "0" && customer == null) {
-      // 提示用户绑定 TODO
-      ???
+    // 得到执行的命令
+    val exeCmd = if (command.flag == "0" && customer == null) {
+      commandDao.findByCommandValue("WELCOME")
     } else {
-      val biz = bizDao.findOne(command.biz_id)
-      cmdMap(biz.method).subHandle(command, customer)
+      command
     }
+    val biz = bizDao.findOne(exeCmd.biz_id)
+    cmdMap(biz.method).subHandle(exeCmd, customer)
   }
 }
 
