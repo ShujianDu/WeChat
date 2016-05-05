@@ -12,6 +12,7 @@ public class MyAuthcFilter extends FormAuthenticationFilter {
     public static final String DEFAULT_VERIFICATION_PARAM = "verification";
     private String verificationParam = DEFAULT_VERIFICATION_PARAM;     //验证码
     private String identityType = "identityType";
+    private String mobileCode = "mobileCode";
 
     /**
      * 重写父类创建token方法
@@ -24,7 +25,8 @@ public class MyAuthcFilter extends FormAuthenticationFilter {
         boolean rememberMe = isRememberMe(request);
         String host = getHost(request);
         String identityType = getIdentityType(request);
-        return new MyToken(username, password, verification, rememberMe, host,identityType);
+        String mobileCode = getMobileCode(request);
+        return new MyToken(username, password, verification, rememberMe, host,identityType,mobileCode);
     }
 
     protected String getVerificationParam(ServletRequest request) {
@@ -35,6 +37,9 @@ public class MyAuthcFilter extends FormAuthenticationFilter {
         return WebUtils.getCleanParam(request, getIdentityType());
     }
 
+    protected String getMobileCode(ServletRequest request){
+        return  WebUtils.getCleanParam(request,getMobileCode());
+    }
     public String getVerificationParam() {
         return verificationParam;
     }
@@ -49,5 +54,13 @@ public class MyAuthcFilter extends FormAuthenticationFilter {
 
     public String getIdentityType() {
         return identityType;
+    }
+
+    public void setMobileCode(String mobileCode) {
+        this.mobileCode = mobileCode;
+    }
+
+    public String getMobileCode() {
+        return mobileCode;
     }
 }

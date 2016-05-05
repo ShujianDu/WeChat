@@ -57,6 +57,8 @@ public class SmsServiceImpl extends BaseService implements SmsService {
     private String cardApplyContent; // 预约办卡进度查询验证码发送
     @Value("${sms.creditLimitTemporaryUpContent}")
     private String creditLimitTemporaryUpContent; // 临增额度验证码发送
+    @Value("${sms.loginContent}")
+    private String loginContent;
 
     /**
      * 发送短信验证码
@@ -110,6 +112,11 @@ public class SmsServiceImpl extends BaseService implements SmsService {
         return assemblySMS(identityNo, mobileNo, bizCode, creditLimitTemporaryUpContent, bcspSmsBsnType);
     }
 
+    @Override
+    public boolean sendLoginSMS(String identityNo, String mobileNo, String bizCode) {
+        return assemblySMS(identityNo,mobileNo,bizCode,loginContent,bcspSmsBsnType);
+    }
+
     /**
      * 发送绑定短信验证码
      *
@@ -122,6 +129,7 @@ public class SmsServiceImpl extends BaseService implements SmsService {
     public boolean sendBinDingSMS(String identityNo, String mobileNo, String bizCode) {
         return assemblySMS(identityNo, mobileNo, bizCode, bindingContent, bcspSmsCardApplyBsnType);
     }
+
 
     /**
      * @param identityNo 证件号

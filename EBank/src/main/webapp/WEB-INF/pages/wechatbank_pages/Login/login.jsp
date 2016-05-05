@@ -74,8 +74,8 @@
 						</td>
 					</tr>
 					<tr >
-						<td class="td-left td-left-top">证件号码</td>
-						<td class="td-center td-right-top" colspan="2">
+						<td class="td-left">证件号码</td>
+						<td class="td-center td-right-border" colspan="2">
 						<input class="form-control"  placeholder="请输入证件号码" type="text" 
 						    name="username" id="username"
 							maxlength="18" onchange="changeWarning();"
@@ -89,13 +89,22 @@
 						 maxlength="6" onchange="changeWarning();" /></td>
 					</tr>
 					<tr>
-						<td class="td-left td-bottom-left">附加验证码</td>
-						<td class="td-center td-bottom">
+						<td class="td-left">附加验证码</td>
+						<td class="td-center td-right-border">
 							<input class="form-control" type="text" placeholder="请输入附加验证码" maxlength="4"
 										name="verification" id="verificationCode"
 										onchange="changeWarning();" /></td>
 						</td>
-						<td class="td-right td-bottom-right"><img class="tab-img" src="../showradomcode.jsp" /></td>
+						<td class="td-right"><img class="tab-img" src="../showradomcode.jsp" /></td>
+					</tr>
+					<tr>
+						<td class="td-left td-bottom-left">手机验证码</td>
+						<td class="td-center td-bottom"><input class="form-control" type="text" placeholder="请输入手机验证码"
+															   id="mobileCode" name="mobileCode"/></td>
+						<td class="td-right td-bottom-right">
+							<input type="button" class="btn btn-xs btn-default btn-smaller" name="getMobileCodeButton"
+								   id="getMobileCodeButton" value="获取验证码" onclick="getMobileCodeFunction()">
+						</td>
 					</tr>
 				</table>
 			</div>
@@ -126,6 +135,7 @@
 				var idNumber = $("#username").val();
 				var passwordQuery = $("#password").val();
 				var verificationCode = $("#verificationCode").val();
+				var mobileCode = $("#mobileCode").val();
 				var spanWarning = $("#spanWarning");
 				if (identityType == null || identityType == "") {
 					spanWarning.text("证件类型不能为空，请选择！");
@@ -137,6 +147,11 @@
 				}
 				if (passwordQuery == null || passwordQuery == "") {
 					spanWarning.text("查询密码不能为空，请输入！");
+					return false;
+				}
+				var mobileCodeValue = mobileCode.replace(/\s/gi, '');
+				if (mobileCodeValue == null || mobileCodeValue == "") {
+					spanWarning.text("手机验证码不能为空，请输入！");
 					return false;
 				}
 				if (verificationCode == null
@@ -162,6 +177,93 @@
 		function changeWarning() {
 			$("#spanWarning").text("");
 			$("#bindWarning").css("display","none");
+		}
+
+		function getMobileCodeFunction() {
+			var idType = $("#identityType").val();
+			var identityNo = $("#username").val();
+			var verificationCode = $("#verificationCode").val();
+			var spanWarning = $("#spanWarning");
+			if (idType == null || idType == "") {
+				spanWarning.text("请选择证件类型");
+				return false;
+			}
+			if (identityNo == null || identityNo == "") {
+				spanWarning.text("请输入证件号码");
+				return false;
+			}
+
+			if (verificationCode == null || verificationCode == "") {
+				spanWarning.text("附加验证码不能为空，请输入！");
+				return false;
+			}
+			failureSendSMS = "";
+			$.ajax({
+				url: "getSMSCode_ajax.do",
+				data: {
+					idType: idType,
+					identityNo: identityNo,
+					verificationCode: encodeURI(verificationCode),
+					timestamp: new Date().getTime()
+				},
+				type: "post",
+				dataType: "text",
+				async: false,
+				success: function (result) {
+					if (result != null && result != "") {
+						var resultIndex = result.indexOf(",")
+						if (resultIndex != -1) {
+							result = result.substring(0, resultIndex);
+						}
+						if (result == "exception" || result == "false") {
+							failureSendSMS = "false";
+							i = 0;
+							spanWarning.text("证件号错误，请核对证件号！");
+						} else if (result == "locked") {
+							window.location.href = "./locked.do";
+						} else if (result == "keycodeexception") {
+							window.location.href = "../error.html";
+						}  else if (result == "errorCode") {
+							spanWarning.text("您填写的验证码有误，请重新输入！");
+						} else {
+							buttonTimeOut();
+						}
+					}
+				}
+			});
+		}
+
+		var i = 60;
+		var failureSendSMS = "";
+		function buttonTimeOut() {
+			var msgCodeButton = $("#getMobileCodeButton");
+			i--;
+			if (i <= 0) {
+				i = 60;
+				if (failureSendSMS == "") {
+					msgCodeButton.attr("disabled", false);
+					msgCodeButton.val("重新获取")
+				}
+			} else {
+				msgCodeButton.attr("disabled", true);
+				msgCodeButton.val(i + "秒");
+				setTimeout("buttonTimeOut()", 1000);
+			}
+		}
+
+		var j = 30;
+		function disabledButton() {
+			var smsCodeButton = $("#getMobileCodeButton");
+			j--;
+			if (j <= 0) {
+				j = 30;
+				smsCodeButton.attr("disabled", false);
+				smsCodeButton.val("获取验证码");
+			} else {
+				smsCodeButton.attr("disabled", true);
+				smsCodeButton.val(j + "秒")
+				setTimeout("disabledButton()", 1000);
+			}
 		}
 	</script>
 </body>

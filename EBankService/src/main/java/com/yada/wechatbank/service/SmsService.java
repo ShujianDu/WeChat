@@ -45,6 +45,15 @@ public interface SmsService {
     boolean sendCreditLimitTemporaryUpSMS(String identityNo, String mobileNo, String bizCode);
 
     /**
+     * 发送登录短信验证码
+     * @param identityNo 证件号
+     * @param mobileNo 手机号
+     * @param bizCode 业务英文编号
+     * @return true-成功，false-失败
+     */
+    boolean sendLoginSMS(String identityNo, String mobileNo, String bizCode);
+
+    /**
      * 验证各个渠道的短信验证码。失败次数3次
      * @param identityNo    证件号
      * @param mobile        手机号

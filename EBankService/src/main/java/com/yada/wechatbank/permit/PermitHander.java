@@ -5,10 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.yada.wechatbank.base.BaseService;
+import com.yada.wechatbank.cache.ICountSMSCache;
+import com.yada.wechatbank.cache.ILockCache;
 import com.yada.wechatbank.client.model.BooleanResp;
 import com.yada.wechatbank.kafka.MessageProducer;
 import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.model.CardInfo;
+import com.yada.wechatbank.service.SmsService;
 import com.yada.wx.db.service.dao.CustomerInfoDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +25,9 @@ public class PermitHander extends BaseService {
     private String verificationPWD;
     @Autowired
     private MessageProducer messageProducer;
+    @Autowired
+    private ICountSMSCache countSMSCacheImpl;
+
 
     /**
      * @param identityNo   证件号
@@ -47,6 +53,11 @@ public class PermitHander extends BaseService {
                 //调用后台验密
                 BooleanResp booleanResp = httpClient.send(verificationPWD, map, BooleanResp.class);
                 result = booleanResp.getData();
+                if (!result){
+                    countSMSCacheImpl.loginPut(identityNo,identityType);
+                }else {
+                    countSMSCacheImpl.remove(identityNo);
+                }
             } catch (Exception e) {
                 result = false;
             }
@@ -58,4 +69,8 @@ public class PermitHander extends BaseService {
         messageProducer.send(TopicEnum.EBANK_QUERY, "hasPermits", map);
         return result;
     }
+
+
+
+
 }
