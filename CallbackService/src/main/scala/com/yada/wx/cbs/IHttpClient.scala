@@ -22,20 +22,22 @@ class HttpClient extends IHttpClient {
         println("===========" + value)
         hc.setDoInput(true)
         hc.setDoOutput(true)
-        hc.setReadTimeout(2000)
-        hc.setConnectTimeout(2000)
+//        hc.setReadTimeout(2000)
+//        hc.setConnectTimeout(2000)
         hc.getOutputStream.write(value.getBytes("UTF-8"))
         hc.getOutputStream.flush()
-        //        val source = Source.fromInputStream(hc.getInputStream)
-        //        val resp = source.mkString("")
-        val ab = new ArrayBuffer[Byte]()
-        val bts = new Array[Byte](1024)
-        var len = -1
-        do {
-          len = hc.getInputStream.read(bts)
-        } while (len > 0)
-        println("------------" + ab.size)
-        ""
+        val source = Source.fromInputStream(hc.getInputStream)
+        val resp = source.mkString
+        //        val ab = new ArrayBuffer[Byte]()
+        //        val bts = new Array[Byte](1024)
+        //        var len = -1
+        //        do {
+        //          len = hc.getInputStream.read(bts)
+        //        } while (len > 0)
+        //        println("------------" + ab.size)
+        //        ""
+        println("--------" + resp)
+        resp
     }
   }
 }
