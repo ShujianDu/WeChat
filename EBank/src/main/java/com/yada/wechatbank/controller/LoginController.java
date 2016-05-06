@@ -56,7 +56,7 @@ public class LoginController extends BaseController {
             session.removeAttribute("message");
         }
         String username = request.getParameter("username");
-        String identityType = request.getParameter("idType");
+        String identityType = request.getParameter("identityType");
         //认证失败，将用户名回显
         if (!"".equals(username)) {
             model.addAttribute("username", username);

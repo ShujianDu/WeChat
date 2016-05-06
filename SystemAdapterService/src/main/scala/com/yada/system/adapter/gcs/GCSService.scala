@@ -75,7 +75,7 @@ trait GCSService {
     * @param updateBillSendTypeParams UpdateBillSendTypeParams
     * @return
     */
-  def updateBillSendType(updateBillSendTypeParams: UpdateBillSendTypeParams): BooleanResult
+  def updateBillSendType(updateBillSendTypeParams: UpdateBillSendTypeParams): Boolean
 
   /**
     * 信用卡挂失-永久挂失
@@ -83,7 +83,7 @@ trait GCSService {
     * @param creditCardReportLostParams CreditCardReportLostParams
     * @return 返回是否挂失成功 true/false
     */
-  def creditCardReportLost(creditCardReportLostParams: CreditCardReportLostParams): BooleanResult
+  def creditCardReportLost(creditCardReportLostParams: CreditCardReportLostParams): Boolean
 
   /**
     * 信用卡临时挂失
@@ -91,7 +91,7 @@ trait GCSService {
     * @param tempCreditCardReportLostParams TempCreditCardReportLostParams
     * @return 返回是否临时挂失成功 true/false
     */
-  def tempCreditCardReportLost(tempCreditCardReportLostParams: TempCreditCardReportLostParams): BooleanResult
+  def tempCreditCardReportLost(tempCreditCardReportLostParams: TempCreditCardReportLostParams): Boolean
 
   /**
     * 解除临时挂失
@@ -99,7 +99,7 @@ trait GCSService {
     * @param relieveCreditCardTempReportLost RelieveCreditCardTempReportLost
     * @return 返回是否解除临时挂失成功
     */
-  def relieveCreditCardTempReportLost(relieveCreditCardTempReportLost: RelieveCreditCardTempReportLostParams): BooleanResult
+  def relieveCreditCardTempReportLost(relieveCreditCardTempReportLost: RelieveCreditCardTempReportLostParams): Boolean
 
   /**
     * 根据卡号查询客户信息 - TS010201
@@ -115,7 +115,7 @@ trait GCSService {
     * @param mobilePhoneParams MobilePhoneParams
     * @return 返回手机号
     */
-  def getMobilePhone(mobilePhoneParams: MobilePhoneParams): MobilePhoneResult
+  def getMobilePhone(mobilePhoneParams: MobilePhoneParams): String
 
   /**
     * 查询海淘卡
@@ -131,7 +131,7 @@ trait GCSService {
     * @param cardNoParams 卡号参数
     * @return 返回是否挂失成功true/false
     */
-  def wbicCardLost(cardNoParams: CardNoParams): BooleanResult
+  def wbicCardLost(cardNoParams: CardNoParams): Boolean
 
   /**
     * 为海淘卡用户发送短信
@@ -140,7 +140,7 @@ trait GCSService {
     * @param cardNoParams 卡号参数
     * @return 返回是否发送成功 true/false
     */
-  def wbicCardSendSMS(cardNoParams: CardNoParams): BooleanResult
+  def wbicCardSendSMS(cardNoParams: CardNoParams): Boolean
 
   /** *
     * 根据证件号和类型查询客户手机号
@@ -148,7 +148,7 @@ trait GCSService {
     * @param custMobileParams CustMobileParams
     * @return 手机号
     */
-  def getCustMobile(custMobileParams: CustMobileParams): MobilePhoneResult
+  def getCustMobile(custMobileParams: CustMobileParams): String
 
   /** *
     * 根据实体卡取得虚拟卡
@@ -184,7 +184,7 @@ trait GCSService {
     * @param gcsTemporaryUpCommitParams 临时提额授权参数
     * @return 临时提额授权结果
     */
-  def temporaryUpCommit(gcsTemporaryUpCommitParams: GCSTemporaryUpCommitParams): BooleanResult
+  def temporaryUpCommit(gcsTemporaryUpCommitParams: GCSTemporaryUpCommitParams): Boolean
 
   /**
     * 信用卡额度临时提额调整状态查询
@@ -819,16 +819,16 @@ object BillSendTypeResult {
     ) (unlift(BillSendTypeResult.unapply))
 }
 
-/**
-  * 公用的boolean结果
-  *
-  * @param isSuccess 是否成功
-  */
-case class BooleanResult(isSuccess: Boolean)
-
-object BooleanResult {
-  implicit val booleanResultWrites: Writes[BooleanResult] = Writes(booleanResult => Json.toJson(JsObject(Map("isSuccess" -> JsBoolean(booleanResult.isSuccess)).toSeq)))
-}
+///**
+//  * 公用的boolean结果
+//  *
+//  * @param isSuccess 是否成功
+//  */
+//case class BooleanResult(isSuccess: Boolean)
+//
+//object BooleanResult {
+//  implicit val booleanResultWrites: Writes[BooleanResult] = Writes(booleanResult => Json.toJson(JsObject(Map("isSuccess" -> JsBoolean(booleanResult.isSuccess)).toSeq)))
+//}
 
 /**
   *
@@ -921,16 +921,16 @@ object MobilePhoneParams {
     ) (unlift(MobilePhoneParams.unapply))
 }
 
-/**
-  * 公用的手机号结果
-  *
-  * @param mobilePhoneNo 手机号
-  */
-case class MobilePhoneResult(mobilePhoneNo: String)
-
-object MobilePhoneResult {
-  implicit val mobilePhoneResultWrites: Writes[MobilePhoneResult] = Writes(mobilePhoneNoResult => Json.toJson(JsObject(Map("mobilePhoneNo" -> JsString(mobilePhoneNoResult.mobilePhoneNo)).toSeq)))
-}
+///**
+//  * 公用的手机号结果
+//  *
+//  * @param mobilePhoneNo 手机号
+//  */
+//case class MobilePhoneResult(mobilePhoneNo: String)
+//
+//object MobilePhoneResult {
+//  implicit val mobilePhoneResultWrites: Writes[MobilePhoneResult] = Writes(mobilePhoneNoResult => Json.toJson(JsObject(Map("mobilePhoneNo" -> JsString(mobilePhoneNoResult.mobilePhoneNo)).toSeq)))
+//}
 
 /**
   *

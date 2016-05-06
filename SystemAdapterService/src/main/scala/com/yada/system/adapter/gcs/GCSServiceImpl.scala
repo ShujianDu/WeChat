@@ -161,9 +161,9 @@ class GCSServiceImpl extends GCSService {
     * @param mobilePhoneParams MobilePhoneParams
     * @return 返回手机号
     */
-  override def getMobilePhone(mobilePhoneParams: MobilePhoneParams): MobilePhoneResult = {
+  override def getMobilePhone(mobilePhoneParams: MobilePhoneParams): String = {
     val ts140028 = new TS140028(mobilePhoneParams.tranSessionID, mobilePhoneParams.reqChannelID, mobilePhoneParams.idType, mobilePhoneParams.idNo)
-    MobilePhoneResult(ts140028.send.pageValue("appiMcMPhone"))
+    ts140028.send.pageValue("appiMcMPhone")
   }
 
   /**
@@ -172,13 +172,13 @@ class GCSServiceImpl extends GCSService {
     * @param updateBillSendTypeParams UpdateBillSendTypeParams
     * @return BooleanResult
     */
-  override def updateBillSendType(updateBillSendTypeParams: UpdateBillSendTypeParams): BooleanResult = {
+  override def updateBillSendType(updateBillSendTypeParams: UpdateBillSendTypeParams): Boolean = {
     val ts010056 = new TS010056(updateBillSendTypeParams.tranSessionID, updateBillSendTypeParams.reqChannelID, updateBillSendTypeParams.cardNo, updateBillSendTypeParams.billSendType)()
     try {
       ts010056.send
-      BooleanResult(true)
+      true
     } catch {
-      case e: ErrorGCSReturnCodeException => BooleanResult(false)
+      case e: ErrorGCSReturnCodeException =>false
     }
   }
 
@@ -209,14 +209,14 @@ class GCSServiceImpl extends GCSService {
     * @param creditCardReportLostParams CreditCardReportLostParams
     * @return 返回是否挂失成功 true/false
     */
-  override def creditCardReportLost(creditCardReportLostParams: CreditCardReportLostParams): BooleanResult = {
+  override def creditCardReportLost(creditCardReportLostParams: CreditCardReportLostParams): Boolean = {
     val ts010052 = new TS010052(creditCardReportLostParams.tranSessionID, creditCardReportLostParams.reqChannelID, creditCardReportLostParams.cardNo, creditCardReportLostParams.idType,
       creditCardReportLostParams.idNum, creditCardReportLostParams.familyName, creditCardReportLostParams.lossReason)()
     try {
       ts010052.send
-      BooleanResult(true)
+      true
     } catch {
-      case e: ErrorGCSReturnCodeException => BooleanResult(false)
+      case e: ErrorGCSReturnCodeException => false
     }
   }
 
@@ -226,16 +226,16 @@ class GCSServiceImpl extends GCSService {
     * @param tempCreditCardReportLostParams TempCreditCardReportLostParams
     * @return 返回是否临时挂失成功 true/false
     */
-  override def tempCreditCardReportLost(tempCreditCardReportLostParams: TempCreditCardReportLostParams): BooleanResult = {
+  override def tempCreditCardReportLost(tempCreditCardReportLostParams: TempCreditCardReportLostParams): Boolean = {
 
     val ts010059 = new TS010059(tempCreditCardReportLostParams.tranSessionID, tempCreditCardReportLostParams.reqChannelID, tempCreditCardReportLostParams.cardNo,
       tempCreditCardReportLostParams.entyMethod, tempCreditCardReportLostParams.idNum, tempCreditCardReportLostParams.idType, tempCreditCardReportLostParams.familyName,
       tempCreditCardReportLostParams.lostReason)()
     try {
       ts010059.send
-      BooleanResult(true)
+      true
     } catch {
-      case e: ErrorGCSReturnCodeException => BooleanResult(false)
+      case e: ErrorGCSReturnCodeException => false
     }
   }
 
@@ -245,15 +245,15 @@ class GCSServiceImpl extends GCSService {
     * @param relieveCreditCardTempReportLostParams RelieveCreditCardTempReportLostParams
     * @return 返回是否解除临时挂失成功
     */
-  override def relieveCreditCardTempReportLost(relieveCreditCardTempReportLostParams: RelieveCreditCardTempReportLostParams): BooleanResult = {
+  override def relieveCreditCardTempReportLost(relieveCreditCardTempReportLostParams: RelieveCreditCardTempReportLostParams): Boolean = {
 
     val ts010060 = new TS010060(relieveCreditCardTempReportLostParams.tranSessionID, relieveCreditCardTempReportLostParams.reqChannelID, relieveCreditCardTempReportLostParams.cardNo,
       relieveCreditCardTempReportLostParams.idNum, relieveCreditCardTempReportLostParams.familyName, relieveCreditCardTempReportLostParams.idType)()
     try {
       ts010060.send
-      BooleanResult(true)
+      true
     } catch {
-      case e: ErrorGCSReturnCodeException => BooleanResult(false)
+      case e: ErrorGCSReturnCodeException => false
     }
   }
 
@@ -263,15 +263,15 @@ class GCSServiceImpl extends GCSService {
     * @param p 临时提额授权参数
     * @return 临时提额授权结果
     */
-  override def temporaryUpCommit(p: GCSTemporaryUpCommitParams): BooleanResult = {
+  override def temporaryUpCommit(p: GCSTemporaryUpCommitParams): Boolean = {
     val ts220001 = new TS220001(p.tranSessionID, p.reqChannelID, p.eosCustomerName, p.eosCustomerIdType,
       p.certNum, p.phoneNumber, p.cardNo, p.eosCurrency, p.eosPreAddLimit, p.eosStarLimitDate, p.eosEndLimitDate, p.cardStyle,
       p.issuingBranchId, p.pmtCreditLimit)
     try {
       ts220001.send
-      BooleanResult(true)
+      true
     } catch {
-      case e: ErrorGCSReturnCodeException => BooleanResult(false)
+      case e: ErrorGCSReturnCodeException => false
     }
   }
 
@@ -281,13 +281,13 @@ class GCSServiceImpl extends GCSService {
     * @param cardNoParams CardNoParams
     * @return 返回是否挂失成功true/false
     */
-  override def wbicCardLost(cardNoParams: CardNoParams): BooleanResult = {
+  override def wbicCardLost(cardNoParams: CardNoParams): Boolean = {
     val ts010063 = new TS010063(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo)()
     try {
       ts010063.send
-      BooleanResult(true)
+      true
     } catch {
-      case e: ErrorGCSReturnCodeException => BooleanResult(false)
+      case e: ErrorGCSReturnCodeException => false
     }
   }
 
@@ -298,13 +298,13 @@ class GCSServiceImpl extends GCSService {
     * @param cardNoParams CardNoParams
     * @return 返回是否发送成功 true/false
     */
-  override def wbicCardSendSMS(cardNoParams: CardNoParams): BooleanResult = {
+  override def wbicCardSendSMS(cardNoParams: CardNoParams): Boolean = {
     val ts011113 = new TS011113(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo)
     try {
       ts011113.send
-      BooleanResult(true)
+      true
     } catch {
-      case e: ErrorGCSReturnCodeException => BooleanResult(false)
+      case e: ErrorGCSReturnCodeException => false
     }
   }
 
@@ -406,9 +406,9 @@ class GCSServiceImpl extends GCSService {
     * @param custMobileParams CustMobileParams
     * @return 手机号
     */
-  override def getCustMobile(custMobileParams: CustMobileParams): MobilePhoneResult = {
+  override def getCustMobile(custMobileParams: CustMobileParams): String = {
     val ts011101 = new TS011101(custMobileParams.tranSessionID, custMobileParams.reqChannelID, None, Some(custMobileParams.idType), Some(custMobileParams.idNum))()
-    MobilePhoneResult(ts011101.send.pageValue("mobilePhone"))
+    ts011101.send.pageValue("mobilePhone")
   }
 
   /**
