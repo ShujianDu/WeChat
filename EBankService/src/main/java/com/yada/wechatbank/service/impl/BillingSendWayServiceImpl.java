@@ -3,11 +3,13 @@ package com.yada.wechatbank.service.impl;
 import com.yada.wechatbank.base.BaseService;
 import com.yada.wechatbank.client.model.BillSendTypeResp;
 import com.yada.wechatbank.client.model.BooleanResp;
+import com.yada.wechatbank.client.model.StringResp;
 import com.yada.wechatbank.kafka.MessageProducer;
 import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.model.BillSendType;
 import com.yada.wechatbank.model.CardInfo;
 import com.yada.wechatbank.service.BillingSendWayService;
+import com.yada.wechatbank.util.BillSendTypeUtil;
 import com.yada.wechatbank.util.Crypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,16 +53,15 @@ public class BillingSendWayServiceImpl extends BaseService implements BillingSen
         Map<String, String> map = initGcsParam();
         for (CardInfo cardBean : cardNos) {
             map.put("cardNo", cardBean.getCardNo());
-            BillSendTypeResp br = httpClient.send(getBillSendType, map, BillSendTypeResp.class);
-            BillSendType b = br == null ? null : br.getData();
-            if (b != null) {
-                b.setCardNo(cardBean.getCardNo());
-                list.add(b);
-            } else {
-                BillSendType billSendType = new BillSendType();
-                billSendType.setCardNo(cardBean.getCardNo());
-                list.add(billSendType);
+            StringResp br = httpClient.send(getBillSendType, map, StringResp.class);
+            String billsend = br == null ? null : br.getData();
+            BillSendType billSendType = new BillSendType();
+            billSendType.setCardNo(cardBean.getCardNo());
+            if (billsend != null) {
+                billSendType.setBillSendType(billsend);
+                billSendType.setBillSendTypeDesc(BillSendTypeUtil.billSenTypeTransformToDes(billsend));
             }
+            list.add(billSendType);
         }
         try {
             //如果有数据，则将卡号展示的部分隐藏

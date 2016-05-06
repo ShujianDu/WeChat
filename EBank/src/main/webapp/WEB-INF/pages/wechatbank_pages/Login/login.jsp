@@ -24,40 +24,40 @@
                 <select id="identityType" name="identityType" class="control_card">
                     <option value="">请选择</option>
                     <option value="01"
-                            <c:if test="${'01' eq model.identityType}">selected</c:if>>居民身份证
+                            <c:if test="${'01' eq identityType}">selected</c:if>>居民身份证
                     </option>
                     <option value="03"
-                            <c:if test="${'03' eq model.identityType}">selected</c:if>>护照
+                            <c:if test="${'03' eq identityType}">selected</c:if>>护照
                     </option>
                     <option value="05"
-                            <c:if test="${'05' eq model.identityType}">selected</c:if>>军人身份证
+                            <c:if test="${'05' eq identityType}">selected</c:if>>军人身份证
                     </option>
                     <option value="06"
-                            <c:if test="${'06' eq model.identityType}">selected</c:if>>武装警察身份证
+                            <c:if test="${'06' eq identityType}">selected</c:if>>武装警察身份证
                     </option>
                     <option value="04"
-                            <c:if test="${'04' eq model.identityType}">selected</c:if>>户口簿
+                            <c:if test="${'04' eq identityType}">selected</c:if>>户口簿
                     </option>
                     <option value="47"
-                            <c:if test="${'47' eq model.identityType}">selected</c:if>>港澳居民来往内地通行证（香港）
+                            <c:if test="${'47' eq identityType}">selected</c:if>>港澳居民来往内地通行证（香港）
                     </option>
                     <option value="48"
-                            <c:if test="${'48' eq model.identityType}">selected</c:if>>港澳居民来往内地通行证（澳门）
+                            <c:if test="${'48' eq identityType}">selected</c:if>>港澳居民来往内地通行证（澳门）
                     </option>
                     <option value="49"
-                            <c:if test="${'49' eq model.identityType}">selected</c:if>>台湾居民往来大陆通行证
+                            <c:if test="${'49' eq identityType}">selected</c:if>>台湾居民往来大陆通行证
                     </option>
                     <option value="08"
-                            <c:if test="${'08' eq model.identityType}">selected</c:if>>外交人员身份证
+                            <c:if test="${'08' eq identityType}">selected</c:if>>外交人员身份证
                     </option>
                     <option value="09"
-                            <c:if test="${'09' eq model.identityType}">selected</c:if>>外国人居留许可证
+                            <c:if test="${'09' eq identityType}">selected</c:if>>外国人居留许可证
                     </option>
                     <option value="10"
-                            <c:if test="${'10' eq model.identityType}">selected</c:if>>边民出入境通行证
+                            <c:if test="${'10' eq identityType}">selected</c:if>>边民出入境通行证
                     </option>
                     <option value="11"
-                            <c:if test="${'11' eq model.identityType}">selected</c:if>>其他
+                            <c:if test="${'11' eq identityType}">selected</c:if>>其他
                     </option>
                 </select>
             </li>
@@ -90,10 +90,7 @@
             </li>
             </ul>
             <div style="min-height:20px;padding-top: 2px">
-                <c:if test="${null ne message}">
-                    <span id="bindWarning" class="help-block fontsize text-center fontred">${message}</span>
-                </c:if>
-                <span id="spanWarning" class="help-block fontsize text-center fontred"></span>
+                <span id="spanWarning" class="help-block fontsize text-center fontred">${message}</span>
             </div>
             <div class="HandIn">
                 <input  type="submit" value="登&nbsp;&nbsp;录" id="loginBtn" onclick="return validate_form();"/>

@@ -149,10 +149,10 @@ class GCSServiceImpl extends GCSService {
     * @param cardNoParams CardNoParams
     * @return
     */
-  override def getBillSendType(cardNoParams: CardNoParams): BillSendTypeResult = {
+  override def getBillSendType(cardNoParams: CardNoParams): String = {
     val ts010002 = new TS010002(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo)()
     val result = ts010002.send
-    BillSendTypeResult(result.pageValue("billSendType"), result.pageValue("billSendTypeDesc"))
+    result.pageValue("billSendType")
   }
 
   /**

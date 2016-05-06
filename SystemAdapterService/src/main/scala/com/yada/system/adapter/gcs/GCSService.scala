@@ -67,7 +67,7 @@ trait GCSService {
     * @param cardNoParams 卡号参数
     * @return BillSendTypeResult
     */
-  def getBillSendType(cardNoParams: CardNoParams): BillSendTypeResult
+  def getBillSendType(cardNoParams: CardNoParams): String
 
   /**
     * 账单寄送方式修改
@@ -802,22 +802,22 @@ object CardCurrencyCodeAndStyleResult {
     ) (unlift(CardCurrencyCodeAndStyleResult.unapply))
 }
 
-/**
-  *
-  * @param billSendType     账单寄送方式
-  * @param billSendTypeDesc 账单寄送方式描述
-  */
-case class BillSendTypeResult(billSendType: String, billSendTypeDesc: String)
-
-object BillSendTypeResult {
-  implicit val billSendTypeResultReads: Reads[BillSendTypeResult] = (
-    (__ \ "billSendType").read[String] ~ (__ \ "billSendTypeDesc").read[String]
-    ) (BillSendTypeResult.apply _)
-
-  implicit val billSendTypeResultWrites: Writes[BillSendTypeResult] = (
-    (__ \ "billSendType").write[String] ~ (__ \ "billSendTypeDesc").write[String]
-    ) (unlift(BillSendTypeResult.unapply))
-}
+///**
+//  *
+//  * @param billSendType     账单寄送方式
+//  * @param billSendTypeDesc 账单寄送方式描述
+//  */
+//case class BillSendTypeResult(billSendType: String, billSendTypeDesc: String)
+//
+//object BillSendTypeResult {
+//  implicit val billSendTypeResultReads: Reads[BillSendTypeResult] = (
+//    (__ \ "billSendType").read[String] ~ (__ \ "billSendTypeDesc").read[String]
+//    ) (BillSendTypeResult.apply _)
+//
+//  implicit val billSendTypeResultWrites: Writes[BillSendTypeResult] = (
+//    (__ \ "billSendType").write[String] ~ (__ \ "billSendTypeDesc").write[String]
+//    ) (unlift(BillSendTypeResult.unapply))
+//}
 
 ///**
 //  * 公用的boolean结果

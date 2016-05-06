@@ -176,7 +176,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      */
     @Override
     public List<CardInfo> selectCardNOs(String identityType, String identityNo) {
-        return selectCardNos(IdTypeUtil.numIdTypeTransformToECode(identityType), identityNo);
+        return selectCardNos(identityType, identityNo);
     }
 
     /**
