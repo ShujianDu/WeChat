@@ -103,8 +103,8 @@
                         <input type="text" name="msgCode" id="code" maxlength="6"
                                onchange="changeWarning();" value="${model.msgCode}"/>
                     </td>
-                    <td style="width: 100px; padding-left: 5px;">
-                        <input type="button" value="获取手机交易码" class="HandInHui" id="msgCodeButton"
+                    <td style="width: 160px; padding-left: 5px;">
+                        <input type="button" value="获取手机交易码" style="padding-left:10px;padding-right:10px;" class="HandInHui" id="msgCodeButton"
                                onclick="sendMessage();"/>
                     </td>
                 </tr>
