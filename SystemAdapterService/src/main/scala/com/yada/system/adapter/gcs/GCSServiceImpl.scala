@@ -446,8 +446,8 @@ class GCSServiceImpl extends GCSService {
     * @return (cardNo,主付卡标识)的集合
     */
   override def getCardInfos(cardInfosParams: CardInfosParams): List[CardInfosResult] = {
-    val giveUpCardStatus = List("AC", "ACCC", "CANC")
-    val giveUpCardPre = List("3", "4", "5", "6")
+    val giveupCardStatus = List("AC", "ACCC", "CANC")
+    val retainCardPre = List("3", "4", "5", "6")
 
     val listBuffer = ListBuffer.empty[CardInfosResult]
 
@@ -457,7 +457,7 @@ class GCSServiceImpl extends GCSService {
       val result = ts011005.send
       listBuffer ++= result.pageListValues(m => {
         (m("cardNo"), m("cardStatus"), m("mainFlag"))
-      }).filter(v => !giveUpCardStatus.contains(v._2) && !giveUpCardPre.contains(v._1.head.toString)).map(m => CardInfosResult(m._1, m._3))
+      }).filter(v => !giveupCardStatus.contains(v._2) && retainCardPre.contains(v._1.head.toString)).map(m => CardInfosResult(m._1, m._3))
 
       result.pageValue("isHaveNext") match {
         case "1" =>
