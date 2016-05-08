@@ -110,7 +110,8 @@ trait ICmdSubBiz {
       content.append(template.substring(end + 4))
       normalReplace(content.toString())
     } else {
-      repeatReplace(normalReplace(template)).head
+      val rp = repeatReplace(template)
+      normalReplace(if (rp.isEmpty) template else rp.head)
     }
   }
 }
