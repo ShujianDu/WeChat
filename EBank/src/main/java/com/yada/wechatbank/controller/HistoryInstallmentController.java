@@ -2,13 +2,8 @@ package com.yada.wechatbank.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import com.yada.wechatbank.client.model.HistoryInstallmentResp;
 import com.yada.wechatbank.model.CardInfo;
 import com.yada.wechatbank.model.HistoryInstallment;
 import com.yada.wechatbank.model.HistoryInstallmentList;
@@ -22,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.yada.wechatbank.base.BaseController;
 import com.yada.wechatbank.util.Crypt;
-import com.yada.wechatbank.util.JsMapUtil;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
