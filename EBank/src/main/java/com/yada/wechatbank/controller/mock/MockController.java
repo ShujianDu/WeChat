@@ -573,7 +573,7 @@ public class MockController {
 				c.setTransactionNo("5");
 				consumptionInstallmentsList.add(c);
 			}
-			consumptionInstallmentsesReceive.setConsumptionInstallmentsList(consumptionInstallmentsList);
+			consumptionInstallmentsesReceive.setGcsConsumptionInstallmentsEntitys(consumptionInstallmentsList);;
 			consumptionInstallmentsesReceive.setHasNext(true);
 			consumptionInstallmentsesReceive.setTransactionNumber("11");
 		} else {
@@ -593,7 +593,7 @@ public class MockController {
 			c1.setTransactionCurrencyCode("CNY");
 			c1.setTransactionNo("5");
 			consumptionInstallmentsList.add(c1);
-			consumptionInstallmentsesReceive.setConsumptionInstallmentsList(consumptionInstallmentsList);
+			consumptionInstallmentsesReceive.setGcsConsumptionInstallmentsEntitys(consumptionInstallmentsList);;
 			consumptionInstallmentsesReceive.setHasNext(false);
 			consumptionInstallmentsesReceive.setTransactionNumber("11");
 		}

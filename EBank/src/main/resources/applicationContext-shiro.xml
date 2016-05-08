@@ -32,6 +32,7 @@
 				/billingsendway/list.do = myAuthc
 				/billingsummary/list.do = myAuthc
 				/billinstallment/search.do = myAuthc
+				/billinstallment/list.do = myAuthc
 				/booking/list.do = myAuthc
 				/cardholderinfo/list.do = myAuthc
 				/consumptionInstallment/list.do = myAuthc
