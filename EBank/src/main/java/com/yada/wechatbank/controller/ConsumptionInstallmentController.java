@@ -59,7 +59,7 @@ public class ConsumptionInstallmentController extends BaseController {
 	@RequestMapping(value = "list")
 	public String list(HttpServletRequest request, Model model) {
 		String identityNo = getIdentityNo(request);
-		String identityType = getGcsIdentityType(request);
+		String identityType = getIdentityType(request);
 		logger.info("@ConsumptionInstallment@get cardList by identityNo[" + identityNo + "]and identityType[" + identityType + "]");
 		// 获取加密后的卡列表，传至页面用
 		List<String> cardList = consumptionInstallmentServiceImpl.selectCardNoList(identityType, identityNo);

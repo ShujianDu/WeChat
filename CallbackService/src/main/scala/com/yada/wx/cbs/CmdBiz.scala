@@ -27,7 +27,7 @@ class CmdBiz(commandDao: CommandDao = SpringContext.context.getBean(classOf[Comm
 
     Map("selectLimit" -> new QueryBalanceBiz(),
       "selectBillSum" -> new QueryBillSumBiz(),
-      "selectIntegral" -> new QueryPointBiz(),
+      "selectIntegral" -> new QueryPointBalanceBiz(),
       "localProc" -> new DirectReturnBiz(),
       "unBinding" -> new UnBindingBiz(),
       "selectBillSendType" -> new QueryBillSendTypeBiz(),
@@ -62,6 +62,12 @@ trait ICmdSubBiz {
     val cf = ConfigFactory.load()
     (cf.getString("domain.image"), cf.getString("domain.ebank"), cf.getString("domain.applyActivity"))
   }
+
+  protected def kafkaClient: KafkaClient = KafkaClient
+
+  protected def msgComDao: MsgComDao = SpringContext.context.getBean(classOf[MsgComDao])
+
+  protected def newsComDao: NewsComDao = SpringContext.context.getBean(classOf[NewsComDao])
 
   /**
     * 创建响应信息
@@ -110,7 +116,8 @@ trait ICmdSubBiz {
       content.append(template.substring(end + 4))
       normalReplace(content.toString())
     } else {
-      repeatReplace(normalReplace(template)).head
+      val rp = repeatReplace(template)
+      normalReplace(if (rp.isEmpty) template else rp.head)
     }
   }
 }

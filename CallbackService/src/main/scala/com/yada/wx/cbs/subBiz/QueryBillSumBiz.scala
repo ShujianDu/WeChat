@@ -3,8 +3,7 @@ package com.yada.wx.cbs.subBiz
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
-import com.yada.wx.cb.data.service.SpringContext
-import com.yada.wx.cb.data.service.jpa.dao.{MsgComDao, NewsComDao}
+import com.typesafe.config.ConfigFactory
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
 import com.yada.wx.cbs.{CmdRespMessage, HttpClient, ICmdSubBiz}
 import play.api.libs.functional.syntax._
@@ -15,14 +14,17 @@ import scala.collection.convert.WrapAsScala
 /**
   * 查询默认卡账单
   */
-class QueryBillSumBiz(msgComDao: MsgComDao = SpringContext.context.getBean(classOf[MsgComDao]),
-                      newsComDao: NewsComDao = SpringContext.context.getBean(classOf[NewsComDao]),
-                      httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
-  private val billingPeriodsURL = "/billingPeriods"
-  private val billingSummaryURL = "/billingSummary"
+class QueryBillSumBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
+  private val billingPeriodsURL = "/gcs/BillingPeriodsRoute"
+  private val billingSummaryURL = "/gcs/BillingSummaryRoute"
+  private val (gcsTranSessionID, gcsReqChannelID) = {
+    val config = ConfigFactory.load()
+    config.getString("systemAdapter.gcsTranSessionID") -> config.getString("systemAdapter.gcsReqChannelID")
+  }
 
   override def subHandle(command: Command, customer: Customer): CmdRespMessage = {
-    val billingPeriods = Json.toJson(httpClient.send(Json.toJson(BillingPeriodReq("tranSessionID", "reqChannelID", customer.defCardNo)).toString(), billingPeriodsURL))
+    val billingPeriods = Json.parse(httpClient.send(Json.toJson(BillingPeriodReq(gcsTranSessionID, gcsReqChannelID, customer.defCardNo)).toString(), billingPeriodsURL))
+    if ((billingPeriods \ "returnCode").as[String] != "00") throw new RuntimeException(billingPeriods.toString())
     val bps = (billingPeriods \ "data").as[List[BillingPeriodResp]]
     val calendar = Calendar.getInstance()
     calendar.add(Calendar.MONTH, -1)
@@ -30,9 +32,10 @@ class QueryBillSumBiz(msgComDao: MsgComDao = SpringContext.context.getBean(class
     val bs = bps.filter(bp => {
       val c = Calendar.getInstance()
       c.setTime(dateFormat.parse(bp.periodEndDate))
-      calendar.compareTo(c) > 0
+      calendar.compareTo(c) < 0
     }).map(bp => {
-      val billingSummary = Json.toJson(httpClient.send(Json.toJson(BillingSummaryReq("tranSessionID", "reqChannelID", bp.statementNo, bp.accountId)).toString(), billingSummaryURL))
+      val billingSummary = Json.parse(httpClient.send(Json.toJson(BillingSummaryReq(gcsTranSessionID, gcsReqChannelID, bp.statementNo, bp.accountId)).toString(), billingSummaryURL))
+      if ((billingPeriods \ "returnCode").as[String] != "00") throw new RuntimeException(billingSummary.toString())
       val bs = (billingSummary \ "data").as[BillingSummaryResp]
       BillingSummaryResp(bs.periodStartDate, bs.periodEndDate, bs.paymentDueDate, bs.closingBalance, bs.currencyCode, bs.minPaymentAmount)
     })
