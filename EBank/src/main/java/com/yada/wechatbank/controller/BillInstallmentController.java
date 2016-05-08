@@ -76,6 +76,8 @@ public class BillInstallmentController extends BaseController {
     @RequestMapping(value = "searchResult")
     public String searchResult(HttpServletRequest request, Model model)
             throws ParseException {
+        String identityNo = getIdentityNo(request);
+        String identityType = getIdentityType(request);
         String cardNo = "";
         try {
             cardNo = Crypt.decode(request.getParameter("cardNo"));
@@ -112,7 +114,20 @@ public class BillInstallmentController extends BaseController {
                 logger.warn("@BillInstallment@加密卡号失败cardNo[{}] e:{}", cardNo, e.getMessage());
                 return ERROR;
             }
-            return SEARCH;
+
+            List<CardInfo> cardList = billInstallmentServiceImpl.getProessCardNoList(identityType, identityNo);
+            logger.debug("@BillInstallment@根据证件类型[{}]证件号[{}]获取卡片列表", identityType, identityNo);
+            // 返回值为空或没有数据
+            if (cardList == null) {
+                logger.warn("@BillInstallment@根据证件类型[{}]证件号[{}]获取到的卡列表为null", identityType, identityNo);
+                return BUSYURL;
+            } else if (cardList.size() == 0) {
+                logger.warn("@BillInstallment@根据证件类型[{}]证件号[{}]获取到的卡列表长度为0", identityType, identityNo);
+                return NOCARDURL;
+            } else {
+                model.addAttribute("cardList", cardList);
+                return SEARCH;
+            }
         }
 
         logger.info("@BillInstallment@计算账单分期金额上下限，参数：cardNo[{}]currencyCode[{}]", cardNo, currencyCode);
@@ -132,7 +147,20 @@ public class BillInstallmentController extends BaseController {
                             + "]:" + e);
                     return ERROR;
                 }
-                return SEARCH;
+
+                List<CardInfo> cardList = billInstallmentServiceImpl.getProessCardNoList(identityType, identityNo);
+                logger.debug("@BillInstallment@根据证件类型[{}]证件号[{}]获取卡片列表", identityType, identityNo);
+                // 返回值为空或没有数据
+                if (cardList == null) {
+                    logger.warn("@BillInstallment@根据证件类型[{}]证件号[{}]获取到的卡列表为null", identityType, identityNo);
+                    return BUSYURL;
+                } else if (cardList.size() == 0) {
+                    logger.warn("@BillInstallment@根据证件类型[{}]证件号[{}]获取到的卡列表长度为0", identityType, identityNo);
+                    return NOCARDURL;
+                } else {
+                    model.addAttribute("cardList", cardList);
+                    return SEARCH;
+                }
             } else if ("Exception".equals(amountLimit.getRespCode())) {
                 logger.info("@BillInstallment@cardNo[{}]查询账单分期金额上下限，GCS返回错误", cardNo);
                 return BUSYURL;

@@ -86,13 +86,13 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 		Map<String, String> map = initGcsParam();
 		map.put("cardNo", cardNo);
 		//kafka事件记录
-		messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummaryGetCurrentPeriodBill", map);
+		//messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummaryGetCurrentPeriodBill", map);
 		// 查询卡片账期
 		BillingPeriodResp billingPeriodResp = httpClient.send(getBillingPeriod, map, BillingPeriodResp.class);
 		List<BillingPeriod> billingPeriods = billingPeriodResp == null ? null : billingPeriodResp.getData();
 		if (billingPeriods == null) {
 			logger.warn("@BillingSummary@通过后台根据用户卡[{}]获取用户账单周期时返回为null",cardNo);
-			messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummary_getCurrentPeriodBill", "通过后台根据用户卡["+cardNo+"]获取用户账单周期时返回为null");
+			//messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummary_getCurrentPeriodBill", "通过后台根据用户卡["+cardNo+"]获取用户账单周期时返回为null");
 			return null;
 		}
 		// 循环遍历查找可用账期
@@ -105,12 +105,12 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 				Date endDate = df.parse(temp.getPeriodEndDate());
 				if (calendar.getTime().getTime() > endDate.getTime()) {
 					logger.warn("cardNo[{}]账单日期不在月周期内！",cardNo);
-					messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummaryGetCurrentPeriodBill", "cardNo["+cardNo+"]账单日期不在月周期内！");
+					//messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummaryGetCurrentPeriodBill", "cardNo["+cardNo+"]账单日期不在月周期内！");
 					return null;
 				}
 			} catch (Exception e) {
 				logger.warn("cardNo[{}]账单日期不存在或格式错误！error[{}]",cardNo, e.getMessage());
-				messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummaryGetCurrentPeriodBill", "cardNo[" + cardNo + "]账单日期不存在或格式错误！");
+				//messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummaryGetCurrentPeriodBill", "cardNo[" + cardNo + "]账单日期不存在或格式错误！");
 				return null;
 			}
 
@@ -136,7 +136,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 				billingSummary.setMinPaymentAmount(AmtUtil.procString(billingSummary.getMinPaymentAmount()));
 			} catch (Exception e) {
 				logger.warn("cardNo[{}]查询账单错误：[{}]" ,cardNo, e.getMessage());
-				messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummaryGetCurrentPeriodBill", "cardNo[" + cardNo + "]查询账单错误！");
+				//messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummaryGetCurrentPeriodBill", "cardNo[" + cardNo + "]查询账单错误！");
 				return null;
 			}
 		}
@@ -155,6 +155,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 			amountLimit.setMaxAmount(parseString(AmtUtil.procString(amountLimit.getMaxAmount())));
 			amountLimit.setShowMinAmount(parseString(AmtUtil.procString(amountLimit.getMinAmount())));
 		}
+		amountLimit.setRespCode("+ES10403");
 		return amountLimit;
 	}
 
