@@ -44,7 +44,7 @@ public class ReportLostController extends BaseController {
      */
     @RequestMapping(value = "list")
     public String list(Model model, HttpServletRequest request) {
-        String identityType = getGcsIdentityType(request);
+        String identityType = getIdentityType(request);
         String identityNo = getIdentityNo(request);
 
         logger.info("@ReportLost@挂失查询卡列表，参数：[identityType={},identityNo={}]", identityType, identityNo);
