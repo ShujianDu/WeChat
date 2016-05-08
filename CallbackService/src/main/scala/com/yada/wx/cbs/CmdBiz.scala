@@ -63,6 +63,8 @@ trait ICmdSubBiz {
     (cf.getString("domain.image"), cf.getString("domain.ebank"), cf.getString("domain.applyActivity"))
   }
 
+  protected def kafkaClient: KafkaClient = KafkaClient
+
   protected def msgComDao: MsgComDao = SpringContext.context.getBean(classOf[MsgComDao])
 
   protected def newsComDao: NewsComDao = SpringContext.context.getBean(classOf[NewsComDao])

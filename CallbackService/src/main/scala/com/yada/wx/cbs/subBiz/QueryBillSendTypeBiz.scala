@@ -1,12 +1,10 @@
 package com.yada.wx.cbs.subBiz
 
 import com.typesafe.config.ConfigFactory
-import com.yada.wx.cb.data.service.SpringContext
-import com.yada.wx.cb.data.service.jpa.dao.{MsgComDao, NewsComDao}
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
 import com.yada.wx.cbs.{CmdRespMessage, HttpClient, ICmdSubBiz}
 import play.api.libs.functional.syntax._
-import play.api.libs.json.{Reads, _}
+import play.api.libs.json._
 
 import scala.collection.convert.WrapAsScala
 
@@ -41,6 +39,9 @@ class QueryBillSendTypeBiz(httpClient: HttpClient = HttpClient) extends ICmdSubB
     (__ \ "tranSessionID").write[String] ~ (__ \ "reqChannelID").write[String] ~ (__ \ "cardNo").write[String]
     ) (unlift(BillSendTypeReq.unapply))
 
+  /**
+    * 账单寄送类型映射
+    */
   val billSendTypeMap = {
     Map("0" -> "仅发纸质",
       "4" -> "公司领取(当前不可用)",
