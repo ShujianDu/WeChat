@@ -97,7 +97,7 @@ public class ConsumptionInstallmentController extends BaseController {
 	@RequestMapping(value = "listP")
 	public String listP(HttpServletRequest request, String cardNo, String currencyCode, Model model) {
 		String identityNo = getIdentityNo(request);
-		String identityType = getGcsIdentityType(request);
+		String identityType = getIdentityType(request);
 		// 获取加密后的卡列表，传至页面用
 		List<String> cardList = consumptionInstallmentServiceImpl.selectCardNoList(identityType, identityNo);
 		if (cardList == null) {
@@ -297,7 +297,7 @@ public class ConsumptionInstallmentController extends BaseController {
 		String verificationCode = request.getParameter("verificationCode");
 		String mobileNo = request.getParameter("mobileNo");
 		String identityNo = getIdentityNo(request);
-		String identityType = getGcsIdentityType(request);
+		String identityType = getIdentityType(request);
 		result = consumptionInstallmentServiceImpl.verificationMobileNo(identityType, identityNo, mobileNo);
 		if (!"".equals(result)) {
 			return result;

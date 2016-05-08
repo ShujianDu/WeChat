@@ -42,7 +42,7 @@ public class PointsController extends BaseController {
     public String list(@ModelAttribute("formBean") PointsQuery pointsQuery, HttpServletRequest request, Model model) {
         request.getSession().setAttribute("menuId", "3");
         //调用后台获取积分余额
-        PointsBalance pointsBalance = pointsServiceImpl.getPointsBlance(getGcsIdentityType(request), getIdentityNo(request));
+        PointsBalance pointsBalance = pointsServiceImpl.getPointsBlance(getIdentityType(request), getIdentityNo(request));
         model.addAttribute("pointsBalance", pointsBalance);
         return LISTURL;
     }
@@ -61,7 +61,7 @@ public class PointsController extends BaseController {
         List<List<PointsDetail>> newList = new ArrayList<>();
         //返回值为空或没有数据
         if (pointsDetailList == null || pointsDetailList.size() == 0) {
-            logger.warn("@JFMX@从后台获取积分明细未空或列表长度未0,identityNo[{}]identityType[{}]", getIdentityNo(request), getGcsIdentityType(request));
+            logger.warn("@JFMX@从后台获取积分明细未空或列表长度未0,identityNo[{}]identityType[{}]", getIdentityNo(request), getIdentityType(request));
             return BUSYURL;
         } else if (pointsDetailList.size() > 0 && pointsDetailList.get(0).getCardNo() != null && pointsDetailList.get(0).getId() != null) {
             newList = pointsServiceImpl.getList(pointsDetailList);
@@ -83,11 +83,11 @@ public class PointsController extends BaseController {
         Integer numberP = Integer.parseInt(request.getParameter("numberP"));
         Integer number = Integer.parseInt(request.getParameter("number"));
         //获取积分明细列表
-        List<PointsDetail> pointsDetailList = pointsServiceImpl.getPointsDetail(getGcsIdentityType(request), getIdentityNo(request));
+        List<PointsDetail> pointsDetailList = pointsServiceImpl.getPointsDetail(getIdentityType(request), getIdentityNo(request));
         List<List<PointsDetail>> newList = new ArrayList<>();
         //返回值为空或没有数据
         if (pointsDetailList == null) {
-            logger.warn("@JFXQ@从后台获取积分明细未空或列表长度未0,identityNo[{}]identityType[{}]", getIdentityNo(request), getGcsIdentityType(request));
+            logger.warn("@JFXQ@从后台获取积分明细未空或列表长度未0,identityNo[{}]identityType[{}]", getIdentityNo(request), getIdentityType(request));
             return BUSYURL;
         } else if (pointsDetailList.size() > 0 && pointsDetailList.get(0).getCardNo() != null && pointsDetailList.get(0).getId() != null) {
             newList = pointsServiceImpl.getList(pointsDetailList);
@@ -111,7 +111,7 @@ public class PointsController extends BaseController {
      */
     @RequestMapping(value = "pointsExchange")
     public String pointsExchange(HttpServletRequest request, Model model) {
-        String cardNo = pointsServiceImpl.getCardNo(getGcsIdentityType(request), getIdentityNo(request));
+        String cardNo = pointsServiceImpl.getCardNo(getIdentityType(request), getIdentityNo(request));
         if (cardNo == null) {
             cardNo = "1111111111111111";
         }
