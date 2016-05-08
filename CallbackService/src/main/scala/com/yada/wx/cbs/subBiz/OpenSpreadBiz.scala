@@ -1,7 +1,5 @@
 package com.yada.wx.cbs.subBiz
 
-import com.yada.wx.cb.data.service.SpringContext
-import com.yada.wx.cb.data.service.jpa.dao.{MsgComDao, NewsComDao}
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
 import com.yada.wx.cbs.{CmdRespMessage, ICmdSubBiz}
 
@@ -10,8 +8,7 @@ import scala.collection.convert.WrapAsScala
 /**
   * 开启推送
   */
-class OpenSpreadBiz(msgComDao: MsgComDao = SpringContext.context.getBean(classOf[MsgComDao]),
-                    newsComDao: NewsComDao = SpringContext.context.getBean(classOf[NewsComDao])) extends ICmdSubBiz {
+class OpenSpreadBiz() extends ICmdSubBiz {
   override def subHandle(command: Command, customer: Customer): CmdRespMessage = {
     // TODO 操作数据库
     val findMsgCom: () => MsgCom = () => msgComDao.findOne(command.success_msg_id)

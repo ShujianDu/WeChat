@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 
 import com.typesafe.config.ConfigFactory
-import com.yada.wx.cb.data.service.SpringContext
-import com.yada.wx.cb.data.service.jpa.dao.{MsgComDao, NewsComDao}
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
 import com.yada.wx.cbs.{CmdRespMessage, HttpClient, ICmdSubBiz}
 import play.api.libs.functional.syntax._
@@ -16,9 +14,7 @@ import scala.collection.convert.WrapAsScala
 /**
   * 查询默认卡账单
   */
-class QueryBillSumBiz(msgComDao: MsgComDao = SpringContext.context.getBean(classOf[MsgComDao]),
-                      newsComDao: NewsComDao = SpringContext.context.getBean(classOf[NewsComDao]),
-                      httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
+class QueryBillSumBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
   private val billingPeriodsURL = "/gcs/BillingPeriodsRoute"
   private val billingSummaryURL = "/gcs/BillingSummaryRoute"
   private val (gcsTranSessionID, gcsReqChannelID) = {

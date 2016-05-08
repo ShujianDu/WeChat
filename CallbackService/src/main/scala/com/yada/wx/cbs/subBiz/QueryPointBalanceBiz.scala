@@ -1,7 +1,5 @@
 package com.yada.wx.cbs.subBiz
 
-import com.yada.wx.cb.data.service.SpringContext
-import com.yada.wx.cb.data.service.jpa.dao.{MsgComDao, NewsComDao}
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
 import com.yada.wx.cbs.{CmdRespMessage, HttpClient, ICmdSubBiz}
 import play.api.libs.functional.syntax._
@@ -12,9 +10,7 @@ import scala.collection.convert.WrapAsScala
 /**
   * 查询默认卡积分
   */
-class QueryPointBalanceBiz(msgComDao: MsgComDao = SpringContext.context.getBean(classOf[MsgComDao]),
-                           newsComDao: NewsComDao = SpringContext.context.getBean(classOf[NewsComDao]),
-                           httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
+class QueryPointBalanceBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
   private val url = "/points/PointsBalanceRoute"
 
   override def subHandle(command: Command, customer: Customer): CmdRespMessage = {

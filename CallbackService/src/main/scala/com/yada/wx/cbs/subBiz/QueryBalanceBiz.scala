@@ -13,9 +13,7 @@ import scala.collection.convert.WrapAsScala
 /**
   * 查询余额
   */
-class QueryBalanceBiz(msgComDao: MsgComDao = SpringContext.context.getBean(classOf[MsgComDao]),
-                      newsComDao: NewsComDao = SpringContext.context.getBean(classOf[NewsComDao]),
-                      httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
+class QueryBalanceBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
   private val BALANCE_URL = "/gcs/BalanceRoute"
   private val (gcsTranSessionID, gcsReqChannelID) = {
     val config = ConfigFactory.load()
