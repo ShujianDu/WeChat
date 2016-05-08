@@ -27,7 +27,7 @@ class CmdBiz(commandDao: CommandDao = SpringContext.context.getBean(classOf[Comm
 
     Map("selectLimit" -> new QueryBalanceBiz(),
       "selectBillSum" -> new QueryBillSumBiz(),
-      "selectIntegral" -> new QueryPointBiz(),
+      "selectIntegral" -> new QueryPointBalanceBiz(),
       "localProc" -> new DirectReturnBiz(),
       "unBinding" -> new UnBindingBiz(),
       "selectBillSendType" -> new QueryBillSendTypeBiz(),
