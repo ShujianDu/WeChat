@@ -11,15 +11,15 @@
 <!--moreMenu-->
 <div class="Menu_content">
 
-    <a href="http://127.0.0.1:9083/ebank/balance/list.do" class="menu"><span class="index3 pageLink">账单查询</span></a>
-    <a href="http://127.0.0.1:9083/ebank/billingsummary/list.do" class="menu"><span class="index4 pageLink">额度查询</span></a>
-    <a href="http://127.0.0.1:9083/ebank/points/list.do" class="menu"><span class="index2 pageLink">积分查询</span></a>
+    <a href="http://wcbt2.bjyada.com/ebank/balance/list.do" class="menu"><span class="index3 pageLink">账单查询</span></a>
+    <a href="http://wcbt2.bjyada.com/ebank/billingsummary/list.do" class="menu"><span class="index4 pageLink">额度查询</span></a>
+    <a href="http://wcbt2.bjyada.com/ebank/points/list.do" class="menu"><span class="index2 pageLink">积分查询</span></a>
     <a href="https://apply.mcard.boc.cn/apply/mobile/index?channelId=2&customerId=4900001" class="menu">
         <span class="index5 pageLink">我要办卡</span>
     </a>
-    <a href="http://127.0.0.1:9083/ebank/cardapply/list.do" class="menu"><span class="index6 pageLink">办卡进度</span></a>
+    <a href="http://wcbt2.bjyada.com/ebank/cardapply/list.do" class="menu"><span class="index6 pageLink">办卡进度</span></a>
     <a href="#" class="menu"><span class="index7 pageLink">开卡激活</span></a>
-    <a href="http://127.0.0.1:9083/ebank/booking/list.do" class="menu"><span class="index8 pageLink">活动办卡</span></a>
+    <a href="http://wcbt2.bjyada.com/ebank/booking/list.do" class="menu"><span class="index8 pageLink">活动办卡</span></a>
 </div>
 <!--wait_box -->
 <div class="wait_box">
