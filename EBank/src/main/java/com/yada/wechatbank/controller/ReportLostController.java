@@ -44,7 +44,7 @@ public class ReportLostController extends BaseController {
      */
     @RequestMapping(value = "list")
     public String list(Model model, HttpServletRequest request) {
-        String identityType = getGcsIdentityType(request);
+        String identityType = getIdentityType(request);
         String identityNo = getIdentityNo(request);
 
         logger.info("@ReportLost@挂失查询卡列表，参数：[identityType={},identityNo={}]", identityType, identityNo);
@@ -78,7 +78,7 @@ public class ReportLostController extends BaseController {
     public String reprotLost(String cardNo, String reportType, Model model, HttpServletRequest request) {
         String msg;
         boolean result;
-        String identityType = getGcsIdentityType(request);
+        String identityType = getIdentityType(request);
         String identityNo = getIdentityNo(request);
         try {
             cardNo = Crypt.decode(cardNo);
@@ -113,7 +113,7 @@ public class ReportLostController extends BaseController {
      */
     @RequestMapping(value = "cancel")
     public String cancel(Model model, HttpServletRequest request) {
-        String identityType = getGcsIdentityType(request);
+        String identityType = getIdentityType(request);
         String identityNo = getIdentityNo(request);
         logger.info("@ReportLost@取消临时挂失查询卡列表，参数：[identityType={},identityNo={}]", identityType, identityNo);
         List<String> cardNoList = reportLostService.selectCardNoList(identityType, identityNo);
@@ -145,7 +145,7 @@ public class ReportLostController extends BaseController {
     public String doCancel(String cardNo, Model model, HttpServletRequest request) {
         String msg;
         boolean result;
-        String identityType = getGcsIdentityType(request);
+        String identityType = getIdentityType(request);
         String identityNo = getIdentityNo(request);
         try {
             cardNo = Crypt.decode(cardNo);
@@ -172,7 +172,7 @@ public class ReportLostController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "getMsgCode_ajax")
     public String getMsgCode_ajax(HttpServletRequest request, String mobileNo) {
-        String identityType = getGcsIdentityType(request);
+        String identityType = getIdentityType(request);
         String identityNo = getIdentityNo(request);
         logger.info("@ReportLost@挂失发送短信验证码，参数：[identityType={},identityNo={},mobileNo={}]", identityType, identityNo, mobileNo);
         String sendResult = reportLostService.sendSMS(identityType, identityNo, mobileNo);

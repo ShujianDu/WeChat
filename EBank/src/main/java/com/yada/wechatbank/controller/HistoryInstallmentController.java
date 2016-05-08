@@ -44,13 +44,13 @@ public class HistoryInstallmentController extends BaseController {
     @RequestMapping(value = "list")
     public String list(HttpServletRequest request, Model model) {
         //获取卡片列表
-        List<CardInfo> cardList = historyInstallmentServiceImpl.selectCardNOs(getGcsIdentityType(request), getIdentityNo(request));
+        List<CardInfo> cardList = historyInstallmentServiceImpl.selectCardNOs(getIdentityType(request), getIdentityNo(request));
         //返回值为空或没有数据
         if (cardList == null) {
-            logger.warn("@LSFQCX@获取卡列表为空identityNo[{}]identityType[{}]", getIdentityNo(request), getGcsIdentityType(request));
+            logger.warn("@LSFQCX@获取卡列表为空identityNo[{}]identityType[{}]", getIdentityNo(request), getIdentityType(request));
             return BUSYURL;
         } else if (cardList.size() == 0) {
-            logger.warn("@LSFQCX@获取卡列表长度为0identityNo[{}]identityType[{}]", getIdentityNo(request), getGcsIdentityType(request));
+            logger.warn("@LSFQCX@获取卡列表长度为0identityNo[{}]identityType[{}]", getIdentityNo(request), getIdentityType(request));
             return NOCARDURL;
         }
         List<String> cardListCrypt = new ArrayList<>();
@@ -61,7 +61,7 @@ public class HistoryInstallmentController extends BaseController {
         try {
             Crypt.cardNoCrypt(cardListCrypt);
         } catch (Exception e) {
-            logger.error("@LSFQCX@加密卡列表异常identityNo[{}]identityType[{}]", getIdentityNo(request), getGcsIdentityType(request));
+            logger.error("@LSFQCX@加密卡列表异常identityNo[{}]identityType[{}]", getIdentityNo(request), getIdentityType(request));
             return BUSYURL;
         }
 
@@ -72,13 +72,13 @@ public class HistoryInstallmentController extends BaseController {
     @RequestMapping(value = "listP")
     public String listP(HttpServletRequest request, Model model) {
         String cardNo = request.getParameter("cardNo");
-        List<CardInfo> cardList = historyInstallmentServiceImpl.selectCardNOs(getGcsIdentityType(request), getIdentityNo(request));
+        List<CardInfo> cardList = historyInstallmentServiceImpl.selectCardNOs(getIdentityType(request), getIdentityNo(request));
         //返回值为空或没有数据
         if (cardList == null) {
-            logger.warn("@LSFQCX@获取卡列表为空identityNo[{}]identityType[{}]", getIdentityNo(request), getGcsIdentityType(request));
+            logger.warn("@LSFQCX@获取卡列表为空identityNo[{}]identityType[{}]", getIdentityNo(request), getIdentityType(request));
             return BUSYURL;
         } else if (cardList.size() == 0) {
-            logger.warn("@LSFQCX@获取卡列表长度为0identityNo[{}]identityType[{}]", getIdentityNo(request), getGcsIdentityType(request));
+            logger.warn("@LSFQCX@获取卡列表长度为0identityNo[{}]identityType[{}]", getIdentityNo(request), getIdentityType(request));
             return NOCARDURL;
         }
         List<String> cardListCrypt = new ArrayList<>();
@@ -88,7 +88,7 @@ public class HistoryInstallmentController extends BaseController {
         try {
             Crypt.cardNoCrypt(cardListCrypt);
         } catch (Exception e) {
-            logger.error("@LSFQCX@加密卡列表异常identityNo[{}]identityType[{}]", getIdentityNo(request), getGcsIdentityType(request));
+            logger.error("@LSFQCX@加密卡列表异常identityNo[{}]identityType[{}]", getIdentityNo(request), getIdentityType(request));
         }
         model.addAttribute("cardListCrypt", cardListCrypt);
         HistoryInstallmentList historyInstallmentList = null;
@@ -96,16 +96,16 @@ public class HistoryInstallmentController extends BaseController {
             historyInstallmentList = historyInstallmentServiceImpl.queryHistoryInstallment(Crypt.decode(cardNo), STARTNUM,
                     SELECTNUM);
         } catch (Exception e) {
-            logger.error("@LSFQCX@解密卡号异常identityNo[{}]identityType[{}]cardNo[{}]", getIdentityNo(request), getGcsIdentityType(request), cardNo);
+            logger.error("@LSFQCX@解密卡号异常identityNo[{}]identityType[{}]cardNo[{}]", getIdentityNo(request), getIdentityType(request), cardNo);
         }
         if (historyInstallmentList == null || historyInstallmentList.getHistoryInstallmentList() == null) {
-            logger.warn("@LSFQCX@查询到历史分期信息为空identityNo[{}]identityType[{}]", getIdentityNo(request), getGcsIdentityType(request));
+            logger.warn("@LSFQCX@查询到历史分期信息为空identityNo[{}]identityType[{}]", getIdentityNo(request), getIdentityType(request));
             return BUSYURL;
         }
         List<HistoryInstallment> list = historyInstallmentList.getHistoryInstallmentList();
         //返回值为空或没有数据
         if (list == null) {
-            logger.error("@LSFQCX@从返回信息终获取到的信息列表为空identityNo[{}]identityType[{}]", getIdentityNo(request), getGcsIdentityType(request));
+            logger.error("@LSFQCX@从返回信息终获取到的信息列表为空identityNo[{}]identityType[{}]", getIdentityNo(request), getIdentityType(request));
             return BUSYURL;
         }
         model.addAttribute("pageList", list);

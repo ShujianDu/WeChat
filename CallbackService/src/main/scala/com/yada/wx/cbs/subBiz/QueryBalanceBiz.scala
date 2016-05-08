@@ -1,10 +1,9 @@
 package com.yada.wx.cbs.subBiz
 
 import com.typesafe.config.ConfigFactory
-import com.yada.wx.cb.data.service.SpringContext
 import com.yada.wx.cb.data.service.jpa.dao.{MsgComDao, NewsComDao}
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
-import com.yada.wx.cbs._
+import com.yada.wx.cbs.{SpringContext, _}
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{Json, Reads, _}
 
@@ -13,9 +12,7 @@ import scala.collection.convert.WrapAsScala
 /**
   * 查询余额
   */
-class QueryBalanceBiz(msgComDao: MsgComDao = SpringContext.context.getBean(classOf[MsgComDao]),
-                      newsComDao: NewsComDao = SpringContext.context.getBean(classOf[NewsComDao]),
-                      httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
+class QueryBalanceBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
   private val BALANCE_URL = "/gcs/BalanceRoute"
   private val (gcsTranSessionID, gcsReqChannelID) = {
     val config = ConfigFactory.load()
