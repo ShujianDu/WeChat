@@ -1,7 +1,6 @@
 package com.yada.wx.cbs
 
 import com.typesafe.config.ConfigFactory
-import com.yada.wx.cb.data.service.SpringContext
 import com.yada.wx.cb.data.service.jpa.dao._
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
 import com.yada.wx.cbs.subBiz._

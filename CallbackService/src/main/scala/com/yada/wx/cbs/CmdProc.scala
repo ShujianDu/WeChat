@@ -1,7 +1,6 @@
 package com.yada.wx.cbs
 
 import com.yada.weixin.cb.server.MessageProc
-import com.yada.wx.cb.data.service.{CMDService, SpringContext}
 import com.yada.wx.cb.data.service.jpa.dao.CommandDao
 import play.api.libs.json.{JsValue, Json}
 
