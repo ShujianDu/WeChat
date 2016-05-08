@@ -51,7 +51,7 @@ public class BillingSummaryController extends BaseController {
 	public String list(@ModelAttribute("formBean") BillingSummaryQuery billingSummaryQuery, HttpServletRequest request, Model model) {
 		request.getSession().setAttribute("menuId", "1");
 		String identityNo = getIdentityNo(request);
-		String identityType = getGcsIdentityType(request);
+		String identityType = getIdentityType(request);
 		logger.info("@BillingSummary@get cardList by identityNo[" + identityNo + "]and identityType[" + identityType + "]");
 		// 获取加密后的卡列表，传至页面用
 		List<String> cardList = billingSummaryServiceImpl.selectCardNoList(identityType, identityNo);

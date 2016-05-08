@@ -34,10 +34,6 @@ public class BindingServiceImpl extends BaseService implements BindingService {
     private final String success = "0";// 成功
     private final String noCard = "1";// 查询不到卡号
     private final String pwdFiled = "2";// 验密失败
-    @Value("${bcsp.sms.bsnType}")
-    private String bsnType;
-    @Value("${sms.bindingContent}")
-    private String bindingContent;
     @Autowired
     private CustomerInfoDao customerInfoDao;
     @Autowired
@@ -180,7 +176,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      */
     @Override
     public List<CardInfo> selectCardNOs(String identityType, String identityNo) {
-        return selectCardNos(IdTypeUtil.numIdTypeTransformToECode(identityType), identityNo);
+        return selectCardNos(identityType, identityNo);
     }
 
     /**

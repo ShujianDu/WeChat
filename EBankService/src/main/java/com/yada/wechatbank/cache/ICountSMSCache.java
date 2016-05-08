@@ -28,4 +28,26 @@ public interface ICountSMSCache {
      * @param countKey countKey
      */
     void remove(String countKey);
+
+    /**
+     * 登录验证失败放入缓存中
+     * @param countKey 证件号
+     * @param identyType 证件类型
+     * @return 失败次数
+     */
+    String loginPut(String countKey,String identyType);
+
+    /**
+     * 获取缓存中存储的登录失败次数
+     * @param countKey
+     * @return
+     */
+    String[] getLogin(String countKey);
+
+    /**
+     * 移除登录失败次数
+     * @param countKey
+     */
+    void removeLogin(String countKey);
+
 }

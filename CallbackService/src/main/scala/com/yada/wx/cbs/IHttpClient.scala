@@ -12,7 +12,6 @@ trait IHttpClient {
 }
 
 class HttpClient extends IHttpClient {
-
   override def send(value: String, url: String): String = {
     new URL(HttpClient.baseURL + url).openConnection() match {
       case hc: HttpURLConnection =>

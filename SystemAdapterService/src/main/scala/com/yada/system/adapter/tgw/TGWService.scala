@@ -31,8 +31,8 @@ object TGWVerificationPWDParams {
     ) (unlift(TGWVerificationPWDParams.unapply))
 }
 
-case class TGWBooleanResult(isSuccess: Boolean)
-
-object TGWBooleanResult {
-  implicit val tgwBooleanResultWrites: Writes[TGWBooleanResult] = Writes(tgwBooleanResult => Json.toJson(JsObject(Map("isSuccess" -> JsBoolean(tgwBooleanResult.isSuccess)).toSeq)))
-}
+//case class TGWBooleanResult(isSuccess: Boolean)
+//
+//object TGWBooleanResult {
+//  implicit val tgwBooleanResultWrites: Writes[TGWBooleanResult] = Writes(tgwBooleanResult => Json.toJson(JsObject(Map("isSuccess" -> JsBoolean(tgwBooleanResult.isSuccess)).toSeq)))
+//}

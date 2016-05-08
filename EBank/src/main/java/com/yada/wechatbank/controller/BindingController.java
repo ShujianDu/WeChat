@@ -87,6 +87,9 @@ public class BindingController extends BaseController {
     public String bindingM(
             @ModelAttribute("formBean") BindingQuery bindingQuery, Model model,
             HttpServletRequest request) {
+        if(bindingQuery.getOpenId() == null || "".equals(bindingQuery.getOpenId())){
+            return ERROR;
+        }
         if (bindingServiceImpl.isLocked(bindingQuery.getOpenId(), bindingQuery.getIdNumber())) {
             logger.info("@BD@用户已锁定idNumber[{}]idType[{}]", bindingQuery.getIdNumber(), bindingQuery.getIdType());
             return LOCK;

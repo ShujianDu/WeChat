@@ -13,7 +13,7 @@ trait BCSPService {
     * @param sendSMSParams BCSPSendSMSParams
     * @return 返回是否发送成功 true/false
     */
-  def sendSMS(sendSMSParams: BCSPSendSMSParams): BCSPBooleanResult
+  def sendSMS(sendSMSParams: BCSPSendSMSParams): Boolean
 }
 
 /**
@@ -35,8 +35,8 @@ object BCSPSendSMSParams {
     ) (unlift(BCSPSendSMSParams.unapply))
 }
 
-case class BCSPBooleanResult(isSuccess: Boolean)
-
-object BCSPBooleanResult {
-  implicit val bcspBooleanResultWrites: Writes[BCSPBooleanResult] = Writes(bcspBooleanResult => Json.toJson(JsObject(Map("isSuccess" -> JsBoolean(bcspBooleanResult.isSuccess)).toSeq)))
-}
+//case class BCSPBooleanResult(isSuccess: Boolean)
+//
+//object BCSPBooleanResult {
+//  implicit val bcspBooleanResultWrites: Writes[BCSPBooleanResult] = Writes(bcspBooleanResult => Json.toJson(JsObject(Map("isSuccess" -> JsBoolean(bcspBooleanResult.isSuccess)).toSeq)))
+//}
