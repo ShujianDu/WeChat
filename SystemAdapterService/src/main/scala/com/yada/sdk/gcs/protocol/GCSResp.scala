@@ -45,7 +45,11 @@ class GCSResp(xml: String) {
     if (gcs.page.isEmpty) throw new RuntimeException("GCS resp page is not exist...")
     val list = gcs.page.get.list
     if (gcs.page.isEmpty) throw new RuntimeException("GCS resp page[list] is not exist...")
-    list.get.entities.map(x => x.toMap)
+    //list为空的情况的处理
+    list match {
+      case Some(l) =>l.entities.map(x => x.toMap)
+      case None => List.empty
+    }
   }
 
   /**

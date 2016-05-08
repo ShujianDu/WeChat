@@ -1,10 +1,9 @@
 package com.yada.wx.cbs.subBiz
 
 import com.typesafe.config.ConfigFactory
-import com.yada.wx.cb.data.service.SpringContext
 import com.yada.wx.cb.data.service.jpa.dao.{MsgComDao, NewsComDao}
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
-import com.yada.wx.cbs._
+import com.yada.wx.cbs.{SpringContext, _}
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{Json, Reads, _}
 

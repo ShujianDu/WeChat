@@ -1,9 +1,8 @@
 package com.yada.wx.cbs.subBiz
 
-import com.yada.wx.cb.data.service.SpringContext
 import com.yada.wx.cb.data.service.jpa.dao.CustomerDao
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
-import com.yada.wx.cbs.{CmdRespMessage, ICmdSubBiz}
+import com.yada.wx.cbs.{CmdRespMessage, ICmdSubBiz, SpringContext}
 
 import scala.collection.convert.WrapAsScala
 
