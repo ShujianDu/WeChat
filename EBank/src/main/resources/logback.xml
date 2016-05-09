@@ -53,7 +53,7 @@
     </appender>
     <logger name="com.yada.wechatbank" level="DEBUG"/>
     <logger name="org.springframework" level="DEBUG"/>
-    <root level="WARN">
+    <root level="Info">
         <appender-ref ref="stdout"/>
         <appender-ref ref="base_log"/>
         <appender-ref ref="error_log"/>
