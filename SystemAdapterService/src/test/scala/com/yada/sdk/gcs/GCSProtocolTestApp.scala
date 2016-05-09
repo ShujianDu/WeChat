@@ -281,16 +281,14 @@ object GCSProtocolTestApp extends App {
     * 海淘信用卡查询
     */
   def testTS011111(): Unit = {
-    // TODO 海淘卡查询 无法测试
-    throw new RuntimeException("海淘卡查询，没有数据支持")
+    throw new RuntimeException("海淘卡查询，业务没有上线")
   }
 
   /**
     * 海淘信用卡短信通知
     */
   def testTS011113(): Unit = {
-    // TODO 海淘信用卡短信通知 无法测试
-    throw new RuntimeException("海淘信用卡短信通知，没有数据支持")
+    throw new RuntimeException("海淘信用卡短信通知，业务没有上线")
   }
 
   /**
