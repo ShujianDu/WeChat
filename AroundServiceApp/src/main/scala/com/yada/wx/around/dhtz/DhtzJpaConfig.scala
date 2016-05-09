@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
 
 @Configuration
-@EnableJpaRepositories(value = Array("com.yada.wx.cb.data.service.jpa.dao"), enableDefaultTransactions = false)
+@EnableJpaRepositories(value = Array("com.yada.wx.around.dhtz.jpa.dao"), enableDefaultTransactions = false)
 class DhtzJpaConfig extends JpaConfig {
   @Bean
   def entityManagerFactory(): LocalContainerEntityManagerFactoryBean = {
@@ -18,7 +18,7 @@ class DhtzJpaConfig extends JpaConfig {
     *
     * @return
     */
-  override protected def packagesToScan: String = ???
+  override protected def packagesToScan: String = "com.yada.wx.around.dhtz.jpa.model"
 
   /**
     * 数据库配置文件关键字
