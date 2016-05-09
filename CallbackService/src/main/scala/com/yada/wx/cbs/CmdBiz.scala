@@ -39,7 +39,7 @@ class CmdBiz(commandDao: CommandDao = SpringContext.context.getBean(classOf[Comm
     // 查询命令
     val command = commandDao.findByCommandValue(cmd)
     // 获取用户信息
-    val customer = customerDao.findOne(openID)
+    val customer = customerDao.findByOpenid(openID)
     // 得到执行的命令
     val exeCmd = if (command.flag == "0" && customer == null) {
       commandDao.findByCommandValue("WELCOME")

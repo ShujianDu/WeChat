@@ -11,7 +11,7 @@ import scala.collection.convert.WrapAsScala
   */
 class UnBindingBiz(customerDao: CustomerDao = SpringContext.context.getBean(classOf[CustomerDao])) extends ICmdSubBiz {
   override def subHandle(command: Command, customer: Customer): CmdRespMessage = {
-    customerDao.delete(customer.openid)
+    customerDao.deleteByOpenid(customer.openid)
     val findMsgCom: () => MsgCom = () => msgComDao.findOne(command.success_msg_id)
     val findNewsCom: String => List[NewsCom] = msgID => WrapAsScala.asScalaBuffer(newsComDao.findByMsgID(msgID)).toList
     val np: String => String = t => t

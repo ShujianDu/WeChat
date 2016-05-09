@@ -530,7 +530,7 @@ public class MyHttpClient extends HttpClient {
 			c.setTransactionCurrencyCode("CNY");
 			c.setTransactionNo("5");
 			consumptionInstallmentsList.add(c);
-			consumptionInstallmentsesReceive.setConsumptionInstallmentsList(consumptionInstallmentsList);
+			consumptionInstallmentsesReceive.setGcsConsumptionInstallmentsEntitys(consumptionInstallmentsList);;
 			consumptionInstallmentsesReceive.setTransactionNumber("1");
 			consumptionInstallmentsesReceive.setHasNext(false);
 			map.put(key, consumptionInstallmentsesReceive);

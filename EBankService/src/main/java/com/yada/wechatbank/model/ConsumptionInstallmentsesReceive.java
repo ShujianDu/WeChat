@@ -14,7 +14,7 @@ public class ConsumptionInstallmentsesReceive {
 	// 是否有下一页
 	private boolean hasNext;
 	// 交易集合
-	private List<ConsumptionInstallments> consumptionInstallmentsList;
+	private List<ConsumptionInstallments> gcsConsumptionInstallmentsEntitys;
 
 	public String getTransactionNumber() {
 		return transactionNumber;
@@ -32,12 +32,14 @@ public class ConsumptionInstallmentsesReceive {
 		this.hasNext = hasNext;
 	}
 
-	public List<ConsumptionInstallments> getConsumptionInstallmentsList() {
-		return consumptionInstallmentsList;
+	public List<ConsumptionInstallments> getGcsConsumptionInstallmentsEntitys() {
+		return gcsConsumptionInstallmentsEntitys;
 	}
 
-	public void setConsumptionInstallmentsList(List<ConsumptionInstallments> consumptionInstallmentsList) {
-		this.consumptionInstallmentsList = consumptionInstallmentsList;
+	public void setGcsConsumptionInstallmentsEntitys(
+			List<ConsumptionInstallments> gcsConsumptionInstallmentsEntitys) {
+		this.gcsConsumptionInstallmentsEntitys = gcsConsumptionInstallmentsEntitys;
 	}
+	
 
 }
