@@ -16,6 +16,7 @@
         <module>SystemAdapterServer</module>
         <module>EBank</module>
         <module>EBankService</module>
+        <module>AroundServiceApp</module>
     </modules>
 
     <properties>
