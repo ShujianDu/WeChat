@@ -1,8 +1,10 @@
 package com.yada.wx.cbs
 
-import com.typesafe.config.ConfigFactory
+import java.text.SimpleDateFormat
+import java.util.Calendar
+
 import com.yada.wx.cb.data.service.jpa.dao._
-import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
+import com.yada.wx.cb.data.service.jpa.model.{Command, Customer}
 import com.yada.wx.cbs.subBiz._
 
 /**
@@ -13,26 +15,16 @@ class CmdBiz(commandDao: CommandDao = SpringContext.context.getBean(classOf[Comm
              bizDao: BizDao = SpringContext.context.getBean(classOf[BizDao])) {
 
   private val cmdMap: Map[String, ICmdSubBiz] = {
-    //   selectLimit	查询默认卡额度
-    //    selectBillSum	查询默认卡账单
-    //    selectIntegral	查询默认卡积分
-    //    localProc	直接返回
-    //    unBinding	解除用户绑定
-    //    selectBillSendType	查询默认卡寄送方式
-    //    openSpread	开启推送
-    //    closeSpread	关闭推送
-    //    findNearbyBankOfChina	查询附近中国银行
-    //    findNearByMerchant	查询附近特约商户
 
-    Map("selectLimit" -> new QueryBalanceBiz(),
-      "selectBillSum" -> new QueryBillSumBiz(),
-      "selectIntegral" -> new QueryPointBalanceBiz(),
-      "localProc" -> new DirectReturnBiz(),
-      "unBinding" -> new UnBindingBiz(),
-      "selectBillSendType" -> new QueryBillSendTypeBiz(),
-      "openSpread" -> new OpenSpreadBiz(),
-      "closeSpread" -> new CloseSpreadBiz(),
-      "findNearbyBankOfChina" -> new QueryNearBankBiz())
+    Map("selectLimit" -> new QueryBalanceBiz(), // selectLimit 查询默认卡额度
+      "selectBillSum" -> new QueryBillSumBiz(), // electBillSum	查询默认卡账单
+      "selectIntegral" -> new QueryPointBalanceBiz(), // selectIntegral	查询默认卡积分
+      "localProc" -> new DirectReturnBiz(), // localProc 直接返回
+      "unBinding" -> new UnBindingBiz(), // unBinding	解除用户绑定
+      "selectBillSendType" -> new QueryBillSendTypeBiz(), // selectBillSendType	查询默认卡寄送方式
+      "openSpread" -> new OpenSpreadBiz(), // openSpread	开启推送
+      "closeSpread" -> new CloseSpreadBiz(), // closeSpread	关闭推送
+      "findNearbyBankOfChina" -> new QueryNearBankBiz()) // findNearbyBankOfChina	查询附近中国银行
   }
 
   def handle(cmd: String, openID: String): CmdRespMessage = {
@@ -65,4 +57,8 @@ trait ICmdSubBiz extends ITemplate {
     val r = src.take(4) ++ dest ++ src.takeRight(4)
     new String(r)
   }
+
+  private val simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss")
+
+  protected def currentDatetime: String = simpleDateFormat.format(Calendar.getInstance.getTime)
 }

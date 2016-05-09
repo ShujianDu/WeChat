@@ -19,6 +19,11 @@ class QueryBillSendTypeBiz(httpClient: HttpClient = HttpClient) extends ICmdSubB
   }
 
   override def subHandle(command: Command, customer: Customer): CmdRespMessage = {
+    val event = Json.toJson(Json.obj(
+      "datetime" -> currentDatetime,
+      "openID" -> customer.openid),
+      "cardNo" -> customer.defCardNo).toString()
+    kafkaClient.send("wcbQuery", "billSendType", event)
     val req = Json.toJson(BillSendTypeReq(gcsTranSessionID, gcsReqChannelID, customer.defCardNo)).toString
     val resp = httpClient.send(req, url)
     val respJson = Json.parse(resp)
