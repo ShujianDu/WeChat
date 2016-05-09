@@ -70,10 +70,10 @@ object GCSProtocolTestApp extends App {
   //  testTS011170()
 
   // 卡户分期项目账单分期（授权）
-  //  testTS011171()
+//    testTS011171()
 
   // 卡户分期项目消费分期（费用试算）
-    testTS011172()
+//    testTS011172()
 
   // 卡户分期项目消费分期（授权）
     testTS011173()
@@ -124,8 +124,8 @@ object GCSProtocolTestApp extends App {
     * 临时挂失
     */
   def testTS010059(): Unit = {
-    val cardNo = "514958967878969"
-    val req = new TS010059(sessionID,channelID,cardNo,"01","AAP0344","03","AAP0344","02")()
+    val cardNo = "377677530138585"
+    val req = new TS010059(sessionID,channelID,cardNo,"01","AAP0345","03","AAP0345","02")()
     req.send
   }
 
