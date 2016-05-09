@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<!doctype html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -15,10 +14,10 @@
 <input type="hidden" id="currentMenuId" value="${sessionScope.menuId}">
 <!--menu-->
 <div class="menu_box">
-    <a id="1" href="${ctx}\billingsummary\list.do?menuId=1" class="current_menu">我的账单</a>
-    <a id="2" href="${ctx}\balance\list.do?menuId=2">我的额度</a>
-    <a id="3" href="${ctx}\points\list.do?menuId=3">我的积分</a>
-    <a id="4" href="${ctx}\menu\moreMenu.do?menuId=4">更多功能</a>
+    <a id="1" href="${ctx}/billingsummary/list.do" class="current_menu">我的账单</a>
+    <a id="2" href="${ctx}/balance/list.do">我的额度</a>
+    <a id="3" href="${ctx}/points/list.do">我的积分</a>
+    <a id="4" href="${ctx}/menu/moreMenu.do?menuId=4">更多功能</a>
 </div>
 <div id="myMenuContent"></div>
 <script type=text/javascript>
