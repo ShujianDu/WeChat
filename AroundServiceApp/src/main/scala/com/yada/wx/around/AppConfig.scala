@@ -9,7 +9,7 @@ import org.springframework.context.annotation.{Bean, Configuration}
 @Configuration
 class AppConfig {
   @Bean
-  def entityManagerFactory(): HttpClient = {
+  def httpClient(): HttpClient = {
     val httpClient = new HttpClient("http://22.7.14.148:8080", 10000, 10000)
     httpClient
   }
