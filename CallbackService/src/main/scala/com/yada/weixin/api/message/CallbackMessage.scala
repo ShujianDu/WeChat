@@ -295,6 +295,7 @@ object CallbackMessage {
       final val link = "link"
       final val Event = "event"
       final val TransferCustomerService = "transfer_customer_service"
+      final val TemplateSendJobFinish = "TEMPLATESENDJOBFINISH"
     }
 
     object EVENT_TYPE {
