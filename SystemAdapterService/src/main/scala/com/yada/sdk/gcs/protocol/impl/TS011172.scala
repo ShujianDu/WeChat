@@ -40,7 +40,7 @@ class TS011172(tranSessionID: String,
                isfeeFlag: String,
                channelId: String = "A",
                pageTransactionCode: String = "3110",
-               installmentPlan: String = "EPO1",
+               installmentPlan: String = "EP01",
                merchantID: String = "0000000",
                mcc: String = "5311")(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 

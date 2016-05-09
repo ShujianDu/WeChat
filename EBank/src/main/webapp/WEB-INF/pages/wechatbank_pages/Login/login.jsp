@@ -63,14 +63,14 @@
             </li>
             <li class="input_box">
                 <span class="input_name">证件号码</span>
-                <input class="input_content" placeholder="请输入证件号码" type="text"
+                <input class="input_content" style="width:65%;" placeholder="请输入证件号码" type="text"
                        name="username" id="username"
                        maxlength="18" onchange="changeWarning();"
                        value="${username}"/>
             </li>
             <li class="input_box">
                 <span class="input_name">查询密码</span>
-                <input class="input_content" placeholder="请输入查询密码" type="password"
+                <input class="input_content" style="width:65%;" placeholder="请输入查询密码" type="password"
                        name="password" id="password"
                        maxlength="6" onchange="changeWarning();"/>
             </li>
@@ -88,13 +88,14 @@
                 <input type="button" class="input_yama" name="getMobileCodeButton"
                        id="getMobileCodeButton" value="获取验证码" onclick="getMobileCodeFunction()">
             </li>
-            </ul>
-            <div style="min-height:20px;padding-top: 2px">
-                <span id="spanWarning" class="help-block fontsize text-center fontred">${message}</span>
-            </div>
-            <div class="HandIn">
-                <input  type="submit" value="登&nbsp;&nbsp;录" id="loginBtn" onclick="return validate_form();"/>
-            </div>
+        </ul>
+        <div style="min-height:20px;padding-top: 2px">
+            <span id="spanWarning" class="help-block fontsize text-center fontred"
+                  style="text-align:center;color:red;width:100%;display:block;">${message}</span>
+        </div>
+        <div class="HandIn">
+            <input type="submit" value="登&nbsp;&nbsp;录" id="loginBtn" onclick="return validate_form();"/>
+        </div>
     </form>
 </div>
 <div style="margin-top: 30px;"></div>
@@ -174,7 +175,6 @@
             return false;
         }
         failureSendSMS = "";
-        buttonTimeOut();
         $.ajax({
             url: "getSMSCode_ajax.do",
             data: {
@@ -185,13 +185,14 @@
             },
             type: "post",
             dataType: "text",
-            async: true,
+            async: false,
             success: function (result) {
                 if (result != null && result != "") {
                     var resultIndex = result.indexOf(",")
                     if (resultIndex != -1) {
                         result = result.substring(0, resultIndex);
                     }
+
                     if (result == "exception" || result == "false") {
                         failureSendSMS = "false";
                         i = 0;
@@ -201,7 +202,7 @@
                     } else if (result == "errorCode") {
                         spanWarning.text("您填写的验证码有误，请重新输入！");
                     } else {
-                        buttonTimeOut();
+                       alert(1);
                     }
                 }
             }

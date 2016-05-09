@@ -13,28 +13,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value = "menu")
 public class MenuController extends BaseController{
 
-    @Value(value = "${menu.bill}")
-    private String bill;
-
-    @Value(value = "${menu.balance}")
-    private String balance;
-
-    @Value(value = "${menu.points}")
-    private String points;
-
     @Value(value = "${menu.cardApply}")
     private String cardApply;
+    @Value(value = "${menu.activity}")
+    private String activity;
 
-    @Value(value = "${menu.booking}")
-    private String booking;
 
     @RequestMapping(value = "moreMenu")
     public String moreMenu(Model model) {
-        model.addAttribute("bill",bill);
-        model.addAttribute("balance",balance);
-        model.addAttribute("points",points);
         model.addAttribute("cardApply",cardApply);
-        model.addAttribute("booking",booking);
+        model.addAttribute("activity",activity);
         return "layout/moreMenu";
     }
 }
