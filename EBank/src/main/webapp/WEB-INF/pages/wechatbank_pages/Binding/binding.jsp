@@ -247,7 +247,7 @@
             dataType: "text",
             async: false,
             success: function (result) {
-                if (result != null && result != "") {
+                if (result != null && result != "") {吧
                     var resultIndex = result.indexOf(",")
                     if (resultIndex != -1) {
                         var resultOne = result.substring(resultIndex + 1);
