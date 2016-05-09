@@ -21,7 +21,7 @@
 	<div id="myBill_box">
 		<form name="value_debt" style="width:100%;display:block;overflow-x:hidden;background-color:white;">
 			<select id="cardNo" name="messagePick" class="control_card" onchange="messageRevealWait();">
-				<option value="">请选择下列的银行卡</option>
+				<option value="">请选择信用卡</option>
 				<c:forEach items="${cardList}" var="item" varStatus="status">
 					<option class="" value="${fn:substringAfter(item, ',')}"
 						name="cardNo">

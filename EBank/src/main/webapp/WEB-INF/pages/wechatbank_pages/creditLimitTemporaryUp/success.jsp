@@ -23,7 +23,7 @@
 	<!--第一种卡信息-->
 	<div class="dynamic_box">
 		<img src="<c:url value="/images/yes.png"/>" class="imgyes">
-		<span class="textYes">提交额度申请成功！</span>
+		<span class="textYes">恭喜您提额成功</span>
 	</div>
         <span class="tip_text">提交额度申请成功，系统尽快为您审核，稍后将会已短信形式通知您审核结果</span>
 </div>
