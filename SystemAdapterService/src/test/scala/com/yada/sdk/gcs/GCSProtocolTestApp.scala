@@ -1,6 +1,7 @@
 package com.yada.sdk.gcs
 
 import com.yada.sdk.gcs.protocol.impl._
+import com.yada.system.adapter.gcs.GCSConsumptionInstallmentParams
 
 /**
   * GCS协议执行测试
@@ -21,7 +22,7 @@ object GCSProtocolTestApp extends App {
 //    testTS010059()
 
   // 解除临时挂失--总交易
-    testTS010060()
+//    testTS010060()
 
   // 海淘卡挂失使用
   //  testTS010063()
@@ -72,10 +73,10 @@ object GCSProtocolTestApp extends App {
   //  testTS011171()
 
   // 卡户分期项目消费分期（费用试算）
-  //  testTS011172()
+    testTS011172()
 
   // 卡户分期项目消费分期（授权）
-  //  testTS011173()
+    testTS011173()
 
   // 查询客户手机预留号码
   //  testTS140028()
@@ -123,8 +124,8 @@ object GCSProtocolTestApp extends App {
     * 临时挂失
     */
   def testTS010059(): Unit = {
-    val cardNo = "4096688277156575"
-    val req = new TS010059(sessionID,channelID,cardNo,"01","AAP0345","03","AAP0345","02")()
+    val cardNo = "514958967878969"
+    val req = new TS010059(sessionID,channelID,cardNo,"01","AAP0344","03","AAP0344","02")()
     req.send
   }
 
@@ -309,7 +310,10 @@ object GCSProtocolTestApp extends App {
     * 卡户分期项目消费分期（费用试算）
     */
   def testTS011172(): Unit = {
-    // TODO 卡户分期项目消费分期（费用试算） 无法测试
+    val req = new TS011172(sessionID,channelID,"001A021306500928","001A021306500928","CNY","40","2",
+      "000000000001300000","377677523143733","1297812597499142","6","1","A")
+    val resp = req.send
+    println(resp)
   }
 
   /**
@@ -317,6 +321,10 @@ object GCSProtocolTestApp extends App {
     */
   def testTS011173(): Unit = {
     // TODO 卡户分期项目消费分期（授权） 无法测试
+    val req = new TS011173(sessionID,channelID,"001A021306500928","001A021306500928","CNY","40","2",
+    "000000000001300000","377677523143733","1297812597499142","6","1","A")
+    val resp = req.send
+    println(resp)
   }
 
   /**

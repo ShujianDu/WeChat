@@ -332,7 +332,7 @@ class GCSServiceImpl extends GCSService {
   override def costConsumptionInstallment(p: GCSConsumptionInstallmentParams): GCSConsumptionInstallmentResult = {
     val ts011172 = new TS011172(p.tranSessionID, p.reqChannelID, p.accountKeyOne, p.accountKeyTwo,
       p.currencyCode, p.billDateNo, p.transactionNo, p.transactionAmount, p.cardNo,
-      p.accountNoID, p.installmentPeriods: String, p.isfeeFlag: String)
+      p.accountNoID, p.installmentPeriods: String, p.isfeeFlag: String,p.channelId)
     val result = ts011172.send
     GCSConsumptionInstallmentResult(result.pageValue("instalAmount"), result.pageValue("instalmentFee"), result.pageValue("installmentsAlsoAmountFirst"),
       result.pageValue("installmentsAlsoAmountEach"), result.pageValue("billFeeMeans"), result.pageValue("installmentsNumber"))
@@ -346,7 +346,7 @@ class GCSServiceImpl extends GCSService {
     */
   override def getBillCost(p: GCSBillInstallmentParams): GCSBillInstallmentResult = {
     val ts011170 = new TS011170(p.tranSessionID, p.reqChannelID, p.accountId, p.accountNumber, p.currencyCode, p.billLowerAmount,
-      p.billActualAmount, p.installmentsNumber, p.feeInstallmentsFlag, p.reqChannelID)
+      p.billActualAmount, p.installmentsNumber, p.feeInstallmentsFlag, p.channelId)
     val result = ts011170.send
 
     GCSBillInstallmentResult(result.pageValue("currentBillMinimum"), result.pageValue("installmentsfee"), result.pageValue("installmentsAlsoAmountFirst"),
@@ -396,7 +396,7 @@ class GCSServiceImpl extends GCSService {
   override def authorizationConsumptionInstallment(p: GCSConsumptionInstallmentParams): GCSReturnCodeResult = {
     val ts011173 = new TS011173(p.tranSessionID, p.reqChannelID, p.accountKeyOne, p.accountKeyTwo,
       p.currencyCode, p.billDateNo, p.transactionNo, p.transactionAmount, p.cardNo,
-      p.accountNoID, p.installmentPeriods: String, p.isfeeFlag: String)
+      p.accountNoID, p.installmentPeriods: String, p.isfeeFlag: String,p.channelId)
     GCSReturnCodeResult(ts011173.send.pageValue("authReturnCode"))
   }
 
@@ -435,7 +435,7 @@ class GCSServiceImpl extends GCSService {
     */
   override def billInstallment(p: GCSBillInstallmentParams): GCSReturnCodeResult = {
     val ts011171 = new TS011171(p.tranSessionID, p.reqChannelID, p.accountId, p.accountNumber, p.currencyCode, p.billLowerAmount
-      , p.billActualAmount, p.installmentsNumber, p.feeInstallmentsFlag)
+      , p.billActualAmount, p.installmentsNumber, p.feeInstallmentsFlag,p.channelId)
     GCSReturnCodeResult(ts011171.send.pageValue("authReturnCode"))
   }
 
