@@ -202,7 +202,7 @@
                     } else if (result == "errorCode") {
                         spanWarning.text("您填写的验证码有误，请重新输入！");
                     } else {
-                       alert(1);
+                        buttonTimeOut();
                     }
                 }
             }
