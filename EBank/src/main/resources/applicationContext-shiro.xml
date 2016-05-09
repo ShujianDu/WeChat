@@ -42,6 +42,7 @@
 				/points/list.do = myAuthc
 				/reportlost/list.do = myAuthc
 				/wbicCardInfo/list.do = myAuthc
+				/reportlost/cancel.do = myAuthc
 				/*/*.do = anon
 			</value>
 		</property>
