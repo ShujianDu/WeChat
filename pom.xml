@@ -365,6 +365,24 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <repositories>
+        <repository>
+            <id>wcb</id>
+            <name>wcb</name>
+            <url>http://22.7.16.93:8081/nexus/content/groups/wcb</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>wcb</id>
+            <name>wcb</name>
+            <url>http://22.7.16.93:8081/nexus/content/groups/wcb</url>
+        </pluginRepository>
+    </pluginRepositories>
     <build>
         <pluginManagement>
             <plugins>

@@ -1,6 +1,5 @@
 package com.yada.wechatbank.shiro;
 
-import com.yada.wechatbank.cache.ICountSMSCache;
 import com.yada.wechatbank.permit.PermitHander;
 import com.yada.wechatbank.service.LoginService;
 import com.yada.wechatbank.service.SmsService;
@@ -15,7 +14,6 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.util.SavedRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +29,10 @@ public class MyRealm extends AuthorizingRealm {
     @Autowired
     private SmsService smsServiceImpl;
 
-
-
     // 授权
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(
-            PrincipalCollection principals) {
-        String username = (String) principals.fromRealm(getName()).iterator()
-                .next();
-
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        String username = (String) principals.fromRealm(getName()).iterator().next();
         return new SimpleAuthorizationInfo();
     }
 
@@ -57,7 +50,16 @@ public class MyRealm extends AuthorizingRealm {
         String identityType = myToken.getIdentityType();
         String randomCode = (String) session.getAttribute("jcmsrandomchar");
         String mobileCode = myToken.getMobileCode();
-        if (randomCode.equals(verification)) {
+        //TODO 增加openID的验证授权登陆
+        if(myToken.getOpenID() != null && myToken.getOpenID().equals("数据库中存在")){
+            session.setAttribute("identityNo", "证件号");
+            session.setAttribute("identityType", "证件类型");
+            long time = Long.parseLong(timeout);
+            // 设置session超时时间10分钟
+            SecurityUtils.getSubject().getSession().setTimeout(time);
+            return new SimpleAuthenticationInfo(username, password,
+                    getName());
+        }else if (randomCode.equals(verification)) {
             if (loginService.isLocked(username, identityType)) {
                 session.setAttribute("message", "账户已锁定,请稍后再试！");
             } else {

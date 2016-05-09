@@ -26,7 +26,7 @@ public class MyAuthcFilter extends FormAuthenticationFilter {
         String host = getHost(request);
         String identityType = getIdentityType(request);
         String mobileCode = getMobileCode(request);
-        return new MyToken(username, password, verification, rememberMe, host,identityType,mobileCode);
+        return new MyToken(username, password, verification, rememberMe, host,identityType,mobileCode,request.getParameter("authCode"));
     }
 
     protected String getVerificationParam(ServletRequest request) {

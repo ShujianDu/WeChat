@@ -1,6 +1,7 @@
 package com.yada.system.adapter.gcs
 
 import org.scalatest.{FlatSpec, Matchers}
+import play.api.libs.json.Json
 
 class GCSTest extends FlatSpec with Matchers {
 

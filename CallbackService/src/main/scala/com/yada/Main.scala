@@ -1,7 +1,7 @@
 package com.yada
 
 import com.yada.weixin.cb.server.WeixinCallbackServer
-import com.yada.wx.cbs.{IAccessTokenTool, SpringContext}
+import com.yada.wx.cbs.SpringContext
 
 object Main extends App {
   WeixinCallbackServer.start()
