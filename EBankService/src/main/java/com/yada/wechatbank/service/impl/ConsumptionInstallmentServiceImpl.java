@@ -126,6 +126,7 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		param.put("accountNoID", cia.getAccountNoID());
 		param.put("installmentPeriods", cia.getInstallmentPeriods());
 		param.put("isfeeFlag", cia.getIsfeeFlag());
+		param.put("channelId", "A");
 		// kafka事件记录
 		messageProducer.send(TopicEnum.EBANK_QUERY, "consumptionInstallmentCostConsumptionInstallment", param);
 		ConsumptionInstallmentCostResp consumptionInstallmentCostResp = httpClient.send(costConsumptionInstallmentUrl, param,
@@ -161,6 +162,7 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		param.put("accountNoID", cia.getAccountNoID());
 		param.put("installmentPeriods", cia.getInstallmentPeriods());
 		param.put("isfeeFlag", cia.getIsfeeFlag());
+		param.put("channelId", "A");
 		String tDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 		InstallmentInfo bi = new InstallmentInfo(cia.getCardNo(), "消费分期", cia.getCurrencyCode(), cia.getTransactionAmount(), cia.getInstallmentPeriods(),
 				cia.getIsfeeFlag(), tDate);
