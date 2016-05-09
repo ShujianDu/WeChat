@@ -1,30 +1,23 @@
 package com.yada.wechatbank.controller;
 
 import javax.servlet.http.HttpServletRequest;
-
 import com.yada.wechatbank.service.LoginService;
 import com.yada.wechatbank.service.SmsService;
-import com.yada.wechatbank.util.IdTypeUtil;
 import com.yada.wechatbank.util.TokenUtil;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.yada.wechatbank.base.BaseController;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.io.IOException;
 
 @Controller
 @RequestMapping(value = "login")
 public class LoginController extends BaseController {
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String LOGINURL = "wechatbank_pages/Login/login";
     private static final String WELCOMEURL = "wechatbank_pages/Login/index";
     @Autowired
