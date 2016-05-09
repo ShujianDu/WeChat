@@ -22,5 +22,5 @@ class UnSubscribeProc extends MessageProc[JsValue, String] {
     customerDao.deleteByOpenid(openID)
     "success"
   }
-  override val responseCreator: (JsValue, CmdRespMessage) => Option[JsValue] = (req, resp) => None
+  override val responseCreator: (JsValue, String) => Option[JsValue] = (req, resp) => None
 }
