@@ -53,9 +53,9 @@
 
 		<!--显示额度-->
 		<div class="canvas_content">
-			<span class="credit_title">信用额度</span>
+			<span class="credit_title">可用额度</span>
 			<span class="credit_value"><span id="credit_value">0.00</span></span>
-			<span class="no_value" ><span id="no_value">0.00</span></span>
+			<%--<span class="no_value" ><span id="no_value">0.00</span></span>--%>
 		</div>
 		<div class="creditTip">
 			<div id="state"></div>

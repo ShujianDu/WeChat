@@ -47,7 +47,7 @@
 			</select>
 		</form>
 		<input type="submit" value="申请提升临时额度" class="ApplyAmount"/>
-		<input type="button" value="查询额度提升进度" class="UpgradeProgress" onclick="showHistory();"/>
+		<input type="button" value="额度提升历史查询" class="UpgradeProgress" onclick="showHistory();"/>
 	</div>
 </div>
 </body>
