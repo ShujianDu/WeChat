@@ -28,7 +28,7 @@ class QueryBillSendTypeBiz(httpClient: HttpClient = HttpClient) extends ICmdSubB
     val findNewsCom: String => List[NewsCom] = msgID => WrapAsScala.asScalaBuffer(newsComDao.findByMsgID(msgID)).toList
     // 普通模板替换
     val np: String => String = _.replace("$_{billSendTypeDesc}", billSendTypeMap(data))
-      .replace("$_{cardNo}", customer.defCardNo)
+      .replace("$_{cardNo}", hideCardNo(customer.defCardNo))
     // 重复模板替换
     val rp: String => List[String] = t => List(t)
     createRespMsg(findMsgCom, findNewsCom, np, rp)

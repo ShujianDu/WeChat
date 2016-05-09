@@ -21,7 +21,7 @@ class QueryPointBalanceBiz(httpClient: HttpClient = HttpClient) extends ICmdSubB
     val data = (respJSON \ "data").as[PointBalanceResp]
     val findMsgCom: () => MsgCom = () => msgComDao.findOne(command.success_msg_id)
     val findNewsCom: String => List[NewsCom] = msgID => WrapAsScala.asScalaBuffer(newsComDao.findByMsgID(msgID)).toList
-    val normalReplace: String => String = t => t.replace("$_{cardNo}", customer.defCardNo)
+    val normalReplace: String => String = t => t.replace("$_{cardNo}", hideCardNo(customer.defCardNo))
     val repeatReplace: String => List[String] = t => {
       List(t.replace("$_{availPoint}", data.availPoint))
     }

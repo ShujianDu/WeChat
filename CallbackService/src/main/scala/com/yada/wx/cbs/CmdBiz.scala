@@ -58,4 +58,11 @@ trait ICmdSubBiz extends ITemplate {
   def subHandle(command: Command, customer: Customer): CmdRespMessage
 
   protected def kafkaClient: KafkaClient = KafkaClient
+
+  protected def hideCardNo(cardNo: String): String = {
+    val src = cardNo.toCharArray
+    val dest = Array.fill(src.length - 8)('*')
+    val r = src.take(4) ++ dest ++ src.takeRight(4)
+    new String(r)
+  }
 }
