@@ -30,7 +30,7 @@ class QueryBalanceBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
     val findMsgCom: () => MsgCom = () => msgComDao.findOne(command.success_msg_id)
     val findNewsCom: String => List[NewsCom] = msgID => WrapAsScala.asScalaBuffer(newsComDao.findByMsgID(msgID)).toList
     // 普通模板替换
-    val normalReplace: String => String = _.replace("$_{cardNo}", customer.defCardNo)
+    val normalReplace: String => String = _.replace("$_{cardNo}", hideCardNo(customer.defCardNo))
     // 重复模板替换
     val repeatReplace: String => List[String] = t => {
       bs.map(b => {

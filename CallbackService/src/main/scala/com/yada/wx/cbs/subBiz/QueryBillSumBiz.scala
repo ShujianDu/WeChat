@@ -39,7 +39,7 @@ class QueryBillSumBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
       val bs = (billingSummary \ "data").as[BillingSummaryResp]
       BillingSummaryResp(bs.periodStartDate, bs.periodEndDate, bs.paymentDueDate, bs.closingBalance, bs.currencyCode, bs.minPaymentAmount)
     })
-    val normalReplace: String => String = _.replace("$_{cardNo}", customer.defCardNo)
+    val normalReplace: String => String = _.replace("$_{cardNo}", hideCardNo(customer.defCardNo))
     val repeatReplace: String => List[String] = t => {
       bs.map(b => {
         t.replace("$_{currencyCode}", b.currencyCode)
