@@ -33,34 +33,25 @@ class SimpleTimeoutMessageProc extends TimeoutMessageProc with LazyLogging {
 
   // json 解包
   implicit val reads: Reads[Article] = Reads(jv => {
-    val title = (jv \ "Title").toString()
-    val description = (jv \ "Description").toString()
-    val url = (jv \ "Url").toString()
-    val picUrl = (jv \ "PicUrl").toString()
+    val title = (jv \ "Title").as[String]
+    val description = (jv \ "Description").as[String]
+    val url = (jv \ "Url").as[String]
+    val picUrl = (jv \ "PicUrl").as[String]
     JsSuccess(Article(title, description, url, picUrl))
   })
 
-  //  // json 解包
-  //  implicit val reads: Reads[Article] = (
-  //    (__ \ "Title").read[String] ~
-  //      (__ \ "Description").read[String] ~
-  //      (__ \ "Url").read[String] ~
-  //      (__ \ "PicUrl").read[String]
-  //    ) (Article.apply _)
-
   override def proc(msg: String): Future[Unit] = Future.successful {
     logger.info(s"start timeout msg proc...msg:\r\n$msg")
-    if(msg.nonEmpty && !msg.equalsIgnoreCase("success")){
+    if (msg.nonEmpty && !msg.equalsIgnoreCase("success")) {
       val jv = Json.parse(XML.toJSONObject(msg).toString()) \ "xml"
-      logger.info(jv.toString())
       val req = (jv \ "MsgType").as[String] match {
         case "text" =>
-          val toUserName = (jv \ "ToUserName").toString()
-          val content = (jv \ "Content").toString()
+          val toUserName = (jv \ "ToUserName").toString().replace("\"", "")
+          val content = (jv \ "Content").as[String]
           Json.obj("touser" -> toUserName, "msgtype" -> "text",
             "text" -> Json.obj("content" -> content))
         case "news" =>
-          val toUserName = (jv \ "ToUserName").toString()
+          val toUserName = (jv \ "ToUserName").toString().replace("\"", "")
           val as = if ((jv \ "ArticleCount").as[Int] > 1) {
             (jv \ "Articles" \ "item").as[List[Article]]
           } else {

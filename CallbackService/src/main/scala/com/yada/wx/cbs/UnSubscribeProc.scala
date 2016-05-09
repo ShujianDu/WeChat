@@ -19,17 +19,17 @@ class UnSubscribeProc extends MessageProc[JsValue, String] {
   private[cbs] var customerDao: CustomerDao = SpringContext.context.getBean(classOf[CustomerDao])
   private[cbs] var kafkaClient: KafkaClient = KafkaClient
   override val filter: (JsValue) => Boolean = jv => {
-    (jv \ CallbackMessage.Names.MsgType).toString() == MSG_TYPE.Event && (jv \ CallbackMessage.Names.Event).toString() == EVENT_TYPE.UnSubscribe
+    (jv \ CallbackMessage.Names.MsgType).as[String] == MSG_TYPE.Event && (jv \ CallbackMessage.Names.Event).as[String] == EVENT_TYPE.UnSubscribe
   }
   override val requestCreator: (JsValue) => JsValue = jv => jv
   override val process: (JsValue) => Future[String] = jv => Future.successful {
-    val openID = (jv \ CallbackMessage.Names.FromUserName).toString()
+    val openID = (jv \ CallbackMessage.Names.FromUserName).as[String]
     customerDao.deleteByOpenid(openID)
     val sdf = new SimpleDateFormat("")
     val event = Json.toJson(Json.obj(
       "datetime" -> sdf.format(Calendar.getInstance.getTime),
       "openID" -> openID)).toString()
-    kafkaClient.send("wcbQuery", "balance", event)
+    kafkaClient.send("wcbDo", "unBinding", event)
     "success"
   }
   override val responseCreator: (JsValue, String) => Option[JsValue] = (req, resp) => None

@@ -9,7 +9,7 @@ import scala.concurrent.Future
 
 class TemplateSendJobFinishProc extends MessageProc[JsValue, String] {
   override val filter: (JsValue) => Boolean = jv => {
-    (jv \ MsgType).toString() == MSG_TYPE.Event && (jv \ Event).toString() == MSG_TYPE.TemplateSendJobFinish
+    (jv \ MsgType).as[String]== MSG_TYPE.Event && (jv \ Event).as[String] == MSG_TYPE.TemplateSendJobFinish
   }
   override val requestCreator: (JsValue) => JsValue = jv => jv
   override val process: (JsValue) => Future[String] = jv => Future.successful("")

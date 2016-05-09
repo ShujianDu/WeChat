@@ -11,7 +11,7 @@ import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 class KafkaClient extends LazyLogging {
   protected val kafkaProducer = {
     val props: Properties = new Properties
-    props.put("bootstrap.servers", "22.7.14.148:9091")
+    props.put("bootstrap.servers", "22.7.14.148:9091,22.7.14.149:9092")
     // 0：生产者不等待响应；1：生产者等待leader写入本地日志；all：生产者等待leader同步
     props.put("acks", "all")
     props.put("retries", "0")

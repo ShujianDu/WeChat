@@ -3,7 +3,7 @@ package com.yada.wx.cbs
 import java.net.URLEncoder
 
 import com.typesafe.config.ConfigFactory
-import com.yada.weixin.api.message.CallbackMessage
+import com.yada.weixin.api.message.CallbackMessage.Names._
 import com.yada.weixin.api.message.CallbackMessage.Names.{EVENT_TYPE, MSG_TYPE}
 import com.yada.weixin.cb.server.MessageProc
 import com.yada.wx.cb.data.service.jpa.dao.ChinaBankInfoDao
@@ -28,12 +28,12 @@ class NearBankProc extends MessageProc[JsValue, CmdRespMessage] {
   }
 
   override val filter: (JsValue) => Boolean = jv => {
-    (jv \ CallbackMessage.Names.MsgType).toString() == MSG_TYPE.Event && (jv \ CallbackMessage.Names.Event).toString() == EVENT_TYPE.Location
+    (jv \ MsgType).as[String] == MSG_TYPE.Event && (jv \ Event).as[String] == EVENT_TYPE.Location
   }
   override val requestCreator: (JsValue) => JsValue = jv => jv
   override val process: (JsValue) => Future[CmdRespMessage] = jv => Future.successful {
-    val latitude = (jv \ CallbackMessage.Names.Latitude).toString()
-    val longitude = (jv \ CallbackMessage.Names.Longitude).toString()
+    val latitude = (jv \ Latitude).toString().replace("\"", "")
+    val longitude = (jv \ Longitude).toString().replace("\"", "")
     val banks = chinaBankInfoDao.findNearBanks(latitude, longitude)
     val item = NewsMessageItem(title, "", picUrl, url)
     val bs = WrapAsScala.asScalaBuffer(banks).toList
