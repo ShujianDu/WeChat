@@ -21,9 +21,8 @@ class JpaConfig {
 
   @Bean
   def entityManagerFactory(): LocalContainerEntityManagerFactoryBean = {
-    val config = ConfigFactory.load()
-    val showSQL = config.getBoolean("spring.showSQL")
-    val generateDDL = config.getBoolean("spring.generateDDL")
+    val showSQL = true
+    val generateDDL = false
     val emf = new LocalContainerEntityManagerFactoryBean()
     emf.setDataSource(dataSource)
     emf.setPackagesToScan("com.yada.wx.cb.data.service.jpa.model")

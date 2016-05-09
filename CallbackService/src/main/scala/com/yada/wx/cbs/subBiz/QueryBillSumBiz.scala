@@ -23,9 +23,9 @@ class QueryBillSumBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
   }
 
   override def subHandle(command: Command, customer: Customer): CmdRespMessage = {
-    val event = Json.toJson(Json.obj(
+    val event = Json.obj(
       "datetime" -> currentDatetime,
-      "openID" -> customer.openid),
+      "openID" -> customer.openid,
       "cardNo" -> customer.defCardNo).toString()
     kafkaClient.send("wcbQuery", "billingSummary", event)
     val billingPeriods = Json.parse(httpClient.send(Json.toJson(BillingPeriodReq(gcsTranSessionID, gcsReqChannelID, customer.defCardNo)).toString(), billingPeriodsURL))

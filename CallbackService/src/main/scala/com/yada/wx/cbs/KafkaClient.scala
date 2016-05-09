@@ -2,12 +2,13 @@ package com.yada.wx.cbs
 
 import java.util.Properties
 
+import com.typesafe.scalalogging.LazyLogging
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 
 /**
   *
   */
-class KafkaClient {
+class KafkaClient extends LazyLogging {
   protected val kafkaProducer = {
     val props: Properties = new Properties
     props.put("bootstrap.servers", "22.7.14.148:9091")
@@ -30,6 +31,7 @@ class KafkaClient {
     * @param message 内容
     */
   def send(topic: String, key: String, message: String): Unit = {
+    logger.info(s"send to kafka...topic:$topic key:$key message:$message")
     kafkaProducer.send(new ProducerRecord[String, String](topic, key, message))
   }
 }

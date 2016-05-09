@@ -14,9 +14,9 @@ class QueryPointBalanceBiz(httpClient: HttpClient = HttpClient) extends ICmdSubB
   private val url = "/points/PointsBalanceRoute"
 
   override def subHandle(command: Command, customer: Customer): CmdRespMessage = {
-    val event = Json.toJson(Json.obj(
+    val event = Json.obj(
       "datetime" -> currentDatetime,
-      "openID" -> customer.openid),
+      "openID" -> customer.openid,
       "cardNo" -> customer.defCardNo).toString()
     kafkaClient.send("wcbQuery", "pointBalance", event)
     val req = Json.toJson(PointBalanceReq(customer.defCardNo)).toString()
