@@ -49,26 +49,28 @@ class SimpleTimeoutMessageProc extends TimeoutMessageProc with LazyLogging {
   //    ) (Article.apply _)
 
   override def proc(msg: String): Future[Unit] = Future.successful {
-    //    logger.info(s"start timeout msg proc...msg:\r\n$msg")
-    val jv = Json.parse(XML.toJSONObject(msg).toString()) \ "xml"
-    logger.info(jv.toString())
-    val req = (jv \ "MsgType").as[String] match {
-      case "text" =>
-        val toUserName = (jv \ "ToUserName").toString()
-        val content = (jv \ "Content").toString()
-        Json.obj("touser" -> toUserName, "msgtype" -> "text",
-          "text" -> Json.obj("content" -> content))
-      case "news" =>
-        val toUserName = (jv \ "ToUserName").toString()
-        val as = if ((jv \ "ArticleCount").as[Int] > 1) {
-          (jv \ "Articles" \ "item").as[List[Article]]
-        } else {
-          (jv \ "Articles" \ "item").as[Article]
-        }
-        Json.obj("touser" -> toUserName, "msgtype" -> "news",
-          "news" -> Json.obj("articles" -> as.toString()))
+    logger.info(s"start timeout msg proc...msg:\r\n$msg")
+    if(msg.nonEmpty && !msg.equalsIgnoreCase("success")){
+      val jv = Json.parse(XML.toJSONObject(msg).toString()) \ "xml"
+      logger.info(jv.toString())
+      val req = (jv \ "MsgType").as[String] match {
+        case "text" =>
+          val toUserName = (jv \ "ToUserName").toString()
+          val content = (jv \ "Content").toString()
+          Json.obj("touser" -> toUserName, "msgtype" -> "text",
+            "text" -> Json.obj("content" -> content))
+        case "news" =>
+          val toUserName = (jv \ "ToUserName").toString()
+          val as = if ((jv \ "ArticleCount").as[Int] > 1) {
+            (jv \ "Articles" \ "item").as[List[Article]]
+          } else {
+            (jv \ "Articles" \ "item").as[Article]
+          }
+          Json.obj("touser" -> toUserName, "msgtype" -> "news",
+            "news" -> Json.obj("articles" -> as.toString()))
+      }
+      httpClient.send(Json.toJson(req).toString())
     }
-    httpClient.send(Json.toJson(req).toString())
   }
 
   protected val httpClient = new CustomHttpClient

@@ -46,8 +46,8 @@ class QueryBillSumBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
     })
     val normalReplace: String => String = _.replace("$_{cardNo}", hideCardNo(customer.defCardNo))
     val repeatReplace: String => List[String] = t => {
-      bs.map(b => {
-        t.replace("$_{currencyCode}", b.currencyCode)
+      bs.filterNot(b => currencyCodeMap.contains(b.currencyCode)).map(b => {
+        t.replace("$_{currencyCode}", currencyCodeMap(b.currencyCode))
           .replace("$_{periodEndDate}", b.periodEndDate)
           .replace("$_{paymentDueDate}", b.paymentDueDate)
           .replace("$_{closingBalance}", b.closingBalance)
@@ -86,6 +86,8 @@ class QueryBillSumBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
       (__ \ "currencyCode").read[String] ~
       (__ \ "minPaymentAmount").read[String]
     ) (BillingSummaryResp.apply _)
+
+  private val currencyCodeMap: Map[String, String] = Map("CNY" -> "人民币", "USD" -> "美元")
 }
 
 /**
