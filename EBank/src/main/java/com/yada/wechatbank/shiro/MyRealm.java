@@ -50,16 +50,7 @@ public class MyRealm extends AuthorizingRealm {
         String identityType = myToken.getIdentityType();
         String randomCode = (String) session.getAttribute("jcmsrandomchar");
         String mobileCode = myToken.getMobileCode();
-        //TODO 增加openID的验证授权登陆
-        if(myToken.getOpenID() != null && myToken.getOpenID().equals("数据库中存在")){
-            session.setAttribute("identityNo", "证件号");
-            session.setAttribute("identityType", "证件类型");
-            long time = Long.parseLong(timeout);
-            // 设置session超时时间10分钟
-            SecurityUtils.getSubject().getSession().setTimeout(time);
-            return new SimpleAuthenticationInfo(username, password,
-                    getName());
-        }else if (randomCode.equals(verification)) {
+        if (randomCode.equals(verification)) {
             if (loginService.isLocked(username, identityType)) {
                 session.setAttribute("message", "账户已锁定,请稍后再试！");
             } else {

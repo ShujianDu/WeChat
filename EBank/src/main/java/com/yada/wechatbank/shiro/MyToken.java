@@ -2,7 +2,7 @@ package com.yada.wechatbank.shiro;
 
 import org.apache.shiro.authc.UsernamePasswordToken;
 
-public class MyToken extends UsernamePasswordToken {
+class MyToken extends UsernamePasswordToken {
 
     private static final long serialVersionUID = 1L;
 
@@ -13,10 +13,9 @@ public class MyToken extends UsernamePasswordToken {
     private String host;
     private String identityType;
     private String mobileCode;
-    private String openID;
 
-    public MyToken(final String username, final char[] password,
-                   final String verification, final boolean rememberMe, final String host,String identityType,String mobileCode,String openID) {
+    MyToken(final String username, final char[] password,
+            final String verification, final boolean rememberMe, final String host, String identityType, String mobileCode) {
 
         this.username = username;
         this.password = password;
@@ -25,7 +24,6 @@ public class MyToken extends UsernamePasswordToken {
         this.host = host;
         this.identityType = identityType;
         this.mobileCode = mobileCode;
-        this.openID = openID;
     }
 
     public String getUsername() {
@@ -44,7 +42,7 @@ public class MyToken extends UsernamePasswordToken {
         this.password = password;
     }
 
-    public String getVerification() {
+    String getVerification() {
         return verification;
     }
 
@@ -76,19 +74,11 @@ public class MyToken extends UsernamePasswordToken {
         return identityType;
     }
 
-    public String getMobileCode() {
+    String getMobileCode() {
         return mobileCode;
     }
 
     public void setMobileCode(String mobileCode) {
         this.mobileCode = mobileCode;
-    }
-
-    public String getOpenID() {
-        return openID;
-    }
-
-    public void setOpenID(String openID) {
-        this.openID = openID;
     }
 }
