@@ -12,7 +12,7 @@ class AllCustomerInfo {
   @GeneratedValue(generator = "ALL_CUSTOMER_INFO_SEQ")
   @SequenceGenerator(name = "ALL_CUSTOMER_INFO_SEQ", sequenceName = "SEQ_T_B_ALL_CUSTOMER_INFO")
   @Column(name = "ID")
-  var id: String = _
+  var id: Long = _
 
   @Column(name = "OPENID")
   var openId: String = _

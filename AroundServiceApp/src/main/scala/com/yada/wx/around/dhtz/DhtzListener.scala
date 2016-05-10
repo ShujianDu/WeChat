@@ -1,15 +1,11 @@
 package com.yada.wx.around.dhtz
 
-import com.alibaba.fastjson.JSON
-import com.yada.wx.around.client.HttpClient
-import com.yada.wx.around.dhtz.jpa.dao.AllCustomerInfoDao
-import com.yada.wx.around.dhtz.jpa.model.AllCustomerInfo
-import com.yada.wx.around.model.CustomerInfo
-import com.yada.wx.around.{KafkaListener, SpringContext}
+import com.yada.wx.around.KafkaListener
+import com.yada.wx.around.dhtz.biz.DhtzBiz
 import org.apache.kafka.clients.consumer.ConsumerRecord
 
-class DhtzListener(allCustomerInfoDao: AllCustomerInfoDao = SpringContext.context.getBean(classOf[AllCustomerInfoDao]),
-                   httpClient: HttpClient = SpringContext.context.getBean(classOf[HttpClient])) extends KafkaListener {
+class DhtzListener(dhtzBiz: DhtzBiz = new DhtzBiz) extends KafkaListener {
+
   /**
     * 配置文件关键字
     *
@@ -23,34 +19,15 @@ class DhtzListener(allCustomerInfoDao: AllCustomerInfoDao = SpringContext.contex
     * @param record 记录
     */
   override def handle(record: ConsumerRecord[String, String]): Unit = {
-    // TODO 动户通知记录处理
+    // 动户通知记录处理
     record.key() match {
       // 绑定默认卡、更换默认卡
-      case "BindingBindingDef" =>
-        val model = JSON.parseObject(record.value(), classOf[CustomerInfo])
-        saveAllCustomerInfo(model)
+      case "BindingBindingDef" => dhtzBiz.saveAllCustomerInfo(record.value())
+      // 解除绑定
+      case "unBinding" => dhtzBiz.unBinding(record.value())
       // 修改推送管理设置
-      case "AllCustomerInfoUpdateNoticeByIdentityNo" => updateNotice(record.value())
+      case "AllCustomerInfoUpdateNoticeByIdentityNo" => dhtzBiz.updateNotice(record.value())
     }
   }
 
-  /**
-    * 保存客户信息
-    *
-    * @param model
-    */
-  private def saveAllCustomerInfo(model: CustomerInfo): Unit = {
-    val allCustomerInfo = new AllCustomerInfo();
-    allCustomerInfoDao.save(allCustomerInfo)
-    println(model)
-  }
-
-  /**
-    * 修改推送配置
-    *
-    * @param value
-    */
-  private def updateNotice(value: String): Unit = {
-    println(value)
-  }
 }

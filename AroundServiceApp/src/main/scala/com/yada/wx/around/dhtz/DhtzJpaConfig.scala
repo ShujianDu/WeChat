@@ -6,10 +6,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
 
 @Configuration
-@EnableJpaRepositories(value = Array("com.yada.wx.around.dhtz.jpa.dao"), enableDefaultTransactions = false)
+@EnableJpaRepositories(value = Array("com.yada.wx.around.dhtz.jpa.dao"), enableDefaultTransactions = false,entityManagerFactoryRef = "dhtzEntityManagerFactory")
 class DhtzJpaConfig extends JpaConfig {
+
   @Bean
-  def entityManagerFactory(): LocalContainerEntityManagerFactoryBean = {
+  def dhtzEntityManagerFactory(): LocalContainerEntityManagerFactoryBean = {
     getLocalContainerEntityManagerFactoryBean
   }
 
