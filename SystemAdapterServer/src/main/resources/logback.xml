@@ -8,6 +8,48 @@
             </pattern>
         </layout>
     </appender>
+    <!-- 文件输出 -->
+    <appender name="base_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Encoding>UTF-8</Encoding>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/app/wcb/log/SystemAdapterServer/base/%d{yyyyMMdd}base_log.%i.log</fileNamePattern>
+            <!-- 文件名称 -->
+            <maxHistory>30</maxHistory>
+            <!-- 存档日期设置 -->
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>400MB</MaxFileSize>
+                <!-- 设置大小 -->
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%-18(%d{HH:mm:ss.SSS}]%thread)[%-5level %logger]-> %msg%n</pattern>
+        </encoder>
+        <charset>UTF-8</charset>
+    </appender>
+
+
+    <!-- 报错日志 -->
+    <appender name="error_log" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Encoding>UTF-8</Encoding>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/app/wcb/log/SystemAdapterServer/error/%d{yyyyMMdd}error_log.%i.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+            <!-- 存档日期为30天 -->
+            <TimeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <MaxFileSize>400MB</MaxFileSize>
+                <!-- 设置大小 -->
+            </TimeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%-18(%d{HH:mm:ss.SSS}]%thread)[%-5level %logger]-> %msg%n</pattern>
+        </encoder>
+        <charset>UTF-8</charset>
+    </appender>
     <logger name="com.yada.sdk.point.PointClient" level="DEBUG"/>
     <logger name="com.yada.sdk.bcsp.BCSPClient" level="DEBUG"/>
     <logger name="com.yada.sdk.tgw.TGWClient" level="DEBUG"/>
@@ -15,5 +57,7 @@
     <logger name="com.yada.sdk.gcs.GCSClient" level="DEBUG"/>
     <root level="INFO">
         <appender-ref ref="stdout"/>
+        <appender-ref ref="base_log"/>
+        <appender-ref ref="error_log"/>
     </root>
 </configuration>
