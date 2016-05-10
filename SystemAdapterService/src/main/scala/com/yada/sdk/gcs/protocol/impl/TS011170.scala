@@ -2,7 +2,6 @@ package com.yada.sdk.gcs.protocol.impl
 
 import com.yada.sdk.gcs.GCSClient
 import com.yada.sdk.gcs.protocol.GCSReq
-import com.yada.system.adapter.gcs.GCSBillInstallmentParams
 
 /**
   * 卡户分期项目账单分期（费用试算）
