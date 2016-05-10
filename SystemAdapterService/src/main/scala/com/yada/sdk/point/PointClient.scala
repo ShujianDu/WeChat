@@ -51,7 +51,7 @@ private[point] class PointClient extends IPointClient {
       if (resp.isEmpty) throw new RuntimeException("receive from POINT msg can`t be empty...")
       resp.substring(6)
     } catch {
-      case e: IOException => throw SystemIOException("POINT", address.toString)
+      case e: IOException => throw SystemIOException("POINT", address.toString, e)
       case e: Exception => throw new RuntimeException(s"Point [$address] has a error...", e)
     } finally {
       socket.close()

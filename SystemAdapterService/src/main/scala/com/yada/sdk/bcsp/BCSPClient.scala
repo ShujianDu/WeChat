@@ -1,11 +1,13 @@
 package com.yada.sdk.bcsp
 
-import java.net.{InetSocketAddress, InetAddress, Socket}
+import java.io.IOException
+import java.net.{InetAddress, InetSocketAddress, Socket}
 import java.util.UUID
 
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.slf4j.Logger
-import com.yada.sdk.bcsp.xml.{XmlHandler, Sms}
+import com.yada.sdk.bcsp.xml.{Sms, XmlHandler}
+import com.yada.sdk.commons.SystemIOException
 import org.slf4j.LoggerFactory
 
 import scala.io.Source
@@ -46,6 +48,7 @@ private[bcsp] class BCSPClient extends IBCSPClient {
       val respXML = resp.substring(6)
       xmlHandler.fromXml(respXML)
     } catch {
+      case ioe: IOException => throw SystemIOException("BCSP", address.toString, ioe)
       case e: Exception => throw new RuntimeException(s"BCSP[$address] has a error...", e)
     } finally {
       socket.close()

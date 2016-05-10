@@ -18,6 +18,7 @@ import scala.collection.JavaConverters._
 
 class Dispatcher {
   private val log = Logger(LoggerFactory.getLogger(classOf[Dispatcher]))
+  private val exceptionMailTitle = ConfigFactory.load().getString("exception.mail.title")
   private[server] var kafkaClient: KafkaClient = KafkaClient
   //初始化mapping
   val mapping: Map[String, Route] = init()
@@ -33,13 +34,12 @@ class Dispatcher {
           log.info(s"$x handle msg...\r\n$json")
           val data = x.execute(json)
           log.info(s"$x handle complete data...$data")
-          kafkaClient.send("systemAdapter", path, Json.obj("datetime" -> String.format("%s", Calendar.getInstance.getTime), "reqData" -> json).toString())
+          kafkaClient.send("systemAdapter", path, Json.obj("datetime" -> String.format("%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", Calendar.getInstance.getTime), "reqData" -> json).toString())
           Response("00", "处理成功", Some(Json.parse(data)))
         } catch {
           case e: SystemIOException =>
             log.error(s"${e.channelName} io exception", e)
-            // TODO 错误信息没做
-            kafkaClient.send("exception", "mail", s"${e.channelName} io exception")
+            kafkaClient.send("exception", "mail", Json.obj("datetime" -> String.format("%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", Calendar.getInstance.getTime), "title" -> exceptionMailTitle, "msg" -> s"[${e.channelName} has a exception...${e.getMessage}]").toString())
             Response("98", e.channelName + "发生异常", None)
           case e: ErrorGCSReturnCodeException =>
             Response("97", "GCS返回码错误:" + e.returnCode + ":" + e.returnMessage, None)
