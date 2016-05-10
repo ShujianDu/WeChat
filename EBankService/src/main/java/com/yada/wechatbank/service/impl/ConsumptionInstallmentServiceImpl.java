@@ -142,8 +142,10 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		// 设置显示币种
 		consumptionInstallmentCost.setCurrencyChinaCode(CurrencyUtil.translateChinese(consumptionInstallmentCost.getCurrencyCode()));
 		// 对金额字段进行处理
-		consumptionInstallmentCost.setInstallmentAmount(consumptionInstallmentCost.getInstallmentAmount());
-		return consumptionInstallmentCostResp.getData();
+		consumptionInstallmentCost.setInstallmentAmount(AmtUtil.procString(consumptionInstallmentCost.getInstallmentAmount()));
+		consumptionInstallmentCost.setInstallmentsAlsoAmountFirst(AmtUtil.procString(consumptionInstallmentCost.getInstallmentsAlsoAmountFirst()));
+		consumptionInstallmentCost.setInstallmentsAlsoAmountEach(AmtUtil.procString(consumptionInstallmentCost.getInstallmentsAlsoAmountEach()));
+		return consumptionInstallmentCost;
 	}
 
 	@Override
