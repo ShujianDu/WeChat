@@ -11,7 +11,7 @@ object PointProtocolTestApp extends App {
   //  p0001()
 
   // 获取ECIF号
-    p0004()
+  p0004()
 
   //加密卡号
   p0118()
@@ -42,8 +42,8 @@ object PointProtocolTestApp extends App {
 
   def p0118(): Unit = {
     val cardNo = "5149580068840943"
-    val security = PointSecurity.GLOBAL
-    println(security.decrypt(security.encrypt(cardNo, security.weChatUserAuthenticationDESKey),security.weChatUserAuthenticationDESKey))
+    //    val security = PointSecurity.GLOBAL
+    //    println(security.decrypt(security.encrypt(cardNo, security.weChatUserAuthenticationDESKey),security.weChatUserAuthenticationDESKey))
 
 
     val p = new P0118_WeChatUserAuthentication(cardNo)
