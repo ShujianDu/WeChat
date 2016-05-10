@@ -1,7 +1,7 @@
 package com.yada.weixin.cb.server
 
-import java.net.URL
-import javax.net.ssl.HttpsURLConnection
+import java.net.{InetSocketAddress, URL}
+import javax.net.ssl.{HostnameVerifier, HttpsURLConnection, SSLSession}
 
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.LazyLogging
@@ -70,18 +70,25 @@ case class Article(title: String,
                    picurl: String)
 
 class CustomHttpClient() extends LazyLogging {
-  protected val (connectTimeout, readTimeout) = {
+  protected val (weiXinIP, connectTimeout, readTimeout, proxy) = {
     val c = ConfigFactory.load()
-    c.getInt("customHttpClient.connectTimeout") -> c.getInt("customHttpClient.connectTimeout")
+    (c.getString("customHttpClient.weiXinIP"),
+      c.getInt("customHttpClient.connectTimeout"),
+      c.getInt("customHttpClient.connectTimeout"),
+      new java.net.Proxy(java.net.Proxy.Type.HTTP, new InetSocketAddress(c.getString("customHttpClient.proxyIP"), c.getInt("customHttpClient.proxyPort"))))
   }
 
   protected val tokenTool = SpringContext.context.getBean(classOf[IAccessTokenTool])
 
   def send(msg: String): Unit = {
-    new URL(s"https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=${tokenTool.getAccessToken}").openConnection() match {
+    new URL(s"https://$weiXinIP/cgi-bin/message/custom/send?access_token=${tokenTool.getAccessToken}").openConnection(proxy) match {
       case connection: HttpsURLConnection =>
         try {
           logger.info(s"send to url[${connection.getURL.toString}]...msg\r\n$msg")
+          // 无视证书
+          connection.setHostnameVerifier(new HostnameVerifier {
+            override def verify(s: String, sslSession: SSLSession): Boolean = true
+          })
           connection.setDoInput(true)
           connection.setDoOutput(true)
           connection.setConnectTimeout(connectTimeout)
@@ -96,7 +103,7 @@ class CustomHttpClient() extends LazyLogging {
             logger.info(s"receive...resp:\r\n$resp")
             val respJson = Json.parse(resp)
             if ((respJson \ "errcode").as[Long] != 0) {
-              logger.warn(s"send failed...reqMsg:\r\n$msg \r\nrespMsg:\r\n$resp")
+              logger.warn(s"send failed...\r\nreqMsg:\r\n$msg \r\nrespMsg:\r\n$resp")
             }
           }
         } catch {
