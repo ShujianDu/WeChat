@@ -145,6 +145,7 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		consumptionInstallmentCost.setInstallmentAmount(AmtUtil.procString(consumptionInstallmentCost.getInstallmentAmount()));
 		consumptionInstallmentCost.setInstallmentsAlsoAmountFirst(AmtUtil.procString(consumptionInstallmentCost.getInstallmentsAlsoAmountFirst()));
 		consumptionInstallmentCost.setInstallmentsAlsoAmountEach(AmtUtil.procString(consumptionInstallmentCost.getInstallmentsAlsoAmountEach()));
+		consumptionInstallmentCost.setInstallmentFee(AmtUtil.procString(consumptionInstallmentCost.getInstallmentFee()));
 		return consumptionInstallmentCost;
 	}
 
