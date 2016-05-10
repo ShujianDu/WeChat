@@ -3,7 +3,8 @@ package com.yada.wx.cbs
 import com.yada.weixin.cb.server.MessageProc
 import com.yada.wx.cb.data.service.jpa.dao.CommandDao
 import play.api.libs.json.{JsValue, Json}
-
+import com.yada.weixin.api.message.CallbackMessage.Names._
+import com.yada.weixin.api.message.CallbackMessage.Names.{EVENT_TYPE, MSG_TYPE}
 import scala.concurrent.Future
 
 /**
@@ -14,14 +15,26 @@ class CmdProc() extends MessageProc[JsValue, CmdRespMessage] {
   private[cbs] var cmdBiz: CmdBiz = new CmdBiz()
 
   override val filter: (JsValue) => Boolean = jv => {
-    (jv \ "MsgType").as[String] == "text" && (cmdDao.findByCommandValue((jv \ "Content").as[String]) != null)
+    val cmd = getCMD(jv)
+    cmd.map(c => cmdDao.findByCommandValue(c)).nonEmpty
   }
   override val requestCreator: (JsValue) => JsValue = jv => jv
   override val process: (JsValue) => Future[CmdRespMessage] = jv => Future.successful {
-    cmdBiz.handle((jv \ "Content").as[String], (jv \ "FromUserName").as[String])
+    val cmd = getCMD(jv)
+    val openID = (jv \ "FromUserName").as[String]
+    cmdBiz.handle(cmd.get, openID)
   }
   override val responseCreator: (JsValue, CmdRespMessage) => Option[JsValue] = (req, resp) => Option {
     CmdRespMessage.toJson(req, resp)
+  }
+
+  private def getCMD(jv: JsValue): Option[String] = {
+    val msgType = (jv \ MsgType).as[String]
+    if (msgType.equalsIgnoreCase(MSG_TYPE.Text)) {
+      Some((jv \ Content).as[String])
+    } else if (msgType.equalsIgnoreCase(MSG_TYPE.Event) && (jv \ Event).as[String].equalsIgnoreCase(EVENT_TYPE.Click)) {
+      Some((jv \ EventKey).as[String])
+    } else None
   }
 }
 
