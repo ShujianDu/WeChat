@@ -15,9 +15,6 @@ public class MenuController extends BaseController{
 
     @Value(value = "${menu.cardApply}")
     private String cardApply;
-    @Value(value = "${menu.activity}")
-    private String activity;
-
 
     @RequestMapping(value = "moreMenu")
     public String moreMenu(Model model) {
