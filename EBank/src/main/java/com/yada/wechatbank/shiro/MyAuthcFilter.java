@@ -9,7 +9,7 @@ import org.apache.shiro.web.util.WebUtils;
 
 public class MyAuthcFilter extends FormAuthenticationFilter {
 
-    public static final String DEFAULT_VERIFICATION_PARAM = "verification";
+    private static final String DEFAULT_VERIFICATION_PARAM = "verification";
     private String verificationParam = DEFAULT_VERIFICATION_PARAM;     //验证码
     private String identityType = "identityType";
     private String mobileCode = "mobileCode";
@@ -26,10 +26,10 @@ public class MyAuthcFilter extends FormAuthenticationFilter {
         String host = getHost(request);
         String identityType = getIdentityType(request);
         String mobileCode = getMobileCode(request);
-        return new MyToken(username, password, verification, rememberMe, host,identityType,mobileCode,request.getParameter("authCode"));
+        return new MyToken(username, password, verification, rememberMe, host,identityType,mobileCode);
     }
 
-    protected String getVerificationParam(ServletRequest request) {
+    private String getVerificationParam(ServletRequest request) {
         return WebUtils.getCleanParam(request, getVerificationParam());
     }
 
@@ -37,10 +37,10 @@ public class MyAuthcFilter extends FormAuthenticationFilter {
         return WebUtils.getCleanParam(request, getIdentityType());
     }
 
-    protected String getMobileCode(ServletRequest request){
+    private String getMobileCode(ServletRequest request){
         return  WebUtils.getCleanParam(request,getMobileCode());
     }
-    public String getVerificationParam() {
+    private String getVerificationParam() {
         return verificationParam;
     }
 
@@ -60,7 +60,13 @@ public class MyAuthcFilter extends FormAuthenticationFilter {
         this.mobileCode = mobileCode;
     }
 
-    public String getMobileCode() {
+    private String getMobileCode() {
         return mobileCode;
+    }
+
+    @Override
+    protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+        //TODO 增加openID的处理。加密方式用des。 大概方式是 return 是否可以免登 || super.isAccessAllowed
+        return super.isAccessAllowed(request, response, mappedValue);
     }
 }
