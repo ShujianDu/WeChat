@@ -14,6 +14,11 @@ class QueryPointBalanceBiz(httpClient: HttpClient = HttpClient) extends ICmdSubB
   private val url = "/points/PointsBalanceRoute"
 
   override def subHandle(command: Command, customer: Customer): CmdRespMessage = {
+    val event = Json.obj(
+      "datetime" -> currentDatetime,
+      "openID" -> customer.openid,
+      "cardNo" -> customer.defCardNo).toString()
+    kafkaClient.send("wcbQuery", "pointBalance", event)
     val req = Json.toJson(PointBalanceReq(customer.defCardNo)).toString()
     val resp = httpClient.send(req, url)
     val respJSON = Json.parse(resp)
@@ -21,7 +26,7 @@ class QueryPointBalanceBiz(httpClient: HttpClient = HttpClient) extends ICmdSubB
     val data = (respJSON \ "data").as[PointBalanceResp]
     val findMsgCom: () => MsgCom = () => msgComDao.findOne(command.success_msg_id)
     val findNewsCom: String => List[NewsCom] = msgID => WrapAsScala.asScalaBuffer(newsComDao.findByMsgID(msgID)).toList
-    val normalReplace: String => String = t => t.replace("$_{cardNo}", customer.defCardNo)
+    val normalReplace: String => String = t => t.replace("$_{cardNo}", hideCardNo(customer.defCardNo))
     val repeatReplace: String => List[String] = t => {
       List(t.replace("$_{availPoint}", data.availPoint))
     }

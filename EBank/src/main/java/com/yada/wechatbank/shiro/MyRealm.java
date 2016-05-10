@@ -1,6 +1,5 @@
 package com.yada.wechatbank.shiro;
 
-import com.yada.wechatbank.cache.ICountSMSCache;
 import com.yada.wechatbank.permit.PermitHander;
 import com.yada.wechatbank.service.LoginService;
 import com.yada.wechatbank.service.SmsService;
@@ -15,7 +14,6 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.web.util.SavedRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +29,10 @@ public class MyRealm extends AuthorizingRealm {
     @Autowired
     private SmsService smsServiceImpl;
 
-
-
     // 授权
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(
-            PrincipalCollection principals) {
-        String username = (String) principals.fromRealm(getName()).iterator()
-                .next();
-
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        String username = (String) principals.fromRealm(getName()).iterator().next();
         return new SimpleAuthorizationInfo();
     }
 

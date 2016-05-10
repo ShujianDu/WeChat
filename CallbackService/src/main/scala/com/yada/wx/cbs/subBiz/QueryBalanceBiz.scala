@@ -1,14 +1,13 @@
 package com.yada.wx.cbs.subBiz
 
 import com.typesafe.config.ConfigFactory
-import com.yada.wx.cb.data.service.jpa.dao.{MsgComDao, NewsComDao}
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
-import com.yada.wx.cbs.{SpringContext, _}
+import com.yada.wx.cbs.CmdRespMessage._
+import com.yada.wx.cbs._
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{Json, Reads, _}
 
 import scala.collection.convert.WrapAsScala
-
 /**
   * 查询余额
   */
@@ -20,6 +19,11 @@ class QueryBalanceBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
   }
 
   override def subHandle(command: Command, customer: Customer): CmdRespMessage = {
+    val event = Json.obj(
+      "datetime" -> currentDatetime,
+      "openID" -> customer.openid,
+      "cardNo" -> customer.defCardNo).toString()
+    kafkaClient.send("wcbQuery", "balance", event)
     // 去后台请求余额信息
     val resp = httpClient.send(Json.toJson(BalanceReq(gcsTranSessionID, gcsReqChannelID, customer.defCardNo)).toString(), BALANCE_URL)
     // 解析响应
@@ -30,14 +34,14 @@ class QueryBalanceBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
     val findMsgCom: () => MsgCom = () => msgComDao.findOne(command.success_msg_id)
     val findNewsCom: String => List[NewsCom] = msgID => WrapAsScala.asScalaBuffer(newsComDao.findByMsgID(msgID)).toList
     // 普通模板替换
-    val normalReplace: String => String = _.replace("$_{cardNo}", customer.defCardNo)
+    val normalReplace: String => String = _.replace("$_{cardNo}", hideCardNo(customer.defCardNo))
     // 重复模板替换
     val repeatReplace: String => List[String] = t => {
       bs.map(b => {
-        t.replace("$_{limitCount}", b.wholeCreditLimit)
-          .replace("$_{avaliableCount}", b.periodAvailableCreditLimit)
-          .replace("$_{preCashAdvanceCreditLimit}", b.preCashAdvanceCreditLimit)
-          .replace("$_{currencyCode}", b.currencyCode)
+        t.replace("$_{limitCount}", formatAMT(b.wholeCreditLimit))
+          .replace("$_{avaliableCount}", formatAMT(b.periodAvailableCreditLimit))
+          .replace("$_{preCashAdvanceCreditLimit}", formatAMT(b.preCashAdvanceCreditLimit))
+          .replace("$_{currencyCode}", currencyCode.getOrElse(b.currencyCode, b.currencyCode))
       })
     }
     createRespMsg(findMsgCom, findNewsCom, normalReplace, repeatReplace)

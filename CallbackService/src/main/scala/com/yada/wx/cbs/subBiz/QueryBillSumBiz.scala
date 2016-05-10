@@ -5,6 +5,7 @@ import java.util.Calendar
 
 import com.typesafe.config.ConfigFactory
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
+import com.yada.wx.cbs.CmdRespMessage._
 import com.yada.wx.cbs.{CmdRespMessage, HttpClient, ICmdSubBiz}
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
@@ -23,6 +24,11 @@ class QueryBillSumBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
   }
 
   override def subHandle(command: Command, customer: Customer): CmdRespMessage = {
+    val event = Json.obj(
+      "datetime" -> currentDatetime,
+      "openID" -> customer.openid,
+      "cardNo" -> customer.defCardNo).toString()
+    kafkaClient.send("wcbQuery", "billingSummary", event)
     val billingPeriods = Json.parse(httpClient.send(Json.toJson(BillingPeriodReq(gcsTranSessionID, gcsReqChannelID, customer.defCardNo)).toString(), billingPeriodsURL))
     if ((billingPeriods \ "returnCode").as[String] != "00") throw new RuntimeException(billingPeriods.toString())
     val bps = (billingPeriods \ "data").as[List[BillingPeriodResp]]
@@ -39,14 +45,14 @@ class QueryBillSumBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
       val bs = (billingSummary \ "data").as[BillingSummaryResp]
       BillingSummaryResp(bs.periodStartDate, bs.periodEndDate, bs.paymentDueDate, bs.closingBalance, bs.currencyCode, bs.minPaymentAmount)
     })
-    val normalReplace: String => String = _.replace("$_{cardNo}", customer.defCardNo)
+    val normalReplace: String => String = _.replace("$_{cardNo}", hideCardNo(customer.defCardNo))
     val repeatReplace: String => List[String] = t => {
-      bs.map(b => {
-        t.replace("$_{currencyCode}", b.currencyCode)
+      bs.filter(b => CmdRespMessage.currencyCode.contains(b.currencyCode)).map(b => {
+        t.replace("$_{currencyCode}", CmdRespMessage.currencyCode(b.currencyCode))
           .replace("$_{periodEndDate}", b.periodEndDate)
           .replace("$_{paymentDueDate}", b.paymentDueDate)
-          .replace("$_{closingBalance}", b.closingBalance)
-          .replace("$_{minPaymentAmount}", b.minPaymentAmount)
+          .replace("$_{closingBalance}", formatAMT(b.closingBalance))
+          .replace("$_{minPaymentAmount}", formatAMT(b.minPaymentAmount))
       })
     }
     val findMsgCom: () => MsgCom = () => msgComDao.findOne(command.success_msg_id)
@@ -81,6 +87,7 @@ class QueryBillSumBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
       (__ \ "currencyCode").read[String] ~
       (__ \ "minPaymentAmount").read[String]
     ) (BillingSummaryResp.apply _)
+
 }
 
 /**

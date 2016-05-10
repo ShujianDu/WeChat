@@ -17,7 +17,7 @@
     <a href="${cardApply}" class="menu"><span class="index5 pageLink">我要办卡</span></a>
     <a href="${ctx}/cardapply/list.do" class="menu"><span class="index6 pageLink">办卡进度</span></a>
     <a href="#" class="menu"><span class="index7 pageLink">开卡激活</span></a>
-    <a href="${activity}" class="menu"><span class="index8 pageLink">活动报名</span></a>
+    <a href="${ctx}/billinstallment/list.do" class="menu"><span class="index8 pageLink">我要分期</span></a>
 </div>
 <!--wait_box -->
 <div class="wait_box">

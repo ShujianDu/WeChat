@@ -14,11 +14,10 @@ import scala.collection.convert.WrapAsScala
   * 关闭推送
   */
 class CloseSpreadBiz() extends ICmdSubBiz {
-  protected val dateformat = new SimpleDateFormat("yyyyMMddHHmmss")
 
   override def subHandle(command: Command, customer: Customer): CmdRespMessage = {
-    val msg = Json.toJson(CloseSpreadEvent(dateformat.format(Calendar.getInstance().getTime), customer.openid)).toString()
-    kafkaClient.send("wcbDo", "closeSpread", msg)
+    val event = Json.toJson(Json.obj("datetime" -> currentDatetime, "openID" -> customer.openid)).toString()
+    kafkaClient.send("wcbDo", "closeSpread", event)
     val findMsgCom: () => MsgCom = () => msgComDao.findOne(command.success_msg_id)
     val findNewsCom: String => List[NewsCom] = msgID => WrapAsScala.asScalaBuffer(newsComDao.findByMsgID(msgID)).toList
     val np: String => String = t => t

@@ -27,8 +27,9 @@ class TS011171(tranSessionID: String,
                billActualAmount: String,
                installmentsNumber: String,
                feeInstallmentsFlag: String,
-               installmentPlanID: String = "BI01",
-               channelId: String = "A")(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+               channelId: String,
+               installmentPlanID: String = "BI01"
+               )(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
   setPageProps("accountId", accountID)
   setPageProps("accountNumber", accountNumber)

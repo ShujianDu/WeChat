@@ -17,7 +17,7 @@
 	.credit_box{width:100%;background-color:white;position:relative;padding-bottom:20px;}
 	.credit_box .help{width:22px;height:22px;position:absolute;top:18px;right:14%;}
 	#canvas-holder{margin-left:auto;margin-right:auto;padding-top:60px;padding-bottom:10px;}
-	.credit_box .canvas_content{position:absolute;width:50%;left:25%;top:110px;}
+	.credit_box .canvas_content{position:absolute;width:50%;left:25%;top:125px;}
 	.credit_box .canvas_content .credit_title{width:100%;display:block;font-size:16px;text-align:center;color:#333333;}
 	.credit_box .canvas_content .credit_value{width:100%;display:block;font-size:20px;text-align:center;color:#000;}
 	.credit_box .canvas_content .credit_value span{font-size:20px;color:#000;}

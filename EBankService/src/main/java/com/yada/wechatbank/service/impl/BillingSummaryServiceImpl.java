@@ -44,7 +44,7 @@ public class BillingSummaryServiceImpl extends BaseService implements BillingSum
 	protected String billingSummaryUrl;
 
 	@Override
-	public List<BillingSummary> getBillingSummaryList(String cardNo, String date) throws Exception {
+	public List<BillingSummary> getBillingSummaryList(String cardNo, String date) {
 		// 账单摘要集合
 		List<BillingSummary> billingSummaries = new ArrayList<>();
 		// 可用账期

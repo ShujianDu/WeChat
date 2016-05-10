@@ -1,6 +1,7 @@
 package com.yada.sdk.gcs
 
 import com.yada.sdk.gcs.protocol.impl._
+import com.yada.system.adapter.gcs.GCSConsumptionInstallmentParams
 
 /**
   * GCS协议执行测试
@@ -18,10 +19,10 @@ object GCSProtocolTestApp extends App {
   //  testTS010056()
 
   // 临时挂失
-//    testTS010059()
+  //    testTS010059()
 
   // 解除临时挂失--总交易
-    testTS010060()
+  //    testTS010060()
 
   // 海淘卡挂失使用
   //  testTS010063()
@@ -42,10 +43,10 @@ object GCSProtocolTestApp extends App {
   //  testTS010310()
 
   // 根据卡号查询所有客户信息和卡信息
-//    testTS011005()
+  //    testTS011005()
 
   // 消费分期查询
-//    testTS011007()
+  //    testTS011007()
 
   // 历史分期查询
   //  testTS011021()
@@ -69,13 +70,13 @@ object GCSProtocolTestApp extends App {
   //  testTS011170()
 
   // 卡户分期项目账单分期（授权）
-  //  testTS011171()
+  //    testTS011171()
 
   // 卡户分期项目消费分期（费用试算）
-  //  testTS011172()
+  //    testTS011172()
 
   // 卡户分期项目消费分期（授权）
-  //  testTS011173()
+  testTS011173()
 
   // 查询客户手机预留号码
   //  testTS140028()
@@ -90,7 +91,7 @@ object GCSProtocolTestApp extends App {
   //  testTS220001()
 
   // 查询余额
-//  testTS410103()
+  //  testTS410103()
 
   /**
     * 账单寄送方式查询
@@ -123,8 +124,8 @@ object GCSProtocolTestApp extends App {
     * 临时挂失
     */
   def testTS010059(): Unit = {
-    val cardNo = "4096688277156575"
-    val req = new TS010059(sessionID,channelID,cardNo,"01","AAP0345","03","AAP0345","02")()
+    val cardNo = "377677530138585"
+    val req = new TS010059(sessionID, channelID, cardNo, "01", "AAP0345", "03", "AAP0345", "02")()
     req.send
   }
 
@@ -133,7 +134,7 @@ object GCSProtocolTestApp extends App {
     */
   def testTS010060(): Unit = {
     val cardNo = "377677530138585"
-    val req = new TS010060(sessionID,channelID,cardNo,"AAP0345","AAP0345","03")()
+    val req = new TS010060(sessionID, channelID, cardNo, "AAP0345", "AAP0345", "03")()
     req.send
   }
 
@@ -309,7 +310,10 @@ object GCSProtocolTestApp extends App {
     * 卡户分期项目消费分期（费用试算）
     */
   def testTS011172(): Unit = {
-    // TODO 卡户分期项目消费分期（费用试算） 无法测试
+    val req = new TS011172(sessionID, channelID, "001A021306500928", "001A021306500928", "CNY", "40", "2",
+      "000000000001300000", "377677523143733", "1297812597499142", "6", "1", "A")
+    val resp = req.send
+    println(resp)
   }
 
   /**
@@ -317,6 +321,22 @@ object GCSProtocolTestApp extends App {
     */
   def testTS011173(): Unit = {
     // TODO 卡户分期项目消费分期（授权） 无法测试
+    val accountKeyOne = "001A021306500928"
+    val accountKeyTwo = "001A021306500928"
+    val currencyCode = "CNY"
+    val billDateNo = "41"
+    val transactionAmount = "1500.00"
+    val cardNo = "377677523143733"
+    val accountNoID = "1297812597499142"
+    val transactionNo = "1"
+    val installmentPeriods = "6"
+    val isfeeFlag = "1"
+    //渠道标识。目前渠道标识为1位长的字符，存放在channelId的第一位，渠道标识的具体含义待业务提供
+    val cID = ""
+    val req = new TS011173(sessionID, channelID, accountKeyOne, accountKeyTwo, currencyCode, billDateNo, transactionNo,
+      transactionAmount, cardNo, accountNoID, installmentPeriods, isfeeFlag, cID)
+    val resp = req.send
+    println(resp)
   }
 
   /**

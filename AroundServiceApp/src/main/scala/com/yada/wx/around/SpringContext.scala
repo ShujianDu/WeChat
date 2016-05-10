@@ -5,6 +5,6 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 object SpringContext {
   val context = {
-    new AnnotationConfigApplicationContext(classOf[DhtzJpaConfig])
+    new AnnotationConfigApplicationContext(classOf[DhtzJpaConfig], classOf[AppConfig])
   }
 }

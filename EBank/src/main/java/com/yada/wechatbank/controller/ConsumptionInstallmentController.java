@@ -197,7 +197,7 @@ public class ConsumptionInstallmentController extends BaseController {
 			return BUSYURL;
 		}
 		model.addAttribute("cost", cost);
-		String cardNo = consumptionInstallmentAuthorization.getCardNo();
+		String cardNo = cost.getCardNo();
 		try {
 			consumptionInstallmentAuthorization.setCardNo(Crypt.encode(cardNo));
 		} catch (Exception e) {

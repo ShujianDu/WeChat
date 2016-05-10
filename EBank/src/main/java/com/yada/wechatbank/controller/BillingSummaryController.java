@@ -95,17 +95,10 @@ public class BillingSummaryController extends BaseController {
 			logger.error("@BillingSummary@ cardNo decode error,cardNo[" + cardNo + "]");
 			return JSONObject.toJSONString(null);
 		}
-		try {
-			logger.info("@BillingSummary@ajax getBillingSummary,cardNo[" + cardNo + "],date[" + date + "]");
-			// 调用行内service 获取账单摘要
-			billingSummaries = billingSummaryServiceImpl.getBillingSummaryList(cardNo, date);
-			logger.info("@BillingSummary@ajax getBillingSummary,cardNo[" + cardNo + "],date[" + date + "],billingSummaries[" + billingSummaries + "]");
-		} catch (Exception e) {
-			// 解密或解密失败
-			logger.error("@WDZD@调用行内service根据queryCardList[" + cardNo + "],date[" + date + "]获取账单摘要,获取到的账单摘要合集billsList[" + null + "]");
-			// 返回null直接跳错误页面
-			return JSONObject.toJSONString(null);
-		}
+		logger.info("@BillingSummary@ajax getBillingSummary,cardNo[" + cardNo + "],date[" + date + "]");
+		// 调用行内service 获取账单摘要
+		billingSummaries = billingSummaryServiceImpl.getBillingSummaryList(cardNo, date);
+		logger.info("@BillingSummary@ajax getBillingSummary,cardNo[" + cardNo + "],date[" + date + "],billingSummaries[" + billingSummaries + "]");
 		// 没有查询到账单，如果查询出错，直接返回null
 		if (billingSummaries != null && billingSummaries.size() == 0) {
 			return JSONObject.toJSONString("");

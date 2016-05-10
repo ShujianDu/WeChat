@@ -19,6 +19,11 @@ class QueryBillSendTypeBiz(httpClient: HttpClient = HttpClient) extends ICmdSubB
   }
 
   override def subHandle(command: Command, customer: Customer): CmdRespMessage = {
+    val event = Json.obj(
+      "datetime" -> currentDatetime,
+      "openID" -> customer.openid,
+      "cardNo" -> customer.defCardNo).toString()
+    kafkaClient.send("wcbQuery", "billSendType", event)
     val req = Json.toJson(BillSendTypeReq(gcsTranSessionID, gcsReqChannelID, customer.defCardNo)).toString
     val resp = httpClient.send(req, url)
     val respJson = Json.parse(resp)
@@ -28,7 +33,7 @@ class QueryBillSendTypeBiz(httpClient: HttpClient = HttpClient) extends ICmdSubB
     val findNewsCom: String => List[NewsCom] = msgID => WrapAsScala.asScalaBuffer(newsComDao.findByMsgID(msgID)).toList
     // 普通模板替换
     val np: String => String = _.replace("$_{billSendTypeDesc}", billSendTypeMap(data))
-      .replace("$_{cardNo}", customer.defCardNo)
+      .replace("$_{cardNo}", hideCardNo(customer.defCardNo))
     // 重复模板替换
     val rp: String => List[String] = t => List(t)
     createRespMsg(findMsgCom, findNewsCom, np, rp)

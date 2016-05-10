@@ -87,7 +87,7 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 			logger.info("@ConsumptionInstallment@consumptionInstallmentsResp's data is null,cardNo[" + cardNo + "]");
 			// kafka事件记录
 			messageProducer.send(TopicEnum.EBANK_QUERY, "consumptionInstallmentQueryConsumptionInstallments",
-					"consumptionInstallmentsResp's data is null,cardNo[" + cardNo + "]");
+					"consumptionInstallmentsResp's data is null,the cardNo[" + cardNo + "]");
 			map.put("consumptionInstallmentsList", consumptionInstallmentsList);
 			map.put("isFollowUp", "0");
 			return map;
@@ -126,6 +126,7 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		param.put("accountNoID", cia.getAccountNoID());
 		param.put("installmentPeriods", cia.getInstallmentPeriods());
 		param.put("isfeeFlag", cia.getIsfeeFlag());
+		param.put("channelId", "A");
 		// kafka事件记录
 		messageProducer.send(TopicEnum.EBANK_QUERY, "consumptionInstallmentCostConsumptionInstallment", param);
 		ConsumptionInstallmentCostResp consumptionInstallmentCostResp = httpClient.send(costConsumptionInstallmentUrl, param,
@@ -139,10 +140,15 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		}
 		ConsumptionInstallmentCost consumptionInstallmentCost = consumptionInstallmentCostResp.getData();
 		// 设置显示币种
-		consumptionInstallmentCost.setCurrencyChinaCode(CurrencyUtil.translateChinese(consumptionInstallmentCost.getCurrencyCode()));
+		consumptionInstallmentCost.setCurrencyChinaCode(CurrencyUtil.translateChinese(cia.getCurrencyCode()));
 		// 对金额字段进行处理
-		consumptionInstallmentCost.setInstallmentAmount(consumptionInstallmentCost.getInstallmentAmount());
-		return consumptionInstallmentCostResp.getData();
+		consumptionInstallmentCost.setInstallmentAmount(AmtUtil.procString(consumptionInstallmentCost.getInstallmentAmount()));
+		consumptionInstallmentCost.setInstallmentsAlsoAmountFirst(AmtUtil.procString(consumptionInstallmentCost.getInstallmentsAlsoAmountFirst()));
+		consumptionInstallmentCost.setInstallmentsAlsoAmountEach(AmtUtil.procString(consumptionInstallmentCost.getInstallmentsAlsoAmountEach()));
+		consumptionInstallmentCost.setInstallmentFee(AmtUtil.procString(consumptionInstallmentCost.getInstallmentFee()));
+		// 添加卡号
+		consumptionInstallmentCost.setCardNo(cia.getCardNo());
+		return consumptionInstallmentCost;
 	}
 
 	@Override
@@ -161,6 +167,7 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		param.put("accountNoID", cia.getAccountNoID());
 		param.put("installmentPeriods", cia.getInstallmentPeriods());
 		param.put("isfeeFlag", cia.getIsfeeFlag());
+		param.put("channelId", "A");
 		String tDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
 		InstallmentInfo bi = new InstallmentInfo(cia.getCardNo(), "消费分期", cia.getCurrencyCode(), cia.getTransactionAmount(), cia.getInstallmentPeriods(),
 				cia.getIsfeeFlag(), tDate);
