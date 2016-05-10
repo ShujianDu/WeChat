@@ -515,6 +515,15 @@ class GCSServiceImpl extends GCSService {
     ))
   }
 
+  /**
+    *
+    * @param cardNoParams 参数
+    * @return 卡片状态
+    */
+  override def getCardStatCode(cardNoParams: CardNoParams): String = {
+    val ts011145 = new TS011145(cardNoParams.tranSessionID,cardNoParams.reqChannelID,cardNoParams.cardNo)
+    ts011145.send.pageValue("plasStatCodeManual")
+  }
 }
 
 object GCSServiceImpl extends GCSServiceImpl

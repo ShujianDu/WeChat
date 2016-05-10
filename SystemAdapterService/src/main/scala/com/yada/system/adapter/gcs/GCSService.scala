@@ -268,9 +268,14 @@ trait GCSService {
     * @return 历史分期查询结果
     */
   def getHistoryInstallment(historyInstallmentParams: HistoryInstallmentParams): HistoryInstallmentResult
-}
 
-trait GCSBase
+  /**
+    *
+    * @param cardNoParams 参数
+    * @return 卡片状态
+    */
+  def getCardStatCode(cardNoParams: CardNoParams):String
+}
 
 /**
   * 公用的卡号参数
@@ -311,7 +316,7 @@ object CardNoResult {
   * @param periodAvailableCreditLimit 总可用额
   * @param preCashAdvanceCreditLimit  取现可用额度
   */
-case class BalanceResult(cardNo: String, currencyCode: String, wholeCreditLimit: String, periodAvailableCreditLimit: String, preCashAdvanceCreditLimit: String) extends GCSBase
+case class BalanceResult(cardNo: String, currencyCode: String, wholeCreditLimit: String, periodAvailableCreditLimit: String, preCashAdvanceCreditLimit: String)
 
 object BalanceResult {
   implicit val balanceResultReads: Reads[BalanceResult] = (

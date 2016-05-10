@@ -11,6 +11,7 @@ import com.yada.sdk.point.protocol.PointReq
 class P0118_WeChatUserAuthentication(cardNo: String)(implicit client: IPointClient = IPointClient.GLOBAL) extends PointReq(client) {
   val security = PointSecurity.GLOBAL
   setReqBodyProps("EncryptCardNo", security.encrypt(cardNo, security.weChatUserAuthenticationDESKey))
+  setReqHeadProps("ChannelCode", "14")
 
   /**
     * 交易码
