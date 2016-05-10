@@ -5,6 +5,7 @@ import javax.xml.namespace.QName
 
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.slf4j.Logger
+import com.yada.sdk.commons.SystemIOException
 import org.slf4j.LoggerFactory
 
 /**
@@ -22,10 +23,14 @@ class GCSClient(wsdlDocumentLocation: URL, serviceQName: QName, portQName: QName
   protected val port = service.getPort(portQName, classOf[Gateway])
 
   def send(request: String): String = {
-    log.info(s"send to GCS...\r\n$request")
-    val resp = port.service(request)
-    log.info(s"rece from GCS...\r\n$resp")
-    resp
+    try {
+      log.info(s"send to GCS...\r\n$request")
+      val resp = port.service(request)
+      log.info(s"rece from GCS...\r\n$resp")
+      resp
+    } catch {
+      case e: GatewayException => throw SystemIOException("GCS", "", e)
+    }
   }
 }
 

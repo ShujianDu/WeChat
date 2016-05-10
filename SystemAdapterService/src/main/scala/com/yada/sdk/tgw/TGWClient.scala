@@ -6,6 +6,7 @@ import java.util.UUID
 
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.slf4j.Logger
+import com.yada.sdk.commons.SystemIOException
 import com.yada.sdk.tgw.xml.{TxnReq, TxnRsp, XmlHandler}
 import org.slf4j.LoggerFactory
 
@@ -45,7 +46,7 @@ class TGWClient extends ITGWClient {
       log.debug(s"[$uuid] receive from TGW...\r\n$resp")
       xmlHandler.fromXML(resp.substring(4))
     } catch {
-      case e: IOException => throw TGWIOException(s"[$uuid] TGW communication[$address] has a error...", e)
+      case e: IOException => throw SystemIOException("TGW", address.toString, e)
     } finally {
       socket.close()
     }
@@ -65,5 +66,3 @@ class TGWClient extends ITGWClient {
     (new InetSocketAddress(ip, port), connectTimeout, readTimeout)
   }
 }
-
-case class TGWIOException(message: String, e: Exception) extends IOException(message, e)

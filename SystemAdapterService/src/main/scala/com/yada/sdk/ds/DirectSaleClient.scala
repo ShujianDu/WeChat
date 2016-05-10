@@ -1,11 +1,13 @@
 package com.yada.sdk.ds
 
+import java.io.IOException
 import java.net.URL
 import java.util.UUID
 import javax.xml.namespace.QName
 
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.slf4j.Logger
+import com.yada.sdk.commons.SystemIOException
 import com.yada.sdk.ds.json.{Data, JsonHandler}
 import org.slf4j.LoggerFactory
 
@@ -34,15 +36,20 @@ class DirectSaleClient(wsdlDocumentLocation: URL, serviceQName: QName, portQName
     * @return
     */
   def send(reqData: Data): Data = {
-    val req = jsonHandler.toJSON(reqData)
-    val uuid = UUID.randomUUID().toString
-    log.info(s"[$uuid] send to DirectSale...")
-    log.debug(s"[$uuid] send to DirectSale...msg:\r\n$req")
-    val resp = port.getWechatAppPrj(req)
-    log.info(s"[$uuid] receive from DirectSale...")
-    log.debug(s"[$uuid] receive from DirectSale...msg:\r\n$resp")
-    if (resp == null || resp.trim == "") throw new RuntimeException(s"[$uuid] resp is empty")
-    jsonHandler.fromJSON(resp)
+    try {
+      val req = jsonHandler.toJSON(reqData)
+      val uuid = UUID.randomUUID().toString
+      log.info(s"[$uuid] send to DirectSale...")
+      log.debug(s"[$uuid] send to DirectSale...msg:\r\n$req")
+      val resp = port.getWechatAppPrj(req)
+      log.info(s"[$uuid] receive from DirectSale...")
+      log.debug(s"[$uuid] receive from DirectSale...msg:\r\n$resp")
+      if (resp == null || resp.trim == "") throw new RuntimeException(s"[$uuid] resp is empty")
+      jsonHandler.fromJSON(resp)
+    } catch {
+      case ioe: IOException => throw SystemIOException("DS", "", ioe)
+    }
+
   }
 }
 
