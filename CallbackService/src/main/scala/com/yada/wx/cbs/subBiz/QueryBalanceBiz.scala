@@ -1,14 +1,13 @@
 package com.yada.wx.cbs.subBiz
 
 import com.typesafe.config.ConfigFactory
-import com.yada.wx.cb.data.service.jpa.dao.{MsgComDao, NewsComDao}
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
-import com.yada.wx.cbs.{SpringContext, _}
+import com.yada.wx.cbs.CmdRespMessage._
+import com.yada.wx.cbs._
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{Json, Reads, _}
 
 import scala.collection.convert.WrapAsScala
-
 /**
   * 查询余额
   */
@@ -39,10 +38,10 @@ class QueryBalanceBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
     // 重复模板替换
     val repeatReplace: String => List[String] = t => {
       bs.map(b => {
-        t.replace("$_{limitCount}", b.wholeCreditLimit)
-          .replace("$_{avaliableCount}", b.periodAvailableCreditLimit)
-          .replace("$_{preCashAdvanceCreditLimit}", b.preCashAdvanceCreditLimit)
-          .replace("$_{currencyCode}", b.currencyCode)
+        t.replace("$_{limitCount}", formatAMT(b.wholeCreditLimit))
+          .replace("$_{avaliableCount}", formatAMT(b.periodAvailableCreditLimit))
+          .replace("$_{preCashAdvanceCreditLimit}", formatAMT(b.preCashAdvanceCreditLimit))
+          .replace("$_{currencyCode}", currencyCode.getOrElse(b.currencyCode, b.currencyCode))
       })
     }
     createRespMsg(findMsgCom, findNewsCom, normalReplace, repeatReplace)

@@ -5,6 +5,7 @@ import java.util.Calendar
 
 import com.typesafe.config.ConfigFactory
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
+import com.yada.wx.cbs.CmdRespMessage._
 import com.yada.wx.cbs.{CmdRespMessage, HttpClient, ICmdSubBiz}
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
@@ -46,12 +47,12 @@ class QueryBillSumBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
     })
     val normalReplace: String => String = _.replace("$_{cardNo}", hideCardNo(customer.defCardNo))
     val repeatReplace: String => List[String] = t => {
-      bs.filterNot(b => currencyCodeMap.contains(b.currencyCode)).map(b => {
-        t.replace("$_{currencyCode}", currencyCodeMap(b.currencyCode))
+      bs.filterNot(b => CmdRespMessage.currencyCode.contains(b.currencyCode)).map(b => {
+        t.replace("$_{currencyCode}", CmdRespMessage.currencyCode(b.currencyCode))
           .replace("$_{periodEndDate}", b.periodEndDate)
           .replace("$_{paymentDueDate}", b.paymentDueDate)
-          .replace("$_{closingBalance}", b.closingBalance)
-          .replace("$_{minPaymentAmount}", b.minPaymentAmount)
+          .replace("$_{closingBalance}", formatAMT(b.closingBalance))
+          .replace("$_{minPaymentAmount}", formatAMT(b.minPaymentAmount))
       })
     }
     val findMsgCom: () => MsgCom = () => msgComDao.findOne(command.success_msg_id)
@@ -87,7 +88,6 @@ class QueryBillSumBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
       (__ \ "minPaymentAmount").read[String]
     ) (BillingSummaryResp.apply _)
 
-  private val currencyCodeMap: Map[String, String] = Map("CNY" -> "人民币", "USD" -> "美元")
 }
 
 /**

@@ -2,7 +2,6 @@ package com.yada.wx.cbs
 
 import com.yada.weixin.cb.server.MessageProc
 import com.yada.wx.cb.data.service.jpa.dao.CommandDao
-import org.json.{JSONObject, XML}
 import play.api.libs.json.{JsValue, Json}
 
 import scala.concurrent.Future
@@ -56,6 +55,26 @@ case class NewsCmdRespMessage(items: List[NewsMessageItem]) extends CmdRespMessa
 case class NewsMessageItem(title: String, des: String, picUrl: String, url: String)
 
 object CmdRespMessage extends CmdRespMessage {
+  /**
+    * 币种
+    */
+  val currencyCode: Map[String, String] = Map("CNY" -> "人民币", "USD" -> "美元")
+
+  /**
+    * 格式化金额
+    *
+    * @param amt 金额
+    * @return 格式化后的金额
+    */
+  def formatAMT(amt: String): String = (BigDecimal(amt) / 100).setScale(2).toString()
+
+  /**
+    * 转换json
+    *
+    * @param req  请求
+    * @param resp 响应
+    * @return
+    */
   def toJson(req: JsValue, resp: CmdRespMessage): JsValue = {
     resp match {
       case text: TextCmdRespMessage =>
