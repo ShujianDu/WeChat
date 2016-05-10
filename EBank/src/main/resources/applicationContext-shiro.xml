@@ -36,6 +36,7 @@
 				/historyInstalment/list.do = myAuthc
 				/noticemag/list.do = myAuthc
 				/points/list.do = myAuthc
+				/points/pointsDetail.do = myAuthc
 				/reportlost/list.do = myAuthc
 				/wbicCardInfo/list.do = myAuthc
 				/reportlost/cancel.do = myAuthc

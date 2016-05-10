@@ -22,7 +22,6 @@ public class MenuController extends BaseController{
     @RequestMapping(value = "moreMenu")
     public String moreMenu(Model model) {
         model.addAttribute("cardApply",cardApply);
-        model.addAttribute("activity",activity);
         return "layout/moreMenu";
     }
 }

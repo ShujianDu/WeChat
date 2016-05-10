@@ -96,7 +96,6 @@ header span:last-child {
 .topTwo td {
 	float:left;
 	padding-left: 15px;
-	padding-top: 10px;
 	padding-right: 15px;
 }
 .topTwo .td-le{text-align:right; padding-left:0; padding-right:0; width:90px;}

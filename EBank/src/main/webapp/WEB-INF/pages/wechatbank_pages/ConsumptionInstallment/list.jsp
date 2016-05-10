@@ -39,9 +39,9 @@
 			<div class="topOneB mar-1 topOneBradius">
 				<table class="topTwo">
 					<tr>
-						<td width="40">卡号:</td>
-						<td>
-						<select name="cardNo" id="cardNoSelect">
+						<td style="width:70px;color:#666666;font-size:14px;line-height:40px;">卡号:</td>
+						<td width="70%">
+						<select name="cardNo" id="cardNoSelect" height="40px">
 							<c:forEach items="${cardList}" var="item" varStatus="status">
 							<c:if test="${cardNo== fn:substringAfter(item, ',')}">
 							<option selected="selected"value="${fn:substringAfter(item, ',')}" name="cardNo">
@@ -62,9 +62,9 @@
 			<div class="topOneB mar-1 bottomOneBradius" >
 				<table class="topTwo">
 					<tr>
-						<td width="70">币种:</td>
-						<td>
-							<select name="currencyCode" id="dateSelect">
+						<td style="width:70px;color:#666666;font-size:14px;line-height:40px;">币种:</td>
+						<td width="70%" >
+							<select name="currencyCode" id="dateSelect" height="40px">
 								<option value="CNY">人民币</option>
 							</select>
 						</td>
