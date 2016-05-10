@@ -140,12 +140,14 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		}
 		ConsumptionInstallmentCost consumptionInstallmentCost = consumptionInstallmentCostResp.getData();
 		// 设置显示币种
-		consumptionInstallmentCost.setCurrencyChinaCode(CurrencyUtil.translateChinese(consumptionInstallmentCost.getCurrencyCode()));
+		consumptionInstallmentCost.setCurrencyChinaCode(CurrencyUtil.translateChinese(cia.getCurrencyCode()));
 		// 对金额字段进行处理
 		consumptionInstallmentCost.setInstallmentAmount(AmtUtil.procString(consumptionInstallmentCost.getInstallmentAmount()));
 		consumptionInstallmentCost.setInstallmentsAlsoAmountFirst(AmtUtil.procString(consumptionInstallmentCost.getInstallmentsAlsoAmountFirst()));
 		consumptionInstallmentCost.setInstallmentsAlsoAmountEach(AmtUtil.procString(consumptionInstallmentCost.getInstallmentsAlsoAmountEach()));
 		consumptionInstallmentCost.setInstallmentFee(AmtUtil.procString(consumptionInstallmentCost.getInstallmentFee()));
+		// 添加卡号
+		consumptionInstallmentCost.setCardNo(cia.getCardNo());
 		return consumptionInstallmentCost;
 	}
 
