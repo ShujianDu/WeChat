@@ -48,7 +48,7 @@ class Dispatcher {
             Response("99", "未知异常", None)
         }
       case None =>
-        Response("97", f"请求地址:$path,不存在", None)
+        Response("404", f"请求地址:$path,不存在", None)
     }
     Json.toJson(rs).toString()
   }

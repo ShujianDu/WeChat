@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-lazy-init="false">
+
+    <bean id="httpClient" class="com.yada.wechatbank.client.HttpClient">
+        <constructor-arg name="hostAddr" value="${httpClient.url}"></constructor-arg>
+        <constructor-arg name="conTimeout" value="${httpClient.conTimeout}"></constructor-arg>
+        <constructor-arg name="readTimeout" value="${httpClient.readTimeout}"></constructor-arg>
+    </bean>
+
+    <bean id="messageProducer" class="com.yada.wechatbank.kafka.MessageProducer">
+        <constructor-arg name="bootstrapServers" value="${kafka.bootstrap.Servers}"></constructor-arg>
+    </bean>
+
+    <bean id="exceptionHandler" class="com.yada.wechatbank.exception.ExceptionHandler"/>
+
+</beans>

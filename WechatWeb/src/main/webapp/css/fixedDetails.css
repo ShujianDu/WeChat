@@ -1,0 +1,8 @@
+@charset "UTF-8";
+/* CSS Document */
+.dynamic_box{margin-bottom:14px;background-color:white;width:100%;border-bottom:1px solid #e0e0e0;}
+.dynamic_box .productName{line-height:56px;color:#333333;width:90%;height:56px;background-color:white;border-bottom:1px solid #eeeeee;padding-left:5%;padding-right:5%;}
+.IntegrateDate{width:80%;height:36px;text-align:center;line-height:36px;font-size:16px;background-color:#e05d4f;margin-left:10%;color:white;border-radius:8px;margin-top:16px;border:1px solid #eeeeee;margin-bottom:16px;}
+.dynamic_box .productName1{line-height:56px;color:#666666;width:90%;height:56px;background-color:#fdede4;border-bottom:1px solid #eeeeee;padding-left:5%;padding-right:5%;}
+	.productName .name{font-size:14px;color:#666666;float:left;}
+	.productName .dynamicData{font-size:14px;color:#666666;float:right;}

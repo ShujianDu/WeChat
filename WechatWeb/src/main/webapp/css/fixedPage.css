@@ -1,0 +1,45 @@
+/*header*/
+.header {
+    width: 100%;
+    height: 45px;
+    background-color: #efefef;
+}
+
+.header_logo {
+    float: left;
+    margin-left: 16px;
+    width: 102px;
+    margin-top: 13px;
+}
+
+.header_menu {
+    float: right;
+    margin-right: 16px;
+    width: 18px;
+    height: 15px;
+    margin-top: 15px;
+    background-image: url(../images/header_menu.png);
+    background-size: 100% 100%;
+    background-color:transparent;
+}
+
+/*bottom*/
+.bottom_box1 {
+    clear: both;
+    width: 100%;
+    border-top: 2px solid #b20429;
+    -moz-border-top-colors: #b20429;
+    background-color: white;
+    padding-top: 5px;
+    height:50px;
+}
+
+.bottom_box1 .hot_line {
+    display: block;
+    clear: both;
+    color: #aaaaaa;
+    font-size: 12px;
+    width: 100%;
+    text-align: center;
+    line-height: 22px;
+}
