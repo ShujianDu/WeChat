@@ -87,7 +87,7 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 			logger.info("@ConsumptionInstallment@consumptionInstallmentsResp's data is null,cardNo[" + cardNo + "]");
 			// kafka事件记录
 			messageProducer.send(TopicEnum.EBANK_QUERY, "consumptionInstallmentQueryConsumptionInstallments",
-					"consumptionInstallmentsResp's data is null,cardNo[" + cardNo + "]");
+					"consumptionInstallmentsResp's data is null,the cardNo[" + cardNo + "]");
 			map.put("consumptionInstallmentsList", consumptionInstallmentsList);
 			map.put("isFollowUp", "0");
 			return map;
