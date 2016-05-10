@@ -1,4 +1,4 @@
-package com.yada.wechatbank.controller.mock;
+package com.yada.wechatbank.mock;
 
 import java.util.ArrayList;
 import java.util.HashMap;

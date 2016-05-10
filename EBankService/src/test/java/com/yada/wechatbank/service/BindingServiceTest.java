@@ -2,7 +2,6 @@ package com.yada.wechatbank.service;
 
 import com.yada.wechatbank.cache.ICountSMSCache;
 import com.yada.wechatbank.model.CardInfo;
-import com.yada.wechatbank.util.IdTypeUtil;
 import com.yada.wx.db.service.dao.CustomerInfoDao;
 import com.yada.wx.db.service.model.CustomerInfo;
 import org.junit.Assert;
@@ -12,7 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +21,7 @@ import java.util.Map;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(value = "/applicationContext.xml")
+@Transactional
 public class BindingServiceTest {
 
     @Autowired
@@ -41,15 +41,10 @@ public class BindingServiceTest {
     @Before
     public void init() {
         this.openId = "123456";
-        this.idType = "03";
+        this.idType = "SSNO";
         this.idNo = "MOCK01";
         this.pwd = "111111";
         this.mobileNo = "18888888888";
-        CustomerInfo customerInfo = new CustomerInfo();
-        customerInfo.setOpenId(openId);
-        customerInfo.setIdentityNo(idNo);
-        customerInfo.setIdentityType(idType);
-        customerInfoDao.delete(customerInfo);
     }
 
     @Test
@@ -63,7 +58,6 @@ public class BindingServiceTest {
         customerInfoDao.save(customerInfo);
         result = bindingService.validateIsBinding("1212");
         Assert.assertEquals(true, result);
-        customerInfoDao.delete(customerInfo);
     }
 
 
@@ -77,13 +71,13 @@ public class BindingServiceTest {
         String result = bindingService.custBinding(openId, idType, "111", pwd);
         Assert.assertEquals("1", result);
         customerInfoDao.delete(customerInfo);
-        customerInfo.setOpenId("123456");
-        customerInfo.setIdentityNo(idNo);
-        customerInfo.setIdentityType(idType);
-        customerInfoDao.save(customerInfo);
+        CustomerInfo customerInfo1 = new CustomerInfo();
+        customerInfo1.setOpenId("123456");
+        customerInfo1.setIdentityNo(idNo);
+        customerInfo1.setIdentityType(idType);
+        customerInfoDao.save(customerInfo1);
         result = bindingService.custBinding(openId, idType, idNo, pwd);
         Assert.assertEquals("0", result);
-        customerInfoDao.delete(customerInfo);
     }
 
 
@@ -97,7 +91,6 @@ public class BindingServiceTest {
         Map<String, String> result = bindingService.isExistIdType("111");
         String res = result.get("isexist");
         Assert.assertEquals("true", res);
-        customerInfoDao.delete(customerInfo);
     }
 
     @Test
@@ -112,7 +105,6 @@ public class BindingServiceTest {
         customerInfoDao.save(customerInfo);
         result = bindingService.getDefCardNo(openId);
         Assert.assertNotNull(result);
-        customerInfoDao.delete(customerInfo);
     }
 
 
@@ -128,7 +120,6 @@ public class BindingServiceTest {
         customerInfoDao.save(customerInfo);
         result = bindingService.defCardBinding(openId, idNo);
         Assert.assertEquals(true, result);
-        customerInfoDao.delete(customerInfo);
     }
 
 
@@ -141,7 +132,6 @@ public class BindingServiceTest {
         }
         result = bindingService.vaidateMobilNo(openId, idNo, idType, mobileNo);
         Assert.assertEquals("locked", result);
-        countSMSCache.remove(openId);
     }
 
 
@@ -154,13 +144,12 @@ public class BindingServiceTest {
     @Test
     public void testFillIdentityType() {
         CustomerInfo customerInfo = new CustomerInfo();
-        customerInfo.setOpenId("123456");
+        customerInfo.setOpenId(openId);
         customerInfo.setIdentityNo(idNo);
         customerInfo.setIdentityType(idType);
         customerInfoDao.save(customerInfo);
         boolean result = bindingService.fillIdentityType(idType, idNo);
         Assert.assertEquals(true, result);
-        customerInfoDao.delete(customerInfo);
     }
 
     @Test
@@ -180,13 +169,16 @@ public class BindingServiceTest {
     }
 
 
-    @Test
-    public void testAddCountCache() {
-        bindingService.addCountCache(openId, idNo);
-    }
+
 
     @Test
     public void testFindCustomerInfoByOpenId() {
-        bindingService.findCustomerInfoByOpenId(openId);
+        CustomerInfo customerInfo = new CustomerInfo();
+        customerInfo.setOpenId(openId);
+        customerInfo.setIdentityNo(idNo);
+        customerInfo.setIdentityType(idType);
+        customerInfoDao.save(customerInfo);
+        CustomerInfo result = bindingService.findCustomerInfoByOpenId(openId);
+        Assert.assertNotNull(result);
     }
 }

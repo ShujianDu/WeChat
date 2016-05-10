@@ -33,10 +33,8 @@ public interface BillingSummaryService {
 	 * @param date
 	 *            账单查询日期
 	 * @return 账单摘要
-	 * @throws Exception
-	 *             卡号加密抛异常
 	 */
-	List<BillingSummary> getBillingSummaryList(String cardNo, String date) throws Exception;
+	List<BillingSummary> getBillingSummaryList(String cardNo, String date);
 
 	/**
 	 * 获得用户可选账单月份

@@ -1,0 +1,10 @@
+body{width:100%;background-color:white;}
+/*UpgradeYES*/
+.cardActivated_title{width:100%;height:42px;line-height:42px;background-color:#fafafa;color:#666666;font-size:16px;}
+.cardActivated_title .hongkuai{display:block;float:left;width:4px;height:42px;margin-right:12px;background-color:#e05d4f}
+.UpgradeYES_content{width:100%;padding-bottom:20px;background-color:white;}
+.UpgradeYES_content .dynamic_box{width:100%;height:160px;background-color:white;padding-top:30px;}
+.UpgradeYES_title{font-size:14px;text-align:center;line-height:40px;color:#999999;background-color:#eeeeee;}
+.UpgradeYES_content .dynamic_box .imgyes{width:60px;padding-top:20px;margin-left:auto;margin-right:auto;display:block;}
+.UpgradeYES_content .dynamic_box .textYes{width:100%;line-height:40px;color:#666666;font-size:16px;text-align:center;display:block;margin-top:6px;}
+.UpgradeYES_content .tip_text{width:68%;margin-left:16%;color:#999999;font-size:12px;text-align:center;display:block;margin-top:10px;}

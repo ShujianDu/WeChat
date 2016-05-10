@@ -39,23 +39,19 @@ public class BillingSummaryServiceImplTest {
 	public void testGetBillingSummaryList() {
 		List<BillingSummary> billingSummaryList;
 		// 卡号有账期，且月份符合
-		try {
-			billingSummaryList = billingSummaryService.getBillingSummaryList(cardNo1, "201604");
-			Assert.assertTrue(billingSummaryList.size() == 2);
-			Assert.assertEquals("CNY", billingSummaryList.get(0).getCurrencyCode());
-			Assert.assertEquals("人民币", billingSummaryList.get(0).getCurrencyChinaCode());
-			// 卡号不符合，月份符合
-			billingSummaryList = billingSummaryService.getBillingSummaryList(cardNo2, "201605");
-			Assert.assertTrue(billingSummaryList.size() == 0);
-			// 卡号有账期，月份不符合
-			billingSummaryList = billingSummaryService.getBillingSummaryList(cardNo1, "201605");
-			Assert.assertTrue(billingSummaryList.size() == 0);
-			// 卡号无账期
-			billingSummaryList = billingSummaryService.getBillingSummaryList("1111111111111112", "201605");
-			Assert.assertTrue(billingSummaryList.size() == 0);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		billingSummaryList = billingSummaryService.getBillingSummaryList(cardNo1, "201604");
+		Assert.assertTrue(billingSummaryList.size() == 2);
+		Assert.assertEquals("CNY", billingSummaryList.get(0).getCurrencyCode());
+		Assert.assertEquals("人民币", billingSummaryList.get(0).getCurrencyChinaCode());
+		// 卡号不符合，月份符合
+		billingSummaryList = billingSummaryService.getBillingSummaryList(cardNo2, "201605");
+		Assert.assertTrue(billingSummaryList.size() == 0);
+		// 卡号有账期，月份不符合
+		billingSummaryList = billingSummaryService.getBillingSummaryList(cardNo1, "201605");
+		Assert.assertTrue(billingSummaryList.size() == 0);
+		// 卡号无账期
+		billingSummaryList = billingSummaryService.getBillingSummaryList("1111111111111112", "201605");
+		Assert.assertTrue(billingSummaryList.size() == 0);
 	}
 
 	/**
