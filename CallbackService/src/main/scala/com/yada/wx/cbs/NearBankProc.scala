@@ -30,7 +30,7 @@ class NearBankProc extends MessageProc[JsValue, CmdRespMessage] {
   }
 
   override val filter: (JsValue) => Boolean = jv => {
-    (jv \ MsgType).as[String] == MSG_TYPE.Event && (jv \ Event).as[String] == EVENT_TYPE.Location
+    (jv \ MsgType).as[String].equalsIgnoreCase(MSG_TYPE.Event) && (jv \ Event).as[String].equalsIgnoreCase(EVENT_TYPE.Location)
   }
   override val requestCreator: (JsValue) => JsValue = jv => jv
   override val process: (JsValue) => Future[CmdRespMessage] = jv => Future.successful {
