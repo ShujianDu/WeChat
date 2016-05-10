@@ -2,6 +2,7 @@ package com.yada.wx.cbs
 
 import com.yada.weixin.cb.server.MessageProc
 import com.yada.wx.cb.data.service.jpa.dao.CommandDao
+import org.json.{JSONObject, XML}
 import play.api.libs.json.{JsValue, Json}
 
 import scala.concurrent.Future
@@ -72,14 +73,12 @@ object CmdRespMessage extends CmdRespMessage {
           "CreateTime" -> System.currentTimeMillis() / 1000,
           "MsgType" -> "news",
           "ArticleCount" -> news.items.size.toString,
-          "Articles" -> news.items.map(item => {
+          "Articles" -> Json.obj("item" -> news.items.map(item => {
             Json.obj("Title" -> item.title,
               "Description" -> item.des,
               "PicUrl" -> item.picUrl,
               "Url" -> item.url)
-          }).map(item => {
-            Json.obj("item" -> item)
-          })
+          }))
         )
     }
   }

@@ -18,13 +18,15 @@ import scala.concurrent.Future
 class NearBankProc extends MessageProc[JsValue, CmdRespMessage] {
   private val chinaBankInfoDao: ChinaBankInfoDao = SpringContext.context.getBean(classOf[ChinaBankInfoDao])
 
-  private val (title, picUrl, url, mapURL, showNum) = {
+  private val (title, picUrl, url, mapURL, showNum, domainEbank, domainPic) = {
     val config = ConfigFactory.load()
     (config.getString("nearBank.title"),
       config.getString("nearBank.picURL"),
       config.getString("nearBank.URL"),
       config.getString("nearBank.mapURL"),
-      config.getInt("nearBank.showNum"))
+      config.getInt("nearBank.showNum"),
+      config.getString("domain.ebank"),
+      config.getString("domain.image"))
   }
 
   override val filter: (JsValue) => Boolean = jv => {
@@ -35,12 +37,12 @@ class NearBankProc extends MessageProc[JsValue, CmdRespMessage] {
     val latitude = (jv \ Latitude).toString().replace("\"", "")
     val longitude = (jv \ Longitude).toString().replace("\"", "")
     val banks = chinaBankInfoDao.findNearBanks(latitude, longitude)
-    val item = NewsMessageItem(title, "", picUrl, url)
+    val item = NewsMessageItem(title, "", picUrl.replace("$_{realmName}", domainPic), url)
     val bs = WrapAsScala.asScalaBuffer(banks).toList
     val is = bs.map(item => {
       val url = s"${mapURL}latitude=${item.latitude}&longitude=${item.longitude}&userLatitude=$latitude" +
         s"&userLongitude=$longitude&name=${URLEncoder.encode(item.name, "UTF-8")}&Description=${URLEncoder.encode(item.addr, "UTF-8")}"
-      NewsMessageItem(item.name, item.addr, "", url)
+      NewsMessageItem(item.name, item.addr, "", url.replace("$_{realmName}", domainEbank))
     })
     val items = item +: is
     NewsCmdRespMessage(items.take(showNum))

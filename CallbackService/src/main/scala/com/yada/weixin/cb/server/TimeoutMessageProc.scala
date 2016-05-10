@@ -1,8 +1,6 @@
 package com.yada.weixin.cb.server
 
 import java.net.URL
-import java.util
-import java.util.Collections
 import javax.net.ssl.HttpsURLConnection
 
 import com.typesafe.config.ConfigFactory
@@ -32,13 +30,12 @@ class SimpleTimeoutMessageProc extends TimeoutMessageProc with LazyLogging {
     ) (unlift(Article.unapply))
 
   // json 解包
-  implicit val reads: Reads[Article] = Reads(jv => {
-    val title = (jv \ "Title").as[String]
-    val description = (jv \ "Description").as[String]
-    val url = (jv \ "Url").as[String]
-    val picUrl = (jv \ "PicUrl").as[String]
-    JsSuccess(Article(title, description, url, picUrl))
-  })
+  implicit val reads: Reads[Article] = (
+    (__ \ "Title").read[String] ~
+      (__ \ "Description").read[String] ~
+      (__ \ "Url").read[String] ~
+      (__ \ "PicUrl").read[String]
+    ) (Article.apply _)
 
   override def proc(msg: String): Future[Unit] = Future.successful {
     logger.info(s"start timeout msg proc...msg:\r\n$msg")
@@ -55,10 +52,10 @@ class SimpleTimeoutMessageProc extends TimeoutMessageProc with LazyLogging {
           val as = if ((jv \ "ArticleCount").as[Int] > 1) {
             (jv \ "Articles" \ "item").as[List[Article]]
           } else {
-            (jv \ "Articles" \ "item").as[Article]
+            List((jv \ "Articles" \ "item").as[Article])
           }
           Json.obj("touser" -> toUserName, "msgtype" -> "news",
-            "news" -> Json.obj("articles" -> as.toString()))
+            "news" -> Json.obj("articles" -> Json.toJson(as)))
       }
       httpClient.send(Json.toJson(req).toString())
     }
@@ -96,7 +93,11 @@ class CustomHttpClient() extends LazyLogging {
             logger.warn(s"send to url[${connection.getURL.toString}] failed...respCode[$respCode]...msg:\r\n$msg")
           } else {
             val resp = Source.fromInputStream(connection.getInputStream).mkString
-            logger.info(s"send failed...resp:\r\n$resp")
+            logger.info(s"receive...resp:\r\n$resp")
+            val respJson = Json.parse(resp)
+            if ((respJson \ "errcode").as[Long] != 0) {
+              logger.warn(s"send failed...reqMsg:\r\n$msg \r\nrespMsg:\r\n$resp")
+            }
           }
         } catch {
           case e: Exception => logger.error(s"send to url[${connection.getURL.toString}] error...", e)
@@ -105,10 +106,4 @@ class CustomHttpClient() extends LazyLogging {
         }
     }
   }
-}
-
-object Test extends App {
-  val msg = """"""
-  val c = new CustomHttpClient()
-  c.send(msg)
 }
