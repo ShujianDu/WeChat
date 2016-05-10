@@ -587,7 +587,6 @@ object GCSConsumptionInstallmentParams {
   * @param currencyCode 币种
   * @param minAmount    账单分期金额下限真实
   * @param maxAmount    账单分期金额上限
-  * @param respCode     返回码
   * @param accountId    账户ID
   * @param accountNo    账户号码
   */

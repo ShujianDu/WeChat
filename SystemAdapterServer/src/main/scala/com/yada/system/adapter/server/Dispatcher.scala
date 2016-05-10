@@ -1,6 +1,7 @@
 package com.yada.system.adapter.server
 
 import java.nio.charset.StandardCharsets
+import java.util.Calendar
 
 import com.typesafe.config.ConfigFactory
 import com.typesafe.scalalogging.slf4j.Logger
@@ -17,6 +18,7 @@ import scala.collection.JavaConverters._
 
 class Dispatcher {
   private val log = Logger(LoggerFactory.getLogger(classOf[Dispatcher]))
+  private[server] var kafkaClient: KafkaClient = KafkaClient
   //初始化mapping
   val mapping: Map[String, Route] = init()
 
@@ -31,14 +33,16 @@ class Dispatcher {
           log.info(s"$x handle msg...\r\n$json")
           val data = x.execute(json)
           log.info(s"$x handle complete data...$data")
+          kafkaClient.send("systemAdapter", path, Json.obj("datetime" -> String.format("%s", Calendar.getInstance.getTime), "reqData" -> json).toString())
           Response("00", "处理成功", Some(Json.parse(data)))
         } catch {
           case e: SystemIOException =>
-            log.error("", e)
-            //TODO 发送Event
+            log.error(s"${e.channelName} io exception", e)
+            // TODO 错误信息没做
+            kafkaClient.send("exception", "mail", s"${e.channelName} io exception")
             Response("98", e.channelName + "发生异常", None)
-          case e :ErrorGCSReturnCodeException  =>
-            Response("97","GCS返回码错误:"+ e.returnCode + ":" +e.returnMessage, None)
+          case e: ErrorGCSReturnCodeException =>
+            Response("97", "GCS返回码错误:" + e.returnCode + ":" + e.returnMessage, None)
           case e: Exception =>
             log.error("", e)
             Response("99", "未知异常", None)

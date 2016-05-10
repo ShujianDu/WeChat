@@ -397,7 +397,7 @@ class GCSServiceImpl extends GCSService {
     val ts011173 = new TS011173(p.tranSessionID, p.reqChannelID, p.accountKeyOne, p.accountKeyTwo,
       p.currencyCode, p.billDateNo, p.transactionNo, p.transactionAmount, p.cardNo,
       p.accountNoID, p.installmentPeriods: String, p.isfeeFlag: String,p.channelId)
-    GCSReturnCodeResult(ts011173.send.pageValue("authReturnCode"))
+    GCSReturnCodeResult(ts011173.send.systemValue("returnCode"))
   }
 
   /** *
@@ -436,7 +436,7 @@ class GCSServiceImpl extends GCSService {
   override def billInstallment(p: GCSBillInstallmentParams): GCSReturnCodeResult = {
     val ts011171 = new TS011171(p.tranSessionID, p.reqChannelID, p.accountId, p.accountNumber, p.currencyCode, p.billLowerAmount
       , p.billActualAmount, p.installmentsNumber, p.feeInstallmentsFlag,p.channelId)
-    GCSReturnCodeResult(ts011171.send.pageValue("authReturnCode"))
+    GCSReturnCodeResult(ts011171.send.systemValue("returnCode"))
   }
 
   /**

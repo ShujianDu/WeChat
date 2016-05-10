@@ -1,7 +1,7 @@
 package com.yada.sdk.gcs.protocol.impl
 
 import com.yada.sdk.gcs.GCSClient
-import com.yada.sdk.gcs.protocol.{GCSReq, GCSResp}
+import com.yada.sdk.gcs.protocol.GCSReq
 
 /**
   * 账单分期金额上下限查询
@@ -30,9 +30,4 @@ class TS011062(tranSessionId: String,
   override def pageKey: String = "RQ011062"
 
   override def transactionCode: String = "011062"
-
-  override protected def respXMLToObject(xml: String): GCSResp = new GCSResp(xml) {
-    // 不需要验证
-    override protected def failedThrowException: Boolean = false
-  }
 }

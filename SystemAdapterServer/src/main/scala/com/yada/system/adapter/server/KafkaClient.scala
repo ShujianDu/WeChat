@@ -1,17 +1,19 @@
-package com.yada.system.adapter.kafka
+package com.yada.system.adapter.server
 
 import java.util.Properties
 
+import com.typesafe.config.ConfigFactory
 import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 
 /**
   * 信息生产者
   */
-class MessageProducer {
+class KafkaClient {
 
   protected val kafkaProducer = {
+    val config = ConfigFactory.load()
     val props: Properties = new Properties
-    props.put("bootstrap.servers", "22.7.14.148:9091")
+    props.put("bootstrap.servers", config.getString("kafka.servers"))
     // 0：生产者不等待响应；1：生产者等待leader写入本地日志；all：生产者等待leader同步
     props.put("acks", "all")
     props.put("retries", "0")
@@ -39,5 +41,5 @@ class MessageProducer {
   }
 }
 
-object MessageProducer extends MessageProducer
+object KafkaClient extends KafkaClient
 
