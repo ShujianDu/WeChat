@@ -3,7 +3,7 @@ package com.yada.wx.around.model
 /**
   * Created by QinQiang on 2016/5/9.
   */
-class CustomerInfo {
+class CustomerInfoModel {
 
   val datetime: String = ???
   val data: Data = ???
