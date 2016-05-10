@@ -17,7 +17,6 @@
         <module>EBank</module>
         <module>EBankService</module>
         <module>AroundServiceApp</module>
-        <module>WeChatWeb</module>
     </modules>
 
     <properties>
