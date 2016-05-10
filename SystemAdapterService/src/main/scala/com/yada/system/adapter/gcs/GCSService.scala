@@ -275,6 +275,13 @@ trait GCSService {
     * @return 卡片状态
     */
   def getCardStatCode(cardNoParams: CardNoParams):String
+
+  /**
+    *
+    * @param cardNoParams 参数
+    * @return 卡片激活是否成功
+    */
+  def activationCard(cardNoParams: CardNoParams):Boolean
 }
 
 /**
