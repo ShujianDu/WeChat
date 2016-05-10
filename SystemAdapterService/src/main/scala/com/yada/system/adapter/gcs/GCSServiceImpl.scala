@@ -531,8 +531,8 @@ class GCSServiceImpl extends GCSService {
     * @return 卡片激活是否成功
     */
   override def activationCard(cardNoParams: CardNoParams): Boolean = {
-    val ts011062 = new TS010062(cardNoParams.tranSessionID,cardNoParams.reqChannelID,cardNoParams.cardNo)
-    ts011062.send.systemValue("returnCode") == "+GC00000"
+    val ts010062 = new TS010062(cardNoParams.tranSessionID,cardNoParams.reqChannelID,cardNoParams.cardNo)()
+    ts010062.send.systemValue("returnCode") == "+GC00000"
   }
 }
 
