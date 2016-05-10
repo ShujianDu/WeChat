@@ -226,7 +226,7 @@ trait GCSService {
     * @param params 参数实体
     * @return GCS返回码
     */
-  def authorizationConsumptionInstallment(params: GCSConsumptionInstallmentParams): GCSReturnCodeResult
+  def authorizationConsumptionInstallment(params: GCSConsumptionInstallmentParams): String
 
   /**
     * 获取账单金额上下限
@@ -252,7 +252,7 @@ trait GCSService {
     * @param gcsBillInstallmentParams 账单分期授权参数
     * @return GCS返回码
     */
-  def billInstallment(gcsBillInstallmentParams: GCSBillInstallmentParams): GCSReturnCodeResult
+  def billInstallment(gcsBillInstallmentParams: GCSBillInstallmentParams): String
 
   /**
     * 根据证件类型和证件号查询所有卡信息
@@ -1071,16 +1071,16 @@ object ConsumptionInstallmentsResult {
     ) (unlift(ConsumptionInstallmentsResult.unapply))
 }
 
-/**
-  * 公用的GCS返回码实体
-  *
-  * @param returnCode 返回码
-  */
-case class GCSReturnCodeResult(returnCode: String)
-
-object GCSReturnCodeResult {
-  implicit val gcsReturnCodeResultWrites: Writes[GCSReturnCodeResult] = Writes(gcsReturnCodeResult => Json.toJson(JsObject(Map("returnCode" -> JsString(gcsReturnCodeResult.returnCode)).toSeq)))
-}
+///**
+//  * 公用的GCS返回码实体
+//  *
+//  * @param returnCode 返回码
+//  */
+//case class GCSReturnCodeResult(returnCode: String)
+//
+//object GCSReturnCodeResult {
+//  implicit val gcsReturnCodeResultWrites: Writes[GCSReturnCodeResult] = Writes(gcsReturnCodeResult => Json.toJson(JsObject(Map("returnCode" -> JsString(gcsReturnCodeResult.returnCode)).toSeq)))
+//}
 
 /**
   *

@@ -393,11 +393,11 @@ class GCSServiceImpl extends GCSService {
     * @param p 参数实体
     * @return GCS返回码
     */
-  override def authorizationConsumptionInstallment(p: GCSConsumptionInstallmentParams): GCSReturnCodeResult = {
+  override def authorizationConsumptionInstallment(p: GCSConsumptionInstallmentParams): String = {
     val ts011173 = new TS011173(p.tranSessionID, p.reqChannelID, p.accountKeyOne, p.accountKeyTwo,
       p.currencyCode, p.billDateNo, p.transactionNo, p.transactionAmount, p.cardNo,
       p.accountNoID, p.installmentPeriods: String, p.isfeeFlag: String,p.channelId)
-    GCSReturnCodeResult(ts011173.send.systemValue("returnCode"))
+      ts011173.send.systemValue("returnCode")
   }
 
   /** *
@@ -433,10 +433,10 @@ class GCSServiceImpl extends GCSService {
     * @param p 账单分期授权参数
     * @return GCS返回码
     */
-  override def billInstallment(p: GCSBillInstallmentParams): GCSReturnCodeResult = {
+  override def billInstallment(p: GCSBillInstallmentParams): String = {
     val ts011171 = new TS011171(p.tranSessionID, p.reqChannelID, p.accountId, p.accountNumber, p.currencyCode, p.billLowerAmount
       , p.billActualAmount, p.installmentsNumber, p.feeInstallmentsFlag,p.channelId)
-    GCSReturnCodeResult(ts011171.send.systemValue("returnCode"))
+    ts011171.send.systemValue("returnCode")
   }
 
   /**
