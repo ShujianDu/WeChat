@@ -8,7 +8,7 @@
     <!-- 服务平台接口 -->
     <bean id="wcbInterface" class="org.springframework.remoting.rmi.RmiProxyFactoryBean">
         <property name="serviceUrl" value="${rmi.wcbInterface}" />
-        <property name="serviceInterface" value="com.yada.wechatbank.rmi.interfaces.IWCBInterface" />
+        <property name="serviceInterface" value="com.yada.wechatweb.rmi.interfaces.IWCBInterface" />
         <property name="refreshStubOnConnectFailure" value="true"/>
     </bean>
 

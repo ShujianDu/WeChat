@@ -8,7 +8,7 @@
 	default-lazy-init="false">
 
 	<context:property-placeholder  file-encoding="UTF-8"
-			ignore-unresolvable="true" location="classpath:/application-common.properties" />
+								   ignore-unresolvable="true" location="classpath:/application-common.properties" />
 
 	<beans profile="sit">
 		<context:property-placeholder  file-encoding="UTF-8"

@@ -1,4 +1,4 @@
-package com.yada.wechatbank.rmi.interfaces;
+package com.yada.wechatweb.rmi.interfaces;
 
 import java.util.Map;
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd "
+       default-lazy-init="false">
+
+    <context:component-scan base-package="com.yada.wechatbank.service">
+     <context:include-filter type="regex" expression=".service.BindingServiceImpl"></context:include-filter>
+        <context:include-filter type="regex" expression=".service.SmsServiceImpl"/>
+    </context:component-scan>
+    <context:component-scan base-package="com.yada.wechatbank.cache"/>
+    <context:component-scan base-package="com.yada.wechatweb.service"/>
+
+    <!-- 加载配置文件 -->
+    <import resource="classpath:application-context-loader.xml"/>
+
+    <!-- 数据访问层JPA的配置-->
+    <import resource="classpath:application-context-jpa.xml"/>
+
+    <!-- RMI -->
+    <import resource="classpath:application-context-rmi.xml"/>
+
+    <!-- Beans注入 -->
+    <import resource="classpath:application-context-beans.xml"/>
+
+    <!-- EhCache -->
+    <import resource="classpath:/application-context-cache.xml" />
+
+</beans>

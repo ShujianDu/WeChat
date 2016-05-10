@@ -1,4 +1,4 @@
-package com.yada.wechatbank.service;
+package com.yada.wechatweb.service;
 
 import com.yada.wx.db.service.dao.AuthInfoDao;
 import com.yada.wx.db.service.model.AuthInfo;

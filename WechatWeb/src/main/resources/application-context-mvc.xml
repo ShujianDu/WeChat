@@ -5,17 +5,17 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="
         http://www.springframework.org/schema/beans 
-        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context 
-		http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd">
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!-- 加载配置文件 -->
-    <import resource="classpath:applicationContext-loader.xml"/>
+    <import resource="classpath:application-context-loader.xml"/>
 
     <!-- 自动扫描且只扫描@Controller -->
-    <context:component-scan base-package="com.yada.wechatbank.controller" use-default-filters="false">
+    <context:component-scan base-package="com.yada.wechatweb.controller" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
