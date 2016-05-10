@@ -87,7 +87,7 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 			logger.info("@ConsumptionInstallment@consumptionInstallmentsResp's data is null,cardNo[" + cardNo + "]");
 			// kafka事件记录
 			messageProducer.send(TopicEnum.EBANK_QUERY, "consumptionInstallmentQueryConsumptionInstallments",
-					"consumptionInstallmentsResp's data is null,cardNo[" + cardNo + "]");
+					"consumptionInstallmentsResp's data is null,the cardNo[" + cardNo + "]");
 			map.put("consumptionInstallmentsList", consumptionInstallmentsList);
 			map.put("isFollowUp", "0");
 			return map;
@@ -142,8 +142,11 @@ public class ConsumptionInstallmentServiceImpl extends BaseService implements Co
 		// 设置显示币种
 		consumptionInstallmentCost.setCurrencyChinaCode(CurrencyUtil.translateChinese(consumptionInstallmentCost.getCurrencyCode()));
 		// 对金额字段进行处理
-		consumptionInstallmentCost.setInstallmentAmount(consumptionInstallmentCost.getInstallmentAmount());
-		return consumptionInstallmentCostResp.getData();
+		consumptionInstallmentCost.setInstallmentAmount(AmtUtil.procString(consumptionInstallmentCost.getInstallmentAmount()));
+		consumptionInstallmentCost.setInstallmentsAlsoAmountFirst(AmtUtil.procString(consumptionInstallmentCost.getInstallmentsAlsoAmountFirst()));
+		consumptionInstallmentCost.setInstallmentsAlsoAmountEach(AmtUtil.procString(consumptionInstallmentCost.getInstallmentsAlsoAmountEach()));
+		consumptionInstallmentCost.setInstallmentFee(AmtUtil.procString(consumptionInstallmentCost.getInstallmentFee()));
+		return consumptionInstallmentCost;
 	}
 
 	@Override

@@ -36,9 +36,12 @@
 				/historyInstalment/list.do = myAuthc
 				/noticemag/list.do = myAuthc
 				/points/list.do = myAuthc
+				/points/pointsDetail.do = myAuthc
+				/points/pointsExchange.do = myAuthc
 				/reportlost/list.do = myAuthc
 				/wbicCardInfo/list.do = myAuthc
 				/reportlost/cancel.do = myAuthc
+				/reportlost/reprotlost.do = myAuthc
 				/*/*.do = anon
 			</value>
 		</property>
