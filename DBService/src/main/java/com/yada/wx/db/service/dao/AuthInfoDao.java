@@ -9,5 +9,4 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  */
 public interface AuthInfoDao extends JpaRepository<AuthInfo, Long>, JpaSpecificationExecutor<AuthInfo> {
     AuthInfo findByAuthCode(String authCode);
-    void deleteByAuthCode(String authCode);
 }
