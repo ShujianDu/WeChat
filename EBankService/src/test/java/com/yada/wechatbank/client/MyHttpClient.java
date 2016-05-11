@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
+import com.yada.wechatbank.kafka.MyMessageProducer;
 import com.yada.wechatbank.model.AmountLimit;
 import com.yada.wechatbank.model.Balance;
 import com.yada.wechatbank.model.BillCost;
@@ -107,8 +108,8 @@ public class MyHttpClient extends HttpClient {
 		return param;
 	}
 
-	public MyHttpClient(String hostAddr, int conTimeout, int readTimeout,String title) {
-		super(hostAddr, conTimeout, readTimeout,title);
+	public MyHttpClient(String hostAddr, int conTimeout, int readTimeout,MyMessageProducer myMessageProducer,String title) {
+		super(hostAddr, conTimeout, readTimeout,myMessageProducer,title);
 	}
 
 	@Override

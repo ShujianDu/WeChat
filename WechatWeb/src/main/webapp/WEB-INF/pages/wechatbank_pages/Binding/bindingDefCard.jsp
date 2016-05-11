@@ -22,7 +22,6 @@
 		bindDefCard.css("display","block");
 	}
 </script>
-<%@include file="../../base_pages/wxReadyFunction.jsp"%>
 </head>
 <body>
 	<header>

@@ -22,24 +22,25 @@ public class WcbOAuthEntranceService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     //随机数长度
-    private final  int randomLength=8;
+    private final int randomLength = 8;
 
     @Autowired
     private AuthInfoDao authInfoDao;
 
-    public String saveAuthCode(String openId)
-    {
+    public String saveAuthCode(String openId) {
         String createDate = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        String code=generateRandomCode(randomLength);
-        AuthInfo authInfo=new AuthInfo();
+        String code = generateRandomCode(randomLength);
+        AuthInfo authInfo = new AuthInfo();
         authInfo.setAuthCode(code);
         authInfo.setCreatTime(createDate);
-        authInfoDao.save(authInfo);
+        authInfo.setOpenId(openId);
+        authInfoDao.saveAndFlush(authInfo);
         return code;
     }
 
     /**
      * 随机数生成
+     *
      * @param length
      * @return 数字字母组合随机数
      */
