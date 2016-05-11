@@ -1,16 +1,23 @@
 package com.yada.wx.cbs
 
+import java.net.URLEncoder
+
 import com.typesafe.config.ConfigFactory
 import com.yada.wx.cb.data.service.jpa.dao.{MsgComDao, NewsComDao}
 import com.yada.wx.cb.data.service.jpa.model.{MsgCom, NewsCom}
 
 /**
-  * Created by locky on 2016/5/9.
+  * 图文信息模板
   */
 trait ITemplate {
-  private val (imageDomain, eBankDomain, applyActivityDomain) = {
+  private val (imageDomain, eBankDomain, applyActivityDomain, oauth2Domain, oauth2RedirectURL, weChatEBank) = {
     val cf = ConfigFactory.load()
-    (cf.getString("domain.image"), cf.getString("domain.ebank"), cf.getString("domain.applyActivity"))
+    (cf.getString("domain.image"),
+      cf.getString("domain.ebank"),
+      cf.getString("domain.applyActivity"),
+      cf.getString("domain.oauth2"),
+      cf.getString("domain.oauth2RedirectURL"),
+      cf.getString("domain.wechatebank"))
   }
 
   protected def msgComDao: MsgComDao = SpringContext.context.getBean(classOf[MsgComDao])
@@ -30,15 +37,15 @@ trait ITemplate {
     val msgCom = findMsgCom()
     msgCom.msg_type match {
       case "1" => // 文本信息
-        val c = replace(notEmpty(msgCom.content), normalReplace, repeatReplace).replace("$_{realmName}", eBankDomain)
+        val c = replace(notEmpty(msgCom.content), normalReplace, repeatReplace).replaceOauth2.replaceApplyActivity
         TextCmdRespMessage(c)
       case "3" => // 图文信息
         val newsList = findNewsCom(msgCom.msg_id)
         val itemList = newsList.map(newCom => {
           val title = replace(notEmpty(newCom.title), normalReplace, repeatReplace)
-          val des = replace(notEmpty(newCom.description), normalReplace, repeatReplace).replace("$_{realmName}", eBankDomain).replace("$_{applyactivity}", applyActivityDomain)
-          val picurl = notEmpty(newCom.picurl).replace("$_{realmName}", imageDomain)
-          val url = notEmpty(newCom.pic_link_url).replace("$_{realmName}", eBankDomain)
+          val des = replace(notEmpty(newCom.description), normalReplace, repeatReplace).replaceOauth2.replaceApplyActivity
+          val picurl = notEmpty(newCom.picurl).replacePic
+          val url = notEmpty(newCom.pic_link_url).replaceOauth2.replaceApplyActivity
           NewsMessageItem(title, des, picurl, url)
         })
         NewsCmdRespMessage(itemList)
@@ -46,6 +53,19 @@ trait ITemplate {
   }
 
   private def notEmpty(msg: String): String = if (msg == null) "" else msg
+
+
+  implicit class ReplaceURL(url: String) {
+    implicit def replaceOauth2: String = {
+      val tURL = (oauth2RedirectURL + url).replace("$_{realmName}", eBankDomain).replace("$_{wechatebank}", weChatEBank)
+      oauth2Domain.replace("$_{redirectURI}", URLEncoder.encode(tURL, "UTF-8"))
+    }
+
+    implicit def replaceApplyActivity: String = url.replace("$_{applyactivity}", applyActivityDomain)
+
+    implicit def replacePic: String = url.replace("$_{realmName}", imageDomain)
+
+  }
 
   /**
     *
