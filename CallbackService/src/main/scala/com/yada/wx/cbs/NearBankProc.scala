@@ -3,6 +3,7 @@ package com.yada.wx.cbs
 import java.net.URLEncoder
 
 import com.typesafe.config.ConfigFactory
+import com.typesafe.scalalogging.LazyLogging
 import com.yada.weixin.api.message.CallbackMessage.Names._
 import com.yada.weixin.api.message.CallbackMessage.Names.{EVENT_TYPE, MSG_TYPE}
 import com.yada.weixin.cb.server.MessageProc
@@ -15,7 +16,7 @@ import scala.concurrent.Future
 /**
   * 附近网点
   */
-class NearBankProc extends MessageProc[JsValue, CmdRespMessage] {
+class NearBankProc extends MessageProc[JsValue, CmdRespMessage] with LazyLogging {
   private val chinaBankInfoDao: ChinaBankInfoDao = SpringContext.context.getBean(classOf[ChinaBankInfoDao])
 
   private val (title, picUrl, url, mapURL, showNum, domainEbank, domainPic) = {
@@ -30,12 +31,13 @@ class NearBankProc extends MessageProc[JsValue, CmdRespMessage] {
   }
 
   override val filter: (JsValue) => Boolean = jv => {
-    (jv \ MsgType).as[String].equalsIgnoreCase(MSG_TYPE.Event) && (jv \ Event).as[String].equalsIgnoreCase(EVENT_TYPE.Location)
+    (jv \ MsgType).as[String].equalsIgnoreCase(MSG_TYPE.Location)
   }
   override val requestCreator: (JsValue) => JsValue = jv => jv
   override val process: (JsValue) => Future[CmdRespMessage] = jv => Future.successful {
-    val latitude = (jv \ Latitude).toString().replace("\"", "")
-    val longitude = (jv \ Longitude).toString().replace("\"", "")
+    logger.info(s"process nearBank start...")
+    val latitude = (jv \ LocationX).toString()
+    val longitude = (jv \ LocationY).toString()
     val banks = chinaBankInfoDao.findNearBanks(latitude, longitude)
     val item = NewsMessageItem(title, "", picUrl.replace("$_{realmName}", domainPic), url)
     val bs = WrapAsScala.asScalaBuffer(banks).toList
