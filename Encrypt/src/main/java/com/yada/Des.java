@@ -8,6 +8,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -21,7 +22,8 @@ public class Des {
             Cipher cipher = Cipher.getInstance("DESede");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             byte[] encryptData = cipher.doFinal(data.getBytes("UTF-16LE"));
-            return Base64.encodeBase64URLSafeString(encryptData);
+            String t = Base64.encodeBase64String(encryptData);
+            return URLEncoder.encode(t, "ISO8859-1");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

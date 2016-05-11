@@ -25,7 +25,7 @@ import com.yada.sdk.gcs.protocol.GCSReq
   *                   11－其它                               OTHC:其他
   */
 class TS010060(sessionId: String, channelId: String, cardNo: String, idNum: String,
-               familyName: String, idType: String)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+               familyName: String, idType: String)(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
   setPageProps("cardNo", cardNo)
   setPageProps("entyMethod", "01")

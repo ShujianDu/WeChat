@@ -19,7 +19,7 @@ class GCSServiceImpl extends GCSService {
     */
   override def creditLimitTemporaryUpReview(creditLimitTemporaryUpReviewParams: CreditLimitTemporaryUpReviewParams): GCSCreditLimitTemporaryUpReviewResult = {
     val tS190024 = new TS190024(creditLimitTemporaryUpReviewParams.tranSessionID, creditLimitTemporaryUpReviewParams.reqChannelID, creditLimitTemporaryUpReviewParams.certType,
-      creditLimitTemporaryUpReviewParams.certNum, creditLimitTemporaryUpReviewParams.phoneNumber, creditLimitTemporaryUpReviewParams.cardNo, creditLimitTemporaryUpReviewParams.currencyNo, "2", "06")()
+      creditLimitTemporaryUpReviewParams.certNum, creditLimitTemporaryUpReviewParams.phoneNumber, creditLimitTemporaryUpReviewParams.cardNo, creditLimitTemporaryUpReviewParams.currencyNo, "2", "06")
     val result = tS190024.send
 
     GCSCreditLimitTemporaryUpReviewResult(result.pageValue("principalResultID"),
@@ -40,10 +40,10 @@ class GCSServiceImpl extends GCSService {
     * @return 账单金额上下限结果
     */
   override def getAmountLimit(amountLimitParams: AmountLimitParams): GCSAmountLimit = {
-    val ts010102 = new TS010102(amountLimitParams.tranSessionID, amountLimitParams.reqChannelID, amountLimitParams.cardNo, amountLimitParams.currencyCode)()
+    val ts010102 = new TS010102(amountLimitParams.tranSessionID, amountLimitParams.reqChannelID, amountLimitParams.cardNo, amountLimitParams.currencyCode)
     val tempResult = ts010102.send
     val (accountId, accountRefNo) = tempResult.pageListValues(Array("accountId", "accountRefNo")).map(props => (props("accountId"), props("accountRefNo"))).head
-    val ts011062 = new TS011062(amountLimitParams.tranSessionID, amountLimitParams.reqChannelID, accountId, amountLimitParams.currencyCode)()
+    val ts011062 = new TS011062(amountLimitParams.tranSessionID, amountLimitParams.reqChannelID, accountId, amountLimitParams.currencyCode)
     val result = ts011062.send
 
     GCSAmountLimit(amountLimitParams.currencyCode, result.pageValue("minAmount"), result.pageValue("maxAmount"), result.systemValue("returnCode"), accountId, accountRefNo)
@@ -60,7 +60,7 @@ class GCSServiceImpl extends GCSService {
     val totalNum = "99"
     val rs = ListBuffer.empty[CardNoResult]
     def query(startNo: String): List[CardNoResult] = {
-      val ts011031 = new TS011031(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo, startNo, totalNum)()
+      val ts011031 = new TS011031(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo, startNo, totalNum)
       val temp = ts011031.send
       rs ++= temp.pageListValues(Array("p0110311List")).map(v => CardNoResult(v("virtualCardNo")))
       temp.pageValue("flag") match {
@@ -81,7 +81,7 @@ class GCSServiceImpl extends GCSService {
     */
   override def getBillingDetailsSettlement(billingDetailsParams: BillingDetailsSettlementParams): List[BillingDetailResult] = {
     val ts010310 = new TS010310(billingDetailsParams.tranSessionID, billingDetailsParams.reqChannelID, billingDetailsParams.cardNo, billingDetailsParams.currencyCode,
-      billingDetailsParams.queryType, billingDetailsParams.startNum, billingDetailsParams.totalNum, billingDetailsParams.startDate, billingDetailsParams.endDate)()
+      billingDetailsParams.queryType, billingDetailsParams.startNum, billingDetailsParams.totalNum, billingDetailsParams.startDate, billingDetailsParams.endDate)
     ts010310.send.pageListValues(v =>
       BillingDetailResult(billingDetailsParams.cardNo, billingDetailsParams.currencyCode, v("transactionDate"), v("transactionAmount"), v("transactionDescription"), v("debitCreditCode"))
     )
@@ -95,7 +95,7 @@ class GCSServiceImpl extends GCSService {
     */
   override def getBillingDetailsUnSettlement(billingDetailsParams: BillingDetailsUnSettlementParams): List[BillingDetailResult] = {
     val ts010310 = new TS010310(billingDetailsParams.tranSessionID, billingDetailsParams.reqChannelID, billingDetailsParams.cardNo, "",
-      billingDetailsParams.queryType, billingDetailsParams.startNum, billingDetailsParams.totalNum, "", "")()
+      billingDetailsParams.queryType, billingDetailsParams.startNum, billingDetailsParams.totalNum, "", "")
     ts010310.send.pageListValues(v =>
       BillingDetailResult(billingDetailsParams.cardNo, v("transactionCurrencyCode"), v("transactionDate"), v("transactionAmount"), v("transactionDescription"), v("debitCreditCode"))
     )
@@ -108,7 +108,7 @@ class GCSServiceImpl extends GCSService {
     * @return 该卡的币种
     */
   override def getCurrencyCodes(cardNoParams: CardNoParams): List[CurrencyCodeResult] = {
-    val ts010102 = new TS010102(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo)()
+    val ts010102 = new TS010102(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo)
     ts010102.send.pageListValues(Array("currencyCode")).map(m => CurrencyCodeResult(m("currencyCode")))
   }
 
@@ -119,7 +119,7 @@ class GCSServiceImpl extends GCSService {
     * @return
     */
   override def getBillingSummary(billingSummaryParams: BillingSummaryParams): BillingSummaryResult = {
-    val ts010302 = new TS010302(billingSummaryParams.tranSessionID, billingSummaryParams.reqChannelID, billingSummaryParams.statementNo, billingSummaryParams.accountId)()
+    val ts010302 = new TS010302(billingSummaryParams.tranSessionID, billingSummaryParams.reqChannelID, billingSummaryParams.statementNo, billingSummaryParams.accountId)
     val ts010302Resp = ts010302.send
     val periodStartDate = ts010302Resp.pageValue("periodStartDate")
     val periodEndDate = ts010302Resp.pageValue("periodEndDate")
@@ -137,7 +137,7 @@ class GCSServiceImpl extends GCSService {
     * @return (币种列表,卡片产品类型)
     */
   override def getCardCurrencyCodeAndStyle(cardNoParams: CardNoParams): CardCurrencyCodeAndStyleResult = {
-    val ts010102 = new TS010102(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo)()
+    val ts010102 = new TS010102(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo)
     val result = ts010102.send
     val pageList = result.pageListValues(Array("currencyCode", "productType"))
     CardCurrencyCodeAndStyleResult(pageList.map(f => CurrencyCodeResult(f("currencyCode"))), pageList.map(f => f("productType")).head)
@@ -150,7 +150,7 @@ class GCSServiceImpl extends GCSService {
     * @return
     */
   override def getBillSendType(cardNoParams: CardNoParams): String = {
-    val ts010002 = new TS010002(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo)()
+    val ts010002 = new TS010002(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo)
     val result = ts010002.send
     result.pageValue("billSendType")
   }
@@ -173,7 +173,7 @@ class GCSServiceImpl extends GCSService {
     * @return BooleanResult
     */
   override def updateBillSendType(updateBillSendTypeParams: UpdateBillSendTypeParams): Boolean = {
-    val ts010056 = new TS010056(updateBillSendTypeParams.tranSessionID, updateBillSendTypeParams.reqChannelID, updateBillSendTypeParams.cardNo, updateBillSendTypeParams.billSendType)()
+    val ts010056 = new TS010056(updateBillSendTypeParams.tranSessionID, updateBillSendTypeParams.reqChannelID, updateBillSendTypeParams.cardNo, updateBillSendTypeParams.billSendType)
     try {
       ts010056.send
       true
@@ -190,7 +190,7 @@ class GCSServiceImpl extends GCSService {
     */
   override def getConsumptionInstallments(consumptionInstallmentsParams: ConsumptionInstallmentsParams): ConsumptionInstallmentsResult = {
     val ts011007 = new TS011007(consumptionInstallmentsParams.tranSessionID, consumptionInstallmentsParams.reqChannelID, consumptionInstallmentsParams.cardNo,
-      consumptionInstallmentsParams.currencyCode, consumptionInstallmentsParams.startNumber, consumptionInstallmentsParams.selectNumber)()
+      consumptionInstallmentsParams.currencyCode, consumptionInstallmentsParams.startNumber, consumptionInstallmentsParams.selectNumber)
     val result = ts011007.send
     val transactionNumber = result.pageValue("transactionNumber")
     val isFollowUp = result.pageValue("isFollowUp")
@@ -211,7 +211,7 @@ class GCSServiceImpl extends GCSService {
     */
   override def creditCardReportLost(creditCardReportLostParams: CreditCardReportLostParams): Boolean = {
     val ts010052 = new TS010052(creditCardReportLostParams.tranSessionID, creditCardReportLostParams.reqChannelID, creditCardReportLostParams.cardNo, creditCardReportLostParams.idType,
-      creditCardReportLostParams.idNum, creditCardReportLostParams.familyName, creditCardReportLostParams.lossReason)()
+      creditCardReportLostParams.idNum, creditCardReportLostParams.familyName, creditCardReportLostParams.lossReason)
     try {
       ts010052.send
       true
@@ -230,7 +230,7 @@ class GCSServiceImpl extends GCSService {
 
     val ts010059 = new TS010059(tempCreditCardReportLostParams.tranSessionID, tempCreditCardReportLostParams.reqChannelID, tempCreditCardReportLostParams.cardNo,
       tempCreditCardReportLostParams.entyMethod, tempCreditCardReportLostParams.idNum, tempCreditCardReportLostParams.idType, tempCreditCardReportLostParams.familyName,
-      tempCreditCardReportLostParams.lostReason)()
+      tempCreditCardReportLostParams.lostReason)
     try {
       ts010059.send
       true
@@ -248,7 +248,7 @@ class GCSServiceImpl extends GCSService {
   override def relieveCreditCardTempReportLost(relieveCreditCardTempReportLostParams: RelieveCreditCardTempReportLostParams): Boolean = {
 
     val ts010060 = new TS010060(relieveCreditCardTempReportLostParams.tranSessionID, relieveCreditCardTempReportLostParams.reqChannelID, relieveCreditCardTempReportLostParams.cardNo,
-      relieveCreditCardTempReportLostParams.idNum, relieveCreditCardTempReportLostParams.familyName, relieveCreditCardTempReportLostParams.idType)()
+      relieveCreditCardTempReportLostParams.idNum, relieveCreditCardTempReportLostParams.familyName, relieveCreditCardTempReportLostParams.idType)
     try {
       ts010060.send
       true
@@ -282,7 +282,7 @@ class GCSServiceImpl extends GCSService {
     * @return 返回是否挂失成功true/false
     */
   override def wbicCardLost(cardNoParams: CardNoParams): Boolean = {
-    val ts010063 = new TS010063(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo)()
+    val ts010063 = new TS010063(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo)
     try {
       ts010063.send
       true
@@ -360,7 +360,7 @@ class GCSServiceImpl extends GCSService {
     * @return GCSCardHolderInfo
     */
   override def getCardHolderInfo(cardNoParams: CardNoParams): CardHolderInfoResult = {
-    val ts010201 = new TS010201(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo)()
+    val ts010201 = new TS010201(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo)
     val result = ts010201.send
 
     CardHolderInfoResult(result.pageValue("familyName"), result.pageValue("firstName"), result.pageValue("gender"), result.pageValue("mobileNo"),
@@ -375,7 +375,7 @@ class GCSServiceImpl extends GCSService {
     * @return
     */
   override def getBillingPeriods(cardNoParams: CardNoParams): List[BillingPeriodsResult] = {
-    val ts010301 = new TS010301(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo)()
+    val ts010301 = new TS010301(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo)
     val ts010301Resp = ts010301.send
     ts010301Resp.pageListValues(props => {
       val accountId = props("accountId")
@@ -407,7 +407,7 @@ class GCSServiceImpl extends GCSService {
     * @return 手机号
     */
   override def getCustMobile(custMobileParams: CustMobileParams): String = {
-    val ts011101 = new TS011101(custMobileParams.tranSessionID, custMobileParams.reqChannelID, None, Some(custMobileParams.idType), Some(custMobileParams.idNum))()
+    val ts011101 = new TS011101(custMobileParams.tranSessionID, custMobileParams.reqChannelID, None, Some(custMobileParams.idType), Some(custMobileParams.idNum))
     ts011101.send.pageValue("mobilePhone")
   }
 
@@ -453,7 +453,7 @@ class GCSServiceImpl extends GCSService {
 
     // 循环查询所有的数据
     def query(startNum: String): List[CardInfosResult] = {
-      val ts011005 = new TS011005(cardInfosParams.tranSessionID, cardInfosParams.reqChannelID, None, Some(cardInfosParams.idType), Some(cardInfosParams.idNum), startNum, "100")()
+      val ts011005 = new TS011005(cardInfosParams.tranSessionID, cardInfosParams.reqChannelID, None, Some(cardInfosParams.idType), Some(cardInfosParams.idNum), startNum, "100")
       val result = ts011005.send
       listBuffer ++= result.pageListValues(m => {
         (m("cardNo"), m("cardStatus"), m("mainFlag"))
@@ -486,7 +486,7 @@ class GCSServiceImpl extends GCSService {
 
     currencyCodeResults.map(
       currencyCodeResult => {
-        val ts410103 = new TS410103(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo, currencyCodeResult.currencyCode)()
+        val ts410103 = new TS410103(cardNoParams.tranSessionID, cardNoParams.reqChannelID, cardNoParams.cardNo, currencyCodeResult.currencyCode)
         val ts410103resp = ts410103.send
         val wholeCreditLimit = ts410103resp.pageValue("wholeCreditLimit")
         val periodAvailableCreditLimit = ts410103resp.pageValue("periodAvailbleCreditLimit") // GCS报文拼装的单词错误
@@ -503,7 +503,7 @@ class GCSServiceImpl extends GCSService {
     * @return 历史分期查询结果
     */
   override def getHistoryInstallment(historyInstallmentParams: HistoryInstallmentParams): HistoryInstallmentResult = {
-    val ts011021 = new TS011021(historyInstallmentParams.tranSessionID, historyInstallmentParams.reqChannelID, historyInstallmentParams.cardNo, historyInstallmentParams.startNumber, historyInstallmentParams.selectNumber)()
+    val ts011021 = new TS011021(historyInstallmentParams.tranSessionID, historyInstallmentParams.reqChannelID, historyInstallmentParams.cardNo, historyInstallmentParams.startNumber, historyInstallmentParams.selectNumber)
     val rs = ts011021.send
     HistoryInstallmentResult(rs.pageValue("transactionNumber"), rs.pageValue("isFollowUp").toInt != 0, rs.pageListValues(props =>
       HistoryInstallmentEntity(props.getOrElse("cardNo", ""), props.getOrElse("instalmentOriginalTransactionDate", ""), props.getOrElse("instalmentRuleDescription", ""),
@@ -531,7 +531,7 @@ class GCSServiceImpl extends GCSService {
     * @return 卡片激活是否成功
     */
   override def activationCard(cardNoParams: CardNoParams): Boolean = {
-    val ts010062 = new TS010062(cardNoParams.tranSessionID,cardNoParams.reqChannelID,cardNoParams.cardNo)()
+    val ts010062 = new TS010062(cardNoParams.tranSessionID,cardNoParams.reqChannelID,cardNoParams.cardNo)
     ts010062.send.systemValue("returnCode") == "+GC00000"
   }
 }

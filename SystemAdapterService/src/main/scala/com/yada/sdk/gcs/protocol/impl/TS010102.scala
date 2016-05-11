@@ -14,7 +14,7 @@ import com.yada.sdk.gcs.protocol.GCSReq
   *                     156、2、	人民币
   *
   */
-class TS010102(tranSessionId: String, reqChannelId: String, cardNo: String, currencyCode: String = "")(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+class TS010102(tranSessionId: String, reqChannelId: String, cardNo: String, currencyCode: String = "")(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
   setPageProps("cardNo", cardNo)
   setPageProps("currencyCode", currencyCode)
 

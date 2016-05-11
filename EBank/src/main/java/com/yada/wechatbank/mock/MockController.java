@@ -180,7 +180,7 @@ public class MockController {
 			historyInstallment.setInstalmentOriginalAmount("1111" + i);
 			historyInstallments.add(historyInstallment);
 		}
-		historyInstallmentList.setHistoryInstallmentList(historyInstallments);
+		historyInstallmentList.setEntityList(historyInstallments);
 		historyInstallmentList.setFollowUp(true);
 		historyInstallmentList.setTransactionNumber("10");
 		map.put(key, historyInstallmentList);
@@ -573,7 +573,8 @@ public class MockController {
 				c.setTransactionNo("5");
 				consumptionInstallmentsList.add(c);
 			}
-			consumptionInstallmentsesReceive.setGcsConsumptionInstallmentsEntitys(consumptionInstallmentsList);;
+			consumptionInstallmentsesReceive.setGcsConsumptionInstallmentsEntitys(consumptionInstallmentsList);
+			;
 			consumptionInstallmentsesReceive.setHasNext(true);
 			consumptionInstallmentsesReceive.setTransactionNumber("11");
 		} else {
@@ -593,7 +594,8 @@ public class MockController {
 			c1.setTransactionCurrencyCode("CNY");
 			c1.setTransactionNo("5");
 			consumptionInstallmentsList.add(c1);
-			consumptionInstallmentsesReceive.setGcsConsumptionInstallmentsEntitys(consumptionInstallmentsList);;
+			consumptionInstallmentsesReceive.setGcsConsumptionInstallmentsEntitys(consumptionInstallmentsList);
+			;
 			consumptionInstallmentsesReceive.setHasNext(false);
 			consumptionInstallmentsesReceive.setTransactionNumber("11");
 		}

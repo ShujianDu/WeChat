@@ -107,8 +107,8 @@ public class MyHttpClient extends HttpClient {
 		return param;
 	}
 
-	public MyHttpClient(String hostAddr, int conTimeout, int readTimeout) {
-		super(hostAddr, conTimeout, readTimeout);
+	public MyHttpClient(String hostAddr, int conTimeout, int readTimeout,String title) {
+		super(hostAddr, conTimeout, readTimeout,title);
 	}
 
 	@Override
@@ -502,7 +502,7 @@ public class MyHttpClient extends HttpClient {
 			historyInstallment.setInstalmentOriginalAmount("1111" + i);
 			historyInstallments.add(historyInstallment);
 		}
-		historyInstallmentList.setHistoryInstallmentList(historyInstallments);
+		historyInstallmentList.setEntityList(historyInstallments);
 		historyInstallmentList.setFollowUp(true);
 		historyInstallmentList.setTransactionNumber("10");
 		map.put(key, historyInstallmentList);
@@ -530,7 +530,8 @@ public class MyHttpClient extends HttpClient {
 			c.setTransactionCurrencyCode("CNY");
 			c.setTransactionNo("5");
 			consumptionInstallmentsList.add(c);
-			consumptionInstallmentsesReceive.setGcsConsumptionInstallmentsEntitys(consumptionInstallmentsList);;
+			consumptionInstallmentsesReceive.setGcsConsumptionInstallmentsEntitys(consumptionInstallmentsList);
+			;
 			consumptionInstallmentsesReceive.setTransactionNumber("1");
 			consumptionInstallmentsesReceive.setHasNext(false);
 			map.put(key, consumptionInstallmentsesReceive);

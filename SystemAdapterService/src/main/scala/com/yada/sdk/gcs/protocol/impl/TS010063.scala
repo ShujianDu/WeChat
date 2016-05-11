@@ -9,7 +9,7 @@ import com.yada.sdk.gcs.protocol.GCSReq
   *
   * @param cardNo 卡号
   */
-class TS010063(sessionId: String, channelId: String, cardNo: String)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+class TS010063(sessionId: String, channelId: String, cardNo: String)(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
   setPageProps("cardNo", cardNo)
 

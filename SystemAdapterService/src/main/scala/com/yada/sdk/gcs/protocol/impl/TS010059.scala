@@ -26,7 +26,7 @@ import com.yada.sdk.gcs.protocol.GCSReq
   * @param lostReason 挂失原因
   */
 class TS010059(sessionId: String, channelId: String, cardNo: String, entyMethod: String,
-               idNum: String, idType: String, familyName: String, lostReason: String)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+               idNum: String, idType: String, familyName: String, lostReason: String)(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
   setPageProps("cardNo", cardNo)
   setPageProps("entyMethod", entyMethod)

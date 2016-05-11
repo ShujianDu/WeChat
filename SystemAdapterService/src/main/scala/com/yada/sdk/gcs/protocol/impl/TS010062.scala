@@ -6,7 +6,7 @@ import com.yada.sdk.gcs.protocol.{GCSReq, GCSResp}
 /**
   * 信用卡激活--EOM实现
   */
-class TS010062(sessionId: String, channelId: String, cardNo: String) (gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+class TS010062(sessionId: String, channelId: String, cardNo: String) (implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
   setPageProps("cardNo", cardNo)
 

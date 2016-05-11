@@ -6,7 +6,7 @@ import com.yada.sdk.gcs.protocol.GCSReq
 /**
   * 账单周期查询
   */
-class TS010301(tranSessionId: String, reqChannelId: String, cardNo: String)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+class TS010301(tranSessionId: String, reqChannelId: String, cardNo: String)(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
   setPageProps("cardNo", cardNo)
 
   override def transactionID: String = "010301"

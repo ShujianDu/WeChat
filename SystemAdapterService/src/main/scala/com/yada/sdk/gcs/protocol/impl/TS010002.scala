@@ -6,7 +6,7 @@ import com.yada.sdk.gcs.protocol.GCSReq
 /**
   * 账单寄送方式查询
   */
-class TS010002(tranSessionId: String, reqChannelId: String, cardNo: String)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+class TS010002(tranSessionId: String, reqChannelId: String, cardNo: String)(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
   setPageProps("cardNo", cardNo)
 

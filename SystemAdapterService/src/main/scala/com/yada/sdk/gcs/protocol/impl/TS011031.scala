@@ -16,7 +16,7 @@ class TS011031(tranSessionId: String,
                reqChannelId: String,
                cardNo: String,
                startNum: String,
-               totalNum: String)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+               totalNum: String)(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
   setPageProps("cardNo", cardNo)
   setPageProps("institutionId", "BOCK")

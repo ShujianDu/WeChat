@@ -48,7 +48,7 @@ import com.yada.sdk.gcs.protocol.GCSReq
   *                      958797e530bbd34b0130bbd34b9c0000         1纸质和EMAIL <br>
   *                      958797e530bbd34b0130bbd34b9c0001         2EMAIL <br>
   */
-class TS010056(tranSessionId: String, reqChannelId: String, cardNo: String, billSendType: String)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+class TS010056(tranSessionId: String, reqChannelId: String, cardNo: String, billSendType: String)(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
   setPageProps("cardNo", cardNo)
   setPageProps("billSendType", billSendType)

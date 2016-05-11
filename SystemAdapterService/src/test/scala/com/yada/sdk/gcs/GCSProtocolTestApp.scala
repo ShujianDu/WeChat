@@ -19,10 +19,10 @@ object GCSProtocolTestApp extends App {
   //  testTS010056()
 
   // 临时挂失
-//    testTS010059()
+  //    testTS010059()
 
   // 解除临时挂失--总交易
-//    testTS010060()
+  //    testTS010060()
 
   // 海淘卡挂失使用
   //  testTS010063()
@@ -34,7 +34,7 @@ object GCSProtocolTestApp extends App {
   //  testTS010201()
 
   // 账单周期查询
-//    testTS010301()
+  //    testTS010301()
 
   // 某一期账单信息汇总查询
   //  testTS010302()
@@ -43,10 +43,10 @@ object GCSProtocolTestApp extends App {
   //  testTS010310()
 
   // 根据卡号查询所有客户信息和卡信息
-//    testTS011005()
+  //    testTS011005()
 
   // 消费分期查询
-//    testTS011007()
+  //    testTS011007()
 
   // 历史分期查询
   //  testTS011021()
@@ -67,16 +67,16 @@ object GCSProtocolTestApp extends App {
   //  testTS011113()
 
   // 卡户分期项目账单分期（费用试算）
-    testTS011170()
+  //    testTS011170()
 
   // 卡户分期项目账单分期（授权）
   //    testTS011171()
 
   // 卡户分期项目消费分期（费用试算）
-//      testTS011172()
+  //      testTS011172()
 
   // 卡户分期项目消费分期（授权）
-//    testTS011173()
+  //    testTS011173()
 
   // 查询客户手机预留号码
   //  testTS140028()
@@ -93,12 +93,19 @@ object GCSProtocolTestApp extends App {
   // 查询余额
   //  testTS410103()
 
+
+  //查询卡状态
+//  testTS011145()
+
+  //卡片激活
+//  testTS010062
+
   /**
     * 账单寄送方式查询
     */
   def testTS010002(): Unit = {
     val cardNo = "5149580068840943"
-    val req = new TS010002(sessionID, channelID, cardNo)()
+    val req = new TS010002(sessionID, channelID, cardNo)
     val resp = req.send
     println(resp)
   }
@@ -115,7 +122,7 @@ object GCSProtocolTestApp extends App {
     */
   def testTS010056(): Unit = {
     val cardNo = "5149580068840943"
-    val req = new TS010056(sessionID, channelID, cardNo, "C")()
+    val req = new TS010056(sessionID, channelID, cardNo, "C")
     val resp = req.send
     println(resp)
   }
@@ -125,7 +132,7 @@ object GCSProtocolTestApp extends App {
     */
   def testTS010059(): Unit = {
     val cardNo = "377677530138585"
-    val req = new TS010059(sessionID, channelID, cardNo, "01", "AAP0345", "03", "AAP0345", "02")()
+    val req = new TS010059(sessionID, channelID, cardNo, "01", "AAP0345", "03", "AAP0345", "02")
     req.send
   }
 
@@ -134,7 +141,7 @@ object GCSProtocolTestApp extends App {
     */
   def testTS010060(): Unit = {
     val cardNo = "377677530138585"
-    val req = new TS010060(sessionID, channelID, cardNo, "AAP0345", "AAP0345", "03")()
+    val req = new TS010060(sessionID, channelID, cardNo, "AAP0345", "AAP0345", "03")
     req.send
   }
 
@@ -151,7 +158,7 @@ object GCSProtocolTestApp extends App {
     */
   def testTS010102(): Unit = {
     val cardNo = "5149580068840943"
-    val req = new TS010102(sessionID, channelID, cardNo)()
+    val req = new TS010102(sessionID, channelID, cardNo)
     val resp = req.send
     println(resp)
   }
@@ -161,7 +168,7 @@ object GCSProtocolTestApp extends App {
     */
   def testTS010201(): Unit = {
     val cardNo = "5149580068840943"
-    val req = new TS010201(sessionID, channelID, cardNo)()
+    val req = new TS010201(sessionID, channelID, cardNo)
     val resp = req.send
     println(resp)
   }
@@ -171,7 +178,7 @@ object GCSProtocolTestApp extends App {
     */
   def testTS010301(): Unit = {
     val cardNo = "377677523143733"
-    val req = new TS010301(sessionID, channelID, cardNo)()
+    val req = new TS010301(sessionID, channelID, cardNo)
     val resp = req.send
     println(resp)
   }
@@ -182,7 +189,7 @@ object GCSProtocolTestApp extends App {
   def testTS010302(): Unit = {
     val accountId = "001A0213064FF77E"
     val statementNo = "18"
-    val req = new TS010302(sessionID, channelID, statementNo, accountId)()
+    val req = new TS010302(sessionID, channelID, statementNo, accountId)
     val resp = req.send
     println(resp)
   }
@@ -198,7 +205,7 @@ object GCSProtocolTestApp extends App {
     val totalNum = "10"
     val startDate = "2022-09-11"
     val endDate = "2022-10-10"
-    val req = new TS010310(sessionID, channelID, cardNo, currencyCode, queryType, startNum, totalNum, startDate, endDate)()
+    val req = new TS010310(sessionID, channelID, cardNo, currencyCode, queryType, startNum, totalNum, startDate, endDate)
     val resp = req.send
     println(resp)
   }
@@ -208,7 +215,7 @@ object GCSProtocolTestApp extends App {
     */
   def testTS011005(): Unit = {
     val cardNo = "4693805331345849"
-    val req = new TS011005(sessionID, channelID, Some(cardNo), None, None, "1", "10")()
+    val req = new TS011005(sessionID, channelID, Some(cardNo), None, None, "1", "10")
     val resp = req.send
     println(resp)
   }
@@ -222,7 +229,7 @@ object GCSProtocolTestApp extends App {
     val currencyCode = "CNY"
     val startNumber = "1"
     val selectNumber = "10"
-    val req = new TS011007(sessionID, channelID, cardNo, currencyCode, startNumber, selectNumber)()
+    val req = new TS011007(sessionID, channelID, cardNo, currencyCode, startNumber, selectNumber)
     val resp = req.send
     println(resp)
   }
@@ -234,7 +241,7 @@ object GCSProtocolTestApp extends App {
     val cardNo = "5149580068840943"
     val startNumber = "1"
     val selectNumber = "10"
-    val req = new TS011021(sessionID, channelID, cardNo, startNumber, selectNumber)()
+    val req = new TS011021(sessionID, channelID, cardNo, startNumber, selectNumber)
     val resp = req.send
     println(resp)
   }
@@ -248,7 +255,7 @@ object GCSProtocolTestApp extends App {
     val cardNo = "5149580068840943"
     val startNum = "1"
     val totalNum = "10"
-    val req = new TS011031(sessionID, channelID, cardNo, startNum, totalNum)()
+    val req = new TS011031(sessionID, channelID, cardNo, startNum, totalNum)
     val resp = req.send
     println(resp)
   }
@@ -260,7 +267,7 @@ object GCSProtocolTestApp extends App {
     // TODO 当前查询是账户状态异常，不支持账单分期
     val accountId = "001A0213064FF77E"
     val currencyCode = "CNY"
-    val req = new TS011062(sessionID, channelID, accountId, currencyCode)()
+    val req = new TS011062(sessionID, channelID, accountId, currencyCode)
     val resp = req.send
     println(resp)
   }
@@ -273,7 +280,7 @@ object GCSProtocolTestApp extends App {
     val idType = "SSNO"
     val req = new TS011101(sessionID, channelID, None, Some(idType), Some(idNum))
     //    val cardNo = "5149580068840943"
-    //    val req = new TS011101(sessionID, channelID, Some(cardNo), None, None)()
+    //    val req = new TS011101(sessionID, channelID, Some(cardNo), None, None)
     val resp = req.send
     println(resp)
   }
@@ -300,13 +307,13 @@ object GCSProtocolTestApp extends App {
     val cardNo = "377677523143733"
     val currencyCode = "CNY"
     val temp = new GCSServiceImpl
-    val params = CardNoParams(sessionID,channelID,cardNo)
+    val params = CardNoParams(sessionID, channelID, cardNo)
     val billingPeriods = temp.getBillingPeriods(params)
     println(billingPeriods.head.periodStartDate)
     println(billingPeriods.head.periodEndDate)
-    val amountLimitParams = AmountLimitParams(sessionID,channelID,cardNo,currencyCode)
+    val amountLimitParams = AmountLimitParams(sessionID, channelID, cardNo, currencyCode)
     val amountLimit = temp.getAmountLimit(amountLimitParams)
-    val req = new TS011170(sessionID,channelID,billingPeriods.head.accountId,billingPeriods.head.statementNo,"CNY",amountLimit.minAmount,amountLimit.maxAmount,"6","1","A")()
+    val req = new TS011170(sessionID, channelID, billingPeriods.head.accountId, billingPeriods.head.statementNo, "CNY", amountLimit.minAmount, amountLimit.maxAmount, "6", "1", "A")
     val resp = req.send
     println(resp)
   }
@@ -322,8 +329,8 @@ object GCSProtocolTestApp extends App {
     * 卡户分期项目消费分期（费用试算）
     */
   def testTS011172(): Unit = {
-    val req = new TS011172(sessionID,channelID,"001A021306500928","001A021306500928","CNY","40","2",
-      "000000000001300000","377677523143733","1297812597499142","6","1","A")
+    val req = new TS011172(sessionID, channelID, "001A021306500928", "001A021306500928", "CNY", "40", "2",
+      "000000000001300000", "377677523143733", "1297812597499142", "6", "1", "A")
     val resp = req.send
     println(resp)
   }
@@ -333,8 +340,8 @@ object GCSProtocolTestApp extends App {
     */
   def testTS011173(): Unit = {
     // TODO 卡户分期项目消费分期（授权） 无法测试
-    val req = new TS011173(sessionID,channelID,"001A021306500928","001A021306500928","CNY","40","2",
-    "000000000001300000","377677523143733","1297812597499142","6","1","A")
+    val req = new TS011173(sessionID, channelID, "001A021306500928", "001A021306500928", "CNY", "40", "2",
+      "000000000001300000", "377677523143733", "1297812597499142", "6", "1", "A")
     val resp = req.send
     println(resp)
   }
@@ -395,4 +402,19 @@ object GCSProtocolTestApp extends App {
     val resp = req.send
     println(resp)
   }
+
+  def testTS011145(): Unit = {
+    val cardNo = "4096688277156575"
+    val req = new TS011145(sessionID, channelID, cardNo)
+    val resp = req.send
+    println(resp)
+  }
+
+  def testTS010062(): Unit = {
+    val cardNo = "4096688277156575"
+    val req = new TS010062(sessionID, channelID, cardNo)
+    val resp = req.send
+    println(resp)
+  }
+
 }

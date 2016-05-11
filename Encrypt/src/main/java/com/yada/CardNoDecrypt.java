@@ -14,7 +14,7 @@ public class CardNoDecrypt {
      * @param spkey 密钥字符串
      * @return String 3-DES加密后的String
      */
-    String pack(String src, String spkey) {
+    public String pack(String src, String spkey) {
         return des.encrypt(src, spkey);
     }
 
@@ -25,7 +25,7 @@ public class CardNoDecrypt {
      * @param spkey 密钥字符串
      * @return String 解密后的支付串
      */
-    String unpack(String src, String spkey) {
+    public String unpack(String src, String spkey) {
         return des.decrypt(src, spkey);
     }
 }
