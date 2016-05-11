@@ -28,8 +28,13 @@ class GCSConverter extends Converter {
 
   override def unmarshal(reader: HierarchicalStreamReader, context: UnmarshallingContext): AnyRef = {
     val transactionID = reader.getAttribute("transactionID")
-    val isRequest = reader.getAttribute("isRequest").toBoolean
-    val isResponse = reader.getAttribute("isResponse").toBoolean
+    val (isRequest, isResponse) = if (reader.getAttributeCount < 2) {
+      // 只有响应才有可能不存在isRequest和isResponse
+      false -> true
+    } else {
+      reader.getAttribute("isRequest").toBoolean -> reader.getAttribute("isResponse").toBoolean
+    }
+
     var system: System = null
     var page: Option[Page] = None
     while (reader.hasMoreChildren) {
