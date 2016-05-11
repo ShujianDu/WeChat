@@ -215,7 +215,7 @@
 							<table class="topTwo" style="margin-bottom: 10px;">
 								<tr>
 									<td>下次入帐日期：</td>
-									<td align="right"><c:out value="${model.instalmentNextPostingDate}"/></td>
+									<td align="right"><c:out value="${item.instalmentNextPostingDate}"/></td>
 								</tr>
 							</table>
 						</div>
