@@ -13,13 +13,13 @@ object GCSProtocolTestApp extends App {
   //  testTS010002()
 
   // 信用卡挂失
-  //  testTS010052()
+    testTS010052()
 
   // 账单寄送方式修改
   //  testTS010056()
 
   // 临时挂失
-  //    testTS010059()
+//      testTS010059()
 
   // 解除临时挂失--总交易
   //    testTS010060()
@@ -67,7 +67,7 @@ object GCSProtocolTestApp extends App {
   //  testTS011113()
 
   // 卡户分期项目账单分期（费用试算）
-  //    testTS011170()
+      testTS011170()
 
   // 卡户分期项目账单分期（授权）
   //    testTS011171()
@@ -114,7 +114,9 @@ object GCSProtocolTestApp extends App {
     * 信用卡挂失
     */
   def testTS010052(): Unit = {
-    throw new RuntimeException("信用卡挂失，不可测试")
+    val cardNo = "4096688968814904"
+    val req = new TS010052(sessionID, channelID, cardNo,"AAP0344", "03", "AAP0344", "02")
+    req.send
   }
 
   /**
@@ -309,11 +311,16 @@ object GCSProtocolTestApp extends App {
     val temp = new GCSServiceImpl
     val params = CardNoParams(sessionID, channelID, cardNo)
     val billingPeriods = temp.getBillingPeriods(params)
-    println(billingPeriods.head.periodStartDate)
-    println(billingPeriods.head.periodEndDate)
+
+    println(billingPeriods.length)
+    val billingPeriod = billingPeriods.filter( billingPeriod => billingPeriod.periodEndDate > "2023-06-10").head
+
+    println(billingPeriod.periodStartDate)
+    println(billingPeriod.periodEndDate)
+
     val amountLimitParams = AmountLimitParams(sessionID, channelID, cardNo, currencyCode)
     val amountLimit = temp.getAmountLimit(amountLimitParams)
-    val req = new TS011170(sessionID, channelID, billingPeriods.head.accountId, billingPeriods.head.statementNo, "CNY", amountLimit.minAmount, amountLimit.maxAmount, "6", "1", "A")
+    val req = new TS011170(sessionID, channelID, billingPeriod.accountId, billingPeriod.statementNo, "CNY", amountLimit.minAmount, amountLimit.maxAmount, "6", "1", "A")
     val resp = req.send
     println(resp)
   }
