@@ -8,16 +8,15 @@
 <title>中国银行信用卡</title>
 </head>
 
-<body onload="toJFDH()">
+<body>
 	<form action="${exchangeUrl }" method="post" id="submitForm">
 			<input type="hidden" value="${cardNo}" name="cardNo" id="cardNo" />
 			<input type="hidden" value="${sign}" id="sign" name="sign"/>  
 	</form>
 	<script type="text/javascript">
-	function toJFDH()
-	{
-		$("#submitForm").submit();
-	}
+		$(function(){
+			$("#submitForm").submit();
+		});
 	</script>
 </body>
 </html>
