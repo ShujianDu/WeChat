@@ -113,5 +113,12 @@ public interface BindingService {
      * @return
      */
     CustomerInfo findCustomerInfoByOpenId(String openId);
+    /**
+     * 通过DB获取授权后的openId
+     *
+     * @param authcode 授权码
+     * @return openId
+     */
+     String findOpenIdByAuthCode(String authcode);
 
 }

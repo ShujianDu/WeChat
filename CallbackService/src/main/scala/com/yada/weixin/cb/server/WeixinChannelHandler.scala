@@ -89,7 +89,11 @@ class WeixinChannelHandler extends SimpleChannelInboundHandler[FullHttpRequest] 
     }
 
     message.foreach { msg =>
-      val procF = MessageProcActor.procMsg(msg)
+      val procF = MessageProcActor.procMsg(msg).recover {
+        case t: Throwable =>
+          logger.error(s"message proc has a error...", t)
+          "success"
+      }
       val timeoutF = after((5 - 1) second, using = actorSystem.scheduler)(Future.failed(new WeixinRequestTimeoutException))
       val resultF = Future.firstCompletedOf(Seq(procF, timeoutF))
 

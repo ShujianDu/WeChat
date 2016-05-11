@@ -30,19 +30,22 @@ trait ITemplate {
     val msgCom = findMsgCom()
     msgCom.msg_type match {
       case "1" => // 文本信息
-        val c = replace(msgCom.content, normalReplace, repeatReplace).replace("$_{realmName}", eBankDomain)
+        val c = replace(notEmpty(msgCom.content), normalReplace, repeatReplace).replace("$_{realmName}", eBankDomain)
         TextCmdRespMessage(c)
       case "3" => // 图文信息
         val newsList = findNewsCom(msgCom.msg_id)
         val itemList = newsList.map(newCom => {
-          val title = replace(newCom.title, normalReplace, repeatReplace)
-          val des = replace(newCom.description, normalReplace, repeatReplace).replace("$_{realmName}", eBankDomain).replace("$_{applyactivity}", applyActivityDomain)
-          NewsMessageItem(title, des, newCom.picurl.replace("$_{realmName}", imageDomain), newCom.pic_link_url.replace("$_{realmName}", eBankDomain))
+          val title = replace(notEmpty(newCom.title), normalReplace, repeatReplace)
+          val des = replace(notEmpty(newCom.description), normalReplace, repeatReplace).replace("$_{realmName}", eBankDomain).replace("$_{applyactivity}", applyActivityDomain)
+          val picurl = notEmpty(newCom.picurl).replace("$_{realmName}", imageDomain)
+          val url = notEmpty(newCom.pic_link_url).replace("$_{realmName}", eBankDomain)
+          NewsMessageItem(title, des, picurl, url)
         })
         NewsCmdRespMessage(itemList)
     }
-
   }
+
+  private def notEmpty(msg: String): String = if (msg == null) "" else msg
 
   /**
     *

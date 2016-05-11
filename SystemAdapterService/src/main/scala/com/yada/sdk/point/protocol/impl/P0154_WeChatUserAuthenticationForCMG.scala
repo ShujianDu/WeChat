@@ -10,6 +10,7 @@ class P0154_WeChatUserAuthenticationForCMG(cardNo: String, mobileNo: String)(imp
   var security = PointSecurity.GLOBAL
   setReqBodyProps("EncryptCardNo", security.weChatUserAuthenticationForCMGEncrypt(cardNo))
   setReqBodyProps("EncryptMobile", security.weChatUserAuthenticationForCMGEncrypt(mobileNo))
+  setReqHeadProps("ChannelCode", "14")
 
   /**
     * 交易码

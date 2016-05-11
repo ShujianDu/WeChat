@@ -917,7 +917,7 @@ object RelieveCreditCardTempReportLostParams {
   *
   * @param tranSessionID gcsSessionId
   * @param reqChannelID  渠道编号
-  * @param idType        证件类型
+  * @param idType        证件类型-4位的字母
   * @param idNo          证件号
   */
 case class MobilePhoneParams(tranSessionID: String, reqChannelID: String, idType: String, idNo: String)

@@ -5,10 +5,10 @@ import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import com.yada.wechatbank.base.BaseModel;
 import com.yada.wechatbank.exception.CommunicationException;
+import com.yada.wechatbank.kafka.MessageProducer;
+import com.yada.wechatbank.kafka.TopicEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,6 +30,7 @@ public class HttpClient {
 
     private int conTimeout; // 连接超时时间
     private int readTimeout; // 读取超时时间
+    private MessageProducer messageProducer;
 
     private Set<String> error_code;
 
@@ -37,13 +38,14 @@ public class HttpClient {
 
     private String title;
 
-    public HttpClient(String hostAddr, int conTimeout, int readTimeout,String title) {
-        error_code = new HashSet<>();
+    public HttpClient(String hostAddr, int conTimeout, int readTimeout,MessageProducer messageProducer,String title) {
+        error_code= new HashSet<>();
         error_code.add("01");
         error_code.add("99");
         this.hostAddr = hostAddr;
         this.conTimeout = conTimeout;
         this.readTimeout = readTimeout;
+        this.messageProducer=messageProducer;
         this.title = title;
     }
 
@@ -63,13 +65,16 @@ public class HttpClient {
             String data = JSON.toJSONString(object);
             String respStr = postRequest(method, data);
             result = JSON.parseObject(respStr, targetClass);
-            BaseModel baseMode = (BaseModel) result;
+            BaseModel baseMode=(BaseModel)result;
 
-            message.append("datetime" + new SimpleDateFormat("yyyyMMddHHmmss") + "title" + title + "msg");
+            message.append("datetime").append(new SimpleDateFormat("yyyyMMddHHmmss")).append("title").append(title).append("msg");
 
-            if (error_code.contains(baseMode.getReturnCode())) {
-                message.append("行内服务返回异常,响应码[" + baseMode.getReturnCode() + "]，响应信息[" + baseMode.getReturnMsg() + "]");
-                throw new CommunicationException(JSONObject.toJSONString(message));
+            if(error_code.contains(baseMode.getReturnCode()))
+            {
+                message.append("行内服务返回异常,响应码[").append(baseMode.getReturnCode()).append("]，响应信息[").append(baseMode.getReturnMsg()).append("]");
+                logger.error(message.toString());
+                messageProducer.send(TopicEnum.EXCEPTION, "httpClientCommunicationReturnFailedCode", JSONObject.toJSONString(message));
+                throw new CommunicationException(message.toString());
             }
             logger.info("模块[{}]调用[{}]行内接口，返回参数为[{}]", s[1].getClassName(), method, respStr);
             return result;
@@ -78,8 +83,8 @@ public class HttpClient {
             return result;
         } catch (Exception e) {
             logger.error("HttpClient 通讯时发生错误", e);
-            message.append("HttpClient 通讯时发生错误");
-            throw new CommunicationException(JSONObject.toJSONString(message));
+            messageProducer.send(TopicEnum.EXCEPTION, "httpClientCommunicationReturnFailedCode", "与行内服务通过HttpClient 通讯时发生错误");
+            throw new CommunicationException("与行内服务通过HttpClient 通讯时发生错误",e);
         }
     }
 
@@ -90,7 +95,7 @@ public class HttpClient {
      * @return String
      */
     private String postRequest(String method, String data) {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         HttpURLConnection conn = null;
         OutputStreamWriter writer = null;
         BufferedReader bufferedReader = null;
@@ -127,12 +132,15 @@ public class HttpClient {
                 }
                 return sb.toString();
             } else {
-                logger.error("HttpClient 通讯异常,响应码[" + conn.getResponseCode() + "]");
-                throw new CommunicationException("通讯异常,响应码[" + conn.getResponseCode() + "]");
+                String msg="与行内服务SAS 通讯异常,响应码[\" + conn.getResponseCode() + \"]";
+                logger.error(msg);
+                messageProducer.send(TopicEnum.EXCEPTION, "httpClientConnectSASException", msg);
+                throw new CommunicationException("msg");
             }
         } catch (IOException e) {
-            logger.error("HttpClient 通讯异常:", e);
-            throw new CommunicationException("HttpClient 通讯异常:", e);
+            logger.error("与行内服务SAS 通讯异常:", e);
+            messageProducer.send(TopicEnum.EXCEPTION, "httpClientConnectSASException", "与行内服务SAS 通讯异常:" + e.getMessage());
+            throw new CommunicationException("与行内服务SAS 通讯异常:",e);
         } finally {
             if (writer != null) {
                 try {

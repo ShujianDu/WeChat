@@ -21,7 +21,7 @@ class TS010052(sessionId: String, channelId: String, cardNo: String, idType: Str
 
   override def transactionSessionId: String = sessionId
 
-  override def pageKey: String = "RQ01052"
+  override def pageKey: String = "RQ010052"
 
   override def transactionCode: String = "010052"
 }

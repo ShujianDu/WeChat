@@ -39,6 +39,7 @@ public class BillInstallmentController extends BaseController {
 
     private static final String SEARCH = "wechatbank_pages/BillInstallment/searchByCardNo";
     private static final String BILL_COST = "wechatbank_pages/BillInstallment/billCost";
+    private static final String BILL_ERROR = "wechatbank_pages/BillInstallment/error";
 
     @Autowired
     private BillInstallmentService billInstallmentServiceImpl;
@@ -267,7 +268,7 @@ public class BillInstallmentController extends BaseController {
         if (res) {
             return "wechatbank_pages/BillInstallment/success";
         } else {
-            return ERROR;
+            return BILL_ERROR;
         }
     }
 
