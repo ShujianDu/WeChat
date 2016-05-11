@@ -5,7 +5,6 @@ import com.yada.wechatbank.model.AmountLimit;
 import com.yada.wechatbank.model.BillCost;
 import com.yada.wechatbank.model.BillingSummary;
 import com.yada.wechatbank.model.CardInfo;
-
 import java.util.List;
 
 /**
@@ -26,7 +25,6 @@ public interface BillInstallmentService {
      * @return        当期账单
      */
     BillingSummary getCurrentPeriodBill(String cardNo);
-
 
     /**
      * 账单分期上下线查询

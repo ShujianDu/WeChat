@@ -10,7 +10,8 @@ public interface WbicCardInfoService {
 
     /**
      * 查询海淘卡
-     * @param idNum 证件号
+     *
+     * @param idNum  证件号
      * @param idType 证件类型
      * @return 卡号
      */
@@ -18,6 +19,7 @@ public interface WbicCardInfoService {
 
     /**
      * 海淘用户发送短信
+     *
      * @param cardNo 卡号
      * @return
      */

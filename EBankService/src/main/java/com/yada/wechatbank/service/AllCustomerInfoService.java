@@ -17,5 +17,13 @@ public interface AllCustomerInfoService {
      */
     List<AllCustomerInfo> findByIdentityNo(String identityNo);
 
+    /**
+     * 根据证件号修改推送状态
+     * @param notice
+     * @param billNotice
+     * @param repaymentNotice
+     * @param identityNo
+     * @return
+     */
     boolean updateNoticeByIdentityNo(String notice, String billNotice, String repaymentNotice, String identityNo);
 }

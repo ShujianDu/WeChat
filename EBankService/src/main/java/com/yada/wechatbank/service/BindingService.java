@@ -105,7 +105,6 @@ public interface BindingService {
      */
     boolean fillIdentityType(String identityType, String identityNo);
 
-
     /**
      * 根据opId获取客户信息
      *
