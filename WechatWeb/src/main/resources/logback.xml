@@ -51,7 +51,7 @@
         </encoder>
         <charset>UTF-8</charset>
     </appender>
-    <logger name="com.yada.wechatbank" level="INFO"/>
+    <logger name="com.yada.wechatweb" level="INFO"/>
     <logger name="org.springframework" level="INFO"/>
     <root level="WARN">
         <appender-ref ref="stdout"/>
