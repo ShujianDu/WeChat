@@ -4,7 +4,7 @@ import com.yada.wx.db.service.model.AuthInfo;
 import com.yada.wx.db.service.model.CustomerInfo;
 
 /**
- * Created by echo on 16/5/5.
+ * @author zm
  */
 public interface LoginService {
     /**

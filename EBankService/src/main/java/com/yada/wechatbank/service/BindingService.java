@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Echo on 2016/4/11.
+ * @author zm
  */
 public interface BindingService {
     /**

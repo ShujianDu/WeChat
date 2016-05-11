@@ -6,7 +6,7 @@ import com.yada.wx.db.service.model.NuwOrg;
 import java.util.List;
 
 /**
- * Created by Echo on 2016/4/11.
+ * @author zm
  */
 public interface BookingService {
 

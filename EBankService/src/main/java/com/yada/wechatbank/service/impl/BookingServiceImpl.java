@@ -33,7 +33,7 @@ public class BookingServiceImpl implements BookingService {
     /**
      * 获取客户ID的Sequences，前置处理
      *
-     * @return
+     * @return 序列值
      */
     @Override
     public String getSequences() {
@@ -43,8 +43,8 @@ public class BookingServiceImpl implements BookingService {
     /**
      * 预约办卡新增
      *
-     * @param booking
-     * @return
+     * @param booking 预约办卡实体
+     * @return 预约办卡结果
      */
     @Override
     public boolean insertBooking(Booking booking) {
@@ -52,15 +52,15 @@ public class BookingServiceImpl implements BookingService {
             bookingDao.deleteByClientNameAndMobilePhone(booking.getClientName(), booking.getMobilePhone());
         }
         Booking res = bookingDao.save(booking);
-        messageProducer.send(TopicEnum.EBANK_DO,"booking",booking);
+        messageProducer.send(TopicEnum.EBANK_DO, "booking", booking);
         return res != null;
     }
 
     /**
      * 查询地区
      *
-     * @param pOrgId
-     * @return
+     * @param pOrgId 父级机构号
+     * @return 机构列表
      */
     @Override
     public List<NuwOrg> selectNumOrgList(String pOrgId) {
@@ -70,9 +70,9 @@ public class BookingServiceImpl implements BookingService {
     /**
      * 判断预约办卡是否已存在
      *
-     * @param clientName
-     * @param mobilePhone
-     * @return
+     * @param clientName  用户名
+     * @param mobilePhone 手机号
+     * @return 预约结果
      */
     @Override
     public String isHaveBooking(String clientName, String mobilePhone) {

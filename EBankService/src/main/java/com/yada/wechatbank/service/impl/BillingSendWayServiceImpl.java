@@ -1,7 +1,6 @@
 package com.yada.wechatbank.service.impl;
 
 import com.yada.wechatbank.base.BaseService;
-import com.yada.wechatbank.client.model.BillSendTypeResp;
 import com.yada.wechatbank.client.model.BooleanResp;
 import com.yada.wechatbank.client.model.StringResp;
 import com.yada.wechatbank.kafka.MessageProducer;
@@ -16,11 +15,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @Author TX
+ */
 @Service
 public class BillingSendWayServiceImpl extends BaseService implements BillingSendWayService {
     private final Logger logger = LoggerFactory

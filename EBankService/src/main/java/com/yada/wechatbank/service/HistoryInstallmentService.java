@@ -7,7 +7,7 @@ import com.yada.wechatbank.model.HistoryInstallmentList;
 import java.util.List;
 
 /**
- * Created by Echo on 2016/4/12.
+ * @author zm
  */
 public interface HistoryInstallmentService {
 
