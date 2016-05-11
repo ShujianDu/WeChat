@@ -3,7 +3,6 @@ package com.yada.wechatbank.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.yada.wechatbank.base.BaseController;
@@ -15,13 +14,10 @@ import com.yada.wechatbank.util.IdTypeUtil;
 import com.yada.wx.db.service.model.CustomerInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.yada.wechatbank.query.BindingQuery;
-import com.yada.wechatbank.util.JsMapUtil;
 import com.yada.wechatbank.util.TokenUtil;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -30,8 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  *
  * @author zm
  */
-@Controller
-@RequestMapping(value = "binding")
+//@Controller
+//@RequestMapping(value = "binding")
 public class BindingController extends BaseController {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final String BOUNDURL = "wechatbank_pages/Binding/bound";
@@ -41,9 +37,9 @@ public class BindingController extends BaseController {
     private static final String ERRORURL = "wechatbank_pages/Binding/error";
     private static final String LOCK = "wechatbank_pages/Binding/lock";
     private static final String FILLIDTYPEURL = "wechatbank_pages/Binding/fillIdType";
-    @Autowired
+    //    @Autowired
     private BindingService bindingServiceImpl;
-    @Autowired
+    //    @Autowired
     private SmsService smsServiceImpl;
 
     /**
@@ -87,7 +83,7 @@ public class BindingController extends BaseController {
     public String bindingM(
             @ModelAttribute("formBean") BindingQuery bindingQuery, Model model,
             HttpServletRequest request) {
-        if(bindingQuery.getOpenId() == null || "".equals(bindingQuery.getOpenId())){
+        if (bindingQuery.getOpenId() == null || "".equals(bindingQuery.getOpenId())) {
             return ERROR;
         }
         if (bindingServiceImpl.isLocked(bindingQuery.getOpenId(), bindingQuery.getIdNumber())) {

@@ -85,7 +85,7 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 		map.put("cardNo", cardNo);
 		// kafka事件记录
 		 messageProducer.send(TopicEnum.EBANK_QUERY,
-		 "BillingSummaryGetCurrentPeriodBill", map);
+				 "BillingSummaryGetCurrentPeriodBill", map);
 		// 查询卡片账期
 		BillingPeriodResp billingPeriodResp = httpClient.send(getBillingPeriod, map, BillingPeriodResp.class);
 		List<BillingPeriod> billingPeriods = billingPeriodResp == null ? null : billingPeriodResp.getData();
@@ -158,6 +158,14 @@ public class BillInstallmentServiceImpl extends BaseService implements BillInsta
 		messageProducer.send(TopicEnum.EBANK_QUERY, "BillingSummaryGetAmountLimit", map);
 		AmountLimitResp amountLimitResp = httpClient.send(getAmountLimit, map, AmountLimitResp.class);
 		AmountLimit amountLimit = amountLimitResp == null ? null : amountLimitResp.getData();
+		if(amountLimitResp != null){
+			Map<String,String> mapResp=getCodeAndMsg(amountLimitResp);
+			if(mapResp!=null)
+			{
+				if(amountLimit==null){amountLimit=new AmountLimit();}
+				amountLimit.setRespCode(mapResp.get("gcsMessage"));
+			}
+		}
 		if (amountLimit != null && amountLimit.getRespCode() != null && "".equals(amountLimit.getRespCode())) {
 			amountLimit.setMaxAmount(parseString(AmtUtil.procString(amountLimit.getMaxAmount())));
 			amountLimit.setShowMinAmount(parseString(AmtUtil.procString(amountLimit.getMinAmount())));
