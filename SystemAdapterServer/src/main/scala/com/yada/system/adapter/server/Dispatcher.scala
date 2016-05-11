@@ -34,12 +34,18 @@ class Dispatcher {
           log.info(s"$x handle msg...\r\n$json")
           val data = x.execute(json)
           log.info(s"$x handle complete data...$data")
-          kafkaClient.send("systemAdapter", path, Json.obj("datetime" -> String.format("%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", Calendar.getInstance.getTime), "reqData" -> json).toString())
+          kafkaClient.send("systemAdapter", path, Json.obj("datetime" -> String.format("%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", Calendar.getInstance.getTime), "data" -> json).toString())
           Response("00", "处理成功", Some(Json.parse(data)))
         } catch {
           case e: SystemIOException =>
             log.error(s"${e.channelName} io exception", e)
-            kafkaClient.send("exception", "mail", Json.obj("datetime" -> String.format("%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", Calendar.getInstance.getTime), "title" -> exceptionMailTitle, "msg" -> s"[${e.channelName} has a exception...${e.getMessage}]").toString())
+            kafkaClient.send("exception", "mail", Json.obj(
+              "datetime" -> String.format("%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", Calendar.getInstance.getTime),
+              "data" -> Json.obj(
+                "title" -> exceptionMailTitle,
+                "model" -> e.channelName,
+                "msg" -> s"[${e.channelName} has a exception...${e.getMessage}]").toString()
+            ).toString())
             Response("98", e.channelName + "发生异常", None)
           case e: ErrorGCSReturnCodeException =>
             Response("97", "GCS返回码错误:" + e.returnCode + ":" + e.returnMessage, None)
