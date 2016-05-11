@@ -8,8 +8,8 @@ import com.yada.sdk.point.protocol.PointReq
   */
 class P0154_WeChatUserAuthenticationForCMG(cardNo: String, mobileNo: String)(implicit client: IPointClient = IPointClient.GLOBAL) extends PointReq(client) {
   var security = PointSecurity.GLOBAL
-  setReqBodyProps("EncryptCardNo", security.encrypt(cardNo, security.weChatUserAuthenticationDESKeyForCMG))
-  setReqBodyProps("EncryptMobile", security.encrypt(mobileNo, security.weChatUserAuthenticationDESKeyForCMG))
+  setReqBodyProps("EncryptCardNo", security.weChatUserAuthenticationForCMGEncrypt(cardNo))
+  setReqBodyProps("EncryptMobile", security.weChatUserAuthenticationForCMGEncrypt(mobileNo))
 
   /**
     * 交易码

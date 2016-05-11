@@ -70,6 +70,10 @@
             <groupId>com.typesafe.play</groupId>
             <artifactId>play-json_2.11</artifactId>
         </dependency>
+        <dependency>
+            <groupId>WeChat</groupId>
+            <artifactId>Encrypt</artifactId>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 推送管理
@@ -27,15 +29,18 @@ public class AllCustomerInfoServiceImpl implements AllCustomerInfoService {
 
     @Override
     public List<AllCustomerInfo> findByIdentityNo(String identityNo) {
-        //kafka
         messageProducer.send(TopicEnum.EBANK_QUERY, "AllCustomerInfoFindByIdentityNo", identityNo);
         return allCustomerInfoDao.findByIdentityNo(identityNo);
     }
 
     @Override
     public boolean updateNoticeByIdentityNo(String notice, String billNotice, String repaymentNotice, String identityNo) {
-        messageProducer.send(TopicEnum.EBANK_DO, "AllCustomerInfoUpdateNoticeByIdentityNo", "用户identityNo["+identityNo
-                +"]更改动户通知开关为["+notice+"]更改账单提醒开关为["+billNotice+"]更改还款提醒开关为["+repaymentNotice+"]");
+        Map<String, String> data = new HashMap();
+        data.put("identityNo", identityNo);
+        data.put("notice", notice);
+        data.put("billNotice", billNotice);
+        data.put("repaymentNotice", repaymentNotice);
+        messageProducer.send(TopicEnum.EBANK_DO, "AllCustomerInfoUpdateNoticeByIdentityNo", data);
         allCustomerInfoDao.updateNoticeByIdentityNo(notice, billNotice, repaymentNotice, identityNo);
         return true;
     }
