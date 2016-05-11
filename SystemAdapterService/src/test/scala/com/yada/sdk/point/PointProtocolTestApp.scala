@@ -11,7 +11,7 @@ object PointProtocolTestApp extends App {
   //  p0001()
 
   // 获取ECIF号
-  p0004()
+//  p0004()
 
   //加密卡号
   p0118()

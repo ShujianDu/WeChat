@@ -8,7 +8,7 @@ import com.yada.sdk.gcs.protocol.GCSReq
   *
   * @see com.yada.sdk.gcs.protocol.impl.TS011101 客户的信息较少的报文
   */
-class TS010201(sessionId: String, channelId: String, cardNo: String)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+class TS010201(sessionId: String, channelId: String, cardNo: String)(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
   setPageProps("cardNo", cardNo)
 

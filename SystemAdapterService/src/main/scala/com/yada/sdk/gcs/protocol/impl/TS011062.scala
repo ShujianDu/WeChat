@@ -16,7 +16,7 @@ import com.yada.sdk.gcs.protocol.GCSReq
 class TS011062(tranSessionId: String,
                reqChannelId: String,
                accountId: String,
-               currencyCode: String)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+               currencyCode: String)(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
   setPageProps("accountId", accountId)
   setPageProps("currencyCode", currencyCode)

@@ -19,7 +19,7 @@ class TS011007(tranSessionId: String, reqChannelId: String,
                currencyCode: String,
                startNumber: String,
                selectNumber: String,
-               transactionType: String = "UNSM")(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+               transactionType: String = "UNSM")(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
   setPageProps("cardNo", cardNo)
   setPageProps("currencyCode", currencyCode)

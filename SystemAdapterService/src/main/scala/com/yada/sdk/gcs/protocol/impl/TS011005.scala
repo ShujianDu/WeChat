@@ -38,7 +38,7 @@ class TS011005(sessionID: String, channelID: String,
                idNum: Option[String],
                startNum: String,
                totalNum: String,
-               isFilterCardStatus: String = "0")(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+               isFilterCardStatus: String = "0")(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
   cardNo.foreach(setPageProps("cardNo", _))
   idType.foreach(setPageProps("idType", _))

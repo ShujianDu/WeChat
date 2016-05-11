@@ -26,7 +26,7 @@ class TS010310(sessionId: String, channelId: String,
                startNum: String,
                totalNum: String,
                startDate: String,
-               endDate: String)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+               endDate: String)(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
 
 
   setPageProps("cardNo", cardNo)

@@ -10,7 +10,7 @@ import com.yada.sdk.gcs.protocol.GCSReq
   * @param accountId   账号ID
   */
 class TS010302(tranSessionId: String, reqChannelId: String,
-               statementNo: String, accountId: String)(gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
+               statementNo: String, accountId: String)(implicit gcsClient: GCSClient = GCSClient.GLOBAL) extends GCSReq(gcsClient) {
   setPageProps("statementNo", statementNo)
   setPageProps("accountId", accountId)
 
