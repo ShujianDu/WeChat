@@ -266,7 +266,9 @@
                         verificationCodeWarning.text("您填写的验证码有误，请重新输入！");
                     } else if (result == "wrongMobileNo") {
                         mobileNoWarning.text("您填写的手机号有误，请重新输入!");
-                    } else {
+                    } else if(result=="errorIdType"){
+                        typeWarning.text("*证件类型不能为空，请选择！");
+                    }else {
                         buttonTimeOut();
                     }
                 }
