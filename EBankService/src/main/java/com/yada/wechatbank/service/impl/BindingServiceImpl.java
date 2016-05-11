@@ -33,9 +33,9 @@ import java.util.*;
 @Transactional
 public class BindingServiceImpl extends BaseService implements BindingService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    private final String success = "0";// 成功
-    private final String noCard = "1";// 查询不到卡号
-    private final String pwdFiled = "2";// 验密失败
+    private static final String success = "0";// 成功
+    private static final String noCard = "1";// 查询不到卡号
+    private static final String pwdFiled = "2";// 验密失败
     @Autowired
     private CustomerInfoDao customerInfoDao;
     @Autowired
@@ -76,10 +76,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
      */
     @Override
     public boolean isLocked(String openId, String idNum) {
-        if (LockCacheImpl.get(openId) != null || LockCacheImpl.get(idNum) != null) {
-            return true;
-        }
-        return false;
+        return LockCacheImpl.get(openId) != null || LockCacheImpl.get(idNum) != null;
     }
 
     /**
@@ -167,7 +164,7 @@ public class BindingServiceImpl extends BaseService implements BindingService {
         Map<String, Object> map = new HashMap<>();
         map.put("customerInfo", customerInfo);
         map.put("result", result);
-        messageProducer.send(TopicEnum.EBANK_DO, "BindingCustBinding", customerInfo);
+        messageProducer.send(TopicEnum.EBANK_DO, "BindingCustBinding", map);
         return result;
     }
 

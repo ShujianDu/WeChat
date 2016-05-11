@@ -34,6 +34,7 @@ public class WcbOAuthEntranceService {
         authInfo.setAuthCode(code);
         authInfo.setCreatTime(createDate);
         authInfo.setOpenId(openId);
+        logger.info("保存authInfo[{}]数据",authInfo.toString());
         authInfoDao.saveAndFlush(authInfo);
         return code;
     }

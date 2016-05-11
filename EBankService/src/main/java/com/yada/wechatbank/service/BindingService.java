@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Echo on 2016/4/11.
+ * @author zm
  */
 public interface BindingService {
     /**
@@ -104,7 +104,6 @@ public interface BindingService {
      * @return 补充证件类型插入数据库是否结果
      */
     boolean fillIdentityType(String identityType, String identityNo);
-
 
     /**
      * 根据opId获取客户信息

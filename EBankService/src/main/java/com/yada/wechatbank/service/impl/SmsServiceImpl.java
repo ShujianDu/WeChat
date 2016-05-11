@@ -25,12 +25,11 @@ import java.util.Random;
 public class SmsServiceImpl extends BaseService implements SmsService {
 
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     protected HttpClient httpClient;
-
     @Autowired
     private MessageProducer messageProducer;
-
     @Autowired
     private ISMSCache sMSCacheImpl;
 
@@ -41,12 +40,9 @@ public class SmsServiceImpl extends BaseService implements SmsService {
     //预约办卡专用type
     @Value("${bcsp.sms.cardApplyBsnType}")
     private String bcspSmsCardApplyBsnType;
-
     // 发送短信验证码URL
     @Value("${url.sendSMS}")
     private String sendSMS;
-
-
     @Value("${sms.content}")
     private String smsContent; // 短信验证发送的内容
     @Value("${sms.bindingContent}")
@@ -114,7 +110,7 @@ public class SmsServiceImpl extends BaseService implements SmsService {
 
     @Override
     public boolean sendLoginSMS(String identityNo, String mobileNo, String bizCode) {
-        return assemblySMS(identityNo,mobileNo,bizCode,loginContent,bcspSmsBsnType);
+        return assemblySMS(identityNo, mobileNo, bizCode, loginContent, bcspSmsBsnType);
     }
 
     /**
@@ -154,7 +150,7 @@ public class SmsServiceImpl extends BaseService implements SmsService {
         }
         logger.info("为用户identityNo[{}]、手机号[{}]在[{}]渠道发送短信[{}]", identityNo, mobileNo, bizCode, content);
         //kafka事件推送
-        messageProducer.send(TopicEnum.EBANK_QUERY,bizCode+"_SMS",param);
+        messageProducer.send(TopicEnum.EBANK_QUERY, bizCode + "_SMS", param);
         return result == null ? false : result.getData();
     }
 
