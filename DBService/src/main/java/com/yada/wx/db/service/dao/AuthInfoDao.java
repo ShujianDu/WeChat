@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
  * Created by Tx on 2016/5/10.
  */
 public interface AuthInfoDao extends JpaRepository<AuthInfo, Long>, JpaSpecificationExecutor<AuthInfo> {
+    AuthInfo finfByAuthCode(String authCode);
+    void deleteByAuthCode(String authCode);
 }
