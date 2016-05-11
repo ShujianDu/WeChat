@@ -68,7 +68,7 @@ public class MyRealm extends AuthorizingRealm {
                             session.setAttribute("identityNo", username);
                             session.setAttribute("identityType", identityType);
                             long time = Long.parseLong(timeout);
-                            // 设置session超时时间10分钟
+                            // 设置session超时时间
                             SecurityUtils.getSubject().getSession().setTimeout(time);
                             return new SimpleAuthenticationInfo(username, password,
                                     getName());

@@ -2,10 +2,12 @@ package com.yada.wechatbank.client;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
+import com.alibaba.fastjson.JSONObject;
 import com.yada.wechatbank.base.BaseModel;
 import com.yada.wechatbank.exception.CommunicationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,13 +35,16 @@ public class HttpClient {
 
     private String hostAddr;
 
-    public HttpClient(String hostAddr, int conTimeout, int readTimeout) {
-        error_code= new HashSet<>();
+    private String title;
+
+    public HttpClient(String hostAddr, int conTimeout, int readTimeout,String title) {
+        error_code = new HashSet<>();
         error_code.add("01");
         error_code.add("99");
         this.hostAddr = hostAddr;
         this.conTimeout = conTimeout;
         this.readTimeout = readTimeout;
+        this.title = title;
     }
 
     /**
@@ -51,24 +57,29 @@ public class HttpClient {
     public <T> T send(String method, Object object, Class<T> targetClass) {
         T result = null;
         StackTraceElement[] s = new Exception().getStackTrace();
-        logger.info("模块[{}]调用[{}]行内接口，传入参数为[{}]",s[1].getClassName(),method,object.toString());
+        logger.info("模块[{}]调用[{}]行内接口，传入参数为[{}]", s[1].getClassName(), method, object.toString());
+        StringBuffer message = new StringBuffer();
         try {
             String data = JSON.toJSONString(object);
             String respStr = postRequest(method, data);
             result = JSON.parseObject(respStr, targetClass);
-            BaseModel baseMode=(BaseModel)result;
-            if(error_code.contains(baseMode.getReturnCode()))
-            {
-                throw new CommunicationException("行内服务返回异常,响应码[" +baseMode.getReturnCode() + "]，响应信息["+baseMode.getReturnMsg()+"]");
+            BaseModel baseMode = (BaseModel) result;
+
+            message.append("datetime" + new SimpleDateFormat("yyyyMMddHHmmss") + "title" + title + "msg");
+
+            if (error_code.contains(baseMode.getReturnCode())) {
+                message.append("行内服务返回异常,响应码[" + baseMode.getReturnCode() + "]，响应信息[" + baseMode.getReturnMsg() + "]");
+                throw new CommunicationException(JSONObject.toJSONString(message));
             }
-             logger.info("模块[{}]调用[{}]行内接口，返回参数为[{}]",s[1].getClassName(),method,respStr);
+            logger.info("模块[{}]调用[{}]行内接口，返回参数为[{}]", s[1].getClassName(), method, respStr);
             return result;
         } catch (JSONException e) {
             logger.error("HttpClient 数据转换异常", e);
             return result;
         } catch (Exception e) {
             logger.error("HttpClient 通讯时发生错误", e);
-            throw new CommunicationException("HttpClient 通讯时发生错误",e);
+            message.append("HttpClient 通讯时发生错误");
+            throw new CommunicationException(JSONObject.toJSONString(message));
         }
     }
 
@@ -121,7 +132,7 @@ public class HttpClient {
             }
         } catch (IOException e) {
             logger.error("HttpClient 通讯异常:", e);
-            throw new CommunicationException("HttpClient 通讯异常:",e);
+            throw new CommunicationException("HttpClient 通讯异常:", e);
         } finally {
             if (writer != null) {
                 try {

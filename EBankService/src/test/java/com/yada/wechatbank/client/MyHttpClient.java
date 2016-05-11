@@ -107,8 +107,8 @@ public class MyHttpClient extends HttpClient {
 		return param;
 	}
 
-	public MyHttpClient(String hostAddr, int conTimeout, int readTimeout) {
-		super(hostAddr, conTimeout, readTimeout);
+	public MyHttpClient(String hostAddr, int conTimeout, int readTimeout,String title) {
+		super(hostAddr, conTimeout, readTimeout,title);
 	}
 
 	@Override
