@@ -1,7 +1,7 @@
 package com.yada.wx.cbs.subBiz
 
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
-import com.yada.wx.cbs.{CmdRespMessage, HttpClient, ICmdSubBiz}
+import com.yada.wx.cbs.{CmdReqMessage, CmdRespMessage, HttpClient, ICmdSubBiz}
 import play.api.libs.functional.syntax._
 import play.api.libs.json.{Reads, _}
 
@@ -13,12 +13,15 @@ import scala.collection.convert.WrapAsScala
 class QueryPointBalanceBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
   private val url = "/points/PointsBalanceRoute"
 
-  override def subHandle(command: Command, customer: Customer): CmdRespMessage = {
-    val event = Json.obj(
+  override def subHandle(command: Command, customer: Customer, cmdReqMessage: CmdReqMessage): CmdRespMessage = {
+    kafkaClient.send("wcbQuery", "pointBalance", Json.obj(
       "datetime" -> currentDatetime,
-      "openID" -> customer.openid,
-      "cardNo" -> customer.defCardNo).toString()
-    kafkaClient.send("wcbQuery", "pointBalance", event)
+      "data" -> Json.obj(
+        "openID" -> customer.openid),
+      "weiXinID" -> cmdReqMessage.weiXinID,
+      "cmd" -> command.commandValue,
+      "cardNo" -> customer.defCardNo
+    ).toString())
     val req = Json.toJson(PointBalanceReq(customer.defCardNo)).toString()
     val resp = httpClient.send(req, url)
     val respJSON = Json.parse(resp)

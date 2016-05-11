@@ -2,7 +2,7 @@ package com.yada.wx.cbs.subBiz
 
 import com.typesafe.config.ConfigFactory
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
-import com.yada.wx.cbs.{CmdRespMessage, HttpClient, ICmdSubBiz}
+import com.yada.wx.cbs.{CmdReqMessage, CmdRespMessage, HttpClient, ICmdSubBiz}
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
 
@@ -18,12 +18,15 @@ class QueryBillSendTypeBiz(httpClient: HttpClient = HttpClient) extends ICmdSubB
     config.getString("systemAdapter.gcsTranSessionID") -> config.getString("systemAdapter.gcsReqChannelID")
   }
 
-  override def subHandle(command: Command, customer: Customer): CmdRespMessage = {
-    val event = Json.obj(
+  override def subHandle(command: Command, customer: Customer, cmdReqMessage: CmdReqMessage): CmdRespMessage = {
+    kafkaClient.send("wcbQuery", "billSendType", Json.obj(
       "datetime" -> currentDatetime,
-      "openID" -> customer.openid,
-      "cardNo" -> customer.defCardNo).toString()
-    kafkaClient.send("wcbQuery", "billSendType", event)
+      "data" -> Json.obj(
+        "openID" -> customer.openid),
+      "weiXinID" -> cmdReqMessage.weiXinID,
+      "cmd" -> command.commandValue,
+      "cardNo" -> customer.defCardNo
+    ).toString())
     val req = Json.toJson(BillSendTypeReq(gcsTranSessionID, gcsReqChannelID, customer.defCardNo)).toString
     val resp = httpClient.send(req, url)
     val respJson = Json.parse(resp)

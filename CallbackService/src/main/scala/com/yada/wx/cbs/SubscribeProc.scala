@@ -18,9 +18,9 @@ class SubscribeProc extends MessageProc[JsValue, CmdRespMessage] with LazyLoggin
   }
   override val requestCreator: (JsValue) => JsValue = jv => jv
   override val process: (JsValue) => Future[CmdRespMessage] = jv => Future.successful {
-    logger.info(s"handle $jv")
     val openID = (jv \ FromUserName).as[String]
-    cmdBiz.handle("WELCOME", openID)
+    val weiXinID = (jv \ ToUserName).as[String]
+    cmdBiz.handle("WELCOME", CmdReqMessage(openID, weiXinID))
   }
   override val responseCreator: (JsValue, CmdRespMessage) => Option[JsValue] = (req, resp) => Option {
     CmdRespMessage.toJson(req, resp)

@@ -22,11 +22,14 @@ class UnSubscribeProc extends MessageProc[JsValue, String] {
   override val requestCreator: (JsValue) => JsValue = jv => jv
   override val process: (JsValue) => Future[String] = jv => Future.successful {
     val openID = (jv \ FromUserName).as[String]
+    val weiXinID = (jv \ ToUserName).as[String]
     customerDao.deleteByOpenid(openID)
-    val sdf = new SimpleDateFormat("")
     val event = Json.toJson(Json.obj(
-      "datetime" -> sdf.format(Calendar.getInstance.getTime),
-      "openID" -> openID)).toString()
+      "datetime" -> String.format("%1$tY%1$tm%1$td%1$tH%1$tM%1$tS", Calendar.getInstance.getTime),
+      "data" -> Json.obj(
+        "openID" -> openID),
+      "weiXinID" -> weiXinID).toString()
+    ).toString()
     kafkaClient.send("wcbDo", "unBinding", event)
     "success"
   }
