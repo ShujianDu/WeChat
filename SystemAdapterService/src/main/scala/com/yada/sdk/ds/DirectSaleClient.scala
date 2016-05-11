@@ -54,7 +54,7 @@ class DirectSaleClient(wsdlDocumentLocation: URL, serviceQName: QName, portQName
 }
 
 object DirectSaleClient {
-  private[this] var _GLOBAL: DirectSaleClient = Class.forName(ConfigFactory.load().getString("DS.client")).asInstanceOf[DirectSaleClient]
+  private[this] var _GLOBAL: DirectSaleClient = Class.forName(ConfigFactory.load().getString("DS.client")).newInstance().asInstanceOf[DirectSaleClient]
 
   def GLOBAL: DirectSaleClient = _GLOBAL
 

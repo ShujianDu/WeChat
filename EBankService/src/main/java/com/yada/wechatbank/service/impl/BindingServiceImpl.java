@@ -11,7 +11,9 @@ import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.model.*;
 import com.yada.wechatbank.service.BindingService;
 import com.yada.wechatbank.util.IdTypeUtil;
+import com.yada.wx.db.service.dao.AuthInfoDao;
 import com.yada.wx.db.service.dao.CustomerInfoDao;
+import com.yada.wx.db.service.model.AuthInfo;
 import com.yada.wx.db.service.model.CustomerInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +38,8 @@ public class BindingServiceImpl extends BaseService implements BindingService {
     private final String pwdFiled = "2";// 验密失败
     @Autowired
     private CustomerInfoDao customerInfoDao;
+    @Autowired
+    private AuthInfoDao authInfoDao;
     @Autowired
     private HttpClient httpClient;
     @Value("${url.verificationPWD}")
@@ -325,6 +329,18 @@ public class BindingServiceImpl extends BaseService implements BindingService {
     @Override
     public CustomerInfo findCustomerInfoByOpenId(String openId) {
         return customerInfoDao.findByOpenId(openId);
+    }
+
+    @Override
+    public String findOpenIdByAuthCode(String authcode) {
+        if(authcode!=null&&!"".equals(authcode)) {
+            AuthInfo authInfo = authInfoDao.findByAuthCode(authcode);
+            if (authInfo != null) {
+                authInfoDao.delete(authInfo.getId());
+                return authInfo.getOpenId();
+            }
+        }
+        return null;
     }
 
 }

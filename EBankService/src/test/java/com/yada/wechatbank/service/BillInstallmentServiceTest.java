@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 /**
+ * 账单分期测试
  * Created by Tx on 2016/4/27.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -34,7 +35,7 @@ public class BillInstallmentServiceTest {
 
     @Test
     public void testGetAmountLimit() {
-        String cardNo = "6225888899990001";
+        String cardNo = "6227595345612371";
         String currencyCode = "CNY";
         AmountLimit amountLimit = billInstallmentService.getAmountLimit(cardNo, currencyCode);
         Assert.assertNotNull(amountLimit);
@@ -82,14 +83,14 @@ public class BillInstallmentServiceTest {
         String idType = "SSNO";
         String idNo = "MOCK01";
         List<CardInfo> list = billInstallmentService.getProessCardNoList(idType, idNo);
-        for (int i = 0; i < list.size(); i++) {
+        for (CardInfo aList : list) {
             //得到加密后的卡号
-            String cardNo = list.get(i).getCardNo();
+            String cardNo = aList.getCardNo();
             //获得解密后卡号
             try {
                 String decodeCardNo = Crypt.decode(cardNo.substring(cardNo.indexOf(",") + 1));
                 //断言加密后的卡号是
-                Assert.assertEquals(cardNo.substring(0, cardNo.indexOf(",") ), decodeCardNo.substring(0, 4) + "********" +
+                Assert.assertEquals(cardNo.substring(0, cardNo.indexOf(",")), decodeCardNo.substring(0, 4) + "********" +
                         decodeCardNo.substring(decodeCardNo.length() - 4, decodeCardNo.length()));
             } catch (Exception e) {
                 e.printStackTrace();

@@ -1,6 +1,6 @@
 package com.yada.sdk.point
 
-import com.yada.sdk.point.protocol.impl.{P0001_GetBalance, P0004_GetECIF, P0118_WeChatUserAuthentication}
+import com.yada.sdk.point.protocol.impl.{P0001_GetBalance, P0004_GetECIF, P0118_WeChatUserAuthentication, P0154_WeChatUserAuthenticationForCMG}
 
 /**
   * 积分协议测试应用
@@ -11,10 +11,13 @@ object PointProtocolTestApp extends App {
   //  p0001()
 
   // 获取ECIF号
-//  p0004()
+//    p0004()
 
   //加密卡号
-  p0118()
+//  p0118()
+
+  //j加密卡号和手机号
+  p0154()
 
   // 积分余额查询
   def p0001(): Unit = {
@@ -42,17 +45,16 @@ object PointProtocolTestApp extends App {
 
   def p0118(): Unit = {
     val cardNo = "5149580068840943"
-    //    val security = PointSecurity.GLOBAL
-    //    println(security.decrypt(security.encrypt(cardNo, security.weChatUserAuthenticationDESKey),security.weChatUserAuthenticationDESKey))
-
-
     val p = new P0118_WeChatUserAuthentication(cardNo)
     val resp = p.send
     println(resp)
-
   }
 
   def p0154(): Unit = {
-
+    val cardNo = "5149580068840943"
+    val mobileNo = "13910150344"
+    val p = new P0154_WeChatUserAuthenticationForCMG(cardNo,mobileNo)
+    val resp = p.send
+    println(resp)
   }
 }

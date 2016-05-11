@@ -9,12 +9,12 @@
         <constructor-arg name="hostAddr" value="${httpClient.url}"></constructor-arg>
         <constructor-arg name="conTimeout" value="${httpClient.conTimeout}"></constructor-arg>
         <constructor-arg name="readTimeout" value="${httpClient.readTimeout}"></constructor-arg>
+        <constructor-arg name="messageProducer" ref="messageProducer"></constructor-arg>
+        <constructor-arg name="title" value="${mail.title}"></constructor-arg>
     </bean>
 
     <bean id="messageProducer" class="com.yada.wechatbank.kafka.MessageProducer">
         <constructor-arg name="bootstrapServers" value="${kafka.bootstrap.Servers}"></constructor-arg>
     </bean>
-
-    <bean id="exceptionHandler" class="com.yada.wechatbank.exception.ExceptionHandler"/>
 
 </beans>

@@ -55,10 +55,13 @@ public class BindingController extends BaseController {
     public String list(
             @ModelAttribute("formBean") BindingQuery bindingQuery, Model model,
             HttpServletRequest request) {
-        //TODO 获取参数方式
-        String openId = request.getParameter("openId");
+        String authCode = request.getParameter("authCode");
+        String openId= bindingServiceImpl.findOpenIdByAuthCode(authCode);
         if (openId != null && !"".equals(openId)) {
             bindingQuery.setOpenId(openId);
+        }else{
+            logger.info("通过authCode[{}]未获取到openId",authCode);
+            return ERROR;
         }
         logger.info("@BD@从链接中获取到openId[{}]" + openId);
         boolean result = bindingServiceImpl.validateIsBinding(openId);

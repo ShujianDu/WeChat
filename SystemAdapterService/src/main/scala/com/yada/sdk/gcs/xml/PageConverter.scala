@@ -30,6 +30,8 @@ class PageConverter extends Converter with PropsConverter {
           }
         case "prop" ⇒
           props += reader.getAttribute("key") → reader.getAttribute("value")
+        case "entity" => //TS010052 永久挂失的特殊处理。TS010052文档没有报文体返回的。GCS反馈不用管报文体。其他交易未发现该域。如有其他需要处理的请联系开发人员-zqd/jfm
+
       }
       reader.moveUp()
     }

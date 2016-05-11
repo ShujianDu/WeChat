@@ -35,7 +35,7 @@ public class AllCustomerInfoServiceImpl implements AllCustomerInfoService {
 
     @Override
     public boolean updateNoticeByIdentityNo(String notice, String billNotice, String repaymentNotice, String identityNo) {
-        Map<String, String> data = new HashMap();
+        Map<String, String> data = new HashMap<>();
         data.put("identityNo", identityNo);
         data.put("notice", notice);
         data.put("billNotice", billNotice);
