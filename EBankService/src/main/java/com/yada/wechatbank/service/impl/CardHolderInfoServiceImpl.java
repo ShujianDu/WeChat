@@ -93,7 +93,7 @@ public class CardHolderInfoServiceImpl extends BaseService implements CardHolder
 
         //电子邮箱
         String mailBox = cardHolderInfo.getMailBox();
-        int index = mailBox.indexOf('@');
+        int index = mailBox == null ? 0 : mailBox.indexOf('@');
         if (mailBox == null || "".equals(mailBox)) {
             mailBox = DEFAULT;
         } else if (index >= 1) {
@@ -116,7 +116,7 @@ public class CardHolderInfoServiceImpl extends BaseService implements CardHolder
 
         //账单地址
         String billAddressLine = cardHolderInfo.getBillAddressLine();
-        int billAddressLineLength = billAddressLine.length();
+        int billAddressLineLength =billAddressLine == null ? 0 :billAddressLine.length();
         if (billAddressLine == null || "".equals(billAddressLine)) {
             billAddressLine = DEFAULT;
         } else if (billAddressLineLength > 1) {

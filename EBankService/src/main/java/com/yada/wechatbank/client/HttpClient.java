@@ -8,6 +8,7 @@ import com.yada.wechatbank.kafka.MessageProducer;
 import com.yada.wechatbank.kafka.TopicEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -38,14 +39,14 @@ public class HttpClient {
 
     private String title;
 
-    public HttpClient(String hostAddr, int conTimeout, int readTimeout,MessageProducer messageProducer,String title) {
-        error_code= new HashSet<>();
+    public HttpClient(String hostAddr, int conTimeout, int readTimeout, MessageProducer messageProducer, String title) {
+        error_code = new HashSet<>();
         error_code.add("01");
         error_code.add("99");
         this.hostAddr = hostAddr;
         this.conTimeout = conTimeout;
         this.readTimeout = readTimeout;
-        this.messageProducer=messageProducer;
+        this.messageProducer = messageProducer;
         this.title = title;
     }
 
@@ -134,7 +135,7 @@ public class HttpClient {
                 }
                 return sb.toString();
             } else {
-                String msg="与行内服务SAS 通讯异常,响应码[\" + conn.getResponseCode() + \"]";
+                String msg = "与行内服务SAS 通讯异常,响应码[\" + conn.getResponseCode() + \"]";
                 logger.error(msg);
                 messageProducer.send(TopicEnum.EXCEPTION, "httpClientConnectSASException", msg);
                 throw new CommunicationException("msg");
@@ -142,7 +143,7 @@ public class HttpClient {
         } catch (IOException e) {
             logger.error("与行内服务SAS 通讯异常:", e);
             messageProducer.send(TopicEnum.EXCEPTION, "httpClientConnectSASException", "与行内服务SAS 通讯异常:" + e.getMessage());
-            throw new CommunicationException("与行内服务SAS 通讯异常:",e);
+            throw new CommunicationException("与行内服务SAS 通讯异常:", e);
         } finally {
             if (writer != null) {
                 try {

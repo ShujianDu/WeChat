@@ -114,42 +114,40 @@ public class BaseService {
     }
 
 
-        /**
-         * 根据证件号和证件类型查询手机号
-         *
-         * @param identityType 证件类型
-         * @param identityNo   证件号
-         * @return             手机号
-         */
-        public String getCustMobileNo(String identityType, String identityNo) {
-            Map<String, String> map = initGcsParam();
-            map.put("idType", identityType);
-            map.put("idNum", identityNo);
-            StringResp stringResp= httpClient.send(getCustMobile, map, StringResp.class);
-            return stringResp == null ? null : stringResp.getData();
-        }
-        /**
-         * 解析返回码
-         *
-         * @param baseModel    model
-         * @return             map(gcsCode|返回码，gcsMessage|描述)
-         */
-        public Map<String,String> getCodeAndMsg(BaseModel baseModel) {
-            Map<String,String> map=null;
-            if(baseModel!=null)
-            {
-                if("97".equals(baseModel.getReturnCode()))
-                {
-                    String [] sp=baseModel.getReturnMsg()!=null?baseModel.getReturnMsg().split(":"):null;
-                    if(sp!=null)
-                    {
-                        map=new HashMap<>();
-                        map.put("gcsCode",sp[1]);
-                        map.put("gcsMessage",sp[2]);
-                    }
+    /**
+     * 根据证件号和证件类型查询手机号
+     *
+     * @param identityType 证件类型
+     * @param identityNo   证件号
+     * @return 手机号
+     */
+    public String getCustMobileNo(String identityType, String identityNo) {
+        Map<String, String> map = initGcsParam();
+        map.put("idType", identityType);
+        map.put("idNum", identityNo);
+        StringResp stringResp = httpClient.send(getCustMobile, map, StringResp.class);
+        return stringResp == null ? null : stringResp.getData();
+    }
+
+    /**
+     * 解析返回码
+     *
+     * @param baseModel model
+     * @return map(gcsCode|返回码，gcsMessage|描述)
+     */
+    public Map<String, String> getCodeAndMsg(BaseModel baseModel) {
+        Map<String, String> map = null;
+        if (baseModel != null) {
+            if ("97".equals(baseModel.getReturnCode())) {
+                String[] sp = baseModel.getReturnMsg() != null ? baseModel.getReturnMsg().split(":") : null;
+                if (sp != null) {
+                    map = new HashMap<>();
+                    map.put("gcsCode", sp[1]);
+                    map.put("gcsMessage", sp[2]);
                 }
             }
-            return map;
         }
+        return map;
+    }
 
 }

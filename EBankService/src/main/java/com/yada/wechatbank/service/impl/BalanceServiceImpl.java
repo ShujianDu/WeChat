@@ -34,7 +34,6 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
     @Autowired
     MessageProducer messageProducer;
 
-
     @Value("${url.getCardBalance}")
     private String getCardBalance;
 
@@ -49,7 +48,7 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
         if (balanceList == null) {
             logger.info("@Balance@通过卡[{}]获取到的额度集合为null", cardNo);
             //kafka事件记录
-            messageProducer.send(TopicEnum.EBANK_QUERY, "BalanceGetCardNoBalance", "通过卡["+cardNo+"]获取到的额度集合为null");
+            messageProducer.send(TopicEnum.EBANK_QUERY, "BalanceGetCardNoBalance", "通过卡[" + cardNo + "]获取到的额度集合为null");
             return null;
         } else if (balanceList.size() == 0) {
             logger.info("@Balance@通过卡[{}]获取到的额度集合长度为0", cardNo);
@@ -74,9 +73,6 @@ public class BalanceServiceImpl extends BaseService implements BalanceService {
             b.setPreCashAdvanceCreditLimit(AmtUtil.procString(b.getPreCashAdvanceCreditLimit()));
             b.setWholeCreditLimit(AmtUtil.procString(b.getWholeCreditLimit()));
         }
-
-
-
         return newList;
     }
 

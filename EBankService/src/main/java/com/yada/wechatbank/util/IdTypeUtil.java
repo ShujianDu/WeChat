@@ -32,9 +32,11 @@ public class IdTypeUtil {
     /**
      * 将证件号类型转换为gcs系统需要的类型
      *
-     * @param param   证件类型
-     * @return        英文代码
+     * @param param 证件类型
+     * @return 英文代码
      */
-    public static String numIdTypeTransformToECode(String param) {return map.get(param); }
+    public static String numIdTypeTransformToECode(String param) {
+        return map.get(param);
+    }
 
 }
