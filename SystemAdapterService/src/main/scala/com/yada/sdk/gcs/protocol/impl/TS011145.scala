@@ -14,7 +14,7 @@ class TS011145(sessionId: String,channelId: String,cardNo: String) (implicit gcs
 
   override def transactionSessionId: String = sessionId
 
-  override def pageKey: String = "RP011145"
+  override def pageKey: String = "RQ011145"
 
   override def transactionCode: String = "011145"
 }

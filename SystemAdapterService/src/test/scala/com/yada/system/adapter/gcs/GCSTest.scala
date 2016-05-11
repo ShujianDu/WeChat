@@ -36,4 +36,16 @@ class GCSTest extends FlatSpec with Matchers {
     println(rs)
   }
 
+  "getCardStatCode" should "SUCCESS" in{
+    val params = CardNoParams(tranSessionID,reqChannelID,"4096688277156575")
+    val resp = gCSService.getCardStatCode(params)
+    println(resp)
+  }
+
+  "activationCard" should "SUCCESS" in{
+    val params = CardNoParams(tranSessionID,reqChannelID,"4096688277156575")
+    val resp = gCSService.activationCard(params)
+    println(resp)
+  }
+
 }
