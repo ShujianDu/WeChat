@@ -8,11 +8,16 @@ import com.yada.wechatbank.client.model.CustMobileResp;
 import com.yada.wechatbank.kafka.MessageProducer;
 import com.yada.wechatbank.kafka.TopicEnum;
 import com.yada.wechatbank.service.LoginService;
+import com.yada.wx.db.service.dao.AuthInfoDao;
+import com.yada.wx.db.service.dao.CustomerInfoDao;
+import com.yada.wx.db.service.model.AuthInfo;
+import com.yada.wx.db.service.model.CustomerInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
@@ -20,6 +25,7 @@ import java.util.Map;
  * Created by echo on 16/5/5.
  */
 @Service
+@Transactional
 public class LoginServiceImpl extends BaseService implements LoginService {
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     @Value("${url.getCustMobile}")
@@ -32,6 +38,10 @@ public class LoginServiceImpl extends BaseService implements LoginService {
     private ICountSMSCache countSMSCacheImpl;
     @Autowired
     private ILockCache LockCacheImpl;
+    @Autowired
+    private AuthInfoDao authInfoDao;
+    @Autowired
+    private CustomerInfoDao customerInfoDao;
 
 
     @Override
@@ -77,5 +87,22 @@ public class LoginServiceImpl extends BaseService implements LoginService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public AuthInfo getAuthInfo(String authCode){
+        return authInfoDao.findByAuthCode(authCode);
+    }
+
+
+    @Override
+    public CustomerInfo getCustomerInfo(String openId) {
+        return customerInfoDao.findByOpenId(openId);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+
+        authInfoDao.delete(id);
     }
 }
