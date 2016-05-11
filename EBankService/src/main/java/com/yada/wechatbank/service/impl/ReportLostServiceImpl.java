@@ -68,7 +68,7 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
 	@Override
 	public boolean creditCardReportLost(String cardNo, String identityType, String identityNo, String lossReason) {
 		String name = getFamilyName(cardNo);
-		if (name == null || name.isEmpty() || "".equals(name)) {
+		if (name.isEmpty() || "".equals(name)) {
 			return false; // 获取姓失败
 		}
 		Map<String, String> param = initGcsParam();
@@ -101,7 +101,7 @@ public class ReportLostServiceImpl extends BaseService implements ReportLostServ
 	 * @return String
 	 */
 	private String getFamilyName(String cardNo) {
-		String name = null;
+		String name = "";
 		Map<String, String> param = initGcsParam();
 		param.put("cardNo", cardNo);
 		// 调用HttpClient完成持卡人信息查询

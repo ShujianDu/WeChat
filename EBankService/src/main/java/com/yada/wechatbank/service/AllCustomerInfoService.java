@@ -19,11 +19,12 @@ public interface AllCustomerInfoService {
 
     /**
      * 根据证件号修改推送状态
-     * @param notice
-     * @param billNotice
-     * @param repaymentNotice
-     * @param identityNo
-     * @return
+     *
+     * @param notice          动户通知与否 0-不通知，1-通知
+     * @param billNotice      账单通知与否 0-不通知，1-通知 默认为开通
+     * @param repaymentNotice 还款提醒通知与否 0-不通知，1-通知 默认为开通
+     * @param identityNo      证件号
+     * @return Boolean
      */
     boolean updateNoticeByIdentityNo(String notice, String billNotice, String repaymentNotice, String identityNo);
 }
