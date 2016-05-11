@@ -235,7 +235,9 @@
 	</div>
 	<div id="addViewDiv"></div>
 	<div style="margin: 20px 10px;">
-		<input type="button" value="查看更多" class="HandInHui" style="width: 100%;display: none;margin: 10px auto;border:1px solid #999" id="moreButton" onclick="getMore();" />
+		<c:if test="${isFollowUp != 'false'}">
+			<input type="button" value="查看更多" class="HandInHui" style="width: 100%;display: none;margin: 10px auto;border:1px solid #999" id="moreButton" onclick="getMore();" />
+		</c:if>
 		<input id="isFollowUp" name="isFollowUp" value="${isFollowUp}" type="hidden"/>
 		<input id="nextGCSStartIndex" name="nextGCSStartIndex" value="${nextGCSStartIndex}" type="hidden"/>
 	</div>
@@ -262,13 +264,14 @@
 			if(isClicked==false){
 				var sending = $("#sending");
 				var isFollowUp = $("#isFollowUp").val();
+				var cardNo = $("#cardNo").val();
 				var nextGCSStartIndex = $("#nextGCSStartIndex").val();
 				sending.css("visibility", "visible");
 				isClicked = true;
 				$.ajax({
 					url: "ajax_getMore.do",
 					data: {
-						cardNo: ${cardNo},
+						cardNo: cardNo,
 						isFollowUp: isFollowUp,
 						nextGCSStartIndex: nextGCSStartIndex,
 						timestamp: new Date().getTime()
