@@ -27,11 +27,11 @@ class CmdBiz(commandDao: CommandDao = SpringContext.context.getBean(classOf[Comm
       "findNearbyBankOfChina" -> new QueryNearBankBiz()) // findNearbyBankOfChina	查询附近中国银行
   }
 
-  def handle(cmd: String, openID: String): CmdRespMessage = {
+  def handle(cmd: String, cmdReqMessage: CmdReqMessage): CmdRespMessage = {
     // 查询命令
     val command = commandDao.findByCommandValue(cmd)
     // 获取用户信息
-    val customer = customerDao.findByOpenid(openID)
+    val customer = customerDao.findByOpenid(cmdReqMessage.openID)
     // 得到执行的命令
     val exeCmd = if (command.flag == "0" && customer == null) {
       commandDao.findByCommandValue("WELCOME")
@@ -39,7 +39,7 @@ class CmdBiz(commandDao: CommandDao = SpringContext.context.getBean(classOf[Comm
       command
     }
     val biz = bizDao.findOne(exeCmd.biz_id)
-    cmdMap(biz.method).subHandle(exeCmd, customer)
+    cmdMap(biz.method).subHandle(exeCmd, customer, cmdReqMessage)
   }
 }
 
@@ -47,7 +47,7 @@ class CmdBiz(commandDao: CommandDao = SpringContext.context.getBean(classOf[Comm
   * 子业务处理
   */
 trait ICmdSubBiz extends ITemplate {
-  def subHandle(command: Command, customer: Customer): CmdRespMessage
+  def subHandle(command: Command, customer: Customer, cmdReqMessage: CmdReqMessage): CmdRespMessage
 
   protected def kafkaClient: KafkaClient = KafkaClient
 

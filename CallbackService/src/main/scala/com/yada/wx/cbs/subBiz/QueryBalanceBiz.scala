@@ -18,12 +18,15 @@ class QueryBalanceBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
     config.getString("systemAdapter.gcsTranSessionID") -> config.getString("systemAdapter.gcsReqChannelID")
   }
 
-  override def subHandle(command: Command, customer: Customer): CmdRespMessage = {
-    val event = Json.obj(
+  override def subHandle(command: Command, customer: Customer, cmdReqMessage: CmdReqMessage): CmdRespMessage = {
+    kafkaClient.send("wcbQuery", "balance",  Json.obj(
       "datetime" -> currentDatetime,
-      "openID" -> customer.openid,
-      "cardNo" -> customer.defCardNo).toString()
-    kafkaClient.send("wcbQuery", "balance", event)
+      "data" -> Json.obj(
+        "openID" -> customer.openid),
+      "weiXinID" -> cmdReqMessage.weiXinID,
+      "cmd" -> command.commandValue,
+      "cardNo" -> customer.defCardNo
+    ).toString())
     // 去后台请求余额信息
     val resp = httpClient.send(Json.toJson(BalanceReq(gcsTranSessionID, gcsReqChannelID, customer.defCardNo)).toString(), BALANCE_URL)
     // 解析响应

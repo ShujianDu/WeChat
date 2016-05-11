@@ -6,7 +6,7 @@ import java.util.Calendar
 import com.typesafe.config.ConfigFactory
 import com.yada.wx.cb.data.service.jpa.model.{Command, Customer, MsgCom, NewsCom}
 import com.yada.wx.cbs.CmdRespMessage._
-import com.yada.wx.cbs.{CmdRespMessage, HttpClient, ICmdSubBiz}
+import com.yada.wx.cbs.{CmdReqMessage, CmdRespMessage, HttpClient, ICmdSubBiz}
 import play.api.libs.functional.syntax._
 import play.api.libs.json._
 
@@ -23,12 +23,15 @@ class QueryBillSumBiz(httpClient: HttpClient = HttpClient) extends ICmdSubBiz {
     config.getString("systemAdapter.gcsTranSessionID") -> config.getString("systemAdapter.gcsReqChannelID")
   }
 
-  override def subHandle(command: Command, customer: Customer): CmdRespMessage = {
-    val event = Json.obj(
+  override def subHandle(command: Command, customer: Customer, cmdReqMessage: CmdReqMessage): CmdRespMessage = {
+    kafkaClient.send("wcbQuery", "billingSummary", Json.obj(
       "datetime" -> currentDatetime,
-      "openID" -> customer.openid,
-      "cardNo" -> customer.defCardNo).toString()
-    kafkaClient.send("wcbQuery", "billingSummary", event)
+      "data" -> Json.obj(
+        "openID" -> customer.openid),
+      "weiXinID" -> cmdReqMessage.weiXinID,
+      "cmd" -> command.commandValue,
+      "cardNo" -> customer.defCardNo
+    ).toString())
     val billingPeriods = Json.parse(httpClient.send(Json.toJson(BillingPeriodReq(gcsTranSessionID, gcsReqChannelID, customer.defCardNo)).toString(), billingPeriodsURL))
     if ((billingPeriods \ "returnCode").as[String] != "00") throw new RuntimeException(billingPeriods.toString())
     val bps = (billingPeriods \ "data").as[List[BillingPeriodResp]]

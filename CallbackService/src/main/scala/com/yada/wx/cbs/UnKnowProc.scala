@@ -15,8 +15,10 @@ class UnKnowProc extends MessageProc[JsValue, CmdRespMessage] {
   override val filter: (JsValue) => Boolean = jv => (jv \ MsgType).as[String].equalsIgnoreCase(MSG_TYPE.Text)
   override val requestCreator: (JsValue) => JsValue = jv => jv
   override val process: (JsValue) => Future[CmdRespMessage] = jv => Future.successful {
+    val openID = (jv \ FromUserName).as[String]
+    val weiXinID = (jv \ ToUserName).as[String]
     val cmd = commandDao.findByCommandValue("UNKNOW")
-    biz.subHandle(cmd, null)
+    biz.subHandle(cmd, null, CmdReqMessage(openID, weiXinID))
   }
   override val responseCreator: (JsValue, CmdRespMessage) => Option[JsValue] = (req, resp) => Option {
     CmdRespMessage.toJson(req, resp)

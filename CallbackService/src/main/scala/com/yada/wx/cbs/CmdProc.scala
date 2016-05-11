@@ -17,14 +17,15 @@ class CmdProc() extends MessageProc[JsValue, CmdRespMessage] {
   override val filter: (JsValue) => Boolean = jv => {
     getCMD(jv) match {
       case None => false
-      case Some(cmd) =>cmdDao.findByCommandValue(cmd) != null
+      case Some(cmd) => cmdDao.findByCommandValue(cmd) != null
     }
   }
   override val requestCreator: (JsValue) => JsValue = jv => jv
   override val process: (JsValue) => Future[CmdRespMessage] = jv => Future.successful {
     val cmd = getCMD(jv)
     val openID = (jv \ "FromUserName").as[String]
-    cmdBiz.handle(cmd.get, openID)
+    val weiXinID = (jv \ "ToUserName").as[String]
+    cmdBiz.handle(cmd.get, CmdReqMessage(openID, weiXinID))
   }
   override val responseCreator: (JsValue, CmdRespMessage) => Option[JsValue] = (req, resp) => Option {
     CmdRespMessage.toJson(req, resp)
@@ -39,6 +40,8 @@ class CmdProc() extends MessageProc[JsValue, CmdRespMessage] {
     } else None
   }
 }
+
+case class CmdReqMessage(openID: String, weiXinID: String)
 
 /**
   * 命令响应信息
