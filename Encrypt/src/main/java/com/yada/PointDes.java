@@ -15,7 +15,7 @@ public class PointDes {
         for (int i = 0; i < 6; i++) {
             cs[i] = chars[random.nextInt(26)];
         }
-        return des.encrypt(String.format("%s_%s_%s", new String(cs, 0, 3), data, new String(cs, 3, 6)), key);
+        return des.encrypt(String.format("%s_%s_%s", new String(cs, 0, 3), data, new String(cs, 3, 3)), key);
     }
 
     public String decrypt(String data, String key) {
