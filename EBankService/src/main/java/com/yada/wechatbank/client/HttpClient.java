@@ -2,7 +2,6 @@ package com.yada.wechatbank.client;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
-import com.alibaba.fastjson.JSONObject;
 import com.yada.wechatbank.base.BaseModel;
 import com.yada.wechatbank.exception.CommunicationException;
 import com.yada.wechatbank.kafka.MessageProducer;
@@ -15,8 +14,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -60,21 +60,21 @@ public class HttpClient {
         T result = null;
         StackTraceElement[] s = new Exception().getStackTrace();
         logger.info("模块[{}]调用[{}]行内接口，传入参数为[{}]", s[1].getClassName(), method, object.toString());
-        StringBuffer message = new StringBuffer();
+        Map<String,String> map = new HashMap<>();
         try {
             String data = JSON.toJSONString(object);
             String respStr = postRequest(method, data);
             result = JSON.parseObject(respStr, targetClass);
             BaseModel baseMode=(BaseModel)result;
-
-            message.append("datetime").append(new SimpleDateFormat("yyyyMMddHHmmss")).append("title").append(title).append("msg");
-
+            map.put("module","ebankservice");
+            map.put("title",title);
             if(error_code.contains(baseMode.getReturnCode()))
             {
-                message.append("行内服务返回异常,响应码[").append(baseMode.getReturnCode()).append("]，响应信息[").append(baseMode.getReturnMsg()).append("]");
-                logger.error(message.toString());
-                messageProducer.send(TopicEnum.EXCEPTION, "httpClientCommunicationReturnFailedCode", JSONObject.toJSONString(message));
-                throw new CommunicationException(message.toString());
+                String message = "行内服务返回异常,响应码[" +baseMode.getReturnCode() + "]，响应信息["+baseMode.getReturnMsg()+"]";
+                map.put("msg",message);
+                logger.error(message);
+                messageProducer.send(TopicEnum.EXCEPTION, "mail", map);
+                throw new CommunicationException(message);
             }
             logger.info("模块[{}]调用[{}]行内接口，返回参数为[{}]", s[1].getClassName(), method, respStr);
             return result;
@@ -82,9 +82,11 @@ public class HttpClient {
             logger.error("HttpClient 数据转换异常", e);
             return result;
         } catch (Exception e) {
-            logger.error("HttpClient 通讯时发生错误", e);
-            messageProducer.send(TopicEnum.EXCEPTION, "httpClientCommunicationReturnFailedCode", "与行内服务通过HttpClient 通讯时发生错误");
-            throw new CommunicationException("与行内服务通过HttpClient 通讯时发生错误",e);
+            String message = "HttpClient 通讯时发生错误";
+            map.put("msg",message);
+            logger.error(message, e);
+            messageProducer.send(TopicEnum.EXCEPTION, "mail", map);
+            throw new CommunicationException("与行内服务通过HttpClient 通讯时发生错误");
         }
     }
 
