@@ -36,6 +36,7 @@
 	$("#readMore").css({width:'80%',height:'36px',textAlign:'center',lineHeight:'36px',fontSize:'16px',backgroundColor:'#e05d4f',marginLeft:'10%',color:'white',borderRadius:'8px',marginTop:'20px'});
 	//处理ajax请求返回的数据
 	function messageReveal(json) {
+		$("#startnum").val(json[0].startnum);
 		var onepage = $("#onepage").val();
 		//如果数据小于十条，获取更多按钮隐藏
 		if(json.length<onepage){$("#readMore").hide();}
