@@ -49,9 +49,16 @@
 						<td>
 						<select name="cardNo" id="cardNoSelect">
 							<c:forEach items="${cardListCrypt}" var="item" varStatus="status">
-								<option value="${fn:substring(item,17,66)}">
-									<c:out value="${fn:substring(item, 0, 16)}" />
-								</option>
+								<c:if test="${cardNo== fn:substring(item,17,66)}">
+                                <option selected="selected" value="${fn:substring(item,17,66)}">
+                                    <c:out value="${fn:substring(item, 0, 16)}" />
+                                </option>
+                            </c:if>
+                            <c:if test="${cardNo!= fn:substring(item,17,66)}">
+                                <option  value="${fn:substring(item,17,66)}">
+                                    <c:out value="${fn:substring(item, 0, 16)}" />
+                                </option>
+                            </c:if>
 							</c:forEach>
 						</select>
 						</td>
